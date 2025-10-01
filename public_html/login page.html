@@ -1,17 +1,17 @@
 <!DOCTYPE html>
 <!--
 Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
-Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this template
+Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/html.html to edit this template
 -->
 <!DOCTYPE html>
 <html lang="pt">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Signup - Criar Conta</title>
+  <title>Login</title>
 </head>
 <body>
-  <h1>Criar Conta</h1>
+  <h1>Login</h1>
 
   <label for="username">Username:</label><br>
   <input type="text" id="username" required><br><br>
@@ -19,13 +19,13 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
   <label for="password">Password:</label><br>
   <input type="password" id="password" required><br><br>
 
-  <!-- botão TIPO BUTTON (não submit) -->
-  <button id="createBtn" type="button">Criar Conta</button>
+  <!-- botão tipo button -->
+  <button id="loginBtn" type="button">Entrar</button>
 
-  <p>Já tem conta? <a href="login.html">Login aqui</a></p>
+  <p>Não tem conta? <a href="signup.html">Criar conta aqui</a></p>
 
   <script>
-    document.getElementById('createBtn').addEventListener('click', function() {
+    document.getElementById('loginBtn').addEventListener('click', function() {
       const username = document.getElementById('username').value.trim();
       const password = document.getElementById('password').value;
 
@@ -35,17 +35,15 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
       }
 
       let users = JSON.parse(localStorage.getItem('users')) || [];
+      const user = users.find(u => u.username === username && u.password === password);
 
-      if(users.find(u => u.username === username)) {
-        alert('Username já existe!');
-        return;
+      if(user) {
+        localStorage.setItem('currentUser', JSON.stringify(user));
+        // redireciona para a home
+        window.location.href = 'home.html';
+      } else {
+        alert('Username ou password incorretos!');
       }
-
-      users.push({username, password});
-      localStorage.setItem('users', JSON.stringify(users));
-      alert('Conta criada com sucesso!');
-      // vai para login
-      window.location.href = 'login.html';
     });
   </script>
 </body>

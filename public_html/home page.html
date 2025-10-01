@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<!--
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/html.html to edit this template
+-->
+
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Home - Coleções</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 20px; }
+    h1 { text-align: center; }
+    .collection { border: 1px solid #ccc; padding: 10px; margin-bottom: 15px; }
+    .items { margin-left: 20px; }
+    .new-collection, .view-options { margin-top: 20px; }
+  </style>
+</head>
+<body>
+
+<h1>Bem-vindo ao Sistema de Coleções</h1>
+<button id="logout" type="button">Logout</button>
+
+<div class="view-options">
+  <label for="view-mode">Mostrar coleções:</label>
+  <select id="view-mode">
+    <option value="latest">Últimas adicionadas</option>
+    <option value="choose">Escolher coleções favoritas</option>
+  </select>
+</div>
+
+<div id="collections-container"></div>
+
+<div class="new-collection">
+  <h2>Criar Nova Coleção</h2>
+  <label for="nome">Nome da Coleção:</label><br>
+  <input type="text" id="nome" required><br><br>
+  <label for="desc">Descrição:</label><br>
+  <textarea id="desc" required></textarea><br><br>
+  <button id="createCollectionBtn" type="button">Criar Coleção</button>
+</div>
+
+<script>
+  // verifica login
+  let currentUser = JSON.parse(localStorage.getItem('currentUser'));
+  if(!currentUser) {
+    window.location.href = 'login.html';
+  }
+
+  const container = document.getElementById('collections-container');
+  const viewMode = document.getElementById('view-mode');
+
+  let allCollections = JSON.parse(localStorage.getItem('collections')) || [];
+  let collections = allCollections.filter(c => c.username === (currentUser && currentUser.username));
+
+  function showCollections(list) {
+    container.innerHTML = '';
+    if(viewMode.value === 'latest') {
+      const latest = list.slice(-5).reverse();
+      latest.forEach(col => {
+        const div = document.createElement('div');
+        div.className = 'collection';
+        div.innerHTML = `<h3>${col.nome}</h3><p>${col.desc}</p><div class="items">${(col.items && col.items.length) ? col.items.map(i=>`<p>${i}</p>`).join('') : '<p>Sem items ainda</p>'}</div>`;
+        container.appendChild(div);
+      });
+    } else {
+      // choose mode: mostra checkboxes
+      const formCheckbox = document.createElement('form');
+      list.forEach((col,index) => {
+        const label = document.createElement('label');
+        label.innerHTML = `<input type="checkbox" value="${index}"> ${col.nome}<br>`;
+        formCheckbox.appendChild(label);
+      });
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.textContent = 'Mostrar selecionadas';
+      btn.onclick = function() {
+        const selected = [];
+        formCheckbox.querySelectorAll('input[type="checkbox"]').forEach(cb=>{
+          if(cb.checked) selected.push(list[cb.value]);
+        });
+        showCollections(selected.slice(0,5));
+      };
+      formCheckbox.appendChild(btn);
+      container.appendChild(formCheckbox);
+    }
+  }
+
+  showCollections(collections);
+
+  document.getElementById('createCollectionBtn').addEventListener('click', function() {
+    const nome = document.getElementById('nome').value.trim();
+    const desc = document.getElementById('desc').value.trim();
+    if(!nome) { alert('Escreve um nome para a coleção.'); return; }
+    allCollections.push({username: currentUser.username, nome, desc, items: []});
+    localStorage.setItem('collections', JSON.stringify(allCollections));
+    collections.push({username: currentUser.username, nome, desc, items: []});
+    document.getElementById('nome').value = '';
+    document.getElementById('desc').value = '';
+    showCollections(collections);
+  });
+
+  document.getElementById('logout').addEventListener('click', function(){
+    localStorage.removeItem('currentUser');
+    window.location.href = 'login.html';
+  });
+
+  viewMode.addEventListener('change', () => showCollections(collections));
+</script>
+
+</body>
+</html>
+
