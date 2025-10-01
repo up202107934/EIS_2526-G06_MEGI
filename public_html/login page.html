@@ -13,38 +13,46 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/html.html to edit this
 <body>
   <h1>Login</h1>
 
-  <label for="username">Username:</label><br>
-  <input type="text" id="username" required><br><br>
+  <form id="loginForm">
+    <label for="username">Username:</label><br>
+    <input type="text" id="username" name="username" required><br><br>
 
-  <label for="password">Password:</label><br>
-  <input type="password" id="password" required><br><br>
+    <label for="password">Password:</label><br>
+    <input type="password" id="password" name="password" required><br><br>
 
-  <!-- botão tipo button -->
-  <button id="loginBtn" type="button">Entrar</button>
+    <button type="submit">Entrar</button>
+  </form>
 
-  <p>Não tem conta? <a href="signup.html">Criar conta aqui</a></p>
+  <p>Não tem conta? <a href="index.html">Criar conta aqui</a></p>
 
+  <script src="js/main.js"></script>
   <script>
-    document.getElementById('loginBtn').addEventListener('click', function() {
-      const username = document.getElementById('username').value.trim();
-      const password = document.getElementById('password').value;
+    document.getElementById('loginForm').addEventListener('submit', function(e) {
+      e.preventDefault();
 
-      if(!username || !password) {
+      const username = this.username.value.trim();
+      const password = this.password.value;
+
+      if (!username || !password) {
         alert('Preenche username e password.');
         return;
       }
 
-      let users = JSON.parse(localStorage.getItem('users')) || [];
-      const user = users.find(u => u.username === username && u.password === password);
-
-      if(user) {
-        localStorage.setItem('currentUser', JSON.stringify(user));
-        // redireciona para a home
-        window.location.href = 'home.html';
-      } else {
-        alert('Username ou password incorretos!');
-      }
+      fetch('api/login.php', {
+        method: 'POST',
+        body: JSON.stringify({ username, password })
+      })
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) {
+          window.location.href = 'home.php';
+        } else {
+          alert(data.msg || 'Login inválido.');
+        }
+      })
+      .catch(() => alert('Erro ao comunicar com o servidor.'));
     });
   </script>
 </body>
+
 </html>

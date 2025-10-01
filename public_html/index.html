@@ -13,39 +13,45 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
 <body>
   <h1>Criar Conta</h1>
 
-  <label for="username">Username:</label><br>
-  <input type="text" id="username" required><br><br>
+  <form id="signupForm">
+    <label for="username">Username:</label><br>
+    <input type="text" id="username" name="username" required><br><br>
 
-  <label for="password">Password:</label><br>
-  <input type="password" id="password" required><br><br>
+    <label for="password">Password:</label><br>
+    <input type="password" id="password" name="password" required><br><br>
 
-  <!-- botão TIPO BUTTON (não submit) -->
-  <button id="createBtn" type="button">Criar Conta</button>
+    <button type="submit">Criar Conta</button>
+  </form>
 
-  <p>Já tem conta? <a href="login.html">Login aqui</a></p>
+  <p>Já tem conta? <a href="login page.html">Login aqui</a></p>
 
+  <script src="js/main.js"></script>
   <script>
-    document.getElementById('createBtn').addEventListener('click', function() {
-      const username = document.getElementById('username').value.trim();
-      const password = document.getElementById('password').value;
+    document.getElementById('signupForm').addEventListener('submit', function(e) {
+      e.preventDefault();
 
-      if(!username || !password) {
+      const username = this.username.value.trim();
+      const password = this.password.value;
+
+      if (!username || !password) {
         alert('Preenche username e password.');
         return;
       }
 
-      let users = JSON.parse(localStorage.getItem('users')) || [];
-
-      if(users.find(u => u.username === username)) {
-        alert('Username já existe!');
-        return;
-      }
-
-      users.push({username, password});
-      localStorage.setItem('users', JSON.stringify(users));
-      alert('Conta criada com sucesso!');
-      // vai para login
-      window.location.href = 'login.html';
+      fetch('api/signup.php', {
+        method: 'POST',
+        body: JSON.stringify({ username, password })
+      })
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) {
+          alert('Conta criada com sucesso!');
+          window.location.href = 'login page.html';
+        } else {
+          alert(data.msg || 'Erro ao criar conta.');
+        }
+      })
+      .catch(() => alert('Erro ao comunicar com o servidor.'));
     });
   </script>
 </body>
