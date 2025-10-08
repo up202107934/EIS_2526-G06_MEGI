@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>My Collection - Star Wars Miniatures</title>
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 30px;
+      background-color: #f5f5f5;
+    }
+    header {
+      background-color: #222;
+      color: white;
+      padding: 15px;
+      border-radius: 8px;
+    }
+    h1 {
+      margin: 0;
+    }
+    #collection-info {
+      background: white;
+      padding: 15px;
+      border-radius: 8px;
+      margin-top: 15px;
+    }
+    .buttons {
+      margin-top: 10px;
+    }
+    button {
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      padding: 8px 12px;
+      cursor: pointer;
+      margin-right: 5px;
+    }
+    button:hover {
+      background-color: #45a049;
+    }
+    ul {
+      list-style: none;
+      padding: 0;
+    }
+    li {
+      background: white;
+      margin: 8px 0;
+      padding: 10px;
+      border-radius: 6px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Collection: Star Wars Miniatures</h1>
+  </header>
+
+  <section id="collection-info">
+    <h2>Collection Information</h2>
+    <p><strong>Description:</strong> A collection of Star Wars figures gathered since 2022.</p>
+    <p><strong>Type:</strong> Action Figures</p>
+    <p><strong>Created on:</strong> 12/04/2023</p>
+    <div class="buttons">
+      <button onclick="editCollection()">✏️ Edit Info</button>
+      <button onclick="deleteCollection()">🗑️ Delete Collection</button>
+    </div>
+  </section>
+
+  <section id="items">
+    <h2>Items in this Collection</h2>
+    <ul id="itemList">
+      <li>Luke Skywalker <button onclick="deleteItem(this)">🗑️ Delete</button></li>
+      <li>Darth Vader <button onclick="deleteItem(this)">🗑️ Delete</button></li>
+      <li>Yoda <button onclick="deleteItem(this)">🗑️ Delete</button></li>
+    </ul>
+    <button onclick="addItem()">➕ Add Item</button>
+  </section>
+
+  <script>
+    function editCollection() {
+      alert("Edit Collection clicked! (In Sprint 2 this will really edit data.)");
+    }
+
+    function deleteCollection() {
+      if (confirm("Are you sure you want to delete this collection?")) {
+        alert("Collection deleted (simulation).");
+      }
+    }
+
+    function addItem() {
+      const name = prompt("Enter item name:");
+      if (name) {
+        const li = document.createElement("li");
+        li.innerHTML = `${name} <button onclick="deleteItem(this)">🗑️ Delete</button>`;
+        document.getElementById("itemList").appendChild(li);
+      }
+    }
+
+    function deleteItem(button) {
+      if (confirm("Delete this item?")) {
+        button.parentElement.remove();
+      }
+    }
+  </script>
+
+</body>
+</html>
