@@ -23,6 +23,7 @@
             </div>
 
            
+<<<<<<< HEAD
             <div class="form-group">
                 <label for="password">Password</label>
                 <div class="password-wrapper">
@@ -43,20 +44,20 @@
                     <small id="password-match-msg"></small>
                 </div>
 
+
+
             <button type="submit">Create Account</button>
         </form>
         <p>Already have an account? <a href="login.html">Login</a></p>
     </div>
     <script>
-const togglePasswords = document.querySelectorAll('.toggle-password');
-
-togglePasswords.forEach(button => {
-    button.addEventListener('click', () => {
-        const passwordInput = button.previousElementSibling; 
-        const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
-        passwordInput.setAttribute('type', type);
-        button.textContent = type === 'password' ? 'Show' : 'Hide';
-    });
+document.querySelectorAll('.toggle-password').forEach(icon => {
+  icon.addEventListener('click', () => {
+    const input = icon.previousElementSibling;
+    const isPassword = input.getAttribute('type') === 'password';
+    input.setAttribute('type', isPassword ? 'text' : 'password');
+    icon.textContent = isPassword ? '🙈' : '👁️';
+  });
 });
 
 const form = document.getElementById('register-form');

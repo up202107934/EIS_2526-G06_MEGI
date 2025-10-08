@@ -21,7 +21,8 @@ body {
   padding: 40px 30px;
   border-radius: 12px;
   box-shadow: 0 8px 20px rgba(0,0,0,0.2);
-  width: 350px;
+  width: 90%;
+  max-width: 350px;
   text-align: center;
 }
 
@@ -110,18 +111,247 @@ body {
 
 .password-wrapper input {
   flex: 1;
+  padding-right: 35px; /* espaço para o olho */
 }
 
-.password-wrapper button.toggle-password {
-  margin-left: 5px;
-  padding: 8px 10px;
-  font-size: 12px;
+.password-wrapper .toggle-password {
+  position: absolute;
+  right: 10px;
   cursor: pointer;
-  border-radius: 6px;
-  border: 1px solid #ccc;
-  background-color: #B22222; /* mesmo vermelho que os outros botões */
+  user-select: none;
+  color: #888;
+  font-size: 18px;
+  transition: color 0.3s;
+}
+
+.password-wrapper .toggle-password:hover {
+  color: #B22222;
+}
+
+/* --- DECK CAROUSEL --- */
+.team-deck-section {
+  text-align: center;
+  padding: 80px 20px;
+  background-color: #fff;
+}
+
+.deck-title {
+  font-size: 42px;
+  color: #B22222;
+  margin-bottom: 60px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+.deck-container {
+  position: relative;
+  width: 90%;
+  max-width: 1000px;
+  margin: 0 auto;
+  height: 420px;
+}
+
+.deck-slide {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%) scale(0.7);
+  opacity: 0;
+  transition: all 0.5s ease;
+  width: 280px;
+  text-align: center;
+}
+
+.deck-slide img {
+  width: 100%;
+  height: 300px;
+  object-fit: cover;
+  border-radius: 20px;
+  box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+}
+
+.deck-slide h2 {
+  color: #B22222;
+  margin-top: 15px;
+}
+
+.deck-slide p {
+  font-size: 14px;
+  color: #333;
+  margin: 2px 0;
+}
+
+.deck-slide a {
+  color: #B22222;
+  text-decoration: none;
+}
+
+.deck-slide a:hover {
+  text-decoration: underline;
+}
+
+/* Estado das slides */
+.deck-slide.active {
+  transform: translateX(-50%) scale(1);
+  opacity: 1;
+  z-index: 3;
+}
+
+.deck-slide.prev {
+  transform: translateX(-150%) scale(0.8);
+  opacity: 0.6;
+  z-index: 2;
+}
+
+.deck-slide.next {
+  transform: translateX(50%) scale(0.8);
+  opacity: 0.6;
+  z-index: 2;
+}
+
+.deck-slide.hidden {
+  transform: translateX(0) scale(0.6);
+  opacity: 0;
+  z-index: 1;
+}
+
+/* Pontinhos de navegação */
+.deck-dots {
+  margin-top: 30px;
+}
+
+.deck-dots .dot {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  margin: 0 6px;
+  background-color: #ccc;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.deck-dots .active-dot {
+  background-color: #B22222;
+}
+
+/* Responsivo */
+@media (max-width: 768px) {
+  .deck-slide {
+    width: 220px;
+  }
+
+  .deck-slide img {
+    height: 240px;
+  }
+
+  .deck-title {
+    font-size: 34px;
+  }
+}
+/* ===== HOME PAGE ===== */
+.home-section {
+  text-align: center;
+  padding: 80px 20px;
+  background-color: #fff;
+}
+
+.home-title {
+  font-size: 42px;
+  color: #B22222;
+  margin-bottom: 50px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+/* Container das coleções */
+.collections-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 30px;
+}
+
+/* Card de cada coleção */
+.collection-card {
+  background: #fff;
+  border-radius: 20px;
+  box-shadow: 0 6px 15px rgba(0,0,0,0.15);
+  width: 250px;
+  padding: 20px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; /* garante que o botão fica sempre em baixo */
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.collection-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 25px rgba(0,0,0,0.2);
+}
+
+.collection-card img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 15px;
+  margin-bottom: 15px;
+}
+
+.collection-card h2 {
+  font-size: 20px;
+  color: #B22222;
+  margin-bottom: 10px;
+}
+
+.collection-card p {
+  font-size: 14px;
+  color: #333;
+  margin-bottom: 8px;
+}
+
+.collection-card ul {
+  list-style: disc;
+  padding-left: 20px;
+  text-align: left;
+  margin-bottom: 12px;
+}
+
+.collection-card a.btn {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #B22222;
   color: #fff;
-  transition: 0.3s;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  margin-top: 10px;
+}
+
+.collection-card a.btn:hover {
+  background-color: #FF4C4C;
+  transform: scale(1.05);
+}
+
+/* Botão criar nova coleção - mais moderno */
+.create-collection {
+  margin-top: 50px;
+  font-size: 18px;
+  padding: 14px 30px;
+  background: linear-gradient(135deg, #B22222, #FF6347);
+  color: #fff;
+  border-radius: 25px;
+  text-decoration: none;
+  display: inline-block;
+  box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+  transition: all 0.3s ease;
+}
+
+.create-collection:hover {
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 0 12px 25px rgba(0,0,0,0.3);
+  background: linear-gradient(135deg, #FF6347, #B22222);
 }
 
 .login-container .form-group {
