@@ -10,24 +10,38 @@
     <div class="login-container">
         <h1>Create Account</h1>
         <form action="#" method="post">
-            <label for="username">Username:</label>
-            <input type="text" id="username" name="username" required>
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" id="username" name="username" required />
+                <small></small> 
+            </div>
 
-            <label for="email">Email:</label>
-            <input type="email" id="email" name="email" required>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" required />
+                <small></small>
+            </div>
 
            
-            <label for="password">Password:</label>
-        <div class="password-wrapper">
-            <input type="password" id="password" name="password" required>
-            <button type="button" class="toggle-password">Show</button>
-        </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <div class="password-wrapper">
+                  <input type="password" id="password" name="password" required />
+                  <button type="button" class="toggle-password">Show</button>
+                </div>
+                <small id="password-message"></small>
 
-        <label for="confirm-password">Confirm Password:</label>
-        <div class="password-wrapper">
-            <input type="password" id="confirm-password" name="confirm-password" required>
-            <button type="button" class="toggle-password">Show</button>
-        </div>
+                
+                <div id="password-strength">
+                  <div id="strength-bar"></div>
+                </div>
+             </div>
+
+                <div class="password-wrapper">
+                    <input type="password" id="confirm-password" name="confirm-password" placeholder="Confirm Password" required>
+                    <button type="button" class="toggle-password">Show</button>
+                    <small id="password-match-msg"></small>
+                </div>
 
             <button type="submit">Create Account</button>
         </form>
@@ -44,7 +58,98 @@ togglePasswords.forEach(button => {
         button.textContent = type === 'password' ? 'Show' : 'Hide';
     });
 });
-</script>
 
+const form = document.getElementById('register-form');
+    const username = document.getElementById('username');
+    const email = document.getElementById('email');
+    const password = document.getElementById('password');
+    const confirmPassword = document.getElementById('confirm-password');
+
+    function showError(input, message) {
+      const formGroup = input.parentElement;
+      const small = formGroup.querySelector('small');
+      small.textContent = message;
+      small.style.color = 'red';
+      input.style.borderColor = 'red';
+    }
+
+    function showSuccess(input) {
+      const formGroup = input.parentElement;
+      const small = formGroup.querySelector('small');
+      small.textContent = '✔';
+      small.style.color = 'green';
+      input.style.borderColor = 'green';
+    }
+
+    function checkEmail(input) {
+      const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      return re.test(input.value.trim());
+    }
+
+    function checkPassword(input) {
+      const re = /^(?=.*[A-Z])(?=.*\d).{8,}$/;
+      return re.test(input.value.trim());
+    }
+
+    username.addEventListener('input', () => {
+      if(username.value.trim().length < 4) showError(username, 'Username must be at least 4 characters');
+      else showSuccess(username);
+    });
+
+    email.addEventListener('input', () => {
+      if(!checkEmail(email)) showError(email, 'Invalid email format');
+      else showSuccess(email);
+    });
+
+    
+    confirmPassword.addEventListener('input', () => {
+      if(confirmPassword.value !== password.value) showError(confirmPassword, 'Passwords do not match');
+      else showSuccess(confirmPassword);
+    });
+  </script>
+  <script>
+const passwordInput = document.querySelector('#password');
+const strengthBar = document.querySelector('#strength-bar');
+
+passwordInput.addEventListener('input', () => {
+    const val = passwordInput.value;
+    let strength = 0;
+
+    // Criteria
+    if (val.length >= 8) strength += 1;
+    if (/[A-Z]/.test(val)) strength += 1;
+    if (/[0-9]/.test(val)) strength += 1;
+    if (/[!@#$%^&*(),.?":{}|<>]/.test(val)) strength += 1; 
+
+    
+    switch (strength) {
+        case 0:
+        case 1:
+            strengthBar.style.width = '25%';
+            strengthBar.style.backgroundColor = 'red';
+            break;
+        case 2:
+            strengthBar.style.width = '50%';
+            strengthBar.style.backgroundColor = 'orange';
+            break;
+        case 3:
+            strengthBar.style.width = '75%';
+            strengthBar.style.backgroundColor = 'yellowgreen';
+            break;
+        case 4:
+            strengthBar.style.width = '100%';
+            strengthBar.style.backgroundColor = 'green';
+            break;
+    }
+});
+
+    form.addEventListener('submit', (e) => {
+  if (strength < 3) { // por exemplo, só permite se for média ou forte
+    e.preventDefault();
+    alert('Please use a stronger password before continuing.');
+  }
+});
+</script>
 </body>
 </html>
+
