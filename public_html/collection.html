@@ -2,112 +2,283 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>My Collection - Star Wars Miniatures</title>
+  <title>Star Wars Miniatures Collection</title>
   <link rel="stylesheet" href="css/style.css">
+  <!-- Fonte temática Star Wars -->
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&display=swap" rel="stylesheet">
+
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 30px;
-      background-color: #f5f5f5;
+    /* ===== BANNER HEADER ===== */
+    .collection-header {
+      position: relative;
+      width: 100%;
+      height: 240px; /* altura ligeiramente reduzida */
+      background: linear-gradient(rgba(0,0,0,0.25), rgba(0,0,0,0.25)),
+                  url("img/starwars-banner.jpg") center/cover no-repeat;
+      display: flex;
+      justify-content: flex-end; /* barra de pesquisa à direita */
+      align-items: center;
+      padding: 10px 40px;
+      border-bottom: 5px solid #B22222;
     }
-    header {
-      background-color: #222;
-      color: white;
-      padding: 15px;
-      border-radius: 8px;
+
+    /* ===== TÍTULO ABAIXO DO BANNER ===== */
+    .collection-title {
+      text-align: center;
+      font-size: 40px;
+      color: #B22222;
+      margin: 15px 0 10px 0;
+      text-shadow: 2px 2px 8px rgba(0,0,0,0.5);
+      letter-spacing: 1px;
+      font-family: 'Orbitron', sans-serif;
+      text-transform: uppercase;
     }
-    h1 {
-      margin: 0;
+
+    /* ===== SEARCH BAR ===== */
+    .search-bar {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background-color: rgba(255, 255, 255, 0.95);
+      padding: 6px 14px;
+      border-radius: 25px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+      backdrop-filter: blur(5px);
     }
-    #collection-info {
-      background: white;
-      padding: 15px;
-      border-radius: 8px;
-      margin-top: 15px;
+
+    .search-bar input {
+      border: none;
+      outline: none;
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 14px;
+      width: 180px;
     }
-    .buttons {
-      margin-top: 10px;
-    }
-    button {
-      background-color: #4CAF50;
+
+    .search-bar button {
+      background-color: #B22222;
       color: white;
       border: none;
-      border-radius: 6px;
-      padding: 8px 12px;
+      border-radius: 50%;
+      width: 36px;
+      height: 36px;
       cursor: pointer;
-      margin-right: 5px;
-    }
-    button:hover {
-      background-color: #45a049;
-    }
-    ul {
-      list-style: none;
-      padding: 0;
-    }
-    li {
-      background: white;
-      margin: 8px 0;
-      padding: 10px;
-      border-radius: 6px;
+      font-size: 16px;
+      transition: background 0.3s;
       display: flex;
-      justify-content: space-between;
+      justify-content: center;
       align-items: center;
+    }
+
+    .search-bar button:hover {
+      background-color: #FF4C4C;
+    }
+
+    /* ===== GRID DOS ITENS ===== */
+    .collection-items {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 35px;
+      padding: 40px 20px;
+      background-color: #fff;
+    }
+
+    .item-card {
+      background: #fff;
+      border-radius: 20px;
+      box-shadow: 0 6px 15px rgba(0,0,0,0.15);
+      width: 250px;
+      padding: 15px;
+      text-align: center;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .item-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 12px 25px rgba(0,0,0,0.25);
+    }
+
+    .item-card img {
+      width: 100%;
+      height: 180px;
+      object-fit: contain; /* ajusta imagens sem cortar */
+      border-radius: 12px;
+      margin-bottom: 12px;
+    }
+
+    .item-card h3 {
+      font-size: 18px;
+      color: #B22222;
+      margin-bottom: 6px;
+    }
+
+    .item-card p {
+      font-size: 14px;
+      color: #444;
+      margin-bottom: 10px;
+    }
+
+    .item-info {
+      display: flex;
+      justify-content: space-around;
+      margin-bottom: 10px;
+      font-size: 13px;
+      color: #333;
+    }
+
+    .item-card button {
+      background-color: #B22222;
+      color: white;
+      border: none;
+      padding: 8px 15px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .item-card button:hover {
+      background-color: #FF4C4C;
+    }
+
+    /* ===== BOTÃO ADD ITEM ===== */
+    .add-item-btn {
+      display: block;
+      margin: 40px auto;
+      background-color: #B22222;
+      color: white;
+      padding: 12px 25px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: background 0.3s, transform 0.2s;
+    }
+
+    .add-item-btn:hover {
+      background-color: #FF4C4C;
+      transform: scale(1.05);
+    }
+
+    /* ===== RESPONSIVIDADE MÍNIMA ===== */
+    @media (max-width: 600px) {
+      .search-bar input {
+        width: 120px;
+      }
+      .collection-header {
+        padding: 10px 20px;
+      }
     }
   </style>
 </head>
 <body>
 
-  <header>
-    <h1>Collection: Star Wars Miniatures</h1>
-  </header>
-
-  <section id="collection-info">
-    <h2>Collection Information</h2>
-    <p><strong>Description:</strong> A collection of Star Wars figures gathered since 2022.</p>
-    <p><strong>Type:</strong> Action Figures</p>
-    <p><strong>Created on:</strong> 12/04/2023</p>
-    <div class="buttons">
-      <button onclick="editCollection()">✏️ Edit Info</button>
-      <button onclick="deleteCollection()">🗑️ Delete Collection</button>
+  <!-- Banner -->
+  <header class="collection-header">
+    <div class="search-bar">
+      <input type="text" placeholder="Search collections...">
+      <button>🔍</button>
     </div>
+  </header>
+  
+  <!-- Título da coleção -->
+  <h1 class="collection-title">Star Wars Miniatures</h1>
+
+  <!-- Itens da coleção -->
+  <section class="collection-items">
+    
+    <div class="item-card">
+      <img src="img/luke.jpg" alt="Miniature of Luke Skywalker - Rebel Hero">
+      <h3>Luke Skywalker</h3>
+      <p>Rebel Hero</p>
+      <div class="item-info">
+        <span>⭐ 9/10</span>
+        <span>💰 25€</span>
+      </div>
+      <button>View Details</button>
+    </div>
+
+    <div class="item-card">
+      <img src="img/vader.jpg" alt="Miniature of Darth Vader - Sith Lord">
+      <h3>Darth Vader</h3>
+      <p>Sith Lord</p>
+      <div class="item-info">
+        <span>⭐ 10/10</span>
+        <span>💰 40€</span>
+      </div>
+      <button>View Details</button>
+    </div>
+
+    <div class="item-card">
+      <img src="img/leia.jpg" alt="Miniature of Princess Leia Organa - Rebel Leader">
+      <h3>Princess Leia Organa</h3>
+      <p>Rebel Leader</p>
+      <div class="item-info">
+        <span>⭐ 8/10</span>
+        <span>💰 30€</span>
+      </div>
+      <button>View Details</button>
+    </div>
+
+    <div class="item-card">
+      <img src="img/han.jpg" alt="Miniature of Han Solo - Smuggler & Pilot">
+      <h3>Han Solo</h3>
+      <p>Smuggler & Pilot</p>
+      <div class="item-info">
+        <span>⭐ 9/10</span>
+        <span>💰 28€</span>
+      </div>
+      <button>View Details</button>
+    </div>
+
+    <div class="item-card">
+      <img src="img/yoda.jpg" alt="Miniature of Yoda - Jedi Master">
+      <h3>Yoda</h3>
+      <p>Jedi Master</p>
+      <div class="item-info">
+        <span>⭐ 10/10</span>
+        <span>💰 35€</span>
+      </div>
+      <button>View Details</button>
+    </div>
+
+    <div class="item-card">
+      <img src="img/stormtrooper.jpg" alt="Miniature of Stormtrooper - Imperial Soldier">
+      <h3>Stormtrooper</h3>
+      <p>Imperial Soldier</p>
+      <div class="item-info">
+        <span>⭐ 7/10</span>
+        <span>💰 15€</span>
+      </div>
+      <button>View Details</button>
+    </div>
+
+    <div class="item-card">
+      <img src="img/r2d2.jpg" alt="Miniature of R2-D2 - Astromech Droid">
+      <h3>R2-D2</h3>
+      <p>Astromech Droid</p>
+      <div class="item-info">
+        <span>⭐ 9/10</span>
+        <span>💰 22€</span>
+      </div>
+      <button>View Details</button>
+    </div>
+
+    <div class="item-card">
+      <img src="img/falcon.jpg" alt="Miniature of Millennium Falcon - Corellian Freighter">
+      <h3>Millennium Falcon</h3>
+      <p>Corellian Freighter</p>
+      <div class="item-info">
+        <span>⭐ 10/10</span>
+        <span>💰 60€</span>
+      </div>
+      <button>View Details</button>
+    </div>
+
   </section>
 
-  <section id="items">
-    <h2>Items in this Collection</h2>
-    <ul id="itemList">
-      <li>Luke Skywalker <button onclick="deleteItem(this)">🗑️ Delete</button></li>
-      <li>Darth Vader <button onclick="deleteItem(this)">🗑️ Delete</button></li>
-      <li>Yoda <button onclick="deleteItem(this)">🗑️ Delete</button></li>
-    </ul>
-    <button onclick="addItem()">➕ Add Item</button>
-  </section>
-
-  <script>
-    function editCollection() {
-      alert("Edit Collection clicked! (In Sprint 2 this will really edit data.)");
-    }
-
-    function deleteCollection() {
-      if (confirm("Are you sure you want to delete this collection?")) {
-        alert("Collection deleted (simulation).");
-      }
-    }
-
-    function addItem() {
-      const name = prompt("Enter item name:");
-      if (name) {
-        const li = document.createElement("li");
-        li.innerHTML = `${name} <button onclick="deleteItem(this)">🗑️ Delete</button>`;
-        document.getElementById("itemList").appendChild(li);
-      }
-    }
-
-    function deleteItem(button) {
-      if (confirm("Delete this item?")) {
-        button.parentElement.remove();
-      }
-    }
-  </script>
+  <!-- Botão Add Item -->
+  <button class="add-item-btn">➕ Add Item</button>
 
 </body>
 </html>
