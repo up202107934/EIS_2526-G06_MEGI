@@ -1,4 +1,3 @@
-
 * {
   margin: 0;
   padding: 0;
@@ -6,17 +5,15 @@
   font-family: Arial, sans-serif;
 }
 
-
 body {
   margin: 0;
   padding: 0;
   background: #ffffff;
   font-family: Arial, sans-serif;
-  overflow-x: hidden; 
+  overflow-x: hidden;
 }
 
-
-/* login page */
+/* ===== LOGIN PAGE ===== */
 .login-container {
   background: #fff;
   padding: 40px 30px;
@@ -27,7 +24,6 @@ body {
   text-align: center;
 }
 
-/* TÍTULOS */
 .login-container h1 {
   margin-bottom: 20px;
   color: #333;
@@ -39,12 +35,11 @@ body {
   font-weight: normal;
 }
 
-
 .login-container form {
   display: flex;
   flex-direction: column;
-  gap: 20px; 
-  align-items: stretch; 
+  gap: 20px;
+  align-items: stretch;
 }
 
 .login-container label {
@@ -64,18 +59,16 @@ body {
   transition: 0.3s;
 }
 
-
 .login-container input:focus {
-  border-color: #B22222; 
+  border-color: #B22222;
   outline: none;
 }
-
 
 .login-container button {
   padding: 12px;
   border: none;
   border-radius: 6px;
-  background-color: #B22222; 
+  background-color: #B22222;
   color: #fff;
   font-size: 16px;
   cursor: pointer;
@@ -84,9 +77,8 @@ body {
 
 .login-container button:hover,
 .password-wrapper button.toggle-password:hover {
-  background-color: #FF4C4C; 
+  background-color: #FF4C4C;
 }
-
 
 .login-container p {
   margin-top: 15px;
@@ -108,86 +100,6 @@ body {
   position: relative;
   display: flex;
   align-items: center;
-}
-
-.password-wrapper input {
-  flex: 1;
-  padding-right: 35px; /* espaço para o olho */
-}
-
-.password-wrapper .toggle-password {
-  position: absolute;
-  right: 10px;
-  cursor: pointer;
-  user-select: none;
-  color: #888;
-  font-size: 18px;
-  transition: color 0.3s;
-}
-
-.password-wrapper .toggle-password:hover {
-  color: #B22222;
-}
-
-.login-container .form-group {
-    margin-bottom: 25px; 
-}
-
-.login-container .form-group small {
-    display: block;
-    margin-top: 5px;    
-    font-size: 12px;
-    color: red;
-}
-
-
-#password-strength {
-    height: 6px;
-    width: 100%;
-    background-color: #e0e0e0;
-    border-radius: 3px;
-    margin-top: 5px;
-    overflow: hidden;
-}
-
-#strength-bar {
-    height: 100%;
-    width: 0%;
-    background-color: red;
-    transition: width 0.3s, background-color 0.3s;
-}
-.form-group {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: stretch;
-}
-
-
-.password-wrapper {
-  display: flex;
-  align-items: center;
-  width: 100%;
-}
-
-.password-wrapper input {
-  flex: 1;
-}
-
-.password-wrapper button.toggle-password {
-  margin-left: 8px;
-  padding: 8px 10px;
-  font-size: 12px;
-  cursor: pointer;
-  border-radius: 6px;
-  border: 1px solid #ccc;
-  background-color: #B22222;
-  color: #fff;
-  transition: 0.3s;
-}
-.password-wrapper {
-  display: flex;
-  align-items: center;
   justify-content: space-between;
   gap: 8px;
   width: 100%;
@@ -196,6 +108,7 @@ body {
 .password-wrapper input {
   flex: 1;
   margin: 0;
+  padding-right: 35px;
 }
 
 .password-wrapper button.toggle-password {
@@ -212,8 +125,59 @@ body {
   transition: 0.3s;
 }
 
-/* --- team page --- */
-/* --- DECK CAROUSEL --- */
+.password-wrapper .toggle-password:hover {
+  color: #B22222;
+}
+
+.login-container .form-group {
+  margin-bottom: 25px;
+}
+
+.login-container .form-group small {
+  display: block;
+  margin-top: 5px;
+  font-size: 12px;
+  color: red;
+}
+
+#password-strength {
+  height: 6px;
+  width: 100%;
+  background-color: #e0e0e0;
+  border-radius: 3px;
+  margin-top: 5px;
+  overflow: hidden;
+}
+
+#strength-bar {
+  height: 100%;
+  width: 0%;
+  background-color: red;
+  transition: width 0.3s, background-color 0.3s;
+}
+/* CENTRALIZAR LOGIN/REGISTER */
+html, body {
+  height: 100%;
+}
+
+body.auth-page {
+  display: flex !important;
+  justify-content: center !important; /* horizontal */
+  align-items: center !important;     /* vertical */
+  min-height: 100vh;
+  margin: 0;
+  padding: 20px;
+  background-color: #f9f9f9; /* opcional */
+}
+
+
+/* Corrige o container */
+.login-container {
+  margin: 0 auto;
+}
+
+
+/* ===== TEAM PAGE ===== */
 .team-deck-section {
   text-align: center;
   padding: 80px 20px;
@@ -275,7 +239,6 @@ body {
   text-decoration: underline;
 }
 
-/* Estado das slides */
 .deck-slide.active {
   transform: translateX(-50%) scale(1);
   opacity: 1;
@@ -300,7 +263,6 @@ body {
   z-index: 1;
 }
 
-/* Pontinhos de navegação */
 .deck-dots {
   margin-top: 30px;
 }
@@ -320,7 +282,6 @@ body {
   background-color: #B22222;
 }
 
-/* Responsivo */
 @media (max-width: 768px) {
   .deck-slide {
     width: 220px;
@@ -334,6 +295,7 @@ body {
     font-size: 34px;
   }
 }
+
 /* ===== HOME PAGE ===== */
 .home-section {
   text-align: center;
@@ -349,7 +311,6 @@ body {
   letter-spacing: 2px;
 }
 
-/* Container das coleções */
 .collections-container {
   display: flex;
   flex-wrap: wrap;
@@ -357,7 +318,6 @@ body {
   gap: 30px;
 }
 
-/* Card de cada coleção */
 .collection-card {
   background: #fff;
   border-radius: 20px;
@@ -367,7 +327,8 @@ body {
   text-align: center;
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
+  justify-content: space-between;
+  height: 500px;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
@@ -411,7 +372,7 @@ body {
   border-radius: 8px;
   text-decoration: none;
   transition: all 0.3s ease;
-  margin-top: 10px;
+  margin-top: auto;
 }
 
 .collection-card a.btn:hover {
@@ -419,7 +380,7 @@ body {
   transform: scale(1.05);
 }
 
-/* Botão criar nova coleção - mais moderno */
+/* Botão criar nova coleção */
 .create-collection {
   margin-top: 50px;
   font-size: 18px;
@@ -438,9 +399,10 @@ body {
   box-shadow: 0 12px 25px rgba(0,0,0,0.3);
   background: linear-gradient(135deg, #FF6347, #B22222);
 }
+
 /* ==== MINI CARROSSEL DE ITENS (HOME PAGE) ==== */
 .mini-carousel {
-  width: 100%;          /* ocupa só o tamanho do card */
+  width: 100%;
   overflow: hidden;
   border-radius: 10px;
   margin: 10px 0 15px;
@@ -451,27 +413,332 @@ body {
   display: flex;
   gap: 10px;
   width: max-content;
-  animation: miniSlide 12s linear infinite;
+  animation: miniSlide 15s linear infinite;
 }
 
-.mini-track img {
-  flex: 0 0 60px;      /* largura fixa para 3 imagens visíveis */
-  height: 60px;
+.mini-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 0 0 70px;
+}
+
+.mini-item img {
+  width: 70px;
+  height: 70px;
   border-radius: 10px;
   object-fit: cover;
   box-shadow: 0 3px 8px rgba(0,0,0,0.2);
   transition: transform 0.3s ease;
 }
 
-.mini-track img:hover {
+.mini-item img:hover {
   transform: scale(1.1);
+}
+
+.mini-item p {
+  font-size: 12px;
+  color: #444;
+  margin-top: 5px;
+  text-align: center;
 }
 
 @keyframes miniSlide {
   0% { transform: translateX(0); }
-  100% { transform: translateX(-50%); }  /* continua a deslizar, mas agora cabe no card */
+  100% { transform: translateX(-50%); }
 }
 
+/* Loop contínuo */
 .mini-carousel:hover .mini-track {
   animation-play-state: paused;
+}
+
+
+/* ===== USER PAGE ===== */
+.user-section {
+  text-align: center;
+  padding: 80px 20px;
+  background-color: #fff;
+}
+
+.user-title {
+  font-size: 42px;
+  color: #B22222;
+  margin-bottom: 40px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+/* Container principal do perfil */
+.user-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 30px;
+  margin-bottom: 50px;
+}
+
+/* Foto do utilizador */
+.user-photo img {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  object-fit: cover;
+  box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+}
+
+/* Informações */
+.user-info h2 {
+  color: #B22222;
+  margin-bottom: 10px;
+}
+
+.user-info p {
+  font-size: 14px;
+  color: #333;
+  margin: 4px 0;
+}
+
+.user-info a.edit-user {
+  display: inline-block;
+  margin-top: 15px;
+  padding: 10px 20px;
+  background: linear-gradient(135deg, #B22222, #FF6347);
+  color: #fff;
+  border-radius: 25px;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.user-info a.edit-user:hover {
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 0 12px 25px rgba(0,0,0,0.3);
+  background: linear-gradient(135deg, #FF6347, #B22222);
+}
+
+/* Coleções do utilizador */
+.user-collections-title {
+  font-size: 28px;
+  color: #B22222;
+  margin-bottom: 30px;
+}
+
+.user-collections {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 30px;
+}
+
+.user-collections .collection-card {
+  width: 250px;
+  padding: 20px;
+  text-align: center;
+  background: #fff;
+  border-radius: 20px;
+  box-shadow: 0 6px 15px rgba(0,0,0,0.15);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.user-collections .collection-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 25px rgba(0,0,0,0.2);
+}
+
+.user-collections .collection-card img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 15px;
+  margin-bottom: 15px;
+}
+
+.user-collections .collection-card h3 {
+  color: #B22222;
+  font-size: 18px;
+  margin-bottom: 5px;
+}
+
+.user-collections .collection-card p {
+  font-size: 14px;
+  margin-bottom: 10px;
+}
+
+.user-collections .collection-card a.btn {
+  padding: 8px 18px;
+  border-radius: 8px;
+  background-color: #B22222;
+  color: #fff;
+  text-decoration: none;
+}
+
+.user-collections .collection-card a.btn:hover {
+  background-color: #FF4C4C;
+  transform: scale(1.05);
+}
+
+/* Modal melhorado */
+.modal {
+  display: none; 
+  position: fixed;
+  z-index: 10;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  backdrop-filter: blur(5px); /* desfoque do fundo */
+  background-color: rgba(0,0,0,0.4);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+.modal-content {
+  background-color: #fff;
+  padding: 30px 25px;
+  border-radius: 15px;
+  width: 100%;
+  max-width: 450px;
+  box-shadow: 0 12px 30px rgba(0,0,0,0.3);
+  position: relative;
+  animation: fadeIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+  from {opacity: 0; transform: translateY(-20px);}
+  to {opacity: 1; transform: translateY(0);}
+}
+
+.modal-content h2 {
+  margin-bottom: 25px;
+  color: #B22222;
+  text-align: center;
+  font-size: 26px;
+}
+
+.close {
+  position: absolute;
+  top: 12px;
+  right: 15px;
+  color: #333;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.close:hover {
+  color: #B22222;
+}
+
+/* Formulário */
+#edit-user-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+#edit-user-form label {
+  font-weight: 600;
+  color: #333;
+}
+
+#edit-user-form input {
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+  transition: all 0.3s;
+}
+
+#edit-user-form input:focus {
+  border-color: #B22222;
+  outline: none;
+}
+
+.password-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.password-wrapper input {
+  flex: 1;
+}
+
+.password-wrapper button.toggle-password {
+  flex-shrink: 0;
+  height: 38px;
+  padding: 0 12px;
+  font-size: 13px;
+  border-radius: 6px;
+  border: 1px solid #B22222;
+  background-color: #B22222;
+  color: #fff;
+  cursor: pointer;
+  transition: background 0.3s, transform 0.2s;
+}
+
+.password-wrapper button.toggle-password:hover {
+  background-color: #FF4C4C;
+  transform: scale(1.05);
+}
+
+#edit-user-form button[type="submit"] {
+  padding: 12px 0;
+  border-radius: 8px;
+  background-color: #B22222;
+  color: #fff;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+  transition: background 0.3s, transform 0.2s;
+}
+
+#edit-user-form button[type="submit"]:hover {
+  background-color: #FF4C4C;
+  transform: scale(1.03);
+}
+.user-photo {
+  position: relative;
+  width: 150px;
+  height: 150px;
+  margin: 0 auto 20px;
+}
+
+.user-photo img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid #B22222;
+}
+
+.edit-photo-icon {
+  position: absolute;
+  bottom: 5px;
+  right: 5px;
+  background-color: #B22222;
+  color: white;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-weight: bold;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+  transition: transform 0.2s;
+}
+
+.edit-photo-icon:hover {
+  transform: scale(1.1);
+}
+
+/* Modal específico para foto */
+.photo-modal-content {
+  max-width: 350px;
+  text-align: center;
 }

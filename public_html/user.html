@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>User Page | My Collections</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <style>
+    /* ===== USER PAGE ===== */
+    .user-section {
+      padding: 80px 20px;
+      background-color: #fff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .user-title {
+      font-size: 42px;
+      color: #B22222;
+      margin-bottom: 40px;
+      text-transform: uppercase;
+    }
+
+    .user-container {
+      display: flex;
+      gap: 40px;
+      margin-bottom: 60px;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: flex-start;
+    }
+
+    /* FOTO COM LAPIS */
+    .user-photo {
+      position: relative;
+      width: 200px;
+      height: 200px;
+    }
+
+    .user-photo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 50%;
+      box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+      border: 3px solid #B22222;
+    }
+
+    .edit-photo-icon {
+      position: absolute;
+      bottom: 5px;
+      right: 5px;
+      background-color: #B22222;
+      color: #fff;
+      width: 35px;
+      height: 35px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-weight: bold;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+      transition: transform 0.2s;
+    }
+
+    .edit-photo-icon:hover {
+      transform: scale(1.1);
+    }
+
+    .user-info h2 { color: #B22222; margin-bottom: 10px; }
+    .user-info p { font-size: 16px; margin: 6px 0; }
+    .user-info a.btn {
+      display: inline-block;
+      padding: 10px 20px;
+      background-color: #B22222;
+      color: #fff;
+      border-radius: 8px;
+      text-decoration: none;
+      margin-top: 15px;
+      transition: all 0.3s ease;
+    }
+    .user-info a.btn:hover { background-color: #FF4C4C; transform: scale(1.05); }
+
+    /* MODALS */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 10;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0,0,0,0.5);
+      justify-content: center;
+      align-items: center;
+    }
+
+    .modal-content {
+      background-color: #fff;
+      padding: 30px;
+      border-radius: 12px;
+      width: 90%;
+      max-width: 400px;
+      box-shadow: 0 12px 25px rgba(0,0,0,0.3);
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .modal-content h2, .modal-content h3 { text-align: center; color: #B22222; }
+    .modal-content input { padding: 10px; border-radius: 6px; border: 1px solid #ccc; width: 100%; margin-bottom: 10px; }
+    .modal-content .password-wrapper { display: flex; gap: 8px; }
+    .modal-content .password-wrapper input { flex: 1; }
+    .modal-content .password-wrapper button, .modal-content button.btn {
+      padding: 8px 12px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      background-color: #B22222;
+      color: #fff;
+      cursor: pointer;
+    }
+    .modal-content button.btn:hover, .modal-content .password-wrapper button:hover { background-color: #FF4C4C; }
+    .close { position: absolute; top: 12px; right: 15px; font-size: 28px; font-weight: bold; cursor: pointer; color: #333; }
+    .close:hover { color: #B22222; }
+  </style>
+</head>
+<body>
+  <section class="user-section">
+    <h1 class="user-title">User Profile</h1>
+
+    <div class="user-container">
+      <div class="user-photo">
+        <img src="img/user.jpg" alt="User Photo" id="profileImage">
+        <div class="edit-photo-icon" id="editPhotoBtn">✎</div>
+      </div>
+
+      <div class="user-info">
+        <h2 id="displayName">Joana Ferreira</h2>
+        <p>Email: <a href="mailto:up202106097@up.pt" id="displayEmail">up202106097@up.pt</a></p>
+        <p>Member since: January 2025</p>
+        <p>Total Collections: 5</p>
+        <p>Total Items: 37</p>
+
+        <a href="#" class="btn edit-user" id="openModalBtn">Edit Profile</a>
+      </div>
+    </div>
+
+    <h2 class="user-collections-title">My Collections</h2>
+    <div class="user-collections">
+      <!-- Coleções aqui -->
+    </div>
+  </section>
+
+  <!-- MODAL EDIT PROFILE -->
+  <div id="editModal" class="modal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <h2>Edit Profile</h2>
+      <form id="edit-user-form">
+        <label for="username">Name</label>
+        <input type="text" id="username" name="username" value="Joana Ferreira" required>
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" value="up202106097@up.pt" required>
+        <label for="password">Password</label>
+        <div class="password-wrapper">
+          <input type="password" id="password" name="password" value="123456" required>
+          <button type="button" class="toggle-password">Show</button>
+        </div>
+        <button type="submit" class="btn">Save Changes</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL CHANGE PHOTO -->
+  <div id="photoModal" class="modal">
+    <div class="modal-content photo-modal-content">
+      <span class="close" id="closePhotoModal">&times;</span>
+      <h3>Change Profile Picture</h3>
+      <input type="file" id="profileFileInput" accept="image/*">
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      // EDIT PROFILE MODAL
+      const openModalBtn = document.getElementById("openModalBtn");
+      const editModal = document.getElementById("editModal");
+      const closeModal = editModal.querySelector(".close");
+      const togglePassword = document.querySelector(".toggle-password");
+      const passwordInput = document.querySelector("#password");
+      const form = document.getElementById("edit-user-form");
+
+      openModalBtn.addEventListener("click", (e) => {
+        e.preventDefault();
+        editModal.style.display = "flex";
+      });
+      closeModal.addEventListener("click", () => editModal.style.display = "none");
+      window.addEventListener("click", (e) => { if(e.target === editModal) editModal.style.display = "none"; });
+      togglePassword.addEventListener("click", () => {
+        const type = passwordInput.getAttribute("type") === "password" ? "text" : "password";
+        passwordInput.setAttribute("type", type);
+        togglePassword.textContent = type === "password" ? "Show" : "Hide";
+      });
+      form.addEventListener("submit", (e) => {
+        e.preventDefault();
+        document.getElementById("displayName").textContent = document.getElementById("username").value;
+        document.getElementById("displayEmail").textContent = document.getElementById("email").value;
+        document.getElementById("displayEmail").href = "mailto:" + document.getElementById("email").value;
+        alert("Profile updated successfully!");
+        editModal.style.display = "none";
+      });
+
+      // CHANGE PHOTO MODAL
+      const editPhotoBtn = document.getElementById("editPhotoBtn");
+      const photoModal = document.getElementById("photoModal");
+      const closePhotoModal = document.getElementById("closePhotoModal");
+      const profileFileInput = document.getElementById("profileFileInput");
+      const profileImage = document.getElementById("profileImage");
+
+      editPhotoBtn.addEventListener("click", () => photoModal.style.display = "flex");
+      closePhotoModal.addEventListener("click", () => photoModal.style.display = "none");
+      window.addEventListener("click", (e) => { if(e.target === photoModal) photoModal.style.display = "none"; });
+
+      profileFileInput.addEventListener("change", (e) => {
+        const file = e.target.files[0];
+        if(file){
+          const reader = new FileReader();
+          reader.onload = (event) => {
+            profileImage.src = event.target.result;
+            localStorage.setItem('profileImage', event.target.result);
+          }
+          reader.readAsDataURL(file);
+          photoModal.style.display = "none";
+        }
+      });
+
+      // Load saved image
+      const savedImage = localStorage.getItem('profileImage');
+      if(savedImage) profileImage.src = savedImage;
+    });
+  </script>
+</body>
+</html>
+
+
