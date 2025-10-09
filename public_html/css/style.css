@@ -8,14 +8,15 @@
 
 
 body {
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background: #ffffff; 
+  margin: 0;
+  padding: 0;
+  background: #ffffff;
+  font-family: Arial, sans-serif;
+  overflow-x: hidden; 
 }
 
 
+/* login page */
 .login-container {
   background: #fff;
   padding: 40px 30px;
@@ -128,6 +129,90 @@ body {
   color: #B22222;
 }
 
+.login-container .form-group {
+    margin-bottom: 25px; 
+}
+
+.login-container .form-group small {
+    display: block;
+    margin-top: 5px;    
+    font-size: 12px;
+    color: red;
+}
+
+
+#password-strength {
+    height: 6px;
+    width: 100%;
+    background-color: #e0e0e0;
+    border-radius: 3px;
+    margin-top: 5px;
+    overflow: hidden;
+}
+
+#strength-bar {
+    height: 100%;
+    width: 0%;
+    background-color: red;
+    transition: width 0.3s, background-color 0.3s;
+}
+.form-group {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+
+.password-wrapper {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.password-wrapper input {
+  flex: 1;
+}
+
+.password-wrapper button.toggle-password {
+  margin-left: 8px;
+  padding: 8px 10px;
+  font-size: 12px;
+  cursor: pointer;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  background-color: #B22222;
+  color: #fff;
+  transition: 0.3s;
+}
+.password-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  width: 100%;
+}
+
+.password-wrapper input {
+  flex: 1;
+  margin: 0;
+}
+
+.password-wrapper button.toggle-password {
+  flex-shrink: 0;
+  height: 38px;
+  margin: 0;
+  padding: 8px 10px;
+  font-size: 12px;
+  cursor: pointer;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  background-color: #B22222;
+  color: #fff;
+  transition: 0.3s;
+}
+
+/* --- team page --- */
 /* --- DECK CAROUSEL --- */
 .team-deck-section {
   text-align: center;
@@ -282,7 +367,7 @@ body {
   text-align: center;
   display: flex;
   flex-direction: column;
-  justify-content: space-between; /* garante que o botão fica sempre em baixo */
+  justify-content: flex-start;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
@@ -353,86 +438,40 @@ body {
   box-shadow: 0 12px 25px rgba(0,0,0,0.3);
   background: linear-gradient(135deg, #FF6347, #B22222);
 }
-
-.login-container .form-group {
-    margin-bottom: 25px; 
+/* ==== MINI CARROSSEL DE ITENS (HOME PAGE) ==== */
+.mini-carousel {
+  width: 100%;          /* ocupa só o tamanho do card */
+  overflow: hidden;
+  border-radius: 10px;
+  margin: 10px 0 15px;
+  position: relative;
 }
 
-.login-container .form-group small {
-    display: block;
-    margin-top: 5px;    
-    font-size: 12px;
-    color: red;
-}
-
-
-#password-strength {
-    height: 6px;
-    width: 100%;
-    background-color: #e0e0e0;
-    border-radius: 3px;
-    margin-top: 5px;
-    overflow: hidden;
-}
-
-#strength-bar {
-    height: 100%;
-    width: 0%;
-    background-color: red;
-    transition: width 0.3s, background-color 0.3s;
-}
-.form-group {
-  width: 100%;
+.mini-track {
   display: flex;
-  flex-direction: column;
-  align-items: stretch;
+  gap: 10px;
+  width: max-content;
+  animation: miniSlide 12s linear infinite;
 }
 
-
-.password-wrapper {
-  display: flex;
-  align-items: center;
-  width: 100%;
+.mini-track img {
+  flex: 0 0 60px;      /* largura fixa para 3 imagens visíveis */
+  height: 60px;
+  border-radius: 10px;
+  object-fit: cover;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.2);
+  transition: transform 0.3s ease;
 }
 
-.password-wrapper input {
-  flex: 1;
+.mini-track img:hover {
+  transform: scale(1.1);
 }
 
-.password-wrapper button.toggle-password {
-  margin-left: 8px;
-  padding: 8px 10px;
-  font-size: 12px;
-  cursor: pointer;
-  border-radius: 6px;
-  border: 1px solid #ccc;
-  background-color: #B22222;
-  color: #fff;
-  transition: 0.3s;
-}
-.password-wrapper {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 8px;
-  width: 100%;
+@keyframes miniSlide {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }  /* continua a deslizar, mas agora cabe no card */
 }
 
-.password-wrapper input {
-  flex: 1;
-  margin: 0;
-}
-
-.password-wrapper button.toggle-password {
-  flex-shrink: 0;
-  height: 38px;
-  margin: 0;
-  padding: 8px 10px;
-  font-size: 12px;
-  cursor: pointer;
-  border-radius: 6px;
-  border: 1px solid #ccc;
-  background-color: #B22222;
-  color: #fff;
-  transition: 0.3s;
+.mini-carousel:hover .mini-track {
+  animation-play-state: paused;
 }
