@@ -169,6 +169,64 @@
         padding: 10px 20px;
       }
     }
+    /* ===== Toolbar (grid/list) ===== */
+.collection-toolbar{
+  max-width: 1200px;
+  margin: 0 auto 10px auto;
+  padding: 0 20px;
+  display: flex;
+  justify-content: flex-end;
+}
+.view-toggle{ display:inline-flex; gap:8px; }
+.btn-view{
+  background:#eee; border:1px solid #ddd; padding:8px 12px;
+  border-radius:8px; cursor:pointer; font-size:14px;
+}
+.btn-view[aria-pressed="true"]{ background:#B22222; color:#fff; border-color:#B22222; }
+
+/* ===== Vista GRELHA (mantém o que já tinhas) ===== */
+.collection-items.grid-view{
+  display:flex; flex-wrap:wrap; justify-content:center; gap:35px;
+}
+.collection-items.grid-view .item-card{ width:250px; text-align:center; }
+
+/* ===== Vista LISTA (nova) ===== */
+.collection-items.list-view{
+  display:block; padding:20px 0;
+}
+.collection-items.list-view .item-card{
+  display:grid;
+  grid-template-columns: 160px 1fr auto; /* img | textos | botão */
+  gap:18px; align-items:center;
+  width:min(1000px, 92%);
+  margin:0 auto 18px auto;
+  text-align:left;
+  padding:18px 20px;
+}
+.collection-items.list-view .item-card img{
+  height:140px; width:100%; object-fit:contain; border-radius:12px;
+}
+.collection-items.list-view .item-card h3{ margin:0 0 6px 0; font-size:20px; }
+.collection-items.list-view .item-card p{ margin:0 0 10px 0; }
+.collection-items.list-view .item-info{
+  justify-content:flex-start; gap:16px; font-size:14px; margin:0;
+}
+.collection-items.list-view .item-card button{
+  justify-self:end; padding:10px 16px;
+}
+.collection-items.list-view .item-card:hover{
+  transform:none; box-shadow:0 6px 15px rgba(0,0,0,0.12);
+}
+
+@media (max-width: 700px){
+  .collection-items.list-view .item-card{
+    grid-template-columns: 120px 1fr;
+    grid-template-rows: auto auto;
+  }
+  .collection-items.list-view .item-card button{
+    grid-column: 1 / -1; justify-self:start;
+  }
+}
   </style>
 </head>
 <body>
@@ -183,11 +241,36 @@
   
   <!-- Título da coleção -->
   <h1 class="collection-title">Star Wars Miniatures</h1>
+  <!-- Toolbar: alternar vista -->
+<div class="collection-toolbar">
+  <div class="view-toggle" role="group" aria-label="View toggle">
+    <button class="btn-view" data-view="grid" aria-pressed="true" title="Grid view">🔲 Grid</button>
+    <button class="btn-view" data-view="list" aria-pressed="false" title="List view">📃 List</button>
+  </div>
+</div>
+  
+<div class="collection-toolbar">
+  <div class="view-toggle" role="group" aria-label="View toggle">
+    <button class="btn-view" data-view="grid" aria-pressed="true" title="Grid view">🔲 Grid</button>
+    <button class="btn-view" data-view="list" aria-pressed="false" title="List view">📃 List</button>
+  </div>
+
+  <!-- SORT BY (colado aqui) -->
+  <div class="sort-wrap">
+    <label for="sortSelect">Sort by:</label>
+    <select id="sortSelect">
+      <option value="default">Default</option>
+      <option value="ratingDesc">Rating (High → Low)</option>
+      <option value="priceAsc">Price (Low → High)</option>
+      <option value="priceDesc">Price (High → Low)</option>
+    </select>
+  </div>
+</div>
 
   <!-- Itens da coleção -->
-  <section class="collection-items">
+  <section class="collection-items grid-view">
     
-    <div class="item-card">
+    <div class="item-card" data-rating="9" data-price="25">
       <img src="img/luke.jpg" alt="Miniature of Luke Skywalker - Rebel Hero">
       <h3>Luke Skywalker</h3>
       <p>Rebel Hero</p>
@@ -198,7 +281,7 @@
       <button>View Details</button>
     </div>
 
-    <div class="item-card">
+    <div class="item-card" data-rating="10" data-price="40">
       <img src="img/vader.jpg" alt="Miniature of Darth Vader - Sith Lord">
       <h3>Darth Vader</h3>
       <p>Sith Lord</p>
@@ -209,7 +292,7 @@
       <button>View Details</button>
     </div>
 
-    <div class="item-card">
+    <div class="item-card" data-rating="8" data-price="30">
       <img src="img/leia.jpg" alt="Miniature of Princess Leia Organa - Rebel Leader">
       <h3>Princess Leia Organa</h3>
       <p>Rebel Leader</p>
@@ -220,7 +303,7 @@
       <button>View Details</button>
     </div>
 
-    <div class="item-card">
+    <div class="item-card" data-rating="9" data-price="28">
       <img src="img/han.jpg" alt="Miniature of Han Solo - Smuggler & Pilot">
       <h3>Han Solo</h3>
       <p>Smuggler & Pilot</p>
@@ -231,7 +314,7 @@
       <button>View Details</button>
     </div>
 
-    <div class="item-card">
+    <div class="item-card" data-rating="10" data-price="35">
       <img src="img/yoda.jpg" alt="Miniature of Yoda - Jedi Master">
       <h3>Yoda</h3>
       <p>Jedi Master</p>
@@ -242,7 +325,7 @@
       <button>View Details</button>
     </div>
 
-    <div class="item-card">
+    <div class="item-card" data-rating="7" data-price="15">
       <img src="img/stormtrooper.jpg" alt="Miniature of Stormtrooper - Imperial Soldier">
       <h3>Stormtrooper</h3>
       <p>Imperial Soldier</p>
@@ -253,7 +336,7 @@
       <button>View Details</button>
     </div>
 
-    <div class="item-card">
+    <div class="item-card" data-rating="9" data-price="22">
       <img src="img/r2d2.jpg" alt="Miniature of R2-D2 - Astromech Droid">
       <h3>R2-D2</h3>
       <p>Astromech Droid</p>
@@ -264,7 +347,7 @@
       <button>View Details</button>
     </div>
 
-    <div class="item-card">
+    <div class="item-card" data-rating="10" data-price="60">
       <img src="img/falcon.jpg" alt="Miniature of Millennium Falcon - Corellian Freighter">
       <h3>Millennium Falcon</h3>
       <p>Corellian Freighter</p>
@@ -274,11 +357,85 @@
       </div>
       <button>View Details</button>
     </div>
+      <div class="item-card" data-rating="8" data-price="30"> … </div>
+<div class="item-card" data-rating="9" data-price="28"> … </div>
+<div class="item-card" data-rating="10" data-price="35"> … </div>
+<div class="item-card" data-rating="7" data-price="15"> … </div>
+<div class="item-card" data-rating="9" data-price="22"> … </div>
+<div class="item-card" data-rating="10" data-price="60"> … </div>
 
   </section>
+  <script>
+  // ----- SORTING (rating/price) -----
+  const itemsContainer = document.querySelector('.collection-items');
+  const sortSelect = document.getElementById('sortSelect');
+
+  // guardar ordem original para "Default"
+  const originalOrder = [...itemsContainer.children].map((el, idx) => {
+    el.dataset.__index = idx;  // índice estável
+    return el;
+  });
+
+  // aplica ordenação guardada (ou default)
+  const savedSort = localStorage.getItem('collectionSort') || 'default';
+  if (sortSelect) sortSelect.value = savedSort;
+  applySort(savedSort);
+
+  if (sortSelect) {
+    sortSelect.addEventListener('change', () => applySort(sortSelect.value));
+  }
+
+  function applySort(mode){
+    const cards = [...itemsContainer.querySelectorAll('.item-card')];
+    let sorted = cards.slice();
+
+    const byNum = (getter, dir=1) => (a,b) => (getter(a)-getter(b))*dir;
+
+    switch(mode){
+      case 'ratingDesc':
+        sorted.sort(byNum(el => Number(el.dataset.rating) || 0, -1));
+        break;
+      case 'priceAsc':
+        sorted.sort(byNum(el => Number(el.dataset.price) || 0, +1));
+        break;
+      case 'priceDesc':
+        sorted.sort(byNum(el => Number(el.dataset.price) || 0, -1));
+        break;
+      default: // ordem original
+        sorted.sort(byNum(el => Number(el.dataset.__index), +1));
+    }
+
+    const frag = document.createDocumentFragment();
+    sorted.forEach(el => frag.appendChild(el));
+    itemsContainer.appendChild(frag);
+
+    localStorage.setItem('collectionSort', mode);
+  }
+</script>
+
 
   <!-- Botão Add Item -->
   <button class="add-item-btn">➕ Add Item</button>
+  
+  <script>
+  const container = document.querySelector('.collection-items');
+  const buttons = document.querySelectorAll('.btn-view');
+
+  // aplicar vista guardada (ou grelha por defeito)
+  const saved = localStorage.getItem('collectionView') || 'grid';
+  setView(saved);
+
+  buttons.forEach(btn => {
+    btn.addEventListener('click', () => setView(btn.dataset.view));
+  });
+
+  function setView(view){
+    container.classList.toggle('grid-view', view === 'grid');
+    container.classList.toggle('list-view', view === 'list');
+    buttons.forEach(b => b.setAttribute('aria-pressed', String(b.dataset.view === view)));
+    localStorage.setItem('collectionView', view);
+  }
+</script>
 
 </body>
 </html>
