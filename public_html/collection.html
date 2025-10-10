@@ -7,229 +7,14 @@
   <!-- Fonte temática Star Wars -->
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&display=swap" rel="stylesheet">
 
-  <style>
-    /* ===== BANNER HEADER ===== */
-    .collection-header {
-      position: relative;
-      width: 100%;
-      height: 240px; /* altura ligeiramente reduzida */
-      background: linear-gradient(rgba(0,0,0,0.25), rgba(0,0,0,0.25)),
-                  url("img/starwars-banner.jpg") center/cover no-repeat;
-      display: flex;
-      justify-content: flex-end; /* barra de pesquisa à direita */
-      align-items: center;
-      padding: 10px 40px;
-      border-bottom: 5px solid #B22222;
-    }
-
-    /* ===== TÍTULO ABAIXO DO BANNER ===== */
-    .collection-title {
-      text-align: center;
-      font-size: 40px;
-      color: #B22222;
-      margin: 15px 0 10px 0;
-      text-shadow: 2px 2px 8px rgba(0,0,0,0.5);
-      letter-spacing: 1px;
-      font-family: 'Orbitron', sans-serif;
-      text-transform: uppercase;
-    }
-
-    /* ===== SEARCH BAR ===== */
-    .search-bar {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      background-color: rgba(255, 255, 255, 0.95);
-      padding: 6px 14px;
-      border-radius: 25px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-      backdrop-filter: blur(5px);
-    }
-
-    .search-bar input {
-      border: none;
-      outline: none;
-      padding: 6px 12px;
-      border-radius: 20px;
-      font-size: 14px;
-      width: 180px;
-    }
-
-    .search-bar button {
-      background-color: #B22222;
-      color: white;
-      border: none;
-      border-radius: 50%;
-      width: 36px;
-      height: 36px;
-      cursor: pointer;
-      font-size: 16px;
-      transition: background 0.3s;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-
-    .search-bar button:hover {
-      background-color: #FF4C4C;
-    }
-
-    /* ===== GRID DOS ITENS ===== */
-    .collection-items {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 35px;
-      padding: 40px 20px;
-      background-color: #fff;
-    }
-
-    .item-card {
-      background: #fff;
-      border-radius: 20px;
-      box-shadow: 0 6px 15px rgba(0,0,0,0.15);
-      width: 250px;
-      padding: 15px;
-      text-align: center;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-
-    .item-card:hover {
-      transform: translateY(-8px);
-      box-shadow: 0 12px 25px rgba(0,0,0,0.25);
-    }
-
-    .item-card img {
-      width: 100%;
-      height: 180px;
-      object-fit: contain; /* ajusta imagens sem cortar */
-      border-radius: 12px;
-      margin-bottom: 12px;
-    }
-
-    .item-card h3 {
-      font-size: 18px;
-      color: #B22222;
-      margin-bottom: 6px;
-    }
-
-    .item-card p {
-      font-size: 14px;
-      color: #444;
-      margin-bottom: 10px;
-    }
-
-    .item-info {
-      display: flex;
-      justify-content: space-around;
-      margin-bottom: 10px;
-      font-size: 13px;
-      color: #333;
-    }
-
-    .item-card button {
-      background-color: #B22222;
-      color: white;
-      border: none;
-      padding: 8px 15px;
-      border-radius: 6px;
-      cursor: pointer;
-      transition: background 0.3s;
-    }
-
-    .item-card button:hover {
-      background-color: #FF4C4C;
-    }
-
-    /* ===== BOTÃO ADD ITEM ===== */
-    .add-item-btn {
-      display: block;
-      margin: 40px auto;
-      background-color: #B22222;
-      color: white;
-      padding: 12px 25px;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      font-size: 16px;
-      transition: background 0.3s, transform 0.2s;
-    }
-
-    .add-item-btn:hover {
-      background-color: #FF4C4C;
-      transform: scale(1.05);
-    }
-
-    /* ===== RESPONSIVIDADE MÍNIMA ===== */
-    @media (max-width: 600px) {
-      .search-bar input {
-        width: 120px;
-      }
-      .collection-header {
-        padding: 10px 20px;
-      }
-    }
-    /* ===== Toolbar (grid/list) ===== */
-.collection-toolbar{
-  max-width: 1200px;
-  margin: 0 auto 10px auto;
-  padding: 0 20px;
-  display: flex;
-  justify-content: flex-end;
-}
-.view-toggle{ display:inline-flex; gap:8px; }
-.btn-view{
-  background:#eee; border:1px solid #ddd; padding:8px 12px;
-  border-radius:8px; cursor:pointer; font-size:14px;
-}
-.btn-view[aria-pressed="true"]{ background:#B22222; color:#fff; border-color:#B22222; }
-
-/* ===== Vista GRELHA (mantém o que já tinhas) ===== */
-.collection-items.grid-view{
-  display:flex; flex-wrap:wrap; justify-content:center; gap:35px;
-}
-.collection-items.grid-view .item-card{ width:250px; text-align:center; }
-
-/* ===== Vista LISTA (nova) ===== */
-.collection-items.list-view{
-  display:block; padding:20px 0;
-}
-.collection-items.list-view .item-card{
-  display:grid;
-  grid-template-columns: 160px 1fr auto; /* img | textos | botão */
-  gap:18px; align-items:center;
-  width:min(1000px, 92%);
-  margin:0 auto 18px auto;
-  text-align:left;
-  padding:18px 20px;
-}
-.collection-items.list-view .item-card img{
-  height:140px; width:100%; object-fit:contain; border-radius:12px;
-}
-.collection-items.list-view .item-card h3{ margin:0 0 6px 0; font-size:20px; }
-.collection-items.list-view .item-card p{ margin:0 0 10px 0; }
-.collection-items.list-view .item-info{
-  justify-content:flex-start; gap:16px; font-size:14px; margin:0;
-}
-.collection-items.list-view .item-card button{
-  justify-self:end; padding:10px 16px;
-}
-.collection-items.list-view .item-card:hover{
-  transform:none; box-shadow:0 6px 15px rgba(0,0,0,0.12);
-}
-
-@media (max-width: 700px){
-  .collection-items.list-view .item-card{
-    grid-template-columns: 120px 1fr;
-    grid-template-rows: auto auto;
-  }
-  .collection-items.list-view .item-card button{
-    grid-column: 1 / -1; justify-self:start;
-  }
-}
-  </style>
+ 
 </head>
 <body>
+
+    
+    
+
+
 
   <!-- Banner -->
   <header class="collection-header">
@@ -357,12 +142,7 @@
       </div>
       <button>View Details</button>
     </div>
-      <div class="item-card" data-rating="8" data-price="30"> … </div>
-<div class="item-card" data-rating="9" data-price="28"> … </div>
-<div class="item-card" data-rating="10" data-price="35"> … </div>
-<div class="item-card" data-rating="7" data-price="15"> … </div>
-<div class="item-card" data-rating="9" data-price="22"> … </div>
-<div class="item-card" data-rating="10" data-price="60"> … </div>
+      
 
   </section>
   <script>
@@ -414,27 +194,155 @@
 </script>
 
 
+
+
+
+
+
+<!-- Botão Add Item -->
+<div id="addItemModal" class="modal">
+  <div class="modal-content">
+    <h2>Add New Item</h2>
+    <label>Name:</label>
+    <input type="text" id="itemName" placeholder="Enter item name">
+
+    <label>Description:</label>
+    <input type="text" id="itemDesc" placeholder="Short description">
+
+    <label>Importance (1–10):</label>
+    <input type="number" id="itemRating" min="1" max="10" value="1">
+
+    <label>Price (€):</label>
+    <input type="number" id="itemPrice" min="0" step="0.01" value="0">
+
+    <label>Date of acquisition:</label>
+    <input type="date" id="itemDate">
+    
+    <label for="itemImage">Image:</label>
+        <div id="dropZone" class="drop-zone">
+            <p>Drag & drop an image here, or click to select</p>
+            <input type="file" id="itemImage" accept="image/*" hidden>
+        </div>
+
+    <div class="modal-buttons">
+      <button id="saveItem">💾 Save</button>
+      <button id="cancelItem">❌ Cancel</button>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
   <!-- Botão Add Item -->
   <button class="add-item-btn">➕ Add Item</button>
-  
   <script>
-  const container = document.querySelector('.collection-items');
-  const buttons = document.querySelectorAll('.btn-view');
+// ======== LÓGICA DO FORMULÁRIO ========
+const addItemBtn = document.querySelector('.add-item-btn');
+const modal = document.getElementById('addItemModal');
+const cancelBtn = document.getElementById('cancelItem');
+const saveBtn = document.getElementById('saveItem');
+const collection = document.querySelector('.collection-items');
 
-  // aplicar vista guardada (ou grelha por defeito)
-  const saved = localStorage.getItem('collectionView') || 'grid';
-  setView(saved);
+/* --- ️UPLOAD DA IMAGEM--- */
+const dropZone = document.getElementById('dropZone');
+const fileInput = document.getElementById('itemImage');
+let uploadedImageURL = "img/default.jpg";
 
-  buttons.forEach(btn => {
-    btn.addEventListener('click', () => setView(btn.dataset.view));
-  });
+// clicar na zona abre o seletor de ficheiro
+dropZone.addEventListener('click', () => fileInput.click());
 
-  function setView(view){
-    container.classList.toggle('grid-view', view === 'grid');
-    container.classList.toggle('list-view', view === 'list');
-    buttons.forEach(b => b.setAttribute('aria-pressed', String(b.dataset.view === view)));
-    localStorage.setItem('collectionView', view);
+// quando o ficheiro é selecionado
+fileInput.addEventListener('change', () => {
+  const file = fileInput.files[0];
+  if (file) {
+    const reader = new FileReader();
+    reader.onload = e => {
+      uploadedImageURL = e.target.result; // guarda a imagem em base64
+      dropZone.innerHTML = `<img src="${uploadedImageURL}" alt="Preview" style="max-width:100%; border-radius:8px;">`;
+    };
+    reader.readAsDataURL(file);
   }
+});
+
+// suporte a arrastar e largar
+dropZone.addEventListener('dragover', e => {
+  e.preventDefault();
+  dropZone.classList.add('dragover');
+});
+dropZone.addEventListener('dragleave', () => dropZone.classList.remove('dragover'));
+dropZone.addEventListener('drop', e => {
+  e.preventDefault();
+  dropZone.classList.remove('dragover');
+  const file = e.dataTransfer.files[0];
+  if (file) {
+    const reader = new FileReader();
+    reader.onload = ev => {
+      uploadedImageURL = ev.target.result;
+      dropZone.innerHTML = `<img src="${uploadedImageURL}" alt="Preview" style="max-width:100%; border-radius:8px;">`;
+    };
+    reader.readAsDataURL(file);
+  }
+});
+
+// Abrir modal
+addItemBtn.addEventListener('click', () => {
+  modal.style.display = 'flex';
+});
+
+// Fechar modal
+cancelBtn.addEventListener('click', () => {
+  modal.style.display = 'none';
+});
+
+// Guardar novo item
+saveBtn.addEventListener('click', () => {
+  const name = document.getElementById('itemName').value.trim();
+  const desc = document.getElementById('itemDesc').value.trim();
+  const rating = document.getElementById('itemRating').value.trim();
+  const price = document.getElementById('itemPrice').value.trim();
+
+  // Verificar campos obrigatórios
+  if(!name || !desc){
+    alert("Please fill in all required fields.");
+    return;
+  }
+
+  // Garantir que rating está entre 1 e 10
+  const ratingNum = Number(rating);
+  if (ratingNum < 1 || ratingNum > 10) {
+    alert("Rating must be between 1 and 10.");
+    return;
+  }
+
+  // Criar novo card
+  const newCard = document.createElement('div');
+  newCard.classList.add('item-card');
+  newCard.dataset.rating = rating || 0;
+  newCard.dataset.price = price || 0;
+  newCard.innerHTML = `
+    <img src="${uploadedImageURL}" alt="${name}">
+    <h3>${name}</h3>
+    <p>${desc}</p>
+    <div class="item-info">
+      <span>⭐ ${rating}/10</span>
+      <span>💰 ${price}€</span>
+    </div>
+    <button>View Details</button>
+  `;
+
+  // Adicionar ao ecrã
+  collection.appendChild(newCard);
+
+  // Fechar modal e limpar campos
+  modal.style.display = 'none';
+  document.querySelectorAll('#addItemModal input').forEach(i => i.value = '');
+  uploadedImageURL = "img/default.jpg"; // repõe imagem default
+  dropZone.innerHTML = '<p>Drag & drop an image here, or click to select</p>';
+});
+
 </script>
 
 </body>

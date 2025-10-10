@@ -167,7 +167,7 @@ body.auth-page {
   min-height: 100vh;
   margin: 0;
   padding: 20px;
-  background-color: #f9f9f9; /* opcional */
+  background-color: #f9f9f9; 
 }
 
 
@@ -782,4 +782,304 @@ body.auth-page::before {
 }
 #sortSelect{
   padding:8px 10px; border:1px solid #ddd; border-radius:8px; font-size:14px;
+}
+
+
+
+
+
+
+/* Collection page *//* Collection page *//* Collection page *//* Collection page *//* Collection page */
+
+
+
+
+
+.modal {
+  display: none; 
+  position: fixed; 
+  z-index: 10; 
+  left: 0; top: 0;
+  width: 100%; height: 100%;
+  background: rgba(0,0,0,0.6);
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-content {
+  background: white;
+  padding: 25px;
+  border-radius: 12px;
+  width: 320px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.modal-content input {
+  padding: 6px 8px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.modal-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+
+.modal-buttons button {
+  padding: 8px 15px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+#saveItem {
+  background-color: #B22222;
+  color: white;
+}
+
+#cancelItem {
+  background-color: #ccc;
+}
+
+
+
+    /* ===== BANNER HEADER ===== */
+    .collection-header {
+      position: relative;
+      width: 100%;
+      height: 240px; /* altura ligeiramente reduzida */
+      background: linear-gradient(rgba(0,0,0,0.25), rgba(0,0,0,0.25)),url("img/starwars-banner.jpg") center/cover no-repeat;
+      display: flex;
+      justify-content: flex-end; /* barra de pesquisa à direita */
+      align-items: center;
+      padding: 10px 40px;
+      border-bottom: 5px solid #B22222;
+    }
+
+    /* ===== TÍTULO ABAIXO DO BANNER ===== */
+    .collection-title {
+      text-align: center;
+      font-size: 40px;
+      color: #B22222;
+      margin: 15px 0 10px 0;
+      text-shadow: 2px 2px 8px rgba(0,0,0,0.5);
+      letter-spacing: 1px;
+      font-family: 'Orbitron', sans-serif;
+      text-transform: uppercase;
+    }
+
+    /* ===== SEARCH BAR ===== */
+    .search-bar {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background-color: rgba(255, 255, 255, 0.95);
+      padding: 6px 14px;
+      border-radius: 25px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+      backdrop-filter: blur(5px);
+    }
+
+    .search-bar input {
+      border: none;
+      outline: none;
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 14px;
+      width: 180px;
+    }
+
+    .search-bar button {
+      background-color: #B22222;
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 36px;
+      height: 36px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: background 0.3s;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .search-bar button:hover {
+      background-color: #FF4C4C;
+    }
+
+    /* ===== GRID DOS ITENS ===== */
+    .collection-items {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 35px;
+      padding: 40px 20px;
+      background-color: #fff;
+    }
+
+    .item-card {
+      background: #fff;
+      border-radius: 20px;
+      box-shadow: 0 6px 15px rgba(0,0,0,0.15);
+      width: 250px;
+      padding: 15px;
+      text-align: center;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .item-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 12px 25px rgba(0,0,0,0.25);
+    }
+
+    .item-card img {
+      width: 100%;
+      height: 180px;
+      object-fit: contain; /* ajusta imagens sem cortar */
+      border-radius: 12px;
+      margin-bottom: 12px;
+    }
+
+    .item-card h3 {
+      font-size: 18px;
+      color: #B22222;
+      margin-bottom: 6px;
+    }
+
+    .item-card p {
+      font-size: 14px;
+      color: #444;
+      margin-bottom: 10px;
+    }
+
+    .item-info {
+      display: flex;
+      justify-content: space-around;
+      margin-bottom: 10px;
+      font-size: 13px;
+      color: #333;
+    }
+
+    .item-card button {
+      background-color: #B22222;
+      color: white;
+      border: none;
+      padding: 8px 15px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .item-card button:hover {
+      background-color: #FF4C4C;
+    }
+
+    /* ===== BOTÃO ADD ITEM ===== */
+    .add-item-btn {
+      display: block;
+      margin: 40px auto;
+      background-color: #B22222;
+      color: white;
+      padding: 12px 25px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: background 0.3s, transform 0.2s;
+    }
+
+    .add-item-btn:hover {
+      background-color: #FF4C4C;
+      transform: scale(1.05);
+    }
+
+    /* ===== RESPONSIVIDADE MÍNIMA ===== */
+    @media (max-width: 600px) {
+      .search-bar input {
+        width: 120px;
+      }
+      .collection-header {
+        padding: 10px 20px;
+      }
+    }
+    /* ===== Toolbar (grid/list) ===== */
+.collection-toolbar{
+  max-width: 1200px;
+  margin: 0 auto 10px auto;
+  padding: 0 20px;
+  display: flex;
+  justify-content: flex-end;
+}
+.view-toggle{ display:inline-flex; gap:8px; }
+.btn-view{
+  background:#eee; border:1px solid #ddd; padding:8px 12px;
+  border-radius:8px; cursor:pointer; font-size:14px;
+}
+.btn-view[aria-pressed="true"]{ background:#B22222; color:#fff; border-color:#B22222; }
+
+/* ===== Vista GRELHA (mantém o que já tinhas) ===== */
+.collection-items.grid-view{
+  display:flex; flex-wrap:wrap; justify-content:center; gap:35px;
+}
+.collection-items.grid-view .item-card{ width:250px; text-align:center; }
+
+/* ===== Vista LISTA (nova) ===== */
+.collection-items.list-view{
+  display:block; padding:20px 0;
+}
+.collection-items.list-view .item-card{
+  display:grid;
+  grid-template-columns: 160px 1fr auto; /* img | textos | botão */
+  gap:18px; align-items:center;
+  width:min(1000px, 92%);
+  margin:0 auto 18px auto;
+  text-align:left;
+  padding:18px 20px;
+}
+.collection-items.list-view .item-card img{
+  height:140px; width:100%; object-fit:contain; border-radius:12px;
+}
+.collection-items.list-view .item-card h3{ margin:0 0 6px 0; font-size:20px; }
+.collection-items.list-view .item-card p{ margin:0 0 10px 0; }
+.collection-items.list-view .item-info{
+  justify-content:flex-start; gap:16px; font-size:14px; margin:0;
+}
+.collection-items.list-view .item-card button{
+  justify-self:end; padding:10px 16px;
+}
+.collection-items.list-view .item-card:hover{
+  transform:none; box-shadow:0 6px 15px rgba(0,0,0,0.12);
+}
+
+@media (max-width: 700px){
+  .collection-items.list-view .item-card{
+    grid-template-columns: 120px 1fr;
+    grid-template-rows: auto auto;
+  }
+  .collection-items.list-view .item-card button{
+    grid-column: 1 / -1; justify-self:start;
+  }
+}
+ 
+.drop-zone {
+  border: 2px dashed #B22222;
+  border-radius: 10px;
+  padding: 20px;
+  text-align: center;
+  background-color: #fff7f7;
+  cursor: pointer;
+  transition: background-color 0.3s, border-color 0.3s;
+  margin-bottom: 10px;
+}
+.drop-zone:hover {
+  background-color: #ffeaea;
+  border-color: #FF4C4C;
+}
+.drop-zone.dragover {
+  background-color: #ffefef;
+  border-color: #FF4C4C;
 }
