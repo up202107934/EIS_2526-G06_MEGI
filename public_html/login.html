@@ -29,19 +29,6 @@
     <p>Don't have an account? <a href="register.html">Create one</a></p>
   </div>
 
-        <script>
-    const togglePassword = document.querySelector('.toggle-password');
-    const passwordInput = document.querySelector('#password');
-
-    togglePassword.addEventListener('click', () => {
-        const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
-        passwordInput.setAttribute('type', type);
-        togglePassword.textContent = type === 'password' ? 'Show' : 'Hide';
-    });
-    </script>
-
-
-
-
+<script src="js/login.js"></script>
 </body>
 </html>

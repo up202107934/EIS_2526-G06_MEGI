@@ -112,17 +112,9 @@ body {
 }
 
 .password-wrapper button.toggle-password {
-  flex-shrink: 0;
-  height: 38px;
-  margin: 0;
-  padding: 8px 10px;
-  font-size: 12px;
-  cursor: pointer;
-  border-radius: 6px;
-  border: 1px solid #ccc;
-  background-color: #B22222;
-  color: #fff;
-  transition: 0.3s;
+  flex-shrink: 0;       /* não deixa o botão encolher */
+  height: 40px;         /* mesma altura do input */
+  padding: 0 10px;      /* largura do botão */
 }
 
 .password-wrapper .toggle-password:hover {
@@ -664,20 +656,17 @@ body.auth-page {
 }
 
 .password-wrapper input {
-  flex: 1;
+  flex: 1 1 auto;  
+  min-width: 0;    
+  padding: 10px;   
+  height: 40px;    
+  font-size: 14px;
 }
 
 .password-wrapper button.toggle-password {
-  flex-shrink: 0;
-  height: 38px;
-  padding: 0 12px;
-  font-size: 13px;
-  border-radius: 6px;
-  border: 1px solid #B22222;
-  background-color: #B22222;
-  color: #fff;
-  cursor: pointer;
-  transition: background 0.3s, transform 0.2s;
+  flex-shrink: 0;       /* não deixa o botão encolher */
+  height: 40px;         /* mesma altura do input */
+  padding: 0 10px;      /* largura do botão */
 }
 
 .password-wrapper button.toggle-password:hover {
