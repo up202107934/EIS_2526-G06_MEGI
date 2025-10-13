@@ -6,6 +6,32 @@
   <title>Home | My Collections</title>
   <link rel="stylesheet" href="css/style.css">
 </head>
+
+<!-- ===== NAVBAR ===== -->
+<nav class="navbar">
+  <div class="navbar-logo">
+    <a href="home.html">MyCollections</a>
+  </div>
+
+  <!-- Barra de pesquisa estilizada -->
+  <form class="navbar-search" action="search.html" method="GET">
+    <input type="text" name="q" placeholder="Search collections, items..." required>
+    <button type="submit" class="search-btn">
+      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="8" cy="8" r="6"></circle>
+        <line x1="13" y1="13" x2="18" y2="18"></line>
+      </svg>
+    </button>
+  </form>
+
+  <div class="navbar-user">
+    <a href="user.html">
+      <img src="img/user.jpg" alt="User" class="navbar-avatar">
+    </a>
+  </div>
+</nav>
+
+
 <body>
 
   <section class="home-section">
