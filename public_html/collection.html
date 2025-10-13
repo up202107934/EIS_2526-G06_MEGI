@@ -12,10 +12,6 @@
 <body>
 
     
-    
-
-
-
   <!-- Banner -->
   <header class="collection-header">
     <div class="search-bar">
@@ -27,12 +23,6 @@
   <!-- Título da coleção -->
   <h1 class="collection-title">Star Wars Miniatures</h1>
   <!-- Toolbar: alternar vista -->
-<div class="collection-toolbar">
-  <div class="view-toggle" role="group" aria-label="View toggle">
-    <button class="btn-view" data-view="grid" aria-pressed="true" title="Grid view">🔲 Grid</button>
-    <button class="btn-view" data-view="list" aria-pressed="false" title="List view">📃 List</button>
-  </div>
-</div>
   
 <div class="collection-toolbar">
   <div class="view-toggle" role="group" aria-label="View toggle">
@@ -193,7 +183,40 @@
   }
 </script>
 
+ <script>
 
+// ----- VIEW TOGGLE (Grid / List) -----
+const viewButtons = document.querySelectorAll('.btn-view');
+const itemsSection = document.querySelector('.collection-items');
+
+// guardar a vista escolhida no localStorage
+const savedView = localStorage.getItem('collectionView') || 'grid';
+applyView(savedView);
+
+viewButtons.forEach(btn => {
+  btn.addEventListener('click', () => {
+    const view = btn.dataset.view;
+    applyView(view);
+    localStorage.setItem('collectionView', view);
+  });
+});
+
+function applyView(view) {
+  // alternar classes
+  if (view === 'list') {
+    itemsSection.classList.remove('grid-view');
+    itemsSection.classList.add('list-view');
+  } else {
+    itemsSection.classList.remove('list-view');
+    itemsSection.classList.add('grid-view');
+  }
+
+  // atualizar aparência dos botões
+  viewButtons.forEach(b => {
+    b.setAttribute('aria-pressed', b.dataset.view === view);
+  });
+}
+</script>
 
 
 
