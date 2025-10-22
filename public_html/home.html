@@ -1,41 +1,53 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Home | My Collections</title>
-  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/style.css" />
 </head>
-
-<!-- ===== NAVBAR ===== -->
-<nav class="navbar">
-  <div class="navbar-logo">
-    <a href="home.html">MyCollections</a>
-  </div>
-
-  <!-- Barra de pesquisa estilizada -->
-  <form class="navbar-search" action="search.html" method="GET">
-    <input type="text" name="q" placeholder="Search collections, items..." required>
-    <button type="submit" class="search-btn">
-      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <circle cx="8" cy="8" r="6"></circle>
-        <line x1="13" y1="13" x2="18" y2="18"></line>
-      </svg>
-    </button>
-  </form>
-
-  <div class="navbar-user">
-    <a href="user.html">
-      <img src="img/user.jpg" alt="User" class="navbar-avatar">
-    </a>
-  </div>
-</nav>
 
 
 <body>
 
+  <!-- ===== NAVBAR ===== -->
+  <nav class="navbar">
+    <div class="navbar-logo">
+      <a href="home.html">MyCollections</a>
+    </div>
+
+    <form class="navbar-search" action="search.html" method="GET">
+      <input type="text" name="q" placeholder="Search collections, items..." required />
+      <button type="submit" class="search-btn">
+        🔍
+      </button>
+    </form>
+
+    <div class="navbar-user">
+      <a href="user.html">
+        <img src="img/user.jpg" alt="User" class="navbar-avatar" />
+      </a>
+    </div>
+  </nav>
+
+
+  <!-- ===== HERO SECTION ===== -->
+<section class="hero">
+  <!-- Fundo como imagem no HTML -->
+  <img src="img/hero-bg.jpg" alt="Hero Background" class="hero-bg">
+
+  <div class="hero-content">
+    <h1>Welcome to <span>MyCollections</span></h1>
+    <p>Discover and showcase your favorite collections</p>
+    <a href="home.html" class="hero-btn">Explore Collections</a>
+  </div>
+</section>
+
+
+
+  <!-- ===== HOME CONTENT ===== -->
   <section class="home-section">
-    <h1 class="home-title">Top 5 Collections</h1>
+    <h2 class="home-title">Top 5 Collections</h2>
 
     <div class="collections-container">
 
@@ -44,32 +56,15 @@
         <img src="img/collection1.jpg" alt="Star Wars Miniatures">
         <h2>Star Wars Miniatures</h2>
         <p>items:</p>
-
         <div class="mini-carousel">
           <div class="mini-track">
-            <div class="mini-item">
-              <img src="img/item1.jpg" alt="Darth Vader">
-              <p>Darth Vader</p>
-            </div>
-            <div class="mini-item">
-              <img src="img/item2.jpg" alt="Luke Skywalker">
-              <p>Luke Skywalker</p>
-            </div>
-            <div class="mini-item">
-              <img src="img/item3.jpg" alt="Yoda">
-              <p>Yoda</p>
-            </div>
-            <div class="mini-item">
-              <img src="img/item4.jpg" alt="Han Solo">
-              <p>Han Solo</p>
-            </div>
-            <div class="mini-item">
-              <img src="img/item5.jpg" alt="Obi-Wan">
-              <p>Obi-Wan</p>
-            </div>
+            <div class="mini-item"><img src="img/item1.jpg" alt="Darth Vader"><p>Darth Vader</p></div>
+            <div class="mini-item"><img src="img/item2.jpg" alt="Luke Skywalker"><p>Luke Skywalker</p></div>
+            <div class="mini-item"><img src="img/item3.jpg" alt="Yoda"><p>Yoda</p></div>
+            <div class="mini-item"><img src="img/item4.jpg" alt="Han Solo"><p>Han Solo</p></div>
+            <div class="mini-item"><img src="img/item5.jpg" alt="Obi-Wan"><p>Obi-Wan</p></div>
           </div>
         </div>
-
         <a href="collection.html" class="btn">View Collection</a>
       </div>
 
@@ -80,26 +75,11 @@
         <p>items:</p>
         <div class="mini-carousel">
           <div class="mini-track">
-            <div class="mini-item">
-              <img src="img/spider man.jpg" alt="Spider-Man">
-              <p>Spider-Man</p>
-            </div>
-            <div class="mini-item">
-              <img src="img/Batman.jpg" alt="Batman">
-              <p>Batman</p>
-            </div>
-            <div class="mini-item">
-              <img src="img/Avengers4.jpg" alt="Avengers #4">
-              <p>Avengers #4</p>
-            </div>
-            <div class="mini-item">
-              <img src="img/Superman75.jpg" alt="Superman #75">
-              <p>Superman #75</p>
-            </div>
-            <div class="mini-item">
-              <img src="img/X-Men1.jpg" alt="X-Men #1">
-              <p>X-Men #1</p>
-            </div>
+            <div class="mini-item"><img src="img/spider man.jpg" alt="Spider-Man"><p>Spider-Man</p></div>
+            <div class="mini-item"><img src="img/Batman.jpg" alt="Batman"><p>Batman</p></div>
+            <div class="mini-item"><img src="img/Avengers4.jpg" alt="Avengers #4"><p>Avengers #4</p></div>
+            <div class="mini-item"><img src="img/Superman75.jpg" alt="Superman #75"><p>Superman #75</p></div>
+            <div class="mini-item"><img src="img/X-Men1.jpg" alt="X-Men #1"><p>X-Men #1</p></div>
           </div>
         </div>
         <a href="collection.html" class="btn">View Collection</a>
@@ -112,26 +92,11 @@
         <p>items:</p>
         <div class="mini-carousel">
           <div class="mini-track">
-            <div class="mini-item">
-              <img src="img/coin1.jpg" alt="1 Euro 2020">
-              <p>1 € 2020</p>
-            </div>
-            <div class="mini-item">
-              <img src="img/coin2.jpg" alt="50 Cent 1999">
-              <p>50 ¢ 1999</p>
-            </div>
-            <div class="mini-item">
-              <img src="img/coin3.jpg" alt="2 Euro 2015">
-              <p>2 € 2015</p>
-            </div>
-            <div class="mini-item">
-              <img src="img/coin4.jpg" alt="1 Dollar 2000">
-              <p>$1 2000</p>
-            </div>
-            <div class="mini-item">
-              <img src="img/coin5.jpg" alt="10 Cent 2010">
-              <p>10 ¢ 2010</p>
-            </div>
+            <div class="mini-item"><img src="img/coin1.jpg" alt="1 Euro 2020"><p>1 € 2020</p></div>
+            <div class="mini-item"><img src="img/coin2.jpg" alt="50 Cent 1999"><p>50 ¢ 1999</p></div>
+            <div class="mini-item"><img src="img/coin3.jpg" alt="2 Euro 2015"><p>2 € 2015</p></div>
+            <div class="mini-item"><img src="img/coin4.jpg" alt="1 Dollar 2000"><p>$1 2000</p></div>
+            <div class="mini-item"><img src="img/coin5.jpg" alt="10 Cent 2010"><p>10 ¢ 2010</p></div>
           </div>
         </div>
         <a href="collection.html" class="btn">View Collection</a>
@@ -144,26 +109,11 @@
         <p>items:</p>
         <div class="mini-carousel">
           <div class="mini-track">
-            <div class="mini-item">
-              <img src="img/stamp1.jpg" alt="Portugal 1960">
-              <p>Portugal 1960</p>
-            </div>
-            <div class="mini-item">
-              <img src="img/stamp2.jpg" alt="Brazil 1980">
-              <p>Brazil 1980</p>
-            </div>
-            <div class="mini-item">
-              <img src="img/stamp3.jpg" alt="USA 1950">
-              <p>USA 1950</p>
-            </div>
-            <div class="mini-item">
-              <img src="img/stamp4.jpg" alt="Germany 1975">
-              <p>Germany 1975</p>
-            </div>
-            <div class="mini-item">
-              <img src="img/stamp5.jpg" alt="France 1990">
-              <p>France 1990</p>
-            </div>
+            <div class="mini-item"><img src="img/stamp1.jpg" alt="Portugal 1960"><p>Portugal 1960</p></div>
+            <div class="mini-item"><img src="img/stamp2.jpg" alt="Brazil 1980"><p>Brazil 1980</p></div>
+            <div class="mini-item"><img src="img/stamp3.jpg" alt="USA 1950"><p>USA 1950</p></div>
+            <div class="mini-item"><img src="img/stamp4.jpg" alt="Germany 1975"><p>Germany 1975</p></div>
+            <div class="mini-item"><img src="img/stamp5.jpg" alt="France 1990"><p>France 1990</p></div>
           </div>
         </div>
         <a href="collection.html" class="btn">View Collection</a>
@@ -176,26 +126,11 @@
         <p>items:</p>
         <div class="mini-carousel">
           <div class="mini-track">
-            <div class="mini-item">
-              <img src="img/train1.jpg" alt="Train A">
-              <p>Train A</p>
-            </div>
-            <div class="mini-item">
-              <img src="img/train2.jpg" alt="Train B">
-              <p>Train B</p>
-            </div>
-            <div class="mini-item">
-              <img src="img/train3.jpg" alt="Train C">
-              <p>Train C</p>
-            </div>
-            <div class="mini-item">
-              <img src="img/train4.jpg" alt="Train D">
-              <p>Train D</p>
-            </div>
-            <div class="mini-item">
-              <img src="img/train5.jpg" alt="Train E">
-              <p>Train E</p>
-            </div>
+            <div class="mini-item"><img src="img/train1.jpg" alt="Train A"><p>Train A</p></div>
+            <div class="mini-item"><img src="img/train2.jpg" alt="Train B"><p>Train B</p></div>
+            <div class="mini-item"><img src="img/train3.jpg" alt="Train C"><p>Train C</p></div>
+            <div class="mini-item"><img src="img/train4.jpg" alt="Train D"><p>Train D</p></div>
+            <div class="mini-item"><img src="img/train5.jpg" alt="Train E"><p>Train E</p></div>
           </div>
         </div>
         <a href="collection.html" class="btn">View Collection</a>
@@ -206,11 +141,21 @@
     <a href="#" class="btn create-collection">+ Create New Collection</a>
   </section>
 
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="footer">
+    <p>© 2025 MyCollections | All rights reserved.</p>
+  </footer>
+
+
+  <!-- ===== SCRIPT ===== -->
+  <script>
+    document.querySelectorAll(".mini-track").forEach(track => {
+      const clone = track.innerHTML;
+      track.insertAdjacentHTML("beforeend", clone);
+    });
+  </script>
+
 </body>
 </html>
-<script>
-  document.querySelectorAll('.mini-track').forEach(track => {
-    const clone = track.innerHTML;
-    track.insertAdjacentHTML('beforeend', clone);
-  });
-</script>
+
