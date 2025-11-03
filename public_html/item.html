@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Luke Skywalker - Item Details</title>
+  <link rel="stylesheet" href="css/style.css" />
+
+  <style>
+    /* ===== KEEPING GLOBAL BACKGROUND (no overrides on body) ===== */
+
+    /* ===== Container matches site's original white card ===== */
+    .item-page-container {
+      max-width: 1000px;
+      margin: 60px auto;
+      background: #fff;
+      padding: 30px;
+      border-radius: 20px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+      position: relative;
+    }
+
+    /* Header layout: image left, title + tech sheet right */
+    .item-header {
+      display: grid;
+      grid-template-columns: 360px 1fr;
+      gap: 26px;
+      align-items: start;
+      margin-bottom: 20px;
+    }
+
+    .item-header img {
+      width: 100%;
+      height: 360px;
+      object-fit: cover;
+      border-radius: 15px;
+      box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+    }
+
+    .item-title {
+      font-size: 32px;
+      color: #B22222;
+      margin: 0 0 8px;
+    }
+
+    .item-category {
+      font-size: 16px;
+      color: #555;
+      margin: 0 0 14px;
+    }
+
+    /* ===== Technical Sheet (RIGHT of the figure) ===== */
+    .tech-sheet {
+      margin-top: 6px;
+      padding: 16px;
+      background: #fafafa;
+      border-radius: 12px;
+      border-left: 4px solid #B22222;
+    }
+
+    .tech-sheet h2 {
+      color: #B22222;
+      font-size: 20px;
+      margin: 0 0 12px;
+    }
+
+    .spec-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px 12px;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      font-size: 15px;
+      color: #333;
+    }
+
+    .kv {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 12px;
+      background: #ffffff;
+      border: 1px solid #eee;
+      border-radius: 10px;
+    }
+
+    .kv .k { font-weight: 700; color: #B22222; font-size: 12px; text-transform: uppercase; letter-spacing: .06em; }
+    .kv .v { font-weight: 700; color: #222; }
+
+    /* Thin star rating */
+    .stars { display: inline-flex; gap: 4px; vertical-align: middle; }
+    .stars svg { width: 18px; height: 18px; stroke: #B22222; fill: none; stroke-width: 1.6; }
+    .stars svg.filled { fill: rgba(178,34,34,0.18); }
+
+    /* ===== Description ===== */
+    .description { margin-top: 22px; }
+    .description h2 { color: #B22222; font-size: 24px; margin-bottom: 10px; }
+    .description p { font-size: 15px; line-height: 1.7; color: #444; }
+
+    /* ===== Bottom actions (side-by-side) ===== */
+    .footer-actions { margin-top: 22px; display: flex; justify-content: flex-end; gap: 10px; }
+    .footer-actions button {
+      background-color: #B22222;
+      color: #fff;
+      border: none;
+      padding: 10px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.3s ease, transform 0.2s ease;
+      font-size: 14px;
+    }
+    .footer-actions button:hover { background-color: #FF4C4C; transform: translateY(-2px); }
+
+    /* ===== Back button — unchanged from original ===== */
+    .back-btn {
+      display: inline-block;
+      margin-top: 30px;
+      background-color: #B22222;
+      color: #fff;
+      padding: 10px 22px;
+      border-radius: 25px;
+      text-decoration: none;
+      font-size: 15px;
+      transition: background 0.3s ease, transform 0.2s ease;
+    }
+    .back-btn:hover { background-color: #FF4C4C; transform: scale(1.05); }
+
+    /* ===== Responsive ===== */
+    @media (max-width: 900px) {
+      .item-header { grid-template-columns: 1fr; }
+      .item-header img { height: 300px; }
+      .spec-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="item-page-container">
+    <!-- Header: image left, info + tech sheet right -->
+    <div class="item-header">
+      <img src="img/luke.jpg" alt="Luke Skywalker" />
+
+      <div>
+        <h1 class="item-title">Luke Skywalker</h1>
+        <p class="item-category">Category: Star Wars Miniature</p>
+
+        <!-- Technical Sheet stays here, at the side of the figure -->
+        <section class="tech-sheet" aria-labelledby="tech-title">
+          <h2 id="tech-title">Technical Sheet</h2>
+          <ul class="spec-grid">
+            <li class="kv"><span class="k">Item</span><span class="v">Luke Skywalker</span></li>
+            <li class="kv"><span class="k">Importance</span>
+              <span class="v">
+                <span class="stars" aria-label="4 out of 5 stars" role="img">
+                  <!-- Thin outlined stars -->
+                  <svg class="filled" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.5l2.9 5.88 6.49.94-4.7 4.58 1.1 6.43L12 18.9 6.21 21.33l1.1-6.43-4.7-4.58 6.49-.94L12 3.5z"/></svg>
+                  <svg class="filled" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.5l2.9 5.88 6.49.94-4.7 4.58 1.1 6.43L12 18.9 6.21 21.33l1.1-6.43-4.7-4.58 6.49-.94L12 3.5z"/></svg>
+                  <svg class="filled" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.5l2.9 5.88 6.49.94-4.7 4.58 1.1 6.43L12 18.9 6.21 21.33l1.1-6.43-4.7-4.58 6.49-.94L12 3.5z"/></svg>
+                  <svg class="filled" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.5l2.9 5.88 6.49.94-4.7 4.58 1.1 6.43L12 18.9 6.21 21.33l1.1-6.43-4.7-4.58 6.49-.94L12 3.5z"/></svg>
+                  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.5l2.9 5.88 6.49.94-4.7 4.58 1.1 6.43L12 18.9 6.21 21.33l1.1-6.43-4.7-4.58 6.49-.94L12 3.5z"/></svg>
+                </span>
+              </span>
+            </li>
+            <li class="kv"><span class="k">Weight</span><span class="v">120 g</span></li>
+            <li class="kv"><span class="k">Price</span><span class="v">25€</span></li>
+            <li class="kv"><span class="k">Date of acquisition</span><span class="v">12/04/2023</span></li>
+
+            <!-- Extra characteristics (suggested) -->
+            <li class="kv"><span class="k">Rarity</span><span class="v">★★★★☆</span></li>
+            <li class="kv"><span class="k">Dimensions</span><span class="v">12 cm height</span></li>
+            <li class="kv"><span class="k">Year of release</span><span class="v">2022</span></li>
+            <li class="kv"><span class="k">Edition number</span><span class="v">#543</span></li>
+            <li class="kv"><span class="k">Condition</span><span class="v">Mint</span></li>
+            <li class="kv"><span class="k">Franchise</span><span class="v">Star Wars</span></li>
+            <li class="kv"><span class="k">Material</span><span class="v">Resin/PVC</span></li>
+            <li class="kv"><span class="k">Scale</span><span class="v">~1:12</span></li>
+            <li class="kv"><span class="k">Serial no.</span><span class="v">SW-LK-0543</span></li>
+            <li class="kv"><span class="k">Status</span><span class="v">In collection</span></li>
+          </ul>
+        </section>
+      </div>
+    </div>
+
+    <!-- Description -->
+    <div class="description">
+      <h2>Description</h2>
+      <p>
+        Luke Skywalker is one of the most iconic characters from the Star Wars universe. This miniature captures his heroic
+        spirit, featuring his blue lightsaber and signature Rebel attire — a must‑have for collectors and fans of the saga.
+      </p>
+    </div>
+
+    <!-- Bottom side-by-side actions -->
+    <div class="footer-actions">
+      <button id="editBtn" type="button">Edit</button>
+      <button id="deleteBtn" type="button">Delete</button>
+    </div>
+
+    <!-- Back button (unchanged) -->
+    <a href="collection.html" class="back-btn">← Back to Collection</a>
+  </div>
+
+  <script>
+    document.getElementById("editBtn").addEventListener("click", () => {
+      alert("Edit modal will open here (coming next)");
+    });
+    document.getElementById("deleteBtn").addEventListener("click", () => {
+      const ok = confirm("Are you sure you want to delete this item?");
+      if (ok) alert("Item deleted (placeholder)");
+    });
+  </script>
+</body>
+</html>
