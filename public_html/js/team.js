@@ -3,12 +3,6 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/javascript.js to edit this template
  */
 
-  document.querySelectorAll('.mini-track').forEach(track => {
-    const clone = track.innerHTML;
-    track.insertAdjacentHTML('beforeend', clone);
-  });
-
-
 // === DARK MODE TOGGLE ===
 document.addEventListener("DOMContentLoaded", () => {
   const themeToggle = document.getElementById("themeToggle");
@@ -30,3 +24,4 @@ document.addEventListener("DOMContentLoaded", () => {
     localStorage.setItem("theme", isDark ? "dark" : "light");
   });
 });
+

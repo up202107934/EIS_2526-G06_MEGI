@@ -1072,3 +1072,118 @@ width: 100%;
 }
 
 
+
+/* ===== DARK MODE - USER PAGE ===== */
+body.dark-mode {
+  background-color: #121212;
+  color: #f1f1f1;
+}
+
+/* Sidebar */
+body.dark-mode .sidebar {
+  background-color: #1a1a1a;
+  border-right: 1px solid #333;
+}
+
+body.dark-mode .sidebar a {
+  color: #FFD700;
+}
+
+body.dark-mode .sidebar a:hover {
+  background-color: #b22222;
+  color: #fff;
+}
+
+/* Header (onde aparece o nome e foto do user) */
+body.dark-mode .user-header {
+  background-color: #1e1e1e;
+  border-bottom: 2px solid #b22222;
+}
+
+body.dark-mode .user-header h2,
+body.dark-mode .user-header p {
+  color: #FFD700;
+}
+
+/* Formulário */
+body.dark-mode form {
+  background-color: #1e1e1e;
+  color: #f1f1f1;
+  border: 1px solid #333;
+  box-shadow: 0 4px 12px rgba(255,255,255,0.05);
+}
+
+body.dark-mode input,
+body.dark-mode select,
+body.dark-mode textarea {
+  background-color: #2a2a2a;
+  color: #f1f1f1;
+  border: 1px solid #444;
+}
+
+body.dark-mode input::placeholder {
+  color: #aaa;
+}
+
+/* Botões */
+body.dark-mode button,
+body.dark-mode .btn {
+  background-color: #b22222;
+  color: white;
+  border: none;
+  transition: 0.3s;
+}
+
+body.dark-mode button:hover,
+body.dark-mode .btn:hover {
+  background-color: #ff4c4c;
+  transform: scale(1.05);
+}
+
+/* Cartões das coleções */
+body.dark-mode .collection-card {
+  background-color: #1e1e1e;
+  color: #f1f1f1;
+  border: 1px solid #333;
+  box-shadow: 0 6px 20px rgba(255,255,255,0.05);
+}
+
+body.dark-mode .collection-card h2 {
+  color: #FFD700;
+}
+
+body.dark-mode .collection-card p {
+  color: #ccc;
+}
+
+body.dark-mode .collection-card .btn {
+  background-color: #b22222;
+  color: #fff;
+}
+
+body.dark-mode .collection-card .btn:hover {
+  background-color: #ff4c4c;
+}
+
+/* Título “My Collections” */
+body.dark-mode h3,
+body.dark-mode h2 {
+  color: #FFD700;
+}
+
+/* Ícones laterais */
+body.dark-mode .sidebar i {
+  color: #FFD700;
+}
+
+/* Fundo da secção das coleções */
+body.dark-mode .collections-section {
+  background-color: #141414;
+  border-top: 1px solid #333;
+}
+
+/* Footer */
+body.dark-mode .footer {
+  background-color: #111;
+  color: #ccc;
+}

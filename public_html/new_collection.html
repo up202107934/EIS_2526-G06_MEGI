@@ -9,7 +9,7 @@
 
  
 </head>
-
+<body>
 <!-- ===== NAVBAR ===== -->
 <nav class="navbar">
   <div class="navbar-logo">
@@ -32,12 +32,10 @@
       <img src="img/user.jpg" alt="User" class="navbar-avatar">
     </a>
   </div>
+  <button id="themeToggle" class="theme-toggle">🌙</button>
+
 </nav>
 
-
-<body>
-
-    
   <!-- Banner -->
   <header class="collection-header">
     <div class="search-bar">
@@ -108,7 +106,7 @@
   <!-- Botão Add Item -->
   <button class="add-item-btn">➕ Add Item</button>
   <script src="js/collection.js"></script>
-</body>
+
 
 <script>
   // Ler o parâmetro "name" da URL
@@ -119,7 +117,9 @@
   if (collectionName) {
     document.querySelector(".collection-title").textContent = collectionName;
   }
-</script>
+ </script>
+ 
+  <script src="js/collection.js"></script>
 
-
+</body>
 </html>

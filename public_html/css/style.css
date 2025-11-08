@@ -169,6 +169,10 @@ body.auth-page {
 }
 
 
+
+
+
+
 /* ===== TEAM PAGE ===== */
 .team-deck-section {
   text-align: center;
@@ -301,6 +305,91 @@ body {
   color: #2b2d42;
   line-height: 1.6;
 }
+/* ===== DARK MODE FOR TEAM PAGE ===== */
+body.dark-mode {
+  background-color: #0f0f0f !important;
+  color: #f1f1f1 !important;
+}
+
+/* Navbar */
+body.dark-mode .navbar {
+  background-color: #1a1a1a !important;
+}
+
+body.dark-mode .navbar a {
+  color: #FFD700 !important;
+}
+
+/* Título principal */
+body.dark-mode h1,
+body.dark-mode h2,
+body.dark-mode h3 {
+  color: #FFD700 !important;
+  text-shadow: 2px 2px 6px rgba(255, 215, 0, 0.3);
+}
+
+/* Seções e containers */
+body.dark-mode main,
+body.dark-mode section,
+body.dark-mode .team-container,
+body.dark-mode .team-section,
+body.dark-mode .content {
+  background-color: #121212 !important;
+  color: #f1f1f1 !important;
+}
+
+/* Cards de cada membro */
+body.dark-mode .team-member {
+  background-color: #1e1e1e !important;
+  color: #f1f1f1 !important;
+  box-shadow: 0 4px 10px rgba(255, 255, 255, 0.1);
+  border: 1px solid #333;
+}
+
+body.dark-mode .team-member h3 {
+  color: #FFD700 !important;
+}
+
+body.dark-mode .team-member p {
+  color: #ccc !important;
+}
+
+body.dark-mode .team-member img {
+  border: 2px solid #FFD700 !important;
+}
+
+/* Links */
+body.dark-mode a {
+  color: #FFD700 !important;
+}
+
+body.dark-mode a:hover {
+  color: #FF4C4C !important;
+}
+
+/* Scrollbar personalizada */
+body.dark-mode::-webkit-scrollbar {
+  width: 10px;
+}
+
+body.dark-mode::-webkit-scrollbar-thumb {
+  background-color: #444;
+  border-radius: 10px;
+}
+
+body.dark-mode::-webkit-scrollbar-thumb:hover {
+  background-color: #666;
+}
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -417,6 +506,90 @@ body {
   border-radius: 50%;
   border: 2px solid #edf2f4;
 }
+
+/* ===== Dark Mode Toggle Button ===== */
+.theme-toggle {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 22px;
+  margin-left: 15px;
+  color: #fff;
+  transition: transform 0.2s ease, color 0.3s;
+}
+
+.theme-toggle:hover {
+  transform: scale(1.2);
+  color: #FFD700;
+}
+
+/* ===== DARK MODE ===== */
+body.dark-mode {
+  background-color: #0f0f0f; /* fundo principal */
+  color: #f1f1f1;
+}
+
+/* Navbar */
+body.dark-mode .navbar {
+  background-color: #111;
+}
+
+
+/* Fundo das seções principais */
+body.dark-mode .home-section {
+  background-color: #121212; /* escuro suave */
+}
+
+/* Cartões */
+body.dark-mode .collection-card {
+  background-color: #1e1e1e;
+  color: #f4f4f4;
+  box-shadow: 0 6px 20px rgba(255,255,255,0.05);
+  border: 1px solid #333;
+}
+
+/* Botões */
+body.dark-mode .btn-view,
+body.dark-mode .btn-add,
+body.dark-mode .btn-create,
+body.dark-mode a.btn,
+body.dark-mode .create-collection,
+body.dark-mode .my-collections-btn {
+  background: linear-gradient(135deg, #b22222, #ff4c4c);
+  color: #fff;
+  box-shadow: 0 0 12px rgba(255, 50, 50, 0.2);
+}
+
+body.dark-mode .btn-view:hover,
+body.dark-mode .btn-add:hover,
+body.dark-mode .btn-create:hover,
+body.dark-mode a.btn:hover,
+body.dark-mode .create-collection:hover,
+body.dark-mode .my-collections-btn:hover {
+  background: linear-gradient(135deg, #ff4c4c, #b22222);
+  transform: scale(1.05);
+}
+
+/* Títulos e texto */
+body.dark-mode a,
+body.dark-mode h1,
+body.dark-mode h2,
+body.dark-mode h3 {
+  color: #FFD700;
+}
+
+body.dark-mode .collection-card p {
+  color: #ccc;
+}
+
+/* Footer */
+body.dark-mode .footer {
+  background-color: #111;
+  color: #ccc;
+}
+
+
+
 
 
 .home-section {
