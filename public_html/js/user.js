@@ -52,3 +52,94 @@ photoInput.addEventListener('change', e => {
 // Load saved photo
 const savedPhoto = localStorage.getItem('profileImage');
 if(savedPhoto) profileImage.src = savedPhoto;
+
+
+//criar nova colecao
+const createBtn = document.getElementById("openModal");
+const modal = document.getElementById("createCollectionModal");
+const cancelBtn = document.getElementById("cancelCollection");
+const saveBtn = document.getElementById("saveCollection");
+const dropZone = document.getElementById("dropZoneCollection");
+const fileInput = document.getElementById("collectionImage");
+const collectionsContainer = document.querySelector(".collections-grid");
+
+// === Abrir modal ===
+createBtn.addEventListener("click", (e) => {
+  e.preventDefault();
+  modal.style.display = "flex";
+});
+
+// === Fechar modal ===
+cancelBtn.addEventListener("click", () => {
+  modal.style.display = "none";
+});
+
+// === Selecionar imagem ===
+dropZone.addEventListener("click", () => fileInput.click());
+dropZone.addEventListener("dragover", (e) => {
+  e.preventDefault();
+  dropZone.classList.add("drag-over");
+});
+dropZone.addEventListener("dragleave", () => dropZone.classList.remove("drag-over"));
+dropZone.addEventListener("drop", (e) => {
+  e.preventDefault();
+  fileInput.files = e.dataTransfer.files;
+  dropZone.classList.remove("drag-over");
+});
+
+// === Guardar coleção ===
+saveBtn.addEventListener("click", () => {
+  const name = document.getElementById("collectionName").value.trim();
+  const file = fileInput.files[0];
+
+  if (!name) {
+    alert("Please enter a collection name!");
+    return;
+  }
+
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    const imgSrc = e.target.result || "img/default.jpg";
+
+    const collection = {
+      name,
+      img: imgSrc,
+      items: 0
+    };
+
+    // Guardar no localStorage
+    const savedCollections = JSON.parse(localStorage.getItem("collections") || "[]");
+    savedCollections.push(collection);
+    localStorage.setItem("collections", JSON.stringify(savedCollections));
+
+    // Atualizar visualmente
+    addCollectionToPage(collection);
+
+    // Fechar modal
+    modal.style.display = "none";
+    document.getElementById("collectionName").value = "";
+    fileInput.value = "";
+  };
+
+  if (file) reader.readAsDataURL(file);
+  else reader.onload({ target: { result: "img/default.jpg" } });
+});
+
+// === Função para adicionar coleção na página ===
+function addCollectionToPage(collection) {
+  const card = document.createElement("div");
+  card.classList.add("collection-card");
+  card.innerHTML = `
+    <img src="${collection.img}" alt="${collection.name}">
+    <h2>${collection.name}</h2>
+    <p>0 items</p>
+    <a href="new_collection.html?name=${encodeURIComponent(collection.name)}" class="btn-view">View Collection</a>
+  `;
+  collectionsContainer.appendChild(card);
+}
+
+// === Carregar coleções existentes ao abrir página ===
+window.addEventListener("DOMContentLoaded", () => {
+  const savedCollections = JSON.parse(localStorage.getItem("collections") || "[]");
+  savedCollections.forEach(addCollectionToPage);
+});
