@@ -7,6 +7,27 @@
     <link rel="stylesheet" href="css/user.css" />
 </head>
 <body>
+    
+<!-- ===== Create New Collection ===== -->
+<div id="createCollectionModal" class="modal">
+  <div class="modal-content">
+    <h2>Create New Collection</h2>
+
+    <label for="collectionName">Name:</label>
+    <input type="text" id="collectionName" placeholder="Enter collection name" required>
+
+    <label for="collectionImage">Image:</label>
+    <div id="dropZoneCollection" class="drop-zone">
+      <p>Drag & drop an image here, or click to select</p>
+      <input type="file" id="collectionImage" accept="image/*" hidden>
+    </div>
+
+    <div class="modal-buttons">
+      <button id="saveCollection">💾 Save</button>
+      <button id="cancelCollection">❌ Cancel</button>
+    </div>
+  </div>
+</div>
 
   <!-- Sidebar -->
   <aside class="sidebar">
