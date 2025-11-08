@@ -641,3 +641,77 @@ body {
 }
 
 
+/* ===== Base para modais genéricos (form de criar/editar evento) - Esta parte é do events ===== */
+.modal {
+  display: none !important;           /* escondido por defeito */
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  background: rgba(0,0,0,0.6);
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+.modal.show {                          /* o JS só adiciona esta classe quando for para abrir */
+  display: flex !important;
+}
+
+.modal-content {
+  background: #fff;
+  width: min(520px, 92vw);
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+  padding: 22px;
+  position: relative;
+}
+
+.modal-content h2 {
+  margin: 0 0 12px 0;
+  color: #2b2d42;
+}
+
+.modal-content label {
+  display: block;
+  font-size: 14px;
+  color: #333;
+  margin: 10px 0 6px;
+}
+
+.modal-content input,
+.modal-content textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 14px;
+}
+
+.modal-buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.modal-buttons .btn,
+.btn {
+  background: #B22222;
+  color: #fff;
+  border: 0;
+  border-radius: 8px;
+  padding: 10px 14px;
+  cursor: pointer;
+}
+.modal-buttons .btn:hover,
+.btn:hover { background: #FF4C4C; }
+
+.close {
+  position: absolute;
+  top: 10px; right: 12px;
+  font-size: 20px;
+  color: #666;
+  cursor: pointer;
+}
+.close:hover { color: #B22222; }
+/* ===== Base para modais genéricos (form de criar/editar evento) - parte do events termina aqui ===== */
