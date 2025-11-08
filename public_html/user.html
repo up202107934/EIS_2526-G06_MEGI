@@ -3,356 +3,174 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>User Page | My Collections</title>
-  <link rel="stylesheet" href="css/style.css" />
-  <style>
-    /* ===== USER PAGE ===== */
-    .user-section {
-      padding: 80px 20px;
-      background-color: #fff;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-
-    .user-title {
-      font-size: 42px;
-      color: #B22222;
-      margin-bottom: 40px;
-      text-transform: uppercase;
-    }
-
-    .user-container {
-      display: flex;
-      gap: 40px;
-      margin-bottom: 60px;
-      flex-wrap: wrap;
-      justify-content: center;
-      align-items: flex-start;
-    }
-
-    /* FOTO COM LAPIS */
-    .user-photo {
-      position: relative;
-      width: 200px;
-      height: 200px;
-    }
-
-    .user-photo img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      border-radius: 50%;
-      box-shadow: 0 6px 15px rgba(0,0,0,0.2);
-      border: 3px solid #B22222;
-    }
-
-    .edit-photo-icon {
-      position: absolute;
-      bottom: 5px;
-      right: 5px;
-      background-color: #B22222;
-      color: #fff;
-      width: 35px;
-      height: 35px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      font-weight: bold;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.3);
-      transition: transform 0.2s;
-    }
-
-    .edit-photo-icon:hover {
-      transform: scale(1.1);
-    }
-
-    .user-info h2 { color: #B22222; margin-bottom: 10px; }
-    .user-info p { font-size: 16px; margin: 6px 0; }
-    .user-info a.btn {
-      display: inline-block;
-      padding: 10px 20px;
-      background-color: #B22222;
-      color: #fff;
-      border-radius: 8px;
-      text-decoration: none;
-      margin-top: 15px;
-      transition: all 0.3s ease;
-    }
-    .user-info a.btn:hover { background-color: #FF4C4C; transform: scale(1.05); }
-
-    /* MODALS */
-    .modal {
-      display: none;
-      position: fixed;
-      z-index: 10;
-      left: 0;
-      top: 0;
-      width: 100%;
-      height: 100%;
-      background-color: rgba(0,0,0,0.5);
-      justify-content: center;
-      align-items: center;
-    }
-
-    .modal-content {
-      background-color: #fff;
-      padding: 30px;
-      border-radius: 12px;
-      width: 90%;
-      max-width: 400px;
-      box-shadow: 0 12px 25px rgba(0,0,0,0.3);
-      position: relative;
-      display: flex;
-      flex-direction: column;
-      gap: 15px;
-    }
-
-    .modal-content h2, .modal-content h3 { text-align: center; color: #B22222; }
-    .modal-content input { padding: 10px; border-radius: 6px; border: 1px solid #ccc; width: 100%; margin-bottom: 10px; }
-    .modal-content .password-wrapper { display: flex; gap: 8px; }
-    .modal-content .password-wrapper input { flex: 1; }
-    .modal-content .password-wrapper button, .modal-content button.btn {
-      padding: 8px 12px;
-      border-radius: 6px;
-      border: 1px solid #ccc;
-      background-color: #B22222;
-      color: #fff;
-      cursor: pointer;
-    }
-    .modal-content button.btn:hover, .modal-content .password-wrapper button:hover { background-color: #FF4C4C; }
-    .close { position: absolute; top: 12px; right: 15px; font-size: 28px; font-weight: bold; cursor: pointer; color: #333; }
-    .close:hover { color: #B22222; }
-  </style>
+  <title>User Profile | My Collections</title>
+    <link rel="stylesheet" href="css/user.css" />
 </head>
 <body>
-  <section class="user-section">
-    <h1 class="user-title">User Profile</h1>
 
-    <div class="user-container">
-      <div class="user-photo">
+  <!-- Sidebar -->
+  <aside class="sidebar">
+  <h2>Menu</h2>
+    <a href="user.html" class="nav-item active">👤 User Info</a>
+    <a href="home.html" class="nav-item">📦 Home Page </a>
+    <a href="events.html" class="nav-item">📅 Events</a>
+    <a href="team.html" class="nav-item">👥 Team</a>
+  </aside>
+
+
+  <!-- Main content -->
+  <main class="main-content">
+    <div class="profile-header">
+      <div class="profile-photo">
         <img src="img/user.jpg" alt="User Photo" id="profileImage">
-        <div class="edit-photo-icon" id="editPhotoBtn">✎</div>
+        <div class="edit-icon" id="editPhotoBtn">✎</div>
       </div>
-
-      <div class="user-info">
-        <h2 id="displayName">Joana Ferreira</h2>
-        <p>Email: <a href="mailto:up202106097@up.pt" id="displayEmail">up202106097@up.pt</a></p>
-        <p>Member since: January 2025</p>
-        <p>Total Collections: 5</p>
-        <p>Total Items: 37</p>
-
-        <a href="#" class="btn edit-user" id="openModalBtn">Edit Profile</a>
+      <div>
+        <h1 id="displayName">Joana Ferreira</h1>
+        <p id="displayEmail">up202106097@up.pt</p>
       </div>
     </div>
 
-    <h2 class="user-collections-title">My Collections</h2>
-    <div class="collections-container">
-
-  <!-- Coleção 1 -->
-  <div class="collection-card">
-    <img src="" alt="Star Wars Miniatures">
-    <h2>Star Wars Miniatures</h2>
-    <p>items:</p>
-    <div class="mini-carousel">
-      <div class="mini-track">
-        <div class="mini-item"><img src="" alt="Darth Vader"><p>Darth Vader</p></div>
-        <div class="mini-item"><img src="" alt="Luke Skywalker"><p>Luke Skywalker</p></div>
-        <div class="mini-item"><img src="" alt="Yoda"><p>Yoda</p></div>
-        <div class="mini-item"><img src="" alt="Han Solo"><p>Han Solo</p></div>
-        <div class="mini-item"><img src="" alt="Obi-Wan"><p>Obi-Wan</p></div>
-      </div>
-    </div>
-    <a href="collection.html" class="btn">View Collection</a>
-  </div>
-
-  <!-- Coleção 2 -->
-  <div class="collection-card">
-    <img src="" alt="Comic Books">
-    <h2>Comic Books</h2>
-    <p>items:</p>
-    <div class="mini-carousel">
-      <div class="mini-track">
-        <div class="mini-item"><img src="" alt="Spider-Man"><p>Spider-Man</p></div>
-        <div class="mini-item"><img src="" alt="Batman"><p>Batman</p></div>
-        <div class="mini-item"><img src="" alt="Avengers #4"><p>Avengers #4</p></div>
-        <div class="mini-item"><img src="" alt="Superman #75"><p>Superman #75</p></div>
-        <div class="mini-item"><img src="" alt="X-Men #1"><p>X-Men #1</p></div>
-      </div>
-    </div>
-    <a href="collection.html" class="btn">View Collection</a>
-  </div>
-
-  <!-- Coleção 3 -->
-  <div class="collection-card">
-    <img src="" alt="Coins">
-    <h2>Coins</h2>
-    <p>items:</p>
-    <div class="mini-carousel">
-      <div class="mini-track">
-        <div class="mini-item"><img src="" alt="1 Euro 2020"><p>1 € 2020</p></div>
-        <div class="mini-item"><img src="" alt="50 Cent 1999"><p>50 ¢ 1999</p></div>
-        <div class="mini-item"><img src="" alt="2 Euro 2015"><p>2 € 2015</p></div>
-        <div class="mini-item"><img src="" alt="1 Dollar 2000"><p>$1 2000</p></div>
-        <div class="mini-item"><img src="" alt="10 Cent 2010"><p>10 ¢ 2010</p></div>
-      </div>
-    </div>
-    <a href="collection.html" class="btn">View Collection</a>
-  </div>
-
-  <!-- Coleção 4 -->
-  <div class="collection-card">
-    <img src="" alt="Stamps">
-    <h2>Stamps</h2>
-    <p>items:</p>
-    <div class="mini-carousel">
-      <div class="mini-track">
-        <div class="mini-item"><img src="" alt="Portugal 1960"><p>Portugal 1960</p></div>
-        <div class="mini-item"><img src="" alt="Brazil 1980"><p>Brazil 1980</p></div>
-        <div class="mini-item"><img src="" alt="USA 1950"><p>USA 1950</p></div>
-        <div class="mini-item"><img src="" alt="Germany 1975"><p>Germany 1975</p></div>
-        <div class="mini-item"><img src="" alt="France 1990"><p>France 1990</p></div>
-      </div>
-    </div>
-    <a href="collection.html" class="btn">View Collection</a>
-  </div>
-
-  <!-- Coleção 5 -->
-  <div class="collection-card">
-    <img src="" alt="Locomotive Miniatures">
-    <h2>Locomotive Miniatures</h2>
-    <p>items:</p>
-    <div class="mini-carousel">
-      <div class="mini-track">
-        <div class="mini-item"><img src="" alt="Train A"><p>Train A</p></div>
-        <div class="mini-item"><img src="" alt="Train B"><p>Train B</p></div>
-        <div class="mini-item"><img src="" alt="Train C"><p>Train C</p></div>
-        <div class="mini-item"><img src="" alt="Train D"><p>Train D</p></div>
-        <div class="mini-item"><img src="" alt="Train E"><p>Train E</p></div>
-      </div>
-    </div>
-    <a href="collection.html" class="btn">View Collection</a>
-  </div>
-
-</div>
-
-<a href="#" class="btn create-collection" id="openModal">+ Create New Collection</a>
-
-<!-- MODAL Create Collection -->
-<div id="collectionModal" class="modal">
-  <div class="modal-content">
-    <span class="close">&times;</span>
-    <h2>Create New Collection</h2>
-
-    <form id="collectionForm">
-      <label for="collectionName">Collection Name:</label>
-      <input type="text" id="collectionName" name="collectionName" required />
-
-      <label for="collectionImage">Cover Image:</label>
-      <div id="drop-area">
-        <p>Drag & Drop your image here or click to select</p>
-        <input type="file" id="collectionImage" accept="image/*" required>
-        <img id="previewImage" src="" alt="Preview" style="display:none; max-width:100%; margin-top:10px;">
-      </div>
-
-      <button type="submit" class="btn submit-btn">Add Collection</button>
-    </form>
-  </div>
-</div>
-
-  </section>
-
-  <!-- MODAL EDIT PROFILE -->
-  <div id="editModal" class="modal">
-    <div class="modal-content">
-      <span class="close">&times;</span>
-      <h2>Edit Profile</h2>
-      <form id="edit-user-form">
-        <label for="username">Name</label>
-        <input type="text" id="username" name="username" value="Joana Ferreira" required>
-        <label for="email">Email</label>
-        <input type="email" id="email" name="email" value="up202106097@up.pt" required>
-        <label for="password">Password</label>
-        <div class="password-wrapper">
-          <input type="password" id="password" name="password" value="123456" required>
-          <button type="button" class="toggle-password">Show</button>
+    <form id="userForm" class="form-container">
+      <div class="form-row">
+        <div class="form-group">
+          <label for="firstName">First Name</label>
+          <input type="text" id="firstName" value="Joana" required>
         </div>
-        <button type="submit" class="btn">Save Changes</button>
-      </form>
-    </div>
-  </div>
+        <div class="form-group">
+          <label for="lastName">Last Name</label>
+          <input type="text" id="lastName" value="Ferreira" required>
+        </div>
+      </div>
 
-  <!-- MODAL CHANGE PHOTO -->
+      <div class="form-row">
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input type="email" id="email" value="up202106097@up.pt" required>
+        </div>
+        <div class="form-group">
+          <label for="birth">Date of Birth</label>
+          <input type="date" id="birth" value="2002-03-14">
+        </div>
+      </div>
+
+      <button type="submit" class="btn-save">Save Changes</button>
+      <span class="status" id="statusMsg">✔ Changes saved!</span>
+    </form>
+      
+      
+          <!-- My Collections -->
+    <section class="collections-section">
+      <h2>My Collections</h2>
+       <div class="collections-grid">
+
+      <!-- Coleção 1 -->
+        <div class="collection-card">
+        <img src="img/starwars.jpg" alt="Star Wars Miniatures">
+        <h3>Star Wars Miniatures</h3>
+        <p>5 items</p>
+
+        <div class="mini-carousel">
+          <div class="mini-track">
+            <div class="mini-item"><img src="" alt="Darth Vader"></div>
+            <div class="mini-item"><img src="" alt="Luke Skywalker"></div>
+            <div class="mini-item"><img src="" alt="Yoda"></div>
+            <div class="mini-item"><img src="" alt="Han Solo"></div>
+            <div class="mini-item"><img src="" alt="Obi-Wan"></div>
+          </div>
+        </div>
+
+        <a href="collection.html" class="btn-view">View Collection</a>
+      </div>
+
+<!-- Coleção 2 -->
+        <div class="collection-card">
+        <img src="img/comics.jpg" alt="Comic Books">
+        <h3>Comic Books</h3>
+        <p>8 items</p>
+
+        <div class="mini-carousel">
+          <div class="mini-track">
+            <div class="mini-item"><img src="img/spiderman.jpg" alt="Spider-Man"></div>
+            <div class="mini-item"><img src="img/batman.jpg" alt="Batman"></div>
+            <div class="mini-item"><img src="img/avengers.jpg" alt="Avengers #4"></div>
+            <div class="mini-item"><img src="img/superman.jpg" alt="Superman #75"></div>
+            <div class="mini-item"><img src="img/xmen.jpg" alt="X-Men #1"></div>
+          </div>
+        </div>
+
+        <a href="collection.html" class="btn-view">View Collection</a>
+        </div>
+
+      <!-- Coleção 3 -->
+        <div class="collection-card">
+        <img src="img/coins.jpg" alt="Coins">
+        <h3>Coins</h3>
+        <p>10 items</p>
+
+        <div class="mini-carousel">
+          <div class="mini-track">
+            <div class="mini-item"><img src="img/1euro2020.jpg" alt="1 Euro 2020"></div>
+            <div class="mini-item"><img src="img/50cent1999.jpg" alt="50 Cent 1999"></div>
+            <div class="mini-item"><img src="img/2euro2015.jpg" alt="2 Euro 2015"></div>
+            <div class="mini-item"><img src="img/1dollar2000.jpg" alt="1 Dollar 2000"></div>
+            <div class="mini-item"><img src="img/10cent2010.jpg" alt="10 Cent 2010"></div>
+          </div>
+        </div>
+
+        <a href="collection.html" class="btn-view">View Collection</a>
+        </div>
+
+      <!-- Coleção 4 -->
+        <div class="collection-card">
+        <img src="img/stamps.jpg" alt="Stamps">
+        <h3>Stamps</h3>
+        <p>12 items</p>
+
+        <div class="mini-carousel">
+          <div class="mini-track">
+            <div class="mini-item"><img src="img/portugal1960.jpg" alt="Portugal 1960"></div>
+            <div class="mini-item"><img src="img/brazil1980.jpg" alt="Brazil 1980"></div>
+            <div class="mini-item"><img src="img/usa1950.jpg" alt="USA 1950"></div>
+            <div class="mini-item"><img src="img/germany1975.jpg" alt="Germany 1975"></div>
+            <div class="mini-item"><img src="img/france1990.jpg" alt="France 1990"></div>
+          </div>
+        </div>
+
+        <a href="collection.html" class="btn-view">View Collection</a>
+        </div>
+      
+      <!-- Coleção 5 -->
+    <div class="collection-card">
+      <img src="img/trains.jpg" alt="Locomotive Miniatures">
+      <h3>Locomotive Miniatures</h3>
+      <p>6 items</p>
+
+      <div class="mini-carousel">
+        <div class="mini-track">
+          <div class="mini-item"><img src="img/trainA.jpg" alt="Train A"></div>
+          <div class="mini-item"><img src="img/trainB.jpg" alt="Train B"></div>
+          <div class="mini-item"><img src="img/trainC.jpg" alt="Train C"></div>
+          <div class="mini-item"><img src="img/trainD.jpg" alt="Train D"></div>
+          <div class="mini-item"><img src="img/trainE.jpg" alt="Train E"></div>
+        </div>
+      </div>
+      <a href="collection.html" class="btn-view">View Collection</a>
+    </div>
+    </div>
+    <button class="btn-add" id="openModal">+ Create New Collection</button>
+    </section>
+
+  </main>
+
+  <!-- Modal Change Photo -->
   <div id="photoModal" class="modal">
-    <div class="modal-content photo-modal-content">
-      <span class="close" id="closePhotoModal">&times;</span>
+    <div class="modal-content">
+      <span class="close" id="closeModal">&times;</span>
       <h3>Change Profile Picture</h3>
-      <input type="file" id="profileFileInput" accept="image/*">
+      <input type="file" id="photoInput" accept="image/*">
     </div>
   </div>
-
-  <script>
-    document.addEventListener("DOMContentLoaded", () => {
-      // EDIT PROFILE MODAL
-      const openModalBtn = document.getElementById("openModalBtn");
-      const editModal = document.getElementById("editModal");
-      const closeModal = editModal.querySelector(".close");
-      const togglePassword = document.querySelector(".toggle-password");
-      const passwordInput = document.querySelector("#password");
-      const form = document.getElementById("edit-user-form");
-
-      openModalBtn.addEventListener("click", (e) => {
-        e.preventDefault();
-        editModal.style.display = "flex";
-      });
-      closeModal.addEventListener("click", () => editModal.style.display = "none");
-      window.addEventListener("click", (e) => { if(e.target === editModal) editModal.style.display = "none"; });
-      togglePassword.addEventListener("click", () => {
-        const type = passwordInput.getAttribute("type") === "password" ? "text" : "password";
-        passwordInput.setAttribute("type", type);
-        togglePassword.textContent = type === "password" ? "Show" : "Hide";
-      });
-      form.addEventListener("submit", (e) => {
-        e.preventDefault();
-        document.getElementById("displayName").textContent = document.getElementById("username").value;
-        document.getElementById("displayEmail").textContent = document.getElementById("email").value;
-        document.getElementById("displayEmail").href = "mailto:" + document.getElementById("email").value;
-        alert("Profile updated successfully!");
-        editModal.style.display = "none";
-      });
-
-      // CHANGE PHOTO MODAL
-      const editPhotoBtn = document.getElementById("editPhotoBtn");
-      const photoModal = document.getElementById("photoModal");
-      const closePhotoModal = document.getElementById("closePhotoModal");
-      const profileFileInput = document.getElementById("profileFileInput");
-      const profileImage = document.getElementById("profileImage");
-
-      editPhotoBtn.addEventListener("click", () => photoModal.style.display = "flex");
-      closePhotoModal.addEventListener("click", () => photoModal.style.display = "none");
-      window.addEventListener("click", (e) => { if(e.target === photoModal) photoModal.style.display = "none"; });
-
-      profileFileInput.addEventListener("change", (e) => {
-        const file = e.target.files[0];
-        if(file){
-          const reader = new FileReader();
-          reader.onload = (event) => {
-            profileImage.src = event.target.result;
-            localStorage.setItem('profileImage', event.target.result);
-          }
-          reader.readAsDataURL(file);
-          photoModal.style.display = "none";
-        }
-      });
-
-      // Load saved image
-      const savedImage = localStorage.getItem('profileImage');
-      if(savedImage) profileImage.src = savedImage;
-    });
-  </script>
+<script src="js/user.js"></script>
 </body>
 </html>
-
-

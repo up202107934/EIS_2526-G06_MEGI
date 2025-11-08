@@ -1,0 +1,1074 @@
+/*
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/css.css to edit this template
+*/
+/* ===== USER PAGE ===== */
+.user-section {
+  text-align: center;
+  padding: 80px 20px;
+  background-color: #fff;
+}
+
+.user-title {
+  font-size: 42px;
+  color: #B22222;
+  margin-bottom: 40px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+/* Container principal do perfil */
+.user-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 30px;
+  margin-bottom: 50px;
+}
+
+/* Foto do utilizador */
+.user-photo img {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  object-fit: cover;
+  box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+}
+
+/* Informações */
+.user-info h2 {
+  color: #B22222;
+  margin-bottom: 10px;
+}
+
+.user-info p {
+  font-size: 14px;
+  color: #333;
+  margin: 4px 0;
+}
+
+.user-info a.edit-user {
+  display: inline-block;
+  margin-top: 15px;
+  padding: 10px 20px;
+  background: linear-gradient(135deg, #B22222, #FF6347);
+  color: #fff;
+  border-radius: 25px;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.user-info a.edit-user:hover {
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 0 12px 25px rgba(0,0,0,0.3);
+  background: linear-gradient(135deg, #FF6347, #B22222);
+}
+
+/* Coleções do utilizador */
+.user-collections-title {
+  font-size: 28px;
+  color: #B22222;
+  margin-bottom: 30px;
+}
+
+.user-collections {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 30px;
+}
+
+.user-collections .collection-card {
+  width: 250px;
+  padding: 20px;
+  text-align: center;
+  background: #fff;
+  border-radius: 20px;
+  box-shadow: 0 6px 15px rgba(0,0,0,0.15);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.user-collections .collection-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 25px rgba(0,0,0,0.2);
+}
+
+.user-collections .collection-card img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 15px;
+  margin-bottom: 15px;
+}
+
+.user-collections .collection-card h3 {
+  color: #B22222;
+  font-size: 18px;
+  margin-bottom: 5px;
+}
+
+.user-collections .collection-card p {
+  font-size: 14px;
+  margin-bottom: 10px;
+}
+
+.user-collections .collection-card a.btn {
+  padding: 8px 18px;
+  border-radius: 8px;
+  background-color: #B22222;
+  color: #fff;
+  text-decoration: none;
+}
+
+.user-collections .collection-card a.btn:hover {
+  background-color: #FF4C4C;
+  transform: scale(1.05);
+}
+
+/* Modal melhorado */
+.modal {
+  display: none; 
+  position: fixed;
+  z-index: 10;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  backdrop-filter: blur(5px); /* desfoque do fundo */
+  background-color: rgba(0,0,0,0.4);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+.modal-content {
+  background-color: #fff;
+  padding: 30px 25px;
+  border-radius: 15px;
+  width: 100%;
+  max-width: 450px;
+  box-shadow: 0 12px 30px rgba(0,0,0,0.3);
+  position: relative;
+  animation: fadeIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+  from {opacity: 0; transform: translateY(-20px);}
+  to {opacity: 1; transform: translateY(0);}
+}
+
+.modal-content h2 {
+  margin-bottom: 25px;
+  color: #B22222;
+  text-align: center;
+  font-size: 26px;
+}
+
+.close {
+  position: absolute;
+  top: 12px;
+  right: 15px;
+  color: #333;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.close:hover {
+  color: #B22222;
+}
+
+/* Formulário */
+#edit-user-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+#edit-user-form label {
+  font-weight: 600;
+  color: #333;
+}
+
+#edit-user-form input {
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+  transition: all 0.3s;
+}
+
+#edit-user-form input:focus {
+  border-color: #B22222;
+  outline: none;
+}
+
+.password-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.password-wrapper input {
+  flex: 1 1 auto;  
+  min-width: 0;    
+  padding: 10px;   
+  height: 40px;    
+  font-size: 14px;
+}
+
+.password-wrapper button.toggle-password {
+  flex-shrink: 0;       
+  height: 40px;         
+  padding: 0 10px;      
+}
+
+.password-wrapper button.toggle-password:hover {
+  background-color: #FF4C4C;
+  transform: scale(1.05);
+}
+
+#edit-user-form button[type="submit"] {
+  padding: 12px 0;
+  border-radius: 8px;
+  background-color: #B22222;
+  color: #fff;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+  transition: background 0.3s, transform 0.2s;
+}
+
+#edit-user-form button[type="submit"]:hover {
+  background-color: #FF4C4C;
+  transform: scale(1.03);
+}
+.user-photo {
+  position: relative;
+  width: 150px;
+  height: 150px;
+  margin: 0 auto 20px;
+}
+
+.user-photo img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid #B22222;
+}
+
+.edit-photo-icon {
+  position: absolute;
+  bottom: 5px;
+  right: 5px;
+  background-color: #B22222;
+  color: white;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-weight: bold;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+  transition: transform 0.2s;
+}
+
+.edit-photo-icon:hover {
+  transform: scale(1.1);
+}
+
+/* Modal específico para foto */
+.photo-modal-content {
+  max-width: 350px;
+  text-align: center;
+}
+
+
+
+/* ===== Fundo da página de login ===== */
+body.auth-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  /* caminho da imagem */
+  background: url("../img/Collection.png") center/cover no-repeat fixed;
+  background-color: #f3f3f3; /* cor de apoio enquanto a imagem carrega */
+}
+
+/* ligeiro escurecimento para destacar o painel */
+body.auth-page::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.2);
+  pointer-events: none;
+}
+
+/* painel de login */
+.login-container {
+  position: relative;
+  z-index: 1;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 12px;
+  padding: 28px 32px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+  backdrop-filter: blur(3px); /* opcional, dá efeito vidro */
+}
+
+.sort-wrap{
+  display:flex; align-items:center; gap:8px; margin-left:16px;
+}
+#sortSelect{
+  padding:8px 10px; border:1px solid #ddd; border-radius:8px; font-size:14px;
+}
+
+
+
+
+
+
+/* Collection page *//* Collection page *//* Collection page *//* Collection page *//* Collection page */
+
+
+
+
+
+.modal {
+  display: none; 
+  position: fixed; 
+  z-index: 10; 
+  left: 0; top: 0;
+  width: 100%; height: 100%;
+  background: rgba(0,0,0,0.6);
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-content {
+  background: white;
+  padding: 25px;
+  border-radius: 12px;
+  width: 320px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.modal-content input {
+  padding: 6px 8px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.modal-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+
+.modal-buttons button {
+  padding: 8px 15px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+#saveItem {
+  background-color: #B22222;
+  color: white;
+}
+
+#cancelItem {
+  background-color: #ccc;
+}
+
+
+
+    /* ===== BANNER HEADER ===== */
+    .collection-header {
+      position: relative;
+      width: 100%;
+      height: 240px; /* altura ligeiramente reduzida */
+      background: linear-gradient(rgba(0,0,0,0.25), rgba(0,0,0,0.25)),url("img/starwars-banner.jpg") center/cover no-repeat;
+      display: flex;
+      justify-content: flex-end; /* barra de pesquisa à direita */
+      align-items: center;
+      padding: 10px 40px;
+      border-bottom: 5px solid #B22222;
+    }
+
+    /* ===== TÍTULO ABAIXO DO BANNER ===== */
+    .collection-title {
+      text-align: center;
+      font-size: 40px;
+      color: #B22222;
+      margin: 15px 0 10px 0;
+      text-shadow: 2px 2px 8px rgba(0,0,0,0.5);
+      letter-spacing: 1px;
+      font-family: 'Orbitron', sans-serif;
+      text-transform: uppercase;
+    }
+
+   
+
+    /* ===== GRID DOS ITENS ===== */
+    .collection-items {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 35px;
+      padding: 40px 20px;
+      background-color: #fff;
+    }
+
+    .item-card {
+      background: #fff;
+      border-radius: 20px;
+      box-shadow: 0 6px 15px rgba(0,0,0,0.15);
+      width: 250px;
+      padding: 15px;
+      text-align: center;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .item-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 12px 25px rgba(0,0,0,0.25);
+    }
+
+    .item-card img {
+      width: 100%;
+      height: 180px;
+      object-fit: contain; /* ajusta imagens sem cortar */
+      border-radius: 12px;
+      margin-bottom: 12px;
+    }
+
+    .item-card h3 {
+      font-size: 18px;
+      color: #B22222;
+      margin-bottom: 6px;
+    }
+
+    .item-card p {
+      font-size: 14px;
+      color: #444;
+      margin-bottom: 10px;
+    }
+
+    .item-info {
+      display: flex;
+      justify-content: space-around;
+      margin-bottom: 10px;
+      font-size: 13px;
+      color: #333;
+    }
+
+    .item-card button {
+      background-color: #B22222;
+      color: white;
+      border: none;
+      padding: 8px 15px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .item-card button:hover {
+      background-color: #FF4C4C;
+    }
+
+    /* ===== BOTÃO ADD ITEM ===== */
+    .add-item-btn {
+      display: block;
+      margin: 40px auto;
+      background-color: #B22222;
+      color: white;
+      padding: 12px 25px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: background 0.3s, transform 0.2s;
+    }
+
+    .add-item-btn:hover {
+      background-color: #FF4C4C;
+      transform: scale(1.05);
+    }
+
+    /* ===== RESPONSIVIDADE MÍNIMA ===== */
+    @media (max-width: 600px) {
+      .search-bar input {
+        width: 120px;
+      }
+      .collection-header {
+        padding: 10px 20px;
+      }
+    }
+    /* ===== Toolbar (grid/list) ===== */
+.collection-toolbar{
+  max-width: 1200px;
+  margin: 0 auto 10px auto;
+  padding: 0 20px;
+  display: flex;
+  justify-content: flex-end;
+}
+.view-toggle{ display:inline-flex; gap:8px; }
+.btn-view{
+  background:#eee; border:1px solid #ddd; padding:8px 12px;
+  border-radius:8px; cursor:pointer; font-size:14px;
+}
+.btn-view[aria-pressed="true"]{ background:#B22222; color:#fff; border-color:#B22222; }
+
+/* ===== Vista GRELHA (mantém o que já tinhas) ===== */
+.collection-items.grid-view{
+  display:flex; flex-wrap:wrap; justify-content:center; gap:35px;
+}
+.collection-items.grid-view .item-card{ width:250px; text-align:center; }
+
+/* ===== Vista LISTA (nova) ===== */
+.collection-items.list-view{
+  display:block; padding:20px 0;
+}
+.collection-items.list-view .item-card{
+  display:grid;
+  grid-template-columns: 160px 1fr auto; /* img | textos | botão */
+  gap:18px; align-items:center;
+  width:min(1000px, 92%);
+  margin:0 auto 18px auto;
+  text-align:left;
+  padding:18px 20px;
+}
+.collection-items.list-view .item-card img{
+  height:140px; width:100%; object-fit:contain; border-radius:12px;
+}
+.collection-items.list-view .item-card h3{ margin:0 0 6px 0; font-size:20px; }
+.collection-items.list-view .item-card p{ margin:0 0 10px 0; }
+.collection-items.list-view .item-info{
+  justify-content:flex-start; gap:16px; font-size:14px; margin:0;
+}
+.collection-items.list-view .item-card button{
+  justify-self:end; padding:10px 16px;
+}
+.collection-items.list-view .item-card:hover{
+  transform:none; box-shadow:0 6px 15px rgba(0,0,0,0.12);
+}
+
+@media (max-width: 700px){
+  .collection-items.list-view .item-card{
+    grid-template-columns: 120px 1fr;
+    grid-template-rows: auto auto;
+  }
+  .collection-items.list-view .item-card button{
+    grid-column: 1 / -1; justify-self:start;
+  }
+}
+ 
+.drop-zone {
+  border: 2px dashed #B22222;
+  border-radius: 10px;
+  padding: 20px;
+  text-align: center;
+  background-color: #fff7f7;
+  cursor: pointer;
+  transition: background-color 0.3s, border-color 0.3s;
+  margin-bottom: 10px;
+}
+.drop-zone:hover {
+  background-color: #ffeaea;
+  border-color: #FF4C4C;
+}
+.drop-zone.dragover {
+  background-color: #ffefef;
+  border-color: #FF4C4C;
+}
+
+/* ===== NAVBAR ===== */
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #B22222;
+  padding: 12px 40px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.navbar-logo a {
+  color: #fff;
+  font-size: 22px;
+  font-weight: 700;
+  text-decoration: none;
+  letter-spacing: 1px;
+}
+
+.navbar-links {
+  list-style: none;
+  display: flex;
+  gap: 25px;
+}
+
+.navbar-links a {
+  color: #fff;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.3s;
+}
+
+.navbar-links a:hover {
+  color: #FFD700;
+}
+
+/* ===== SEARCH BAR ===== */
+.navbar-search {
+  display: flex;
+  align-items: center;
+  background: #fff;
+  border-radius: 40px;
+  padding: 6px 15px;
+  width: 320px;
+  transition: all 0.3s ease;
+  box-shadow: inset 0 0 5px rgba(0,0,0,0.1);
+}
+
+.navbar-search input {
+  border: none;
+  outline: none;
+  flex: 1;
+  padding: 8px 10px;
+  font-size: 14px;
+  color: #333;
+  background: transparent;
+}
+
+.navbar-search input::placeholder {
+  color: #aaa;
+}
+
+.navbar-search .search-btn {
+  border: none;
+  background: none;
+  cursor: pointer;
+  color: #B22222;
+  transition: color 0.2s, transform 0.2s;
+}
+
+.navbar-search .search-btn:hover {
+  color: #FF4C4C;
+  transform: scale(1.15);
+}
+
+.navbar-search:focus-within {
+  box-shadow: 0 0 0 2px #FFD700, inset 0 0 5px rgba(0,0,0,0.1);
+  transform: scale(1.02);
+}
+
+/* ===== USER AVATAR ===== */
+.navbar-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #fff;
+  transition: transform 0.3s, border-color 0.3s;
+}
+
+.navbar-avatar:hover {
+  transform: scale(1.1);
+  border-color: #FFD700;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+  .navbar {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px;
+  }
+
+  .navbar-search {
+    width: 100%;
+    max-width: 400px;
+  }
+
+  .navbar-links {
+    gap: 15px;
+  }
+}
+ 
+
+
+
+
+/* ===== USER PAGE ===== */
+body {
+  margin: 0;
+  font-family: "Poppins", sans-serif;
+  background: #f7f8fa;
+  color: #333;
+  display: flex;
+  min-height: 100vh;
+}
+
+a { text-decoration: none; color: inherit; }
+
+/* ====== SIDEBAR ====== */
+.sidebar {
+  width: 230px;
+  background: #fff;
+  border-right: 1px solid #e0e0e0;
+  padding: 30px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.sidebar h2 {
+  color: #B22222;
+  font-size: 16px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 25px;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s;
+  font-size: 15px;
+}
+
+.nav-item:hover,
+.nav-item.active {
+  background: #B22222;
+  color: #fff;
+}
+
+/* ====== MAIN CONTENT ====== */
+.main-content {
+  flex: 1;
+  padding: 50px 70px;
+  display: flex;
+  flex-direction: column;
+}
+
+.profile-header {
+  display: flex;
+  align-items: center;
+  gap: 25px;
+  margin-bottom: 40px;
+}
+
+.profile-photo {
+  position: relative;
+  width: 120px;
+  height: 120px;
+}
+
+.profile-photo img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid #B22222;
+}
+
+.edit-icon {
+  position: absolute;
+  bottom: 5px;
+  right: 5px;
+  background: #B22222;
+  color: #fff;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background 0.3s;
+}
+
+.edit-icon:hover {
+  background: #FF4C4C;
+}
+
+.profile-header h1 {
+  font-size: 26px;
+  color: #B22222;
+  margin: 0;
+}
+
+/* ====== FORM ====== */
+.form-container {
+  background: #fff;
+  padding: 35px;
+  border-radius: 14px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  max-width: 800px;
+}
+
+.form-row {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 20px;
+}
+
+.form-group {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+label {
+  font-weight: 500;
+  margin-bottom: 6px;
+  font-size: 14px;
+}
+
+input {
+  padding: 10px 14px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  font-size: 15px;
+  transition: border 0.3s;
+}
+
+input:focus {
+  outline: none;
+  border: 1px solid #B22222;
+}
+
+.btn-save {
+  background: #B22222;
+  color: #fff;
+  padding: 10px 22px;
+  border: none;
+  border-radius: 10px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.3s;
+  margin-top: 10px;
+}
+
+.btn-save:hover {
+  background: #FF4C4C;
+}
+
+.status {
+  margin-left: 15px;
+  color: green;
+  font-weight: 500;
+  display: none;
+}
+
+/* ====== MODAL ====== */
+.modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-content {
+  background: #fff;
+  padding: 25px;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 400px;
+  text-align: center;
+  position: relative;
+}
+
+.modal-content h3 {
+  color: #B22222;
+  margin-bottom: 15px;
+}
+
+.modal-content input {
+  width: 100%;
+  margin-bottom: 15px;
+}
+
+.close {
+  position: absolute;
+  right: 15px;
+  top: 10px;
+  font-size: 22px;
+  cursor: pointer;
+  color: #555;
+}
+
+.close:hover {
+  color: #B22222;
+}
+
+@media (max-width: 768px) {
+  body { flex-direction: column; }
+  .sidebar { width: 100%; flex-direction: row; justify-content: space-around; }
+  .main-content { padding: 20px; }
+  .form-row { flex-direction: column; }
+}
+/* ===== MY COLLECTIONS ===== */
+
+.collections-section {
+  margin-top: 60px;
+  padding: 40px;
+}
+
+.collections-title {
+  color: #B22222;
+  font-size: 1.8rem;
+  font-weight: bold;
+  margin-bottom: 25px;
+  text-align: left;
+  margin-left: 20px;
+}
+
+.collections-grid {
+display: grid !important;
+grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+gap: 30px;
+justify-items: center;
+width: 100%;
+}
+
+
+/* ===== COLLECTION CARD ===== */
+.collection-card {
+  background: #fff;
+  border-radius: 14px;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  width: 280px;
+  text-align: center;
+  transition: transform 0.3s ease;
+}
+
+.collection-card:hover {
+  transform: translateY(-6px);
+}
+
+.collection-card > img {
+  width: 100%;
+  height: 160px;
+  object-fit: cover;
+  border-radius: 10px;
+  margin-bottom: 10px;
+}
+
+.collection-card h3 {
+  color: #B22222;
+  margin-top: 5px;
+  font-weight: bold;
+}
+
+.collection-card p {
+  margin: 5px 0 15px;
+  color: #555;
+}
+
+/* ===== MINI CAROUSEL ===== */
+.mini-carousel {
+  overflow: hidden;
+  width: 100%;
+  margin: 10px 0 15px;
+  position: relative;
+}
+
+.mini-track {
+  display: flex;
+  gap: 8px;
+  animation: slideLoop 25s linear infinite;
+}
+
+/* duplicar as imagens dá o efeito de loop contínuo */
+.mini-track::after {
+  content: "";
+  display: flex;
+  gap: 8px;
+}
+
+.mini-item {
+  flex: 0 0 50px;
+  height: 50px;
+  border-radius: 6px;
+  overflow: hidden;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.mini-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* animação contínua */
+@keyframes slideLoop {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.mini-carousel:hover .mini-track {
+  animation-play-state: paused;
+}
+
+/* ===== BUTTONS ===== */
+.btn-view, .btn-create {
+  display: inline-block;
+  padding: 8px 18px;
+  background-color: #B22222;
+  color: #fff;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.btn-view:hover, .btn-create:hover {
+  background-color: #FF4C4C;
+  transform: scale(1.05);
+}
+
+.create-btn-wrapper {
+  margin-top: 30px;
+  text-align: center;
+}
+
+/* ===== ADD NEW COLLECTION BUTTON ===== */
+.btn-add {
+  display: inline-block;
+  background-color: #B22222;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 20px;
+  font-size: 15px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin: 30px auto 0;
+  display: block;
+}
+
+.btn-add:hover {
+  background-color: #FF4C4C;
+  transform: scale(1.05);
+}
+
+

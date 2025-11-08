@@ -1,0 +1,246 @@
+/*
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/css.css to edit this template
+*/
+/* 
+    Created on : 08/11/2025, 11:11:08
+    Author     : hp
+*/
+/* ===== NAVBAR ===== */
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #2b2d42;
+  padding: 15px 40px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.navbar-logo a {
+  font-size: 24px;
+  font-weight: bold;
+  color: #2b2d42;
+  text-decoration: none;
+}
+
+.navbar-search {
+  display: flex;
+  align-items: center;
+  background: #fff;
+  border-radius: 25px;
+  overflow: hidden;
+  box-shadow: 0 2px 6px rgba(0, 80, 255, 0.15);
+}
+
+.navbar-search input {
+  border: none;
+  padding: 8px 14px;
+  outline: none;
+  width: 220px;
+}
+
+.search-btn {
+  background: none;
+  border: none;
+  color: #2b2d42;
+  padding: 8px 12px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.navbar-user img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 2px solid #2b2d42;
+}
+/* ===== COLLECTION PAGE ===== */
+
+/* ===== BANNER HEADER ===== */
+.collection-header {
+  position: relative;
+  width: 100%;
+  height: 240px;
+  background: linear-gradient(rgba(0,0,0,0.25), rgba(0,0,0,0.25)), url("img/starwars-banner.jpg") center/cover no-repeat;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding: 10px 40px;
+  border-bottom: 5px solid #B22222;
+}
+
+/* ===== TÍTULO ABAIXO DO BANNER ===== */
+.collection-title {
+  text-align: center;
+  font-size: 40px;
+  color: #B22222;
+  margin: 15px 0 10px 0;
+  text-shadow: 2px 2px 8px rgba(0,0,0,0.5);
+  letter-spacing: 1px;
+  font-family: 'Orbitron', sans-serif;
+  text-transform: uppercase;
+}
+
+/* ===== TOOLBAR (GRID/LIST + SORT) ===== */
+.collection-toolbar {
+  max-width: 1200px;
+  margin: 0 auto 10px auto;
+  padding: 0 20px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 20px;
+}
+.view-toggle {
+  display: inline-flex;
+  gap: 8px;
+}
+.btn-view {
+  background: #eee;
+  border: 1px solid #ddd;
+  padding: 8px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.3s;
+}
+.btn-view[aria-pressed="true"] {
+  background: #B22222;
+  color: #fff;
+  border-color: #B22222;
+}
+.btn-view:hover {
+  background: #FF4C4C;
+  color: #fff;
+}
+
+/* SORT */
+.sort-wrap {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+#sortSelect {
+  padding: 8px 10px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 14px;
+}
+
+/* ===== GRID DOS ITENS ===== */
+.collection-items {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 35px;
+  padding: 40px 20px;
+  background-color: #fff;
+}
+.item-card {
+  background: #fff;
+  border-radius: 20px;
+  box-shadow: 0 6px 15px rgba(0,0,0,0.15);
+  width: 250px;
+  padding: 15px;
+  text-align: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.item-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 25px rgba(0,0,0,0.25);
+}
+.item-card img {
+  width: 100%;
+  height: 180px;
+  object-fit: contain;
+  border-radius: 12px;
+  margin-bottom: 12px;
+}
+.item-card h3 {
+  font-size: 18px;
+  color: #B22222;
+  margin-bottom: 6px;
+}
+.item-card p {
+  font-size: 14px;
+  color: #444;
+  margin-bottom: 10px;
+}
+.item-info {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 10px;
+  font-size: 13px;
+  color: #333;
+}
+.item-card button {
+  background-color: #B22222;
+  color: white;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+.item-card button:hover {
+  background-color: #FF4C4C;
+}
+
+/* ===== BOTÃO ADD ITEM ===== */
+.add-item-btn {
+  display: block;
+  margin: 40px auto;
+  background-color: #B22222;
+  color: white;
+  padding: 12px 25px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background 0.3s, transform 0.2s;
+}
+.add-item-btn:hover {
+  background-color: #FF4C4C;
+  transform: scale(1.05);
+}
+
+/* ===== MODAL ===== */
+.modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+.modal-content {
+  background: white;
+  padding: 25px;
+  border-radius: 12px;
+  width: 320px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.modal-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+.modal-buttons button {
+  padding: 8px 15px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+#saveItem {
+  background-color: #B22222;
+  color: white;
+}
+#cancelItem {
+  background-color: #ccc;
+}
+
