@@ -7,111 +7,213 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/css.css to edit this t
     Author     : Pedro Almeida
 */
 
-/* ===== Eventos – overrides locais ===== */
-
+/* 
 /* Título da página alinhado ao teu estilo */
+
 .events-title {
+
   font-size: 36px;
+
   color: #2b2d42;
+
   text-align: center;
+
   text-transform: uppercase;
+
   letter-spacing: 1.5px;
+
   margin: 30px 0 10px;
+
 }
+
+
 
 /* Barra de ferramentas (reutiliza visuais do site) */
+
 .events-toolbar {
+
   max-width: 1200px;
+
   margin: 0 auto 10px auto;
+
   padding: 0 20px;
 
+
+
   display: flex;
+
   gap: 12px;
+
   align-items: center;
+
   justify-content: space-between;
+
 }
+
+
 
 /* parte esquerda (grid/list) + parte direita (sort/status/novo) */
+
 .events-toolbar .left,
+
 .events-toolbar .right { display: flex; align-items: center; gap: 10px; }
 
+
+
 /* Botões grid/list – aproveita teu padrão .btn-view */
+
 .btn-view[aria-pressed="true"]{
+
   background:#B22222; color:#fff; border-color:#B22222;
+
 }
+
+
 
 /* Grelha/Lista – aproveita .collections-container e .collection-card */
+
 #events.collections-container.list-view { display:block; padding: 20px 0; }
+
 #events.collections-container.list-view .event-card {
+
   display:grid; grid-template-columns: 160px 1fr auto;
+
   gap:18px; align-items:center; width:min(1000px, 92%);
+
   margin:0 auto 18px auto; text-align:left; padding:18px 20px;
+
 }
+
 #events.collections-container.list-view .event-card img { height:140px; }
+
 #events.collections-container.list-view .event-card h2 { margin:0 0 6px; }
 
+
+
 @media (max-width: 700px){
+
   #events.collections-container.list-view .event-card{
+
     grid-template-columns:120px 1fr; grid-template-rows:auto auto;
+
   }
+
 }
+
+
 
 /* Texto auxiliar cinza para datas */
+
 .muted { color:#555; }
 
+
+
 /* Ajuste de imagem do cartão de evento (quando em grelha) */
+
 .event-card img { object-fit: cover; height: 160px; }
 
+
+
 /* ===== Modal leve (cartão centrado) ===== */
+
 .ev-modal{
+
   position: fixed; inset: 0;
+
   display: none;                /* show via JS */
+
   align-items: center; justify-content: center;
+
   background: rgba(0,0,0,0.25); /* overlay suave */
+
   z-index: 1000;
+
   padding: 24px;
+
   backdrop-filter: blur(2px);
+
 }
+
 .ev-modal.show{ display: flex; }
 
+
+
 .ev-card{
+
   width: min(520px, 92vw);
+
   background: #fff;
+
   border-radius: 16px;
+
   box-shadow: 0 10px 30px rgba(0,0,0,0.20);
+
   padding: 20px 22px 18px;
+
   position: relative;
+
   animation: evPop .18s ease-out;
+
 }
+
 @keyframes evPop{
+
   from{ transform: translateY(6px); opacity: .0; }
+
   to  { transform: translateY(0);   opacity: 1;  }
+
 }
+
+
 
 .ev-close{
+
   position: absolute; top: 10px; right: 12px;
+
   border: 0; background: transparent; font-size: 18px; cursor: pointer;
+
   opacity: .6;
+
 }
+
 .ev-close:hover{ opacity: 1; }
 
+
+
 .ev-title{
+
   margin: 6px 28px 2px 2px;
+
   color: #2b2d42; font-size: 22px; font-weight: 700;
+
 }
+
 .ev-subtitle{
+
   margin: 0 0 10px 2px; color: #555; font-size: 14px;
+
 }
+
 .ev-desc{
+
   color:#333; font-size: 15px; line-height: 1.5; margin: 4px 0 14px 2px;
+
 }
+
 .ev-actions{
+
   display: flex; gap: 10px; justify-content: flex-end;
+
 }
+
 .ev-actions .btn{
+
   background-color:#B22222; color:#fff; border:0;
+
   padding:8px 14px; border-radius:8px; cursor:pointer;
+
 }
+
 .ev-actions .btn:hover{ background:#FF4C4C; }
 
 
@@ -119,50 +221,802 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/css.css to edit this t
 
 
 
+
+
+
+
+
+
+
 /* ====== Galeria por evento (imagem grande + tirinha de miniaturas) ====== */
+
 .ev-gallery{
+
   display:flex; flex-direction:column; align-items:center; gap:10px;
+
   margin-top:6px;
+
 }
+
 .ev-main{
+
   width:100%; height:160px; object-fit:cover; border-radius:12px;
+
   box-shadow:0 3px 10px rgba(0,0,0,.08);
+
 }
+
 .ev-strip{
+
   display:flex; gap:10px; justify-content:center; overflow:hidden;
+
 }
+
 .ev-thumb{
+
   width:64px; height:64px; object-fit:cover; border-radius:10px;
+
   box-shadow:0 2px 8px rgba(0,0,0,.08);
+
   opacity:.9; transition:transform .2s, opacity .2s;
+
 }
+
 .ev-thumb:hover{ transform:scale(1.05); opacity:1; }
 
 
 
 
+
+
+
+
+
 /* Overrides dentro dos cartões de EVENTO */
+
 .event-card .ev-gallery img { margin-bottom: 0; } /* anula o margin da global */
 
+
+
 .event-card .ev-gallery .ev-main{
+
   width: 100%;
+
   height: 200px;           /* mantém a de cima grande */
+
   object-fit: cover;
+
   border-radius: 12px;
+
   box-shadow: 0 3px 10px rgba(0,0,0,.08);
+
 }
+
+
 
 .event-card .ev-gallery .ev-strip{
+
   display:flex; gap:8px; justify-content:center; overflow:hidden;
+
 }
 
+
+
 .event-card .ev-gallery .ev-thumb{
+
   width: 64px;
+
   height: 64px;
+
   object-fit: cover;
+
   border-radius: 10px;
+
   box-shadow: 0 2px 8px rgba(0,0,0,.08);
+
   opacity: .9;
+
   transition: transform .2s, opacity .2s;
+
 }
+
 .event-card .ev-gallery .ev-thumb:hover{ transform:scale(1.05); opacity:1; }
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* ===== Toolbar melhorada ===== */
+
+.events-toolbar.pro{
+
+  max-width: 1200px;
+
+  margin: 0 auto 24px;
+
+  padding: 12px 16px;
+
+  background: #fff;
+
+  border-radius: 12px;
+
+  box-shadow: 0 6px 16px rgba(0,0,0,.08);
+
+  display: grid;
+
+  grid-template-columns: 1fr auto 1fr; /* esquerda | centro | direita */
+
+  align-items: center;
+
+  gap: 16px;
+
+}
+
+
+
+.toolbar-left{ justify-self: start; }
+
+.toolbar-center{ justify-self: center; display: flex; gap: 12px; align-items: center; }
+
+.toolbar-right{ justify-self: end; }
+
+
+
+/* Botões “chip” Grid/List */
+
+.chip{
+
+  display: inline-flex;
+
+  align-items: center;
+
+  gap: 8px;
+
+  padding: 8px 14px;
+
+  border: 1px solid #e1e3e8;
+
+  border-radius: 999px;
+
+  background: #f7f7f9;
+
+  color: #2b2d42;
+
+  cursor: pointer;
+
+  transition: all .2s ease;
+
+  font-weight: 600;
+
+}
+
+.chip:hover{ transform: translateY(-1px); box-shadow: 0 2px 6px rgba(0,0,0,.06); }
+
+.chip[aria-pressed="true"]{ background:#B22222; color:#fff; border-color:#B22222; }
+
+
+
+/* Ícones simples em CSS puro */
+
+.icon-grid, .icon-list{
+
+  width: 16px; height: 16px; display: inline-block;
+
+}
+
+.icon-grid{
+
+  background:
+
+    linear-gradient(currentColor,currentColor) 0   0/7px 7px no-repeat,
+
+    linear-gradient(currentColor,currentColor) 9px 0/7px 7px no-repeat,
+
+    linear-gradient(currentColor,currentColor) 0   9px/7px 7px no-repeat,
+
+    linear-gradient(currentColor,currentColor) 9px 9px/7px 7px no-repeat;
+
+  border-radius: 3px;
+
+}
+
+.icon-list{
+
+  background:
+
+    linear-gradient(currentColor,currentColor) left   2px /16px 2px no-repeat,
+
+    linear-gradient(currentColor,currentColor) left   7px /16px 2px no-repeat,
+
+    linear-gradient(currentColor,currentColor) left  12px /16px 2px no-repeat;
+
+}
+
+
+
+/* Campos Sort/Status */
+
+.field{
+
+  display: inline-flex;
+
+  align-items: center;
+
+  gap: 8px;
+
+  background: #f7f7f9;
+
+  padding: 6px 10px;
+
+  border-radius: 10px;
+
+  border: 1px solid #e1e3e8;
+
+}
+
+.field > span{ font-weight: 600; color:#2b2d42; }
+
+.field select{
+
+  border: 0; background: transparent; outline: none;
+
+  font-weight: 600; color:#2b2d42; padding: 6px 4px;
+
+}
+
+
+
+/* Botão principal “+ New Event” */
+
+.btn.primary{
+
+  background: #ef233c;
+
+  color: #fff;
+
+  border: 0;
+
+  padding: 10px 16px;
+
+  border-radius: 10px;
+
+  box-shadow: 0 4px 10px rgba(239,35,60,.25);
+
+  cursor: pointer;
+
+  transition: all .2s ease;
+
+}
+
+.btn.primary:hover{ transform: translateY(-1px); box-shadow: 0 6px 16px rgba(239,35,60,.32); }
+
+
+
+/* Responsivo */
+
+@media (max-width: 900px){
+
+  .events-toolbar.pro{
+
+    grid-template-columns: 1fr;
+
+    gap: 10px;
+
+    padding: 10px 12px;
+
+  }
+
+  .toolbar-center{ justify-self: stretch; justify-content: space-between; }
+
+  .toolbar-right{ justify-self: stretch; display: flex; justify-content: flex-end; }
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* === LIST VIEW === */
+
+#events.collections-container.list-view { 
+
+  display: block !important; 
+
+  padding: 20px 0; 
+
+}
+
+
+
+#events.collections-container.list-view .event-card {
+
+  display: grid !important;
+
+  grid-template-columns: auto 1fr auto !important;
+
+  gap: 30px;
+
+  align-items: center;
+
+  width: min(1200px, 94%);
+
+  margin: 0 auto 20px auto;
+
+  text-align: left;
+
+  padding: 20px 24px;
+
+  background: #fff;
+
+  border-radius: 12px;
+
+  box-shadow: 0 2px 8px rgba(0,0,0,.06);
+
+  transition: transform .2s, box-shadow .2s;
+
+}
+
+
+
+#events.collections-container.list-view .event-card:hover {
+
+  transform: translateY(-2px);
+
+  box-shadow: 0 4px 16px rgba(0,0,0,.1);
+
+}
+
+
+
+/* Coluna 1: Galeria (imagem principal + 3 thumbs HORIZONTAIS) */
+
+#events.collections-container.list-view .ev-gallery {
+
+  display: grid !important;
+
+  grid-template-columns: 280px 1fr !important;
+
+  gap: 12px;
+
+  align-items: start;
+
+}
+
+
+
+#events.collections-container.list-view .ev-main {
+
+  width: 280px !important;
+
+  height: 180px !important;
+
+  grid-column: 1;
+
+  grid-row: 1 / span 3;  /* ocupa as 3 linhas */
+
+  object-fit: cover;
+
+  border-radius: 10px;
+
+  box-shadow: 0 2px 8px rgba(0,0,0,.08);
+
+  margin: 0 !important;
+
+}
+
+
+
+#events.collections-container.list-view .ev-strip {
+
+  display: flex !important;
+
+  flex-direction: column !important;  /* empilha as 3 thumbs */
+
+  gap: 8px;
+
+  grid-column: 2;
+
+  grid-row: 1 / span 3;
+
+}
+
+
+
+#events.collections-container.list-view .ev-thumb {
+
+  width: 120px !important;
+
+  height: 54px !important;
+
+  object-fit: cover;
+
+  border-radius: 8px;
+
+  box-shadow: 0 1px 4px rgba(0,0,0,.08);
+
+  opacity: .9;
+
+  transition: transform .2s, opacity .2s;
+
+  cursor: pointer;
+
+  margin: 0 !important;
+
+}
+
+
+
+#events.collections-container.list-view .ev-thumb:hover {
+
+  transform: scale(1.05);
+
+  opacity: 1;
+
+}
+
+
+
+/* Coluna 2: Info (título + data) */
+
+#events.collections-container.list-view .ev-meta {
+
+  display: flex !important;
+
+  flex-direction: column;
+
+  gap: 8px;
+
+  justify-content: center;
+
+  padding: 0 20px;
+
+}
+
+
+
+#events.collections-container.list-view .ev-title {
+
+  margin: 0 !important;
+
+  font-size: 28px;
+
+  font-weight: 700;
+
+  color: #2b2d42;
+
+  line-height: 1.3;
+
+}
+
+
+
+#events.collections-container.list-view .ev-date {
+
+  margin: 0 !important;
+
+  color: #6b7280;
+
+  font-size: 15px;
+
+  font-weight: 600;
+
+}
+
+
+
+/* Coluna 3: Botão */
+
+#events.collections-container.list-view .ev-actions {
+
+  display: flex !important;
+
+  align-items: center;
+
+  justify-content: flex-end;
+
+  padding-right: 10px;
+
+}
+
+
+
+#events.collections-container.list-view .ev-actions .btn {
+
+  background-color: #B22222 !important;
+
+  color: #fff !important;
+
+  border: 0;
+
+  padding: 12px 24px;
+
+  border-radius: 10px;
+
+  cursor: pointer;
+
+  font-weight: 600;
+
+  font-size: 15px;
+
+  transition: all .2s ease;
+
+  box-shadow: 0 2px 8px rgba(178,34,34,.2);
+
+  white-space: nowrap;
+
+  text-decoration: none;
+
+  display: inline-block;
+
+}
+
+
+
+#events.collections-container.list-view .ev-actions .btn:hover {
+
+  background-color: #ef233c !important;
+
+  transform: translateY(-1px);
+
+  box-shadow: 0 4px 12px rgba(178,34,34,.3);
+
+}
+
+
+
+/* Responsivo */
+
+@media (max-width: 1100px) {
+
+  #events.collections-container.list-view .event-card {
+
+    grid-template-columns: auto 1fr auto;
+
+    gap: 20px;
+
+  }
+
+  
+
+  #events.collections-container.list-view .ev-gallery {
+
+    grid-template-columns: 240px 1fr !important;
+
+  }
+
+  
+
+  #events.collections-container.list-view .ev-main {
+
+    width: 240px !important;
+
+    height: 150px !important;
+
+  }
+
+  
+
+  #events.collections-container.list-view .ev-thumb {
+
+    width: 100px !important;
+
+    height: 44px !important;
+
+  }
+
+}
+
+
+
+@media (max-width: 900px) {
+
+  #events.collections-container.list-view .event-card {
+
+    grid-template-columns: 1fr !important;
+
+    gap: 16px;
+
+  }
+
+  
+
+  #events.collections-container.list-view .ev-gallery {
+
+    grid-template-columns: 1fr !important;
+
+    justify-items: center;
+
+  }
+
+  
+
+  #events.collections-container.list-view .ev-main {
+
+    grid-row: 1;
+
+    width: 100% !important;
+
+    max-width: 400px;
+
+    height: 240px !important;
+
+  }
+
+  
+
+  #events.collections-container.list-view .ev-strip {
+
+    grid-row: 2;
+
+    flex-direction: row !important;
+
+    justify-content: center;
+
+    gap: 10px;
+
+  }
+
+  
+
+  #events.collections-container.list-view .ev-thumb {
+
+    width: 90px !important;
+
+    height: 90px !important;
+
+  }
+
+  
+
+  #events.collections-container.list-view .ev-meta {
+
+    text-align: center;
+
+    align-items: center;
+
+    padding: 0;
+
+  }
+
+  
+
+  #events.collections-container.list-view .ev-actions {
+
+    justify-content: center;
+
+    padding: 0;
+
+  }
+
+}
+/* ===== Coleções dentro da modal ===== */
+.ev-collections{
+  border-top: 1px solid #eef0f3;
+  padding-top: 12px;
+  margin-top: 12px;
+}
+.ev-col-head{
+  display:flex; align-items:center; justify-content:space-between;
+  margin-bottom: 10px;
+}
+.ev-col-title{
+  margin:0; font-size:16px; color:#2b2d42; font-weight:700;
+}
+.ev-badge{
+  display:inline-block; min-width: 28px;
+  padding: 4px 10px; border-radius: 999px;
+  background:#f3f4f6; color:#111827; font-weight:700; font-size:12px;
+  text-align:center;
+}
+.ev-col-list{
+  display:grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: 10px;
+}
+.ev-col-item{
+  display:flex; flex-direction:column; align-items:center; gap:6px;
+  background:#fafafa; border:1px solid #f0f0f0; border-radius:10px;
+  padding:10px;
+}
+.ev-col-item img{
+  width:72px; height:72px; object-fit:cover; border-radius:8px;
+  box-shadow:0 2px 6px rgba(0,0,0,.06);
+}
+.ev-col-name{
+  font-size: 13px; font-weight: 600; color:#2b2d42; text-align:center;
+}
+@media (max-width: 480px){
+  .ev-col-list{ grid-template-columns: repeat(2, 1fr); }
+}
+
+
+
+
+
+/* Centrar o botão na modal de detalhe */
+.ev-actions{ justify-content: center; }
+#d-plus{ display: none; } /* caso ainda exista no HTML */
+
+/* ===== JOIN WIZARD modal ===== */
+.modal .wide{ max-width: 820px; }
+
+.wizard{
+  list-style: none; display:flex; gap:10px; padding:0; margin:8px 0 16px;
+}
+.wizard li{
+  padding:6px 10px; border-radius:999px; font-weight:700; font-size:12px;
+  background:#edf0f4; color:#475569;
+}
+.wizard li.active{ background:#B22222; color:#fff; }
+.wizard li.done{ background:#ffdada; color:#7a1a1a; }
+
+.pick-grid{
+  display:grid; grid-template-columns: repeat(auto-fill, minmax(140px,1fr));
+  gap:12px;
+}
+.pick-card{
+  display:flex; flex-direction:column; align-items:center; gap:8px;
+  padding:12px; border:1px solid #eaecef; border-radius:12px; background:#fff;
+  cursor:pointer; user-select:none;
+}
+.pick-card input{ display:none; }
+.pick-card img{ width:80px; height:80px; object-fit:cover; border-radius:10px; box-shadow:0 2px 8px rgba(0,0,0,.08); }
+.pick-card span{ font-weight:700; font-size:13px; color:#2b2d42; }
+.pick-card:has(input:checked){ outline:3px solid #B22222; background:#fff6f6; }
+
+/* Itens por coleção */
+.items-block{ border:1px solid #eef0f3; border-radius:12px; padding:12px; margin-bottom:12px; background:#fff; }
+.items-head{ display:flex; align-items:center; justify-content:space-between; margin-bottom:8px; }
+.items-col{ display:flex; align-items:center; gap:10px; }
+.items-col img{ width:36px; height:36px; border-radius:8px; object-fit:cover; }
+button.tiny{ background:#f1f5f9; border:0; padding:6px 10px; border-radius:8px; cursor:pointer; font-weight:700; }
+button.tiny:hover{ background:#e2e8f0; }
+
+.mini-grid{ display:grid; grid-template-columns: repeat(auto-fill, minmax(160px,1fr)); gap:10px; }
+.mini-card{
+  display:flex; align-items:center; gap:10px; border:1px solid #eaecef; border-radius:10px; padding:8px 10px; background:#fff;
+}
+.mini-card input{ width:16px; height:16px; }
+.mini-card img{ width:40px; height:40px; border-radius:8px; object-fit:cover; }
+.mini-card span{ font-weight:600; font-size:13px; }
+
+/* Form layout */
+.twocol{ display:grid; grid-template-columns: 1fr 1fr; gap:12px; }
+@media (max-width:700px){ .twocol{ grid-template-columns: 1fr; } }

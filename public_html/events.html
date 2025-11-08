@@ -37,32 +37,46 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/html.html to edit this
   <main>
     <h1 class="events-title">EVENTS</h1>
 
-    <!-- TOOLBAR -->
-    <section class="events-toolbar">
-      <div class="left">
-        <button id="btn-grid" class="btn-view" aria-pressed="true">▣ Grid</button>
-        <button id="btn-list" class="btn-view" aria-pressed="false">≡ List</button>
-      </div>
+    <!-- TOOLBAR (nova) -->
+<section class="events-toolbar pro">
+  <div class="toolbar-left">
+    <div class="view-toggle" role="group" aria-label="View toggle">
+      <button id="btn-grid" class="chip chip-toggle" aria-pressed="true" title="Grid view">
+        <span class="icon-grid" aria-hidden="true"></span>
+        <span>Grid</span>
+      </button>
+      <button id="btn-list" class="chip chip-toggle" aria-pressed="false" title="List view">
+        <span class="icon-list" aria-hidden="true"></span>
+        <span>List</span>
+      </button>
+    </div>
+  </div>
 
-      <div class="right">
-        <label for="sort">Sort:</label>
-        <select id="sort">
-          <option value="date_asc">Date (↑)</option>
-          <option value="date_desc">Date (↓)</option>
-          <option value="name_asc">Name (A→Z)</option>
-          <option value="name_desc">Name (Z→A)</option>
-        </select>
+  <div class="toolbar-center">
+    <label class="field">
+      <span>Sort</span>
+      <select id="sort">
+        <option value="date_asc">Date (↑)</option>
+        <option value="date_desc">Date (↓)</option>
+        <option value="name_asc">Name (A→Z)</option>
+        <option value="name_desc">Name (Z→A)</option>
+      </select>
+    </label>
 
-        <label for="status">Status:</label>
-        <select id="status">
-          <option value="">All</option>
-          <option value="upcoming">Upcoming</option>
-          <option value="past">Past</option>
-        </select>
+    <label class="field">
+      <span>Status</span>
+      <select id="status">
+        <option value="">All</option>
+        <option value="upcoming">Upcoming</option>
+        <option value="past">Past</option>
+      </select>
+    </label>
+  </div>
 
-        <button id="btn-new" class="btn">+ New Event</button>
-      </div>
-    </section>
+  <div class="toolbar-right">
+    <button id="btn-new" class="btn primary">+ New Event</button>
+  </div>
+</section>
 
     <!-- LISTA DE EVENTOS -->
     <section id="events" class="collections-container"></section>
@@ -78,9 +92,19 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/html.html to edit this
       <p id="ev-date" class="ev-subtitle">04/05/2025, 18:00</p>
 
       <p id="ev-desc" class="ev-desc">Short description of the event goes here.</p>
+      <!-- Coleções do evento -->
+      <div class="ev-collections">
+        <div class="ev-col-head">
+          <h4 class="ev-col-title">Coleções no evento</h4>
+          <span id="ev-col-count" class="ev-badge">0</span>
+        </div>
+
+        <div id="ev-col-list" class="ev-col-list" aria-live="polite"></div>
+      </div>
+
 
       <div class="ev-actions">
-        <button id="d-plus" class="btn">＋</button>
+        
         <button id="d-join" class="btn">Participar</button>
       </div>
     </div>
@@ -111,6 +135,69 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/html.html to edit this
       </div>
     </div>
   </div>
+  <!-- ===== JOIN FORM (passo-a-passo) ===== -->
+<div id="joinForm" class="modal" aria-hidden="true">
+  <div class="modal-content wide">
+    <span class="close" id="join-close" aria-label="Close">×</span>
+    <h2 id="join-title">Participar no evento</h2>
+
+    <!-- wizard steps header -->
+    <ol class="wizard">
+      <li class="done"   id="w-step-1">Coleções</li>
+      <li class=""       id="w-step-2">Itens</li>
+      <li class=""       id="w-step-3">Dados</li>
+    </ol>
+
+    <!-- STEP 1: escolher coleções -->
+    <section id="join-step-1" class="join-step">
+      <p class="muted">Escolhe as coleções que vais levar.</p>
+      <div id="user-col-list" class="pick-grid"></div>
+      <div class="modal-buttons">
+        <button id="join-next-1" class="btn">Continuar</button>
+      </div>
+    </section>
+
+    <!-- STEP 2: escolher itens por coleção -->
+    <section id="join-step-2" class="join-step" hidden>
+      <div id="items-per-collection"></div>
+      <div class="modal-buttons">
+        <button id="join-back-2">Voltar</button>
+        <button id="join-next-2" class="btn">Continuar</button>
+      </div>
+    </section>
+
+    <!-- STEP 3: dados pessoais -->
+    <section id="join-step-3" class="join-step" hidden>
+      <div class="twocol">
+        <label>Nome
+          <input id="jf-name" required>
+        </label>
+        <label>Data de nascimento
+          <input id="jf-dob" type="date" required>
+        </label>
+      </div>
+      <div class="twocol">
+        <label>E-mail
+          <input id="jf-email" type="email" required>
+        </label>
+        <label>Telefone
+          <input id="jf-phone" type="tel" required>
+        </label>
+      </div>
+      <label>Comentário (opcional)
+        <textarea id="jf-note" rows="3" placeholder="Ex.: porque levas estas coleções…"></textarea>
+      </label>
+
+      <div class="modal-buttons">
+        <button id="join-back-3">Voltar</button>
+        <button id="join-submit" class="btn">Confirmar participação</button>
+      </div>
+    </section>
+  </div>
+</div>
+
+  
+  
 
 </body>
 </html>
