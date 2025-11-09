@@ -6,6 +6,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/css.css to edit this t
     Created on : 08/11/2025, 11:11:08
     Author     : hp
 */
+
 /* ===== NAVBAR ===== */
 .navbar {
   display: flex;
@@ -21,7 +22,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/css.css to edit this t
 .navbar-logo a {
   font-size: 24px;
   font-weight: bold;
-  color: #2b2d42;
+  color: #2b2d42; /* muda para #fff se quiseres o logo claro */
   text-decoration: none;
 }
 
@@ -56,6 +57,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/css.css to edit this t
   border-radius: 50%;
   border: 2px solid #2b2d42;
 }
+
 /* ===== COLLECTION PAGE ===== */
 
 /* ===== BANNER HEADER ===== */
@@ -83,10 +85,11 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/css.css to edit this t
   text-transform: uppercase;
 }
 
-/* ===== TOOLBAR (GRID/LIST + SORT) ===== */
+/* ===== TOOLBAR (GRID/LIST + SORT) =====
+   -> fica por baixo do título, alinhada à direita */
 .collection-toolbar {
   max-width: 1200px;
-  margin: 0 auto 10px auto;
+  margin: 0 auto 24px auto;
   padding: 0 20px;
   display: flex;
   justify-content: flex-end;
@@ -129,20 +132,32 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/css.css to edit this t
   font-size: 14px;
 }
 
-/* ===== GRID DOS ITENS ===== */
+/* ===== GRID DOS ITENS =====
+   -> grelha responsiva (4 colunas desktop) */
 .collection-items {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 35px;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 32px;
+  max-width: 1200px;
+  margin: 0 auto;
   padding: 40px 20px;
   background-color: #fff;
 }
+@media (max-width: 1200px){
+  .collection-items { grid-template-columns: repeat(3, 1fr); }
+}
+@media (max-width: 900px){
+  .collection-items { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 600px){
+  .collection-items { grid-template-columns: 1fr; }
+}
+
 .item-card {
   background: #fff;
   border-radius: 20px;
   box-shadow: 0 6px 15px rgba(0,0,0,0.15);
-  width: 250px;
+  width: auto;          /* adapta à coluna */
   padding: 15px;
   text-align: center;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
@@ -169,12 +184,16 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/css.css to edit this t
   margin-bottom: 10px;
 }
 .item-info {
-  display: flex;
-  justify-content: space-around;
+  display: inline-flex;           /* rating, preço, peso em linha */
+  gap: 16px;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: nowrap;
   margin-bottom: 10px;
   font-size: 13px;
   color: #333;
 }
+.item-info span { display: inline-flex; align-items: center; gap: 6px; }
 .item-card button {
   background-color: #B22222;
   color: white;
@@ -188,10 +207,13 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/css.css to edit this t
   background-color: #FF4C4C;
 }
 
-/* ===== BOTÃO ADD ITEM ===== */
+/* ===== BOTÃO ADD ITEM =====
+   -> aparece DEPOIS da grelha, centrado no fundo da página */
 .add-item-btn {
+  position: static;              /* garante que não fica fixo em canto nenhum */
   display: block;
-  margin: 40px auto;
+  width: fit-content;
+  margin: 24px auto 64px auto;   /* espaço acima/abaixo */
   background-color: #B22222;
   color: white;
   padding: 12px 25px;
@@ -236,47 +258,35 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/css.css to edit this t
   border-radius: 6px;
   cursor: pointer;
 }
-#saveItem {
-  background-color: #B22222;
-  color: white;
-}
-#cancelItem {
-  background-color: #ccc;
-}
-
+#saveItem { background-color: #B22222; color: white; }
+#cancelItem { background-color: #ccc; }
 
 /* ===== DARK MODE ===== */
-/* fallback: garantir aplicação visual do dark-mode */
 body.dark-mode {
   background-color: #0b0b0b !important;
   color: #e9e9e9 !important;
 }
-
 /* navbar */
 body.dark-mode .navbar {
   background-color: #111 !important;
   color: #f1f1f1 !important;
 }
 body.dark-mode .navbar-logo a { color: #f3d24a !important; }
-
 /* banner/header */
 body.dark-mode .collection-header {
   background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url("img/starwars-banner.jpg") center/cover no-repeat !important;
   border-bottom-color: #b8860b !important;
 }
-
 /* título */
 body.dark-mode .collection-title {
   color: #ffd54f !important;
   text-shadow: 2px 2px 6px rgba(0,0,0,0.5) !important;
 }
-
 /* toolbar / controls */
 body.dark-mode .collection-toolbar,
 body.dark-mode .collection-items {
   background-color: transparent !important;
 }
-
 /* itens/cards */
 body.dark-mode .item-card,
 body.dark-mode .collection-card {
@@ -289,7 +299,6 @@ body.dark-mode .collection-card h2,
 body.dark-mode .collection-card h3 {
   color: #ffd54f !important;
 }
-
 /* inputs, selects, modals */
 body.dark-mode input,
 body.dark-mode select,
@@ -299,8 +308,7 @@ body.dark-mode .modal-content {
   color: #eee !important;
   border: 1px solid #333 !important;
 }
-
-/* botão add / view */
+/* botões */
 body.dark-mode .add-item-btn,
 body.dark-mode .btn,
 body.dark-mode .btn-add,
@@ -310,7 +318,7 @@ body.dark-mode .btn-create {
   color: #fff !important;
 }
 
-/* tornar visível o toggle */
+/* Toggle tema */
 .theme-toggle {
   background: transparent;
   border: none;
@@ -321,4 +329,140 @@ body.dark-mode .btn-create {
 /* scroll dark */
 body.dark-mode::-webkit-scrollbar-thumb {
   background-color: #444 !important;
+}
+
+/* ===== LIST VIEW STYLES (NOVO E MELHORADO) ===== */
+
+/* 1. Container principal em modo lista */
+.collection-items.list-view {
+  display: flex;
+  flex-direction: column;
+  gap: 16px; /* Espaço entre os cartões */
+  max-width: 900px; /* Alinha a lista ao centro e dá-lhe uma largura agradável */
+  margin: 0 auto; /* Centra a lista */
+  padding: 20px; /* Adiciona algum padding lateral */
+  background-color: transparent; /* Garante que não tem fundo branco extra */
+}
+
+/* 2. O cartão individual em modo lista */
+.collection-items.list-view .item-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  /* ALTERAÇÃO AQUI */
+  padding: 10px 15px; /* Era 15px 20px */
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+  width: 100%;
+}
+
+/* 3. Imagem do cartão em modo lista */
+.collection-items.list-view .item-card img {
+  /* ALTERAÇÃO AQUI */
+  width: 70px;   /* Era 90px */
+  height: 70px;  /* Era 90px */
+  margin-right: 20px; /* Era 25px */
+  
+  object-fit: contain;
+  border-radius: 8px;
+  margin-bottom: 0;
+  flex-shrink: 0;
+}
+
+/* 4. Conteúdo principal (texto e info) */
+.collection-items.list-view .item-details {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1; /* Ocupa o máximo de espaço possível */
+  margin-right: 20px; /* Espaço antes do botão */
+}
+
+/* 5. Título e descrição (AGORA EM LINHA) */
+.collection-items.list-view .item-text {
+  /* ADICIONA/ALTERA ISTO */
+  display: flex;
+  align-items: baseline; /* Alinha o título e a descrição pela base */
+  gap: 10px; /* Espaço entre o nome e a descrição */
+  margin-bottom: 8px; /* Espaço para a linha de info (rating/preço) */
+}
+
+.collection-items.list-view .item-card h3 {
+  /* ALTERAÇÃO AQUI */
+  font-size: 18px; /* Um pouco mais pequeno para caber */
+  margin-bottom: 0; /* O flex-gap controla o espaço */
+  color: #B22222;   /* A cor vermelha pedida */
+  flex-shrink: 0; /* Impede o nome de quebrar */
+}
+
+/* Deixa a regra do dark-mode como está */
+body.dark-mode .collection-items.list-view .item-card h3 {
+    color: #ffd54f !important; 
+}
+
+.collection-items.list-view .item-card p {
+  font-size: 14px;
+  color: #666;
+  /* ADICIONA ISTO */
+  margin-bottom: 0; /* O flex-gap controla o espaço */
+}
+/* 6. Informações (rating, preço, peso) */
+.collection-items.list-view .item-info {
+  display: flex;
+  justify-content: flex-start; /* Alinha à esquerda */
+  gap: 15px; /* Espaço entre os spans */
+  font-size: 13px;
+  color: #555;
+  margin-bottom: 0; /* Remove a margem extra */
+  margin-top: 5px; /* Pequena margem superior */
+}
+body.dark-mode .collection-items.list-view .item-card .item-info span {
+    color: #ccc !important; /* Cor no dark mode */
+}
+
+
+/* 7. Botão "View Details" */
+.collection-items.list-view .item-actions {
+  flex-shrink: 0; /* Impede o botão de encolher */
+  margin-left: auto; /* Empurra para a extrema direita */
+}
+
+.collection-items.list-view .item-actions button {
+  padding: 10px 20px; /* Mais padding para o botão */
+  font-size: 14px;
+  border-radius: 6px;
+  min-width: 120px; /* Garante uma largura mínima */
+}
+
+/* Responsividade para ecrãs mais pequenos na List View */
+@media (max-width: 768px) {
+  .collection-items.list-view .item-card {
+    flex-direction: column; /* Empilha tudo verticalmente */
+    align-items: flex-start; /* Alinha à esquerda */
+    gap: 10px;
+  }
+  .collection-items.list-view .item-card img {
+    margin-right: 0;
+    margin-bottom: 10px; /* Espaço abaixo da imagem */
+  }
+  .collection-items.list-view .item-details {
+    margin-right: 0;
+    width: 100%; /* Ocupa a largura toda */
+    align-items: flex-start;
+  }
+  .collection-items.list-view .item-actions {
+    margin-left: 0; /* Remove o margin-left: auto */
+    width: 100%; /* Ocupa a largura toda */
+  }
+  .collection-items.list-view .item-actions button {
+    width: 100%; /* Botão ocupa a largura toda */
+  }
+}
+
+/* Ajustes para Dark Mode */
+body.dark-mode .collection-items.list-view .item-card {
+    background-color: #1b1b1b !important;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.4) !important;
+}
+body.dark-mode .collection-items.list-view .item-card:hover {
+    box-shadow: 0 8px 15px rgba(0,0,0,0.6) !important;
 }
