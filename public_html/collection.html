@@ -1,206 +1,233 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Star Wars Miniatures Collection</title>
-  <link rel="stylesheet" href="css/collection.css">
-  <!-- Fonte temática Star Wars -->
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&display=swap" rel="stylesheet">
-
- 
+  <meta charset="UTF-8">
+  <title>Star Wars Miniatures Collection</title>
+  <link rel="stylesheet" href="css/collection.css">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&display=swap" rel="stylesheet">
 </head>
-
-<!-- ===== NAVBAR ===== -->
-<nav class="navbar">
-  <div class="navbar-logo">
-    <a href="home.html">MyCollections</a>
-  </div>
-
-  <!-- Barra de pesquisa estilizada -->
-  <form class="navbar-search" action="search.html" method="GET">
-    <input type="text" name="q" placeholder="Search collections, items..." required>
-    <button type="submit" class="search-btn">
-      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <circle cx="8" cy="8" r="6"></circle>
-        <line x1="13" y1="13" x2="18" y2="18"></line>
-      </svg>
-    </button>
- 
-  </form>
-
-  <div class="navbar-user">
-    <a href="user.html">
-      <img src="img/user.jpg" alt="User" class="navbar-avatar">
-    </a>
-  </div>
-  <button id="themeToggle" class="theme-toggle">🌙</button>
-
-</nav>
-
 
 <body>
 
-    
-  <!-- Banner -->
-  <header class="collection-header">
-    <div class="search-bar">
-    </div>
-  </header>
-  
-  <!-- Título da coleção -->
-  <h1 class="collection-title">Star Wars Miniatures</h1>
-  <!-- Toolbar: alternar vista -->
-  
+<nav class="navbar">
+  <div class="navbar-logo">
+    <a href="home.html">MyCollections</a>
+  </div>
+  <form class="navbar-search" action="search.html" method="GET">
+    <input type="text" name="q" placeholder="Search collections, items..." required>
+    <button type="submit" class="search-btn">
+      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="8" cy="8" r="6"></circle>
+        <line x1="13" y1="13" x2="18" y2="18"></line>
+      </svg>
+    </button>
+  </form>
+  <div class="navbar-user">
+    <a href="user.html">
+      <img src="img/user.jpg" alt="User" class="navbar-avatar">
+    </a>
+  </div>
+  <button id="themeToggle" class="theme-toggle">🌙</button>
+</nav>
+
+
+  <header class="collection-header">
+    <div class="search-bar">
+    </div>
+  </header>
+  
+  <h1 class="collection-title">Star Wars Miniatures</h1>
+  
 <div class="collection-toolbar">
-  <div class="view-toggle" role="group" aria-label="View toggle">
-    <button class="btn-view" data-view="grid" aria-pressed="true" title="Grid view">🔲 Grid</button>
-    <button class="btn-view" data-view="list" aria-pressed="false" title="List view">📃 List</button>
-  </div>
-
-  <!-- SORT BY (colado aqui) -->
-  <div class="sort-wrap">
-    <label for="sortSelect">Sort by:</label>
-    <select id="sortSelect">
-      <option value="default">Default</option>
-      <option value="ratingDesc">Rating (High → Low)</option>
-      <option value="priceAsc">Price (Low → High)</option>
-      <option value="priceDesc">Price (High → Low)</option>
-    </select>
-  </div>
+  <div class="view-toggle" role="group" aria-label="View toggle">
+    <button class="btn-view" data-view="grid" aria-pressed="true" title="Grid view">🔲 Grid</button>
+    <button class="btn-view" data-view="list" aria-pressed="false" title="List view">📃 List</button>
+  </div>
+  <select id="sortSelect">
+    <option value="default">Default</option>
+    <option value="ratingDesc">Importance (High → Low)</option>
+    <option value="ratingAsc">Importance (Low → High)</option>
+    <option value="priceAsc">Price (Low → High)</option>
+    <option value="priceDesc">Price (High → Low)</option>
+    <option value="weightAsc">Weight (Low → High)</option>
+    <option value="weightDesc">Weight (High → Low)</option>
+  </select>
 </div>
 
-  <!-- Itens da coleção -->
-  <section class="collection-items grid-view">
-    
-    <div class="item-card" data-rating="9" data-price="25">
-      <img src="img/luke.jpg" alt="Miniature of Luke Skywalker - Rebel Hero">
-      <h3>Luke Skywalker</h3>
-      <p>Rebel Hero</p>
-      <div class="item-info">
-        <span>⭐ 9/10</span>
-        <span>💰 25€</span>
-      </div>
-      <button>View Details</button>
-    </div>
+<section class="collection-items grid-view"><div class="item-card" data-rating="9" data-price="25" data-weight="120">
+    <img src="img/luke.jpg" alt="Miniature of Luke Skywalker - Rebel Hero">
+    <div class="item-details">
+      <div class="item-text">
+        <h3>Luke Skywalker</h3>
+        <p>Rebel Hero</p>
+      </div>
+      <div class="item-info">
+        <span>⭐ 9/10</span>
+        <span>💰 25€</span>
+        <span>⚖️ 120g</span> 
+      </div>
+    </div>
+    <div class="item-actions">
+      <button>View Details</button>
+    </div>
+  </div>
 
-    <div class="item-card" data-rating="10" data-price="40">
-      <img src="img/vader.jpg" alt="Miniature of Darth Vader - Sith Lord">
-      <h3>Darth Vader</h3>
-      <p>Sith Lord</p>
-      <div class="item-info">
-        <span>⭐ 10/10</span>
-        <span>💰 40€</span>
-      </div>
-      <button>View Details</button>
-    </div>
+  <div class="item-card" data-rating="10" data-price="40" data-weight="180">
+    <img src="img/vader.jpg" alt="Miniature of Darth Vader - Sith Lord">
+    <div class="item-details">
+      <div class="item-text">
+        <h3>Darth Vader</h3>
+        <p>Sith Lord</p>
+      </div>
+      <div class="item-info">
+        <span>⭐ 10/10</span>
+        <span>💰 40€</span>
+        <span>⚖️ 180g</span> 
+      </div>
+    </div>
+    <div class="item-actions">
+      <button>View Details</button>
+    </div>
+  </div>
 
-    <div class="item-card" data-rating="8" data-price="30">
-      <img src="img/leia.jpg" alt="Miniature of Princess Leia Organa - Rebel Leader">
-      <h3>Princess Leia Organa</h3>
-      <p>Rebel Leader</p>
-      <div class="item-info">
-        <span>⭐ 8/10</span>
-        <span>💰 30€</span>
-      </div>
-      <button>View Details</button>
-    </div>
+  <div class="item-card" data-rating="8" data-price="30" data-weight="110">
+    <img src="img/leia.jpg" alt="Miniature of Princess Leia Organa - Rebel Leader">
+    <div class="item-details">
+      <div class="item-text">
+        <h3>Princess Leia Organa</h3>
+        <p>Rebel Leader</p>
+      </div>
+      <div class="item-info">
+        <span>⭐ 8/10</span>
+        <span>💰 30€</span>
+        <span>⚖️ 110g</span> 
+      </div>
+    </div>
+    <div class="item-actions">
+      <button>View Details</button>
+    </div>
+  </div>
 
-    <div class="item-card" data-rating="9" data-price="28">
-      <img src="img/han.jpg" alt="Miniature of Han Solo - Smuggler & Pilot">
-      <h3>Han Solo</h3>
-      <p>Smuggler & Pilot</p>
-      <div class="item-info">
-        <span>⭐ 9/10</span>
-        <span>💰 28€</span>
-      </div>
-      <button>View Details</button>
-    </div>
+  <div class="item-card" data-rating="9" data-price="28" data-weight="105">
+    <img src="img/han.jpg" alt="Miniature of Han Solo - Smuggler & Pilot">
+    <div class="item-details">
+      <div class="item-text">
+        <h3>Han Solo</h3>
+        <p>Smuggler & Pilot</p>
+      </div>
+      <div class="item-info">
+        <span>⭐ 9/10</span>
+        <span>💰 28€</span>
+        <span>⚖️ 105g</span> 
+      </div>
+    </div>
+    <div class="item-actions">
+      <button>View Details</button>
+    </div>
+  </div>
 
-    <div class="item-card" data-rating="10" data-price="35">
-      <img src="img/yoda.jpg" alt="Miniature of Yoda - Jedi Master">
-      <h3>Yoda</h3>
-      <p>Jedi Master</p>
-      <div class="item-info">
-        <span>⭐ 10/10</span>
-        <span>💰 35€</span>
-      </div>
-      <button>View Details</button>
-    </div>
+  <div class="item-card" data-rating="10" data-price="35" data-weight="112">
+    <img src="img/yoda.jpg" alt="Miniature of Yoda - Jedi Master">
+    <div class="item-details">
+      <div class="item-text">
+        <h3>Yoda</h3>
+        <p>Jedi Master</p>
+      </div>
+      <div class="item-info">
+        <span>⭐ 10/10</span>
+        <span>💰 35€</span>
+        <span>⚖️ 112g</span> 
+      </div>
+    </div>
+    <div class="item-actions">
+      <button>View Details</button>
+    </div>
+  </div>
 
-    <div class="item-card" data-rating="7" data-price="15">
-      <img src="img/stormtrooper.jpg" alt="Miniature of Stormtrooper - Imperial Soldier">
-      <h3>Stormtrooper</h3>
-      <p>Imperial Soldier</p>
-      <div class="item-info">
-        <span>⭐ 7/10</span>
-        <span>💰 15€</span>
-      </div>
-      <button>View Details</button>
-    </div>
+  <div class="item-card" data-rating="7" data-price="15" data-weight="80">
+    <img src="img/stormtrooper.jpg" alt="Miniature of Stormtrooper - Imperial Soldier">
+    <div class="item-details">
+      <div class="item-text">
+        <h3>Stormtrooper</h3>
+        <p>Imperial Soldier</p>
+      </div>
+      <div class="item-info">
+        <span>⭐ 7/10</span>
+        <span>💰 15€</span>
+        <span>⚖️ 80g</span> 
+      </div>
+    </div>
+    <div class="item-actions">
+      <button>View Details</button>
+    </div>
+  </div>
 
-    <div class="item-card" data-rating="9" data-price="22">
-      <img src="img/r2d2.jpg" alt="Miniature of R2-D2 - Astromech Droid">
-      <h3>R2-D2</h3>
-      <p>Astromech Droid</p>
-      <div class="item-info">
-        <span>⭐ 9/10</span>
-        <span>💰 22€</span>
-      </div>
-      <button>View Details</button>
-    </div>
+  <div class="item-card" data-rating="9" data-price="22" data-weight="78">
+    <img src="img/r2d2.jpg" alt="Miniature of R2-D2 - Astromech Droid">
+    <div class="item-details">
+      <div class="item-text">
+        <h3>R2-D2</h3>
+        <p>Astromech Droid</p>
+      </div>
+      <div class="item-info">
+        <span>⭐ 9/10</span>
+        <span>💰 22€</span>
+        <span>⚖️ 78g</span> 
+      </div>
+    </div>
+    <div class="item-actions">
+      <button>View Details</button>
+    </div>
+  </div>
 
-    <div class="item-card" data-rating="10" data-price="60">
-      <img src="img/falcon.jpg" alt="Miniature of Millennium Falcon - Corellian Freighter">
-      <h3>Millennium Falcon</h3>
-      <p>Corellian Freighter</p>
-      <div class="item-info">
-        <span>⭐ 10/10</span>
-        <span>💰 60€</span>
-      </div>
-      <button>View Details</button>
-    </div>
-      
+  <div class="item-card" data-rating="10" data-price="60" data-weight="105">
+    <img src="img/falcon.jpg" alt="Miniature of Millennium Falcon - Corellian Freighter">
+    <div class="item-details">
+      <div class="item-text">
+        <h3>Millennium Falcon</h3>
+        <p>Corellian Freighter</p>
+s     </div>
+      <div class="item-info">
+        <span>⭐ 10/10</span>
+        <span>💰 60€</span>
+        <span>⚖️ 105g</span> 
+      </div>
+    </div>
+    <div class="item-actions">
+      <button>View Details</button>
+    </div>
+  </div>
+      
+</section>
 
-  </section>
- <!-- Botão Add Item -->
-<div id="addItemModal" class="modal">
-  <div class="modal-content">
-    <h2>Add New Item</h2>
-    <label>Name:</label>
-    <input type="text" id="itemName" placeholder="Enter item name">
-
-    <label>Description:</label>
-    <input type="text" id="itemDesc" placeholder="Short description">
-
-    <label>Importance (1–10):</label>
-    <input type="number" id="itemRating" min="1" max="10" value="1">
-
-    <label>Price (€):</label>
-    <input type="number" id="itemPrice" min="0" step="0.01" value="0">
-
-    <label>Date of acquisition:</label>
-    <input type="date" id="itemDate">
-    
-    <label for="itemImage">Image:</label>
-        <div id="dropZone" class="drop-zone">
-            <p>Drag & drop an image here, or click to select</p>
-            <input type="file" id="itemImage" accept="image/*" hidden>
-        </div>
-
-    <div class="modal-buttons">
-      <button id="saveItem">💾 Save</button>
-      <button id="cancelItem">❌ Cancel</button>
-    </div>
-  </div>
-</div>
- 
- 
-
-
-
-
-  <!-- Botão Add Item -->
-  <button class="add-item-btn">➕ Add Item</button>
-  <script src="js/collection.js"></script>
+  <div id="addItemModal" class="modal">
+    <div class="modal-content">
+      <h2>Add New Item</h2>
+      <label>Name:</label>
+      <input type="text" id="itemName" placeholder="Enter item name">
+      <label>Description:</label>
+      <input type="text" id="itemDesc" placeholder="Short description">
+      <label>Importance (1–10):</label>
+      <input type="number" id="itemRating" min="1" max="10" value="1">
+      <label>Price (€):</label>
+      <input type="number" id="itemPrice" min="0" step="0.01" value="0">
+      <label>Weight (g):</label>
+      <input type="number" id="itemWeight" min="0" step="1" value="0">
+      <label>Date of acquisition:</label>
+      <input type="date" id="itemDate">
+      <label for="itemImage">Image:</label>
+      <div id="dropZone" class="drop-zone">
+        <p>Drag & drop an image here, or click to select</p>
+        <input type="file" id="itemImage" accept="image/*" hidden>
+      </div>
+      <div class="modal-buttons">
+        <button id="saveItem">💾 Save</button>
+        <button id="cancelItem">❌ Cancel</button>
+      </div>
+    </div>
+  </div>
+ 
+  <button class="add-item-btn">➕ Add Item</button>
+  <script src="js/collection.js"></script>
 </body>
 </html>
