@@ -143,6 +143,28 @@
     <a href="user.html" class="btn my-collections-btn">My Collections</a>
   </section>
 
+  <div id="createCollectionModal" class="modal">
+  <div class="modal-content">
+    <span id="closeCreateModal" class="close">×</span>
+    <h2>Create New Collection</h2>
+    
+    <label for="collectionName">Collection Name:</label>
+    <input type="text" id="collectionName" placeholder="e.g., Star Wars Miniatures" required>
+    
+    <label for="collectionDesc">Description:</label>
+    <textarea id="collectionDesc" rows="3" placeholder="A short description of your collection"></textarea>
+    
+    <label for="collectionImage">Cover Image (URL):</label>
+    <input type="text" id="collectionImage" placeholder="https://.../my-image.jpg">
+    
+    <div class="modal-buttons">
+      <button id="saveCollectionBtn" class="btn">💾 Save Collection</button>
+      <button id="cancelCreate" type="button" class="btn" style="background-color: #777;">❌ Cancel</button>
+    </div>
+  </div>
+</div>
+
+
 
   <!-- ===== FOOTER ===== -->
   <footer class="footer">
