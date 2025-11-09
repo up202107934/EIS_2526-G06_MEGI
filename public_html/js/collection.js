@@ -249,11 +249,47 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
-// Faz com que todos os botões "View Details" abram a página item.html
-// NOTA: Isto só funciona para os botões que existem QUANDO a página carrega.
-// Os botões criados dinamicamente (no modal) não são apanhados por isto.
+
+
 document.querySelectorAll('.item-card button').forEach(button => {
   button.addEventListener('click', () => {
-    window.location.href = 'item.html';  // muda de página
+    window.location.href = 'item.html'; 
   });
+});
+
+
+// --- Mostrar nome do utilizador criador da coleção ---
+window.addEventListener("load", () => {
+  // espera até TUDO (incluindo data.js) estar carregado
+  const params = new URLSearchParams(window.location.search);
+  const collectionId = parseInt(params.get("id"));
+
+  if (!collectionId) {
+    console.warn("Nenhum ID recebido no URL.");
+    return;
+  }
+
+  // confirma se as variáveis globais existem
+  if (typeof collections === "undefined" || typeof users === "undefined") {
+    console.error("data.js ainda não carregado ou com erro.");
+    return;
+  }
+
+  const collection = collections.find(c => c.id === collectionId);
+  if (!collection) {
+    console.error("Coleção não encontrada para ID:", collectionId);
+    return;
+  }
+
+  const user = users.find(u => u.id === collection.userId);
+  const infoContainer = document.createElement("div");
+  infoContainer.classList.add("collection-info");
+  infoContainer.innerHTML = `
+    <h2>${collection.name}</h2>
+    <p>Criada por: <a href="user_view.html?id=${user.id}">${user.name}</a></p>
+  `;
+
+  const header = document.querySelector(".collection-header");
+  if (header) header.after(infoContainer);
+  else document.body.prepend(infoContainer);
 });
