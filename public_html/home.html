@@ -17,11 +17,9 @@
       <a href="home.html">MyCollections</a>
     </div>
 
-    <form class="navbar-search" action="search.html" method="GET">
-      <input type="text" name="q" placeholder="Search collections, items..." required />
-      <button type="submit" class="search-btn">
-        🔍
-      </button>
+    <form class="navbar-search" id="searchForm" action="#" method="GET">
+        <input type="text" id="searchInput" name="q" placeholder="Search collections, items..." required />
+        <button type="submit" class="search-btn">🔍</button>
     </form>
 
     <div class="navbar-user">
@@ -42,14 +40,14 @@
   <div class="hero-content">
     <h1>Welcome to <span>MyCollections</span></h1>
     <p>Discover and showcase your favorite collections</p>
-    <a href="home.html" class="hero-btn">Explore Collections</a>
+    <a href="#collections" class="hero-btn">Explore Collections</a>
   </div>
 </section>
 
 
 
   <!-- ===== HOME CONTENT ===== -->
-  <section class="home-section">
+  <section class="home-section" id="collections">
     <h2 class="home-title">Top 5 Collections</h2>
 
     <div class="collections-container">
