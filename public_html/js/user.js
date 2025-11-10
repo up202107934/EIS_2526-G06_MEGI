@@ -61,6 +61,7 @@ const cancelBtn = document.getElementById("cancelCollection");
 const saveBtn = document.getElementById("saveCollection");
 const dropZone = document.getElementById("dropZoneCollection");
 const fileInput = document.getElementById("collectionImage");
+const previewImg = document.getElementById("collectionPreview");
 const collectionsContainer = document.querySelector(".collections-grid");
 
 // === Abrir modal ===
@@ -87,6 +88,24 @@ dropZone.addEventListener("drop", (e) => {
   dropZone.classList.remove("drag-over");
 });
 
+// === Mostrar pré-visualização da imagem e ocultar o dropzone ===
+fileInput.addEventListener("change", () => {
+  const file = fileInput.files[0];
+  if (file) {
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      previewImg.src = e.target.result;
+      previewImg.style.display = "block";
+      dropZone.style.display = "none"; // oculta o retângulo
+    };
+    reader.readAsDataURL(file);
+  } else {
+    previewImg.style.display = "none";
+    dropZone.style.display = "flex"; // mostra de novo se limpar a imagem
+  }
+});
+
+
 // === Guardar coleção ===
 saveBtn.addEventListener("click", () => {
   const name = document.getElementById("collectionName").value.trim();
@@ -98,7 +117,8 @@ saveBtn.addEventListener("click", () => {
   }
 
   const reader = new FileReader();
-  reader.onload = function(e) {
+
+  reader.onload = function (e) {
     const imgSrc = e.target.result || "img/default.jpg";
 
     const collection = {
@@ -113,51 +133,73 @@ saveBtn.addEventListener("click", () => {
     localStorage.setItem("collections", JSON.stringify(savedCollections));
 
     // Atualizar visualmente
-    addCollectionToPage(collection);
+    addCollectionToPage(collection, savedCollections.length - 1);
 
-    // Fechar modal
+    // Fechar modal e limpar campos
     modal.style.display = "none";
     document.getElementById("collectionName").value = "";
+    document.getElementById("collectionDescription").value = "";
     fileInput.value = "";
+    previewImg.style.display = "none";
+    dropZone.style.display = "flex";
   };
 
-  if (file) reader.readAsDataURL(file);
-  else reader.onload({ target: { result: "img/default.jpg" } });
+  if (file) {
+    reader.readAsDataURL(file);
+  } else {
+    // Forçar leitura da imagem padrão
+    reader.onload({ target: { result: "img/default.jpg" } });
+  }
 });
 
 // === Função para adicionar coleção na página ===
-function addCollectionToPage(collection) {
+function addCollectionToPage(collection, index) {
   const card = document.createElement("div");
   card.classList.add("collection-card");
+  card.dataset.index = index;
+
   card.innerHTML = `
     <img src="${collection.img}" alt="${collection.name}">
     <h2>${collection.name}</h2>
-    <p>0 items</p>
-    <a href="new_collection.html?name=${encodeURIComponent(collection.name)}" class="btn-view">View Collection</a>
+    <p>${collection.items} items</p>
+    <div class="card-buttons">
+      <a href="new_collection.html?name=${encodeURIComponent(collection.name)}" class="btn-view">View Collection</a>
+      <button class="btn-remove">🗑</button>
+    </div>
   `;
+
+  // === Evento de remoção ===
+  card.querySelector(".btn-remove").addEventListener("click", () => {
+    if (confirm(`Are you sure you want to remove "${collection.name}"?`)) {
+      removeCollection(index);
+      card.remove();
+    }
+  });
+
   collectionsContainer.appendChild(card);
 }
 
-// === Carregar coleções existentes ao abrir página ===
-window.addEventListener("DOMContentLoaded", () => {
+// === Função para remover coleção do localStorage ===
+function removeCollection(index) {
   const savedCollections = JSON.parse(localStorage.getItem("collections") || "[]");
-  savedCollections.forEach(addCollectionToPage);
-});
+  savedCollections.splice(index, 1);
+  localStorage.setItem("collections", JSON.stringify(savedCollections));
+}
+
+
+
 
 // === DARK MODE TOGGLE ===
 document.addEventListener("DOMContentLoaded", () => {
   const themeToggle = document.getElementById("themeToggle");
-  if (!themeToggle) return; // segurança
+  if (!themeToggle) return;
 
   const currentTheme = localStorage.getItem("theme");
-
-  // aplica o tema guardado
   if (currentTheme === "dark") {
     document.body.classList.add("dark-mode");
     themeToggle.textContent = "☀️";
   }
 
-  // alterna entre claro/escuro
   themeToggle.addEventListener("click", () => {
     document.body.classList.toggle("dark-mode");
     const isDark = document.body.classList.contains("dark-mode");
@@ -166,3 +208,15 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
+// === botão "Remove" nas coleções fixas do html da homepage) ===
+document.addEventListener("DOMContentLoaded", () => {
+  document.querySelectorAll(".collection-card .btn-remove").forEach((btn) => {
+    btn.addEventListener("click", (e) => {
+      const card = e.target.closest(".collection-card");
+      const name = card.querySelector("h3, h2")?.textContent || "this collection";
+      if (confirm(`Are you sure you want to remove "${name}"?`)) {
+        card.remove();
+      }
+    });
+  });
+});

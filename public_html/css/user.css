@@ -1186,4 +1186,28 @@ body.dark-mode .collections-section {
 body.dark-mode .footer {
   background-color: #111;
   color: #ccc;
+   
+}
+ /*botao remover*/
+ 
+.card-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.btn-remove {
+  background-color: #777;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 12px;
+  cursor: pointer;
+  transition: background 0.3s, transform 0.2s;
+}
+
+.btn-remove:hover {
+  background-color: #ff4c4c;
+  transform: scale(1.05);
 }
