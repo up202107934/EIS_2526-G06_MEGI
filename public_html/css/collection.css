@@ -522,3 +522,64 @@ body.dark-mode .like-btn {
 body.dark-mode .like-btn.liked {
   color: #FF4C4C;
 }
+
+/* ===== DROPDOWN DO PERFIL ===== */
+
+/* 1. O 'container' que segura o menu */
+.navbar-user {
+  position: relative; /* Obrigatório para o menu flutuar */
+}
+
+/* 2. O cursor do avatar */
+.navbar-avatar {
+  cursor: pointer; /* Mãozinha ao passar por cima */
+  transition: all 0.2s ease;
+}
+.navbar-avatar:hover {
+  opacity: 0.8; /* Efeito subtil */
+}
+
+
+/* 3. O menu dropdown (escondido por defeito) */
+.profile-dropdown {
+  display: none; /* Começa escondido */
+  position: absolute;
+  top: 55px; /* Posição abaixo do avatar (ajusta se for preciso) */
+  right: 0; /* Alinhado à direita */
+  background-color: #fff;
+  min-width: 160px;
+  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+  border-radius: 8px;
+  z-index: 101; /* Garante que fica por cima de tudo */
+}
+
+/* 4. Os links dentro do menu */
+.profile-dropdown a {
+  color: #333; /* Cor do texto */
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+  font-size: 14px;
+}
+
+/* 5. O efeito hover nos links */
+.profile-dropdown a:hover {
+  background-color: #f1f1f1;
+}
+
+/* 6. A classe que o JS vai adicionar para mostrar o menu */
+.profile-dropdown.show {
+  display: block;
+}
+
+/* 7. Estilos para o Dark Mode (importante!) */
+body.dark-mode .profile-dropdown {
+  background-color: #1b1b1b;
+  border: 1px solid #333;
+}
+body.dark-mode .profile-dropdown a {
+  color: #eee;
+}
+body.dark-mode .profile-dropdown a:hover {
+  background-color: #333;
+}
