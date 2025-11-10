@@ -103,15 +103,54 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/html.html to edit this
 
         <div id="ev-col-list" class="ev-col-list" aria-live="polite"></div>
       </div>
-
-
+      
+      
+      
+      
       <div class="ev-actions">
-        
+        <button id="d-review" class="btn outline">Avaliar</button>
         <button id="d-join" class="btn">Participar</button>
       </div>
+    </div> <!-- aqui sim fecha a .ev-card -->
+  </div>   <!-- aqui fecha o #eventDetail -->
+
+  <!-- ===== REVIEW MODAL (Avaliar evento) ===== -->
+<div id="reviewForm" class="modal" aria-hidden="true">
+  <div class="modal-content">
+    <span class="close" id="review-close" aria-label="Close">×</span>
+    <h2 id="rv-title">Avaliar evento</h2>
+
+    <div class="rv-stars" role="radiogroup" aria-label="Classificação de 1 a 5 estrelas">
+      <button type="button" class="star" data-value="1" aria-label="1 estrela">★</button>
+      <button type="button" class="star" data-value="2" aria-label="2 estrelas">★</button>
+      <button type="button" class="star" data-value="3" aria-label="3 estrelas">★</button>
+      <button type="button" class="star" data-value="4" aria-label="4 estrelas">★</button>
+      <button type="button" class="star" data-value="5" aria-label="5 estrelas">★</button>
+    </div>
+
+    <textarea id="rv-comment" rows="4" placeholder="Escreve o teu comentário (opcional)"></textarea>
+
+    <div class="modal-buttons">
+      <button id="rv-cancel">Cancelar</button>
+      <button id="rv-submit" class="btn">Submeter avaliação</button>
     </div>
   </div>
+</div>
 
+  
+  
+  <!-- MODAL: Itens da coleção no evento -->
+  <div id="colItems" class="modal" aria-hidden="true">
+    <div class="modal-content">
+      <span class="close" id="colItems-close" aria-label="Close">×</span>
+      <h2 id="colItems-title">Itens da coleção</h2>
+      <div id="colItems-grid" class="mini-grid"></div>
+    </div>
+  </div>
+  <!-- === AQUI TERMINA ===   Parte do user -->
+  
+  
+  
   <!-- ===== FORM MODAL (CRIAR/EDITAR) — manter ===== -->
   <!-- Sem onclick inline; o JS abre/fecha via classList .show -->
   <div id="eventForm" class="modal" aria-hidden="true">
@@ -130,6 +169,16 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/html.html to edit this
       <label>Description
         <textarea id="f-desc" rows="4" placeholder="Short description"></textarea>
       </label>
+      
+          <h3 class="ev-col-title" style="margin-top:14px;">Coleções & Itens</h3>
+    <p class="muted" style="margin-bottom:8px;">Escolhe as coleções deste evento e, para cada uma, os itens. Pelo menos 1 item no total.</p>
+
+    <!-- Lista de coleções (com checkbox) -->
+    <div id="f-col-list" class="pick-grid"></div>
+
+    <!-- Itens por coleção escolhida (aparece abaixo) -->
+    <div id="f-items-wrap" style="margin-top:10px;"></div>
+
 
       <div class="modal-buttons">
         <button id="f-cancel">Cancel</button>

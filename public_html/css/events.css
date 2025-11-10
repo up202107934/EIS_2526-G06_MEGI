@@ -1099,3 +1099,64 @@ body.dark-mode .btn-create {
 body.dark-mode::-webkit-scrollbar-thumb {
   background-color: #444 !important;
 }
+
+
+
+/* ---- Houver "+" nas coleções do detalhe ---- */
+.ev-col-item{
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+}
+.ev-col-item .hover-add{
+  position: absolute; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+  background: rgba(0,0,0,.45);
+  color: #fff;
+  opacity: 0; transition: opacity .18s ease, transform .18s ease;
+  backdrop-filter: blur(2px);
+}
+.ev-col-item:hover .hover-add{ opacity: 1; }
+
+.ev-col-item .hover-add .plus{
+  width: 40px; height: 40px; border-radius: 999px;
+  border: 2px solid #fff; display: flex; align-items: center; justify-content: center;
+  font-size: 24px; font-weight: 900; line-height: 1;
+}
+
+/* Botão outline para “Avaliar” */
+.btn.outline{
+  background: transparent;
+  color: #B22222;
+  border: 2px solid #B22222;
+}
+.btn.outline:hover{
+  background: #ffecec;
+}
+
+/* Estrelas na review modal */
+.rv-stars{ display:flex; gap:8px; margin:10px 0 12px; }
+.rv-stars .star{
+  font-size: 30px; line-height: 1;
+  background: transparent; border: 0; padding: 0 3px;
+  color: #c8c8c8; cursor: pointer; transition: transform .1s, color .1s;
+}
+.rv-stars .star:hover{ transform: translateY(-1px); }
+.rv-stars .star.active{ color: #f5b301; }  /* dourado */
+#rv-comment{
+  width: 100%; border: 1px solid #e1e3e8; border-radius: 10px; padding: 10px; resize: vertical;
+}
+
+
+
+
+/* Estilo para botões desativados do detalhe */
+.btn.disabled,
+.btn[disabled]{
+  background: #e5e7eb !important;   /* cinza claro */
+  color: #9ca3af !important;        /* cinza texto */
+  border-color: #e5e7eb !important;
+  cursor: not-allowed !important;
+  box-shadow: none !important;
+  transform: none !important;
+}
