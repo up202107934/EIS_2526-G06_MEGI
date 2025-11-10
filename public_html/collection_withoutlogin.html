@@ -23,8 +23,8 @@
     </button>
   </form>
   <div class="navbar-user">
-    <a href="user.html">
-      <img src="img/user.jpg" alt="User" class="navbar-avatar">
+    <a href="login.html">
+      <img src="img/ImagemPerfil.jpeg" alt="User" class="navbar-avatar">
     </a>
   </div>
   <button id="themeToggle" class="theme-toggle">🌙</button>
@@ -65,14 +65,10 @@
         <span>⭐ 9/10</span>
         <span>💰 25€</span>
         <span>⚖️ 120g</span> 
-        <span class="like-container">
-            <button class="like-btn" type="button" aria-label="Like item">♡</button>
-            <span class="like-count">0</span>
-        </span>
       </div>
     </div>
     <div class="item-actions">
-      <a href="item.html" class="btn-details">View Details</a>
+      <a href="item_withoutlogin.html" class="btn-details">View Details</a>
     </div>
   </div>
 
@@ -87,14 +83,10 @@
         <span>⭐ 10/10</span>
         <span>💰 40€</span>
         <span>⚖️ 180g</span> 
-        <span class="like-container">
-            <button class="like-btn" type="button" aria-label="Like item">♡</button>
-            <span class="like-count">0</span>
-        </span>
       </div>
     </div>
     <div class="item-actions">
-        <a href="item.html" class="btn-details">View Details</a>
+        <a href="item_withoutlogin.html" class="btn-details">View Details</a>
     </div>
   </div>
 
@@ -109,14 +101,10 @@
         <span>⭐ 8/10</span>
         <span>💰 30€</span>
         <span>⚖️ 110g</span> 
-        <span class="like-container">
-            <button class="like-btn" type="button" aria-label="Like item">♡</button>
-            <span class="like-count">0</span>
-        </span>
       </div>
     </div>
     <div class="item-actions">
-      <a href="item.html" class="btn-details">View Details</a>
+      <a href="item_withoutlogin.html" class="btn-details">View Details</a>
     </div>
   </div>
 
@@ -131,14 +119,10 @@
         <span>⭐ 9/10</span>
         <span>💰 28€</span>
         <span>⚖️ 105g</span> 
-        <span class="like-container">
-            <button class="like-btn" type="button" aria-label="Like item">♡</button>
-            <span class="like-count">0</span>
-        </span>
       </div>
     </div>
     <div class="item-actions">
-      <a href="item.html" class="btn-details">View Details</a>
+      <a href="item_withoutlogin.html" class="btn-details">View Details</a>
     </div>
   </div>
 
@@ -153,14 +137,10 @@
         <span>⭐ 10/10</span>
         <span>💰 35€</span>
         <span>⚖️ 112g</span> 
-        <span class="like-container">
-            <button class="like-btn" type="button" aria-label="Like item">♡</button>
-            <span class="like-count">0</span>
-        </span>
       </div>
     </div>
     <div class="item-actions">
-      <a href="item.html" class="btn-details">View Details</a>
+      <a href="item_withoutlogin.html" class="btn-details">View Details</a>
     </div>
   </div>
 
@@ -175,14 +155,10 @@
         <span>⭐ 7/10</span>
         <span>💰 15€</span>
         <span>⚖️ 80g</span> 
-        <span class="like-container">
-            <button class="like-btn" type="button" aria-label="Like item">♡</button>
-            <span class="like-count">0</span>
-        </span>
       </div>
     </div>
     <div class="item-actions">
-      <a href="item.html" class="btn-details">View Details</a>
+      <a href="item_withoutlogin.html" class="btn-details">View Details</a>
     </div>
   </div>
 
@@ -197,14 +173,10 @@
         <span>⭐ 9/10</span>
         <span>💰 22€</span>
         <span>⚖️ 78g</span> 
-        <span class="like-container">
-            <button class="like-btn" type="button" aria-label="Like item">♡</button>
-            <span class="like-count">0</span>
-        </span>
       </div>
     </div>
     <div class="item-actions">
-      <a href="item.html" class="btn-details">View Details</a>
+      <a href="item_withoutlogin.html" class="btn-details">View Details</a>
     </div>
   </div>
 
@@ -219,47 +191,15 @@ s     </div>
         <span>⭐ 10/10</span>
         <span>💰 60€</span>
         <span>⚖️ 105g</span> 
-        <span class="like-container">
-            <button class="like-btn" type="button" aria-label="Like item">♡</button>
-            <span class="like-count">0</span>
-        </span>
       </div>
     </div>
     <div class="item-actions">
-      <a href="item.html" class="btn-details">View Details</a>
+      <a href="item_withoutlogin.html" class="btn-details">View Details</a>
     </div>
   </div>
       
 </section>
 
-  <div id="addItemModal" class="modal">
-    <div class="modal-content">
-      <h2>Add New Item</h2>
-      <label>Name:</label>
-      <input type="text" id="itemName" placeholder="Enter item name">
-      <label>Description:</label>
-      <input type="text" id="itemDesc" placeholder="Short description">
-      <label>Importance (1–10):</label>
-      <input type="number" id="itemRating" min="1" max="10" value="1">
-      <label>Price (€):</label>
-      <input type="number" id="itemPrice" min="0" step="0.01" value="0">
-      <label>Weight (g):</label>
-      <input type="number" id="itemWeight" min="0" step="1" value="0">
-      <label>Date of acquisition:</label>
-      <input type="date" id="itemDate">
-      <label for="itemImage">Image:</label>
-      <div id="dropZone" class="drop-zone">
-        <p>Drag & drop an image here, or click to select</p>
-        <input type="file" id="itemImage" accept="image/*" hidden>
-      </div>
-      <div class="modal-buttons">
-        <button id="saveItem">💾 Save</button>
-        <button id="cancelItem">❌ Cancel</button>
-      </div>
-    </div>
-  </div>
- 
-  <button class="add-item-btn">➕ Add Item</button>
   <script src="js/data.js"></script>
   <script src="js/collection.js"></script>
 </body>
