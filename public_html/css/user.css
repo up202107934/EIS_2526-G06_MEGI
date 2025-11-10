@@ -893,7 +893,7 @@ input:focus {
   border-radius: 12px;
   width: 90%;
   max-width: 400px;
-  text-align: center;
+  text-align: left;
   position: relative;
 }
 
