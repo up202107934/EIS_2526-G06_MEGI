@@ -77,6 +77,38 @@ const state = {
 
 };
 
+// --- Interesse (coração) ---
+state.interested = new Set(JSON.parse(localStorage.getItem('interestedEvents') || '[]'));
+const interestCounts = JSON.parse(localStorage.getItem('interestCounts') || '{}');
+
+function saveInterest(){
+  localStorage.setItem('interestedEvents', JSON.stringify([...state.interested]));
+  localStorage.setItem('interestCounts', JSON.stringify(interestCounts));
+}
+
+function getInterestCount(id){
+  if (interestCounts[id] == null) interestCounts[id] = 0;
+  return interestCounts[id];
+}
+
+function toggleInterest(id){
+  const wasOn = state.interested.has(id);
+  if (wasOn){
+    state.interested.delete(id);
+    interestCounts[id] = Math.max(0, (interestCounts[id]||0) - 1);
+  } else {
+    state.interested.add(id);
+    interestCounts[id] = (interestCounts[id]||0) + 1;
+  }
+  saveInterest();
+  // atualizar o cartão sem re-render completo
+  const btn = document.querySelector(`.like-btn[data-id="${id}"]`);
+  const cnt = document.getElementById(`like-${id}`);
+  if (btn) btn.setAttribute('aria-pressed', String(!wasOn));
+  if (cnt) cnt.textContent = interestCounts[id] || 0;
+}
+
+
 // Coleções do UTILIZADOR (mock). Cada uma com itens.
 state.userCollections = [
   {
@@ -156,6 +188,13 @@ function render(){
         ${thumbs.map(s => `<img class="ev-thumb" src="img/${s}" alt="">`).join('')}
       </div>
     </div>
+    
+    <div class="ev-like">
+        <button class="like-btn" data-id="${ev.id}" aria-pressed="${state.interested.has(ev.id)}" title="Tenho interesse">♥</button>
+        <span class="like-count" id="like-${ev.id}">${getInterestCount(ev.id)}</span>
+    </div>
+
+            
 
     <div class="ev-meta">
       <h2 class="ev-title">${ev.name}</h2>
@@ -167,6 +206,8 @@ function render(){
     </div>
   </article>`;
 }).join('');
+
+$$('.like-btn').forEach(b => b.onclick = () => toggleInterest(+b.dataset.id));
 
 
   // Inicializar carrossel de cada cartão
@@ -430,13 +471,29 @@ function openCollectionItems(ev, col){
 
 
 /* ============ MODAL: FORMULÁRIO (Criar / Editar) ============ */
-function openForm(ev=null){
+function openForm(ev = null){
+  // cabeçalho + campos
   $('#f-title').textContent = ev ? 'Edit Event' : 'New Event';
   $('#f-name').value = ev?.name || '';
   $('#f-date').value = ev?.date?.slice(0,16) || '';
   $('#f-desc').value = ev?.description || '';
+  $('#f-loc').value  = ev?.location || '';
 
-  // monta o picker de coleções/itens dentro do form
+  // --- CLEANUP SEGURO (sem quebrar JS se não existirem elementos) ---
+  (function safeCleanup(){
+    const oldCol  = document.getElementById('col-search-wrap');
+    const oldItem = document.getElementById('item-search-wrap');
+    if (oldCol && oldCol.parentNode)  oldCol.parentNode.removeChild(oldCol);
+    if (oldItem && oldItem.parentNode) oldItem.parentNode.removeChild(oldItem);
+    const colList = document.getElementById('f-col-list');
+    const itemsW  = document.getElementById('f-items-wrap');
+    if (colList) colList.textContent = '';
+    if (itemsW)  itemsW.textContent  = '';
+    const modalEl = document.querySelector('#eventForm .modal-content');
+    if (modalEl) modalEl.scrollTop = 0;
+  })();
+
+  // monta a área de coleções/itens
   const getSelectedCollections = setupEventFormCollections(ev);
 
   const modal = $('#eventForm');
@@ -447,38 +504,23 @@ function openForm(ev=null){
     const name = $('#f-name').value.trim();
     const date = $('#f-date').value;
     const description = $('#f-desc').value.trim();
+    const location = $('#f-loc').value.trim();
     if (!name || !date){ alert('Nome e data são obrigatórios.'); return; }
 
-    // recolhe seleções do picker
-    const cols = getSelectedCollections(); // [{name,img,items:[{id,name,img}]}]
-    const totalItems = cols.reduce((sum,c)=> sum + c.items.length, 0);
-    if (totalItems === 0){
-      alert('Escolhe pelo menos 1 item de alguma coleção.'); 
-      return;
-    }
+    const cols = getSelectedCollections(); // [{id,name,img,items:[...]}]
+    const totalItems = cols.reduce((s,c)=> s + c.items.length, 0);
+    if (totalItems === 0){ alert('Escolhe pelo menos 1 item.'); return; }
 
-    // Derivar imagens para o cartão (grelha) a partir das coleções/itens escolhidos
-    const imgs = [];
-    cols.forEach(c=>{
-      if (c.img) imgs.push(c.img);
-      c.items.forEach(it => imgs.push(it.img));
-    });
-    // tirar repetidos e limitar (opcional)
-    const images = [...new Set(imgs)];
+    // imagens derivadas
+    const images = [...new Set(cols.flatMap(c => [c.img, ...c.items.map(it=>it.img)]) )].filter(Boolean);
 
     if (ev){
-      // update
-      ev.name = name; 
-      ev.date = date; 
-      ev.description = description;
+      ev.name = name; ev.date = date; ev.description = description; ev.location = location;
       ev.collections = cols;
       ev.images = images.length ? images : ev.images || [];
-      // Sprint 2: PUT api/events.php?id=ev.id
     } else {
-      // create
       const id = Math.max(0, ...state.events.map(e => e.id)) + 1;
-      state.events.push({ id, name, date, description, collections: cols, images });
-      // Sprint 2: POST api/events.php
+      state.events.push({ id, name, date, description, location, collections: cols, images });
     }
 
     closeForm();
@@ -489,130 +531,183 @@ function openForm(ev=null){
   $('#f-cancel').onclick = closeForm;
   $('#form-close').onclick = closeForm;
   modal.addEventListener('click', (e)=>{ if(e.target.id==='eventForm') closeForm(); }, { once:true });
-
-  function escCloseForm(e){
-    if (e.key === 'Escape'){ closeForm(); window.removeEventListener('keydown', escCloseForm); }
-  }
+  function escCloseForm(e){ if (e.key === 'Escape'){ closeForm(); window.removeEventListener('keydown', escCloseForm); } }
   window.addEventListener('keydown', escCloseForm);
 }
 
-// Constrói o picker de coleções/itens dentro do #eventForm.
-// Devolve uma função que, quando chamada, retorna o array "collections" pronto a gravar.
+
+
 function setupEventFormCollections(ev){
   const grid = $('#f-col-list');
   const wrap = $('#f-items-wrap');
 
-  // Estado local: colId -> Set(itemIds)
-  const selected = new Map();
+  // Estado local
+  const selected = new Map();     // colId -> Set(itemIds)
+  let editingColId = null;
+  let colFilter = '';
+  let itemFilter = '';
 
-  // Pré-preenche se for edição e o evento tiver collections
+  // Pré-preencher (edição)
   if (ev?.collections?.length){
     ev.collections.forEach(c=>{
-      // tentar mapear por id; se não houver id, mapear por name
       const col = state.userCollections.find(x => x.id === c.id || x.name === c.name);
       if (!col) return;
       const set = new Set();
-      (c.items || []).forEach(it => set.add(it.id || it.name)); // fallback por nome
+      (c.items || []).forEach(it => set.add(it.id || it.name));
       selected.set(col.id, set);
     });
   }
 
-  // Render coleções (checkboxes)
-  grid.innerHTML = state.userCollections.map(c => `
-    <label class="pick-card">
-      <input type="checkbox" value="${c.id}" ${selected.has(c.id) ? 'checked' : ''}>
-      <img src="img/${c.img}" alt="${c.name}">
-      <span>${c.name}</span>
-    </label>
-  `).join('');
+  // Pesquisa de coleções (cria 1x)
+  const oldColSearch = document.getElementById('col-search-wrap');
+  if (oldColSearch) oldColSearch.remove();
+  grid.insertAdjacentHTML('beforebegin', `
+    <div class="pick-search" id="col-search-wrap">
+      <input id="col-search" placeholder="Pesquisar coleções…">
+    </div>
+  `);
+  const elColSearch = $('#col-search');
+  elColSearch.oninput = () => { colFilter = elColSearch.value.trim().toLowerCase(); paintCollections(); };
 
-  // Render itens por coleção selecionada
-  function paintItems(){
-    const blocks = [];
-    selected.forEach((set, colId) => {
-      const col = state.userCollections.find(c => c.id === colId);
-      if (!col) return;
+  // Pesquisa de itens (cria 1x; começa escondida)
+  const oldItemSearch = document.getElementById('item-search-wrap');
+  if (oldItemSearch) oldItemSearch.remove();
+  wrap.insertAdjacentHTML('beforebegin', `
+    <div class="item-search" id="item-search-wrap" hidden>
+      <input id="item-search" placeholder="Pesquisar itens desta coleção…">
+    </div>
+  `);
+  const elItemSearchWrap = $('#item-search-wrap');
+  const elItemSearch     = document.querySelector('#item-search');
+  elItemSearchWrap.hidden = true; // começa sempre escondido
+  // ---- Renders ----
+  function paintCollections(){
+    const rows = state.userCollections.filter(c => !colFilter || c.name.toLowerCase().includes(colFilter));
+    grid.innerHTML = rows.map(c=>{
+      const isPicked = selected.has(c.id);
+      const cnt = isPicked ? selected.get(c.id).size : 0;
+      const badge = isPicked ? `<span class="badge">${cnt} item${cnt===1?'':'s'}</span>` : '';
+      const editingCls = editingColId === c.id ? 'editing' : '';
+      const doneCls = (isPicked && cnt > 0 && editingColId !== c.id) ? 'done' : '';
+      return `
+        <label class="pick-card ${editingCls} ${doneCls}">
+          <input type="checkbox" value="${c.id}" ${isPicked?'checked':''}>
+          <img src="img/${c.img}" alt="${c.name}">
+          <span>${c.name}</span>
+          ${badge}
+        </label>`;
+    }).join('');
 
-      const itemsHtml = col.items.map(it => `
-        <label class="mini-card">
-          <input type="checkbox" data-col="${colId}" value="${it.id}" ${set.has(it.id) ? 'checked' : ''}>
-          <img src="img/${it.img}" alt="${it.name}">
-          <span>${it.name}</span>
-        </label>
-      `).join('');
-
-      blocks.push(`
-        <div class="items-block">
-          <div class="items-head">
-            <div class="items-col">
-              <img src="img/${col.img}" alt="${col.name}">
-              <strong>${col.name}</strong>
-            </div>
-            <button type="button" class="tiny" data-all="${colId}">Selecionar todos</button>
-          </div>
-          <div class="mini-grid">${itemsHtml}</div>
-        </div>
-      `);
+    // selecionar/deselecionar
+    grid.querySelectorAll('input[type="checkbox"]').forEach(cb=>{
+      cb.onchange = () => {
+        const cid = cb.value;
+        if (cb.checked){
+          if (!selected.has(cid)) selected.set(cid, new Set());
+          editingColId = cid;                 // abre para editar
+          itemFilter = ''; if (elItemSearch) elItemSearch.value = '';
+          paintCollections(); paintItems();
+        } else {
+          selected.delete(cid);
+          if (editingColId === cid) editingColId = null;
+          paintCollections(); paintItems();
+        }
+      };
     });
 
-    wrap.innerHTML = blocks.join('') || `<p class="muted">Seleciona coleções acima.</p>`;
+    // clicar no cartão reabre para editar
+    grid.querySelectorAll('.pick-card').forEach(card=>{
+      card.onclick = (e)=>{
+        const cb = card.querySelector('input');
+        if (e.target === cb) return;
+        if (!cb.checked){ cb.checked = true; cb.dispatchEvent(new Event('change')); return; }
+        editingColId = cb.value;
+        itemFilter = ''; if (elItemSearch) elItemSearch.value = '';
+        paintCollections(); paintItems();
+      };
+    });
   }
 
-  paintItems();
+  function paintItems(){
+    const col = state.userCollections.find(c=>c.id===editingColId);
+    const set = col ? (selected.get(col.id) || new Set()) : null;
 
-  // Eventos do grid de coleções
-  grid.addEventListener('change', e=>{
-    const t = e.target;
-    if (t && t.matches('input[type="checkbox"]')){
-      const cid = t.value;
-      if (t.checked) selected.set(cid, selected.get(cid) || new Set());
-      else selected.delete(cid);
-      paintItems();
+    elItemSearchWrap.hidden = !col;
+
+    if (!col){
+      wrap.innerHTML = `<p class="muted">Seleciona uma coleção para escolher os itens.</p>`;
+      return;
     }
-  });
 
-  // Selecionar todos os itens de uma coleção
-  wrap.addEventListener('click', e=>{
-    const btn = e.target.closest('button.tiny');
-    if (!btn) return;
-    const colId = btn.dataset.all;
-    const col = state.userCollections.find(c => c.id === colId);
-    if (!col) return;
-    const set = selected.get(colId) || new Set();
-    col.items.forEach(it => set.add(it.id));
-    selected.set(colId, set);
-    paintItems();
-  });
+    const items = col.items.filter(it => !itemFilter || it.name.toLowerCase().includes(itemFilter));
+    wrap.innerHTML = `
+      <div class="items-block">
+        <div class="items-head">
+          <div class="items-col">
+            <img src="img/${col.img}" alt="${col.name}">
+            <strong>${col.name}</strong>
+          </div>
+          <div>
+            <button type="button" class="tiny" id="btn-all">Selecionar todos</button>
+            <button type="button" class="tiny" id="btn-none">Limpar</button>
+          </div>
+        </div>
 
-  // Check/uncheck de itens
-  wrap.addEventListener('change', e=>{
-    const t = e.target;
-    if (t && t.matches('input[type="checkbox"][data-col]')){
-      const colId = t.dataset.col;
-      const set = selected.get(colId) || new Set();
-      t.checked ? set.add(t.value) : set.delete(t.value);
-      selected.set(colId, set);
-    }
-  });
+        <div class="mini-grid">
+          ${items.length ? items.map(it => `
+            <label class="mini-card">
+              <input type="checkbox" data-col="${col.id}" value="${it.id}" ${set.has(it.id)?'checked':''}>
+              <img src="img/${it.img}" alt="${it.name}">
+              <span>${it.name}</span>
+            </label>
+          `).join('') : '<p class="muted">Sem resultados…</p>'}
+        </div>
 
-  // Função que devolve o array "collections" pronto a gravar
+        <div class="items-actions">
+          <button type="button" class="tiny" id="btn-finish">Concluir</button>
+        </div>
+      </div>
+    `;
+
+    // handlers
+    wrap.querySelectorAll('input[type="checkbox"][data-col]').forEach(cb=>{
+      cb.onchange = () => {
+        cb.checked ? set.add(cb.value) : set.delete(cb.value);
+        selected.set(col.id, set);
+        paintCollections();
+      };
+    });
+    $('#btn-all').onclick  = () => { col.items.forEach(it => set.add(it.id)); selected.set(col.id,set); paintItems(); paintCollections(); };
+    $('#btn-none').onclick = () => { set.clear(); selected.set(col.id,set); paintItems(); paintCollections(); };
+    $('#btn-finish').onclick = () => { editingColId = null; paintCollections(); paintItems(); };
+
+    // pesquisa live de itens
+    elItemSearch.oninput = () => { itemFilter = elItemSearch.value.trim().toLowerCase(); paintItems(); };
+  }
+
+  // Inicial
+  paintCollections();
+  editingColId = null;
+  elItemSearchWrap.hidden = true;
+  wrap.innerHTML = `<p class="muted">Seleciona uma coleção para escolher os itens.</p>`;
+
+  // devolve seleções para o Save
   return function collectSelected(){
     const result = [];
     selected.forEach((set, colId) => {
       const col = state.userCollections.find(c => c.id === colId);
       if (!col) return;
       const items = col.items.filter(it => set.has(it.id));
-      if (items.length === 0) return;
+      if (items.length === 0) return; // só guarda coleções com ≥1 item
       result.push({
-        id: col.id,
-        name: col.name,
-        img: col.img,
+        id: col.id, name: col.name, img: col.img,
         items: items.map(({id,name,img}) => ({ id, name, img }))
       });
     });
     return result;
   };
 }
+
 
 
 function closeForm(){
