@@ -9,26 +9,29 @@
 
 <body>
 
-<nav class="navbar">
-  <div class="navbar-logo">
-    <a href="home.html">MyCollections</a>
-  </div>
-  <form class="navbar-search" action="search.html" method="GET">
-    <input type="text" name="q" placeholder="Search collections, items..." required>
-    <button type="submit" class="search-btn">
-      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <circle cx="8" cy="8" r="6"></circle>
-        <line x1="13" y1="13" x2="18" y2="18"></line>
-      </svg>
-    </button>
-  </form>
-  <div class="navbar-user">
-    <a href="user.html">
-      <img src="img/user.jpg" alt="User" class="navbar-avatar">
-    </a>
-  </div>
-  <button id="themeToggle" class="theme-toggle">🌙</button>
-</nav>
+<header class="navbar">
+  <div class="navbar-left">
+    <div class="navbar-logo"><a href="home.html">MyCollections</a></div>
+  </div>
+
+  <nav class="navbar-center" aria-label="Primary">
+    <a href="events.html">Events</a>
+    <a href="collection.html">My Collections</a>
+  </nav>
+
+  <div class="navbar-right">
+    <div class="navbar-search">
+      <input id="q" type="search" placeholder="Search collections..." />
+      <button id="btn-search" class="search-btn" aria-label="Search">🔎</button>
+    </div>
+
+    <a href="user.html" title="Profile">
+      <img class="navbar-avatar" src="img/user.jpg" alt="User" />
+    </a>
+
+    <button id="themeToggle" class="theme-toggle">🌙</button>
+  </div>
+</header>
 
 
   <header class="collection-header">
