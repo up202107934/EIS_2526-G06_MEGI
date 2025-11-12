@@ -43,7 +43,7 @@ photoInput.addEventListener('change', e => {
     reader.onload = ev => {
       profileImage.src = ev.target.result;
       localStorage.setItem('profileImage', ev.target.result);
-    }
+    };
     reader.readAsDataURL(file);
     photoModal.style.display = 'none';
   }
@@ -218,5 +218,85 @@ document.addEventListener("DOMContentLoaded", () => {
         card.remove();
       }
     });
+  });
+});
+
+// === Wishlist (sincronizada) ===
+document.addEventListener("DOMContentLoaded", () => {
+  const container = document.getElementById("wishlist-container");
+
+  function renderWishlist() {
+    const wishlist = JSON.parse(localStorage.getItem("wishlist") || "[]");
+    container.innerHTML = ""; // limpa tudo antes de renderizar
+
+    if (wishlist.length === 0) {
+      container.innerHTML = "<p>No items in your wishlist yet.</p>";
+      return;
+    }
+
+    wishlist.forEach(item => {
+      const card = document.createElement("div");
+      card.classList.add("wishlist-item");
+      card.innerHTML = `
+        <img src="${item.img}" alt="${item.name}">
+        <div class="wishlist-info">
+          <h3>${item.name}</h3>
+          <p>${item.desc}</p>
+          <span>⭐ ${item.rating}/10 | 💰 ${item.price}€ | ⚖️ ${item.weight}g</span>
+          <button class="remove-btn">🗑 </button>
+        </div>
+      `;
+
+      // === Botão Remove ===
+      card.querySelector(".remove-btn").addEventListener("click", () => {
+        // Leitura actual
+        let globalList = JSON.parse(localStorage.getItem("wishlist") || "[]");
+        // Filtra por UID quando disponível (mais fiável)
+        if (item.uid) {
+          globalList = globalList.filter(i => i.uid !== item.uid);
+        } else {
+          // fallback: compara name + collection
+          globalList = globalList.filter(i => !(i.name === item.name && i.collection === item.collection));
+        }
+        localStorage.setItem("wishlist", JSON.stringify(globalList));
+
+        // Também remover da wishlist da colecção específica
+        const wishlistKey = `wishlist_${(item.collection || "default").replace(/\s+/g, "_")}`;
+        let collectionWishlist = JSON.parse(localStorage.getItem(wishlistKey) || "[]");
+        if (item.uid) {
+          collectionWishlist = collectionWishlist.filter(i => i.uid !== item.uid);
+        } else {
+          collectionWishlist = collectionWishlist.filter(i => !(i.name === item.name && i.collection === item.collection));
+        }
+        localStorage.setItem(wishlistKey, JSON.stringify(collectionWishlist));
+
+        // Re-renderiza a wishlist do user (garante consistência)
+        renderWishlist();
+
+        // Notifica outras tabs/páginas (collection.js outras tabs ou mesmo essa) para actualizarem
+        try { localStorage.setItem("wishlist_update", String(Date.now())); } catch (err) { /* ignore */ }
+
+        console.log(`Removed ${item.name} (uid:${item.uid || "none"}) from global and ${wishlistKey}`);
+      });
+      // atualização dos likes nas coleções abertas
+        try {
+          localStorage.setItem("wishlist_update", String(Date.now())); // dispara o evento "storage"
+        } catch (err) {
+          console.warn("Failed to trigger wishlist update:", err);
+        }
+
+      container.appendChild(card);
+    });
+  }
+
+  // Renderiza ao carregar a página
+  renderWishlist();
+
+  // Ouve alterações no localStorage vindas de outras tabs (ou do próprio código que grava wishlist_update)
+  window.addEventListener("storage", (e) => {
+    if (!e.key) return;
+    if (e.key === "wishlist" || e.key === "wishlist_update") {
+      renderWishlist();
+    }
   });
 });

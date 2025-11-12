@@ -14,17 +14,66 @@ body {
  min-height: 100vh;
 }
 
-/* CORREÇÃO 2: Esta é a nova regra para o teu <div class="page-container">
-  que "abraça" a sidebar e o main-content.
-*/
 .page-container {
-  display: flex;          /* Põe a sidebar e o main lado a lado */
-  flex-grow: 1;           /* Faz o conteúdo crescer e empurrar o footer para baixo */
+  display: flex;          
+  flex-grow: 1;          
 }
-
-
 a { text-decoration: none; color: inherit; }
 
+
+/* ====== WhishList ====== */
+.wishlist-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+  padding: 20px;
+}
+
+.wishlist-item {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  padding: 10px;
+  text-align: center;
+}
+
+.wishlist-item img {
+  width: 100%;
+  height: 150px;
+  object-fit: contain;
+  border-radius: 8px;
+  margin-bottom: 10px;
+}
+
+body.dark-mode .wishlist-item {
+  background: #1b1b1b;
+  color: #eee;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+}
+
+.wishlist-item .remove-btn {
+  background: #ff4d4d;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 6px 12px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  transition: background 0.3s ease, transform 0.2s ease;
+  margin-top: 8px;
+  display: inline-block;
+}
+
+.wishlist-item .remove-btn:hover {
+  background: #e63939;
+  transform: scale(1.05);
+}
+
+.wishlist-item .remove-btn:active {
+  background: #cc2e2e;
+  transform: scale(0.95);
+}
 /* ====== SIDEBAR ====== */
 .sidebar {
  width: 230px;
@@ -546,3 +595,4 @@ body.dark-mode .footer {
     background-color: #111;
     color: #ccc;
 }
+

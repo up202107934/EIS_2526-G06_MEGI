@@ -308,34 +308,178 @@ window.addEventListener("load", () => {
   else document.body.prepend(infoContainer);
 });
 
-/* ===== LÓGICA DO BOTÃO "LIKE" ===== */
 
-// Usamos 'itemsContainer' que já definiste no topo do ficheiro
-itemsContainer.addEventListener('click', (e) => {
-  
-  // Verifica se o que foi clicado foi um botão de like
-  if (e.target.classList.contains('like-btn')) {
-    
-    const button = e.target;
-    const container = button.closest('.like-container');
-    const countSpan = container.querySelector('.like-count');
-    
-    let currentLikes = parseInt(countSpan.textContent);
 
-    // Verifica se já tem 'like' (pela classe 'liked')
-    if (button.classList.contains('liked')) {
-      // Já tem like, vamos REMOVER o like (toggle)
-      button.classList.remove('liked');
-      button.textContent = '♡'; // Coração vazio
-      currentLikes--;
+
+/* ===== ADD TO WISHLIST (USANDO collectionId PARA UID) ===== */
+document.addEventListener("DOMContentLoaded", () => {
+  // tenta obter collectionId do URL (ex: collection.html?id=5)
+  const params = new URLSearchParams(window.location.search);
+  const collectionIdRaw = params.get("id"); // pode ser null
+  const collectionId = collectionIdRaw ? collectionIdRaw.toString() : null;
+
+  const collectionTitleEl = document.querySelector(".collection-title");
+  const collectionName = collectionTitleEl ? collectionTitleEl.textContent.trim() : "default";
+
+  // key local por coleção (usa id se existir)
+  const keySuffix = collectionId ? `${collectionId}` : collectionName.replace(/\s+/g, "_");
+  const wishlistKey = `wishlist_col_${keySuffix}`;
+
+  // helpers
+  function uidFor(collectionIdOrName, name, img) {
+    // usa collectionId quando disponível para garantir unicidade
+    return encodeURIComponent(`${collectionIdOrName}||${name}||${img}`);
+  }
+  function load(key){ return JSON.parse(localStorage.getItem(key) || "[]"); }
+  function save(key, arr){ localStorage.setItem(key, JSON.stringify(arr)); }
+
+  let wishlist = load(wishlistKey);
+  let globalList = load("wishlist");
+
+  // Remove event handlers duplicates: ensure no other 'like-btn' listeners
+  // (não pode remover listeners que não foram guardados, mas evitamos dupes usando só UM listener abaixo)
+  // Pinta corações/contadores conforme wishlist local (usa UID com collectionId)
+  document.querySelectorAll(".item-card").forEach(card => {
+    const name = card.querySelector("h3").textContent;
+    const img = card.querySelector("img").src;
+    const button = card.querySelector(".like-btn");
+    const countSpan = card.querySelector(".like-count");
+    const colIdent = collectionId ? `id:${collectionId}` : `name:${collectionName}`;
+    const uid = uidFor(colIdent, name, img);
+    const found = wishlist.find(i => i.uid === uid);
+    if (found) {
+      button.textContent = "♥";
+      button.style.color = "red";
+      countSpan.textContent = typeof found.likes !== "undefined" ? found.likes : 1;
     } else {
-      // Não tem like, vamos ADICIONAR o like
-      button.classList.add('liked');
-      button.textContent = '♥'; // Coração preenchido
-      currentLikes++;
+      countSpan.textContent = countSpan.textContent || "0";
     }
-    
-    // Atualiza o número no ecrã
-    countSpan.textContent = currentLikes;
+  });
+
+  // único listener delegador (um só, evita 'pisões')
+  const container = document.querySelector(".collection-items");
+  container.addEventListener("click", (ev) => {
+    if (!ev.target.classList.contains("like-btn")) return;
+    const button = ev.target;
+    const card = button.closest(".item-card");
+    if (!card) return;
+    const name = card.querySelector("h3").textContent;
+    const img = card.querySelector("img").src;
+    const desc = card.querySelector("p") ? card.querySelector("p").textContent : "";
+    const countSpan = card.querySelector(".like-count");
+    const colIdent = collectionId ? `id:${collectionId}` : `name:${collectionName}`;
+    const uid = uidFor(colIdent, name, img);
+
+    const itemObj = {
+      uid,
+      name,
+      desc,
+      img,
+      rating: card.dataset.rating || "N/A",
+      price: card.dataset.price || "N/A",
+      weight: card.dataset.weight || "N/A",
+      collectionId: collectionId || null,
+      collectionName,
+      likes: 1
+    };
+
+    const idxLocal = wishlist.findIndex(i => i.uid === uid);
+    const idxGlobal = globalList.findIndex(i => i.uid === uid);
+
+    if (idxLocal >= 0) {
+      // remover
+      wishlist.splice(idxLocal, 1);
+      if (idxGlobal >= 0) globalList.splice(idxGlobal, 1);
+      button.textContent = "♡";
+      button.style.color = "";
+      countSpan.textContent = "0";
+      console.log("Removed local & global:", itemObj.uid);
+    } else {
+      // adicionar
+      wishlist.push(itemObj);
+      if (idxGlobal < 0) globalList.push(itemObj);
+      button.textContent = "♥";
+      button.style.color = "red";
+      countSpan.textContent = "1";
+      console.log("Added local & global:", itemObj.uid);
+    }
+
+    save(wishlistKey, wishlist);
+    save("wishlist", globalList);
+  });
+});
+
+
+
+/* ======= Collection — sync likes / wishlist ======= */
+// helper UID (mesma versão que vamos usar no user.js)
+function uidFor(collectionIdOrName, name, img) {
+  return encodeURIComponent(`${collectionIdOrName}||${name}||${img}`);
+}
+
+// tenta obter collectionId do URL
+const colParams = new URLSearchParams(window.location.search);
+const COL_ID_RAW = colParams.get("id");
+const COLLECTION_ID = COL_ID_RAW ? COL_ID_RAW.toString() : null;
+const COLLECTION_NAME_FOR_KEY = document.querySelector(".collection-title")
+  ? document.querySelector(".collection-title").textContent.trim()
+  : "default";
+const collectionKeySuffix = COLLECTION_ID ? `${COLLECTION_ID}` : COLLECTION_NAME_FOR_KEY.replace(/\s+/g, "_");
+const COLLECTION_WISHLIST_KEY = `wishlist_col_${collectionKeySuffix}`;
+
+// função que actualiza botões & contadores na página de coleção com base no localStorage
+function updateLikesFromStorage() {
+  const localWishlist = JSON.parse(localStorage.getItem(COLLECTION_WISHLIST_KEY) || "[]");
+  // itera todos os cards na página
+  document.querySelectorAll(".item-card").forEach(card => {
+    const name = card.querySelector("h3") ? card.querySelector("h3").textContent : "";
+    const img = card.querySelector("img") ? card.querySelector("img").src : "";
+    const btn = card.querySelector(".like-btn");
+    const countSpan = card.querySelector(".like-count");
+
+    const colIdent = COLLECTION_ID ? `id:${COLLECTION_ID}` : `name:${COLLECTION_NAME_FOR_KEY}`;
+    const uid = uidFor(colIdent, name, img);
+
+    const found = localWishlist.find(i => i.uid === uid);
+    if (found) {
+      // marcado
+      if (btn) {
+        btn.classList.add("liked");
+        btn.textContent = "♥";
+        btn.style.color = "red";
+      }
+      if (countSpan) countSpan.textContent = String(found.likes || 1);
+    } else {
+      // desmarcado
+      if (btn) {
+        btn.classList.remove("liked");
+        btn.textContent = "♡";
+        btn.style.color = "";
+      }
+      if (countSpan) countSpan.textContent = "0";
+    }
+  });
+}
+
+// chama ao carregar a página
+document.addEventListener("DOMContentLoaded", () => {
+  updateLikesFromStorage();
+});
+
+// ouve mudanças no localStorage (outras tabs) e actualiza
+window.addEventListener("storage", (e) => {
+  if (!e.key) return;
+  if (e.key === "wishlist" || e.key === "wishlist_update") {
+    updateLikesFromStorage();
   }
 });
+
+
+// também pode ser útil quando outra parte do código grava e não dispara storage (mesma tab) -> fornece função para chamar
+function notifyWishlistChanged() {
+  // grava timestamp apenas para disparar storage em outras tabs e também actualiza aqui
+  try {
+    localStorage.setItem("wishlist_update", String(Date.now()));
+  } catch (err) { /* ignore */ }
+  updateLikesFromStorage();
+}
