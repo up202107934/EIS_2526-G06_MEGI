@@ -1,136 +1,205 @@
-/*
-Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
-Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/css.css to edit this template
-*/
-/* 
-    Created on : 11/11/2025, 11:13:01
-    Author     : ritas
-*/
-  <style>
-    /* ===== KEEPING GLOBAL BACKGROUND (no overrides on body) ===== */
+/* === Layout === */
+.item-page-container {
+  max-width: 1000px;
+  margin: 60px auto;
+  background: #fff;
+  padding: 30px;
+  border-radius: 20px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+}
 
-    /* ===== Container matches site's original white card ===== */
-    .item-page-container {
-      max-width: 1000px;
-      margin: 60px auto;
-      background: #fff;
-      padding: 30px;
-      border-radius: 20px;
-      box-shadow: 0 6px 20px rgba(0,0,0,0.15);
-      position: relative;
-    }
+.item-header {
+  display: grid;
+  grid-template-columns: 360px 1fr;
+  gap: 26px;
+  align-items: start;
+  margin-bottom: 20px;
+}
 
-    /* Header layout: image left, title + tech sheet right */
-    .item-header {
-      display: grid;
-      grid-template-columns: 360px 1fr;
-      gap: 26px;
-      align-items: start;
-      margin-bottom: 20px;
-    }
+.item-header img {
+  width: 100%;
+  height: 360px;
+  object-fit: cover;
+  border-radius: 15px;
+  box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+}
 
-    .item-header img {
-      width: 100%;
-      height: 360px;
-      object-fit: cover;
-      border-radius: 15px;
-      box-shadow: 0 6px 15px rgba(0,0,0,0.2);
-    }
+.item-title {
+  font-size: 32px;
+  color: #B22222;
+  margin-bottom: 10px;
+}
 
-    .item-title {
-      font-size: 32px;
-      color: #B22222;
-      margin: 0 0 8px;
-    }
+.item-category {
+  font-size: 16px;
+  color: #555;
+  margin-bottom: 14px;
+}
 
-    .item-category {
-      font-size: 16px;
-      color: #555;
-      margin: 0 0 14px;
-    }
+/* === Technical sheet === */
+.tech-sheet {
+  margin-top: 8px;
+  padding: 16px;
+  background: #fafafa;
+  border-radius: 12px;
+  border-left: 4px solid #B22222;
+}
 
-    /* ===== Technical Sheet (RIGHT of the figure) ===== */
-    .tech-sheet {
-      margin-top: 6px;
-      padding: 16px;
-      background: #fafafa;
-      border-radius: 12px;
-      border-left: 4px solid #B22222;
-    }
+.tech-sheet h2 {
+  color: #B22222;
+  font-size: 20px;
+  margin-bottom: 12px;
+}
 
-    .tech-sheet h2 {
-      color: #B22222;
-      font-size: 20px;
-      margin: 0 0 12px;
-    }
+.spec-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px 12px;
+  list-style: none;
+  padding: 0;
+}
 
-    .spec-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px 12px;
-      list-style: none;
-      margin: 0;
-      padding: 0;
-      font-size: 15px;
-      color: #333;
-    }
+.k {
+  font-weight: 700;
+  color: #B22222;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+}
 
-    .kv {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 10px;
-      padding: 10px 12px;
-      background: #ffffff;
-      border: 1px solid #eee;
-      border-radius: 10px;
-    }
+.v {
+  font-weight: 700;
+  color: #333;
+}
 
-    .kv .k { font-weight: 700; color: #B22222; font-size: 12px; text-transform: uppercase; letter-spacing: .06em; }
-    .kv .v { font-weight: 700; color: #222; }
+/* === Description === */
+.description h2 {
+  color: #B22222;
+  font-size: 24px;
+  margin-bottom: 10px;
+}
 
-    /* Thin star rating */
-    .stars { display: inline-flex; gap: 4px; vertical-align: middle; }
-    .stars svg { width: 18px; height: 18px; stroke: #B22222; fill: none; stroke-width: 1.6; }
-    .stars svg.filled { fill: rgba(178,34,34,0.18); }
+.description p {
+  font-size: 15px;
+  line-height: 1.7;
+  color: #444;
+}
 
-    /* ===== Description ===== */
-    .description { margin-top: 22px; }
-    .description h2 { color: #B22222; font-size: 24px; margin-bottom: 10px; }
-    .description p { font-size: 15px; line-height: 1.7; color: #444; }
+/* === Buttons === */
+.footer-actions {
+  margin-top: 22px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
 
-    /* ===== Bottom actions (side-by-side) ===== */
-    .footer-actions { margin-top: 22px; display: flex; justify-content: flex-end; gap: 10px; }
-    .footer-actions button {
-      background-color: #B22222;
-      color: #fff;
-      border: none;
-      padding: 10px 16px;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: background 0.3s ease, transform 0.2s ease;
-      font-size: 14px;
-    }
-    .footer-actions button:hover { background-color: #FF4C4C; transform: translateY(-2px); }
+.btn {
+  background-color: #B22222;
+  color: #fff;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.2s ease;
+  font-size: 14px;
+}
 
-    /* ===== Back button — unchanged from original ===== */
-    .back-btn {
-      display: inline-block;
-      margin-top: 30px;
-      background-color: #B22222;
-      color: #fff;
-      padding: 10px 22px;
-      border-radius: 25px;
-      text-decoration: none;
-      font-size: 15px;
-      transition: background 0.3s ease, transform 0.2s ease;
-    }
-    .back-btn:hover { background-color: #FF4C4C; transform: scale(1.05); }
+.btn:hover {
+  background-color: #FF4C4C;
+  transform: translateY(-2px);
+}
 
-    /* ===== Responsive ===== */
-    @media (max-width: 900px) {
-      .item-header { grid-template-columns: 1fr; }
-      .item-header img { height: 300px; }
-      .spec-grid { grid-template-columns: 1fr; }
-    }
-  </style>
+.btn.secondary {
+  background-color: #eee;
+  color: #333;
+}
+
+.back-btn {
+  display: inline-block;
+  margin-top: 30px;
+  background-color: #B22222;
+  color: #fff;
+  padding: 10px 22px;
+  border-radius: 25px;
+  text-decoration: none;
+  font-size: 15px;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.back-btn:hover {
+  background-color: #FF4C4C;
+  transform: scale(1.05);
+}
+
+/* === Modal === */
+.modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.45);
+  align-items: center;
+  justify-content: center;
+  z-index: 10000;
+}
+
+.modal.show {
+  display: flex;
+}
+
+.modal-content {
+  background: #fff;
+  width: min(680px, 92vw);
+  max-height: 85vh;
+  overflow: auto;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0,0,0,.25);
+  padding: 20px;
+  position: relative;
+}
+
+.modal .close {
+  position: absolute;
+  right: 14px;
+  top: 12px;
+  font-size: 22px;
+  cursor: pointer;
+  border: none;
+  background: none;
+}
+
+.modal-buttons {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+  margin-top: 14px;
+}
+
+.modal label {
+  display: block;
+  font-size: 12px;
+  font-weight: 700;
+  color: #B22222;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  margin: 10px 0 6px;
+}
+
+.modal input,
+.modal textarea,
+.modal select {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  font-size: 14px;
+}
+
+.modal textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+@media (max-width: 900px) {
+  .item-header { grid-template-columns: 1fr; }
+  .spec-grid { grid-template-columns: 1fr; }
+}
