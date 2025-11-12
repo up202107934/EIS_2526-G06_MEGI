@@ -429,7 +429,25 @@ body.dark-mode .footer {
 }
 .my-collections-btn:hover {
     background-color: #45a049;
-} /* ===== MINI CAROUSEL ===== */
+}
+
+.btn-add {
+    margin-top: 50px;
+    font-size: 18px;
+    padding: 14px 30px;
+    background: linear-gradient(135deg, #ef233c, #d90429);
+    color: #fff;
+    border-radius: 25px;
+    text-decoration: none;
+    display: inline-block;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+}
+.btn-add:hover {
+    background-color: #45a049;
+}
+
+/* ===== MINI CAROUSEL ===== */
 .mini-carousel {
     width: 100%;
     overflow: hidden;
