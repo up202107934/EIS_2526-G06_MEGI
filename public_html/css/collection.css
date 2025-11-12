@@ -634,3 +634,20 @@ body.dark-mode .profile-dropdown a {
 body.dark-mode .profile-dropdown a:hover {
   background-color: #333;
 }
+
+/* ===== FOOTER ===== */
+.footer {
+    background-color: #2b2d42;
+    color: #edf2f4;
+    text-align: center;
+    padding: 25px 10px;
+    font-size: 14px;
+    margin-top: 0; /* O flex-grow no container trata do espaço */
+    width: 100%; /* Garante a largura total */
+}
+
+/* Footer para o Dark Mode */
+body.dark-mode .footer {
+    background-color: #111;
+    color: #ccc;
+}

@@ -1397,3 +1397,20 @@ body.dark-mode .navbar-logo a, body.dark-mode .navbar-center a{ color:#FFD700 !i
 body.dark-mode .modal-content{
   background:#222 !important; color:#eee !important; border:1px solid #333 !important;
 }
+
+/* ===== FOOTER ===== */
+.footer {
+    background-color: #2b2d42;
+    color: #edf2f4;
+    text-align: center;
+    padding: 25px 10px;
+    font-size: 14px;
+    margin-top: 0; /* O flex-grow no container trata do espaço */
+    width: 100%; /* Garante a largura total */
+}
+
+/* Footer para o Dark Mode */
+body.dark-mode .footer {
+    background-color: #111;
+    color: #ccc;
+}

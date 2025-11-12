@@ -137,11 +137,18 @@ body.auth-page {
 } /* Corrige o container */
 .login-container {
     margin: 0 auto;
-} /* ===== TEAM PAGE ===== */
+} 
+/* ===== TEAM PAGE ===== */
+body {
+    flex-direction: column; /* <-- FORÇA o empilhamento vertical */
+    min-height: 100vh;
+} 
+
 .team-deck-section {
     text-align: center;
     padding: 80px 20px;
     background-color: #fff;
+    flex-grow: 1;
 }
 .deck-title {
     font-size: 42px;
@@ -742,4 +749,8 @@ body.dark-mode .profile-dropdown a {
 }
 body.dark-mode .profile-dropdown a:hover {
     background-color: #333;
+}
+
+.team-deck-section {
+  flex-grow: 1;
 }
