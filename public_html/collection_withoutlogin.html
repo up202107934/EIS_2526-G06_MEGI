@@ -7,33 +7,29 @@
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&display=swap" rel="stylesheet">
 </head>
 
-<body>
+<body class="logged-out">
 
-<nav class="navbar">
-  <div class="navbar-logo">
-    <a href="home.html">MyCollections</a>
-  </div>
-  <form class="navbar-search" action="search.html" method="GET">
-    <input type="text" name="q" placeholder="Search collections, items..." required>
-    <button type="submit" class="search-btn">
-      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <circle cx="8" cy="8" r="6"></circle>
-        <line x1="13" y1="13" x2="18" y2="18"></line>
-      </svg>
-    </button>
-  </form>
-  <div class="navbar-user">
-    <a href="login.html">
-      <img src="img/ImagemPerfil.jpeg" alt="User" class="navbar-avatar">
-    </a>
-  </div>
-  <button id="themeToggle" class="theme-toggle">🌙</button>
-</nav>
+<!-- ===== NAVBAR (LOGGED OUT) — versão simples, sem título duplicado ===== -->
+<header class="navbar navbar--lo">
+  <div class="nav-left">
+    <a class="brand" href="home_withoutlogin.html">MyCollections</a>
+  </div>
+
+  <div class="nav-right">
+    <form class="search" action="search.html">
+      <input type="search" placeholder="Search collections, items..." aria-label="Search" />
+      <button type="submit" class="icon-btn" aria-label="Search">🔎</button>
+    </form>
+
+    <a href="login.html" class="signin-chip" aria-label="Sign in">Sign in</a>
+    <button id="themeToggle" class="theme-toggle" aria-label="Toggle theme">🌙</button>
+  </div>
+</header>
 
 
   <header class="collection-header">
     <div class="search-bar">
-    </div>
+    </div>
   </header>
   
   <h1 class="collection-title">Star Wars Miniatures</h1>

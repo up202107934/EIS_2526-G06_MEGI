@@ -112,17 +112,19 @@ body.dark-mode .navbar-center a {
 /* ===== COLLECTION PAGE ===== */
 
 /* ===== BANNER HEADER ===== */
-.collection-header {
+/* HERO BANNER — caminho corrigido */
+.collection-header{
   position: relative;
   width: 100%;
   height: 240px;
-  background: linear-gradient(rgba(0,0,0,0.25), rgba(0,0,0,0.25)), url("img/starwars-banner.jpg") center/cover no-repeat;
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  padding: 10px 40px;
+  background:
+    linear-gradient(rgba(0,0,0,0.25), rgba(0,0,0,0.25)),
+    url("../img/starwars-banner.jpg") center/cover no-repeat; /* <- ../img/… */
+  display: grid;
+  place-items: center;
   border-bottom: 5px solid #B22222;
 }
+
 
 /* ===== TÍTULO ABAIXO DO BANNER ===== */
 .collection-title {
@@ -651,3 +653,66 @@ body.dark-mode .footer {
     background-color: #111;
     color: #ccc;
 }
+
+/* =========== NAVBAR (LOGGED OUT) — 2 colunas, sem título ao centro =========== */
+.navbar--lo{
+  --bg:#2b2d42; --fg:#fff; --chip:#B22222; --chip-hover:#FF4C4C;
+  position: sticky; top: 0; z-index: 1000;
+  display: grid;
+  grid-template-columns: 1fr auto;                 /* esquerda | direita */
+  align-items: center;
+  gap: 16px;
+  padding: 18px 28px;
+  background: var(--bg);
+  border-bottom: 1px solid rgba(255,255,255,.06);
+}
+.navbar--lo .nav-left  { justify-self: start; }
+.navbar--lo .nav-right { justify-self: end; display: flex; align-items:center; gap: 14px; }
+
+/* Marca (sem sublinhado) */
+.navbar--lo .brand{
+  color: var(--fg); text-decoration: none; font-weight: 800; font-size: 22px; letter-spacing:.3px;
+}
+
+/* Pesquisa “pill” */
+.navbar--lo .search{
+  display:flex; align-items:center; gap:10px;
+  background: rgba(255,255,255,.96);
+  border-radius: 999px; padding: 10px 12px;
+  box-shadow: 0 10px 24px rgba(0,0,0,.16);
+}
+.navbar--lo .search input{
+  border:0; outline:0; background:transparent; color:#222;
+  width: min(48vw, 520px); font-size: 15px;
+}
+.navbar--lo .icon-btn{ border:0; background:transparent; font-size:18px; opacity:.75; cursor:pointer; }
+
+/* Chip Sign in (SEM sublinhado e numa linha) */
+.navbar--lo .signin-chip{
+  text-decoration: none;                       /* <— elimina sublinhado */
+  background: var(--chip); color:#fff;
+  padding: 10px 16px; border-radius: 999px;
+  font-weight: 700; line-height: 1;            /* mantém 1 linha */
+  display:inline-flex; align-items:center; gap:8px;
+  transition: background .2s, transform .2s;
+  white-space: nowrap;                          /* evita quebra “Sign / in” */
+}
+.navbar--lo .signin-chip:hover{ background: var(--chip-hover); transform: translateY(-1px); }
+
+/* Botão tema */
+.navbar--lo .theme-toggle{
+  border:0; background:transparent; color:#fff; font-size:22px; cursor:pointer;
+  transition: transform .2s, opacity .2s;
+}
+.navbar--lo .theme-toggle:hover{ transform: scale(1.12); opacity:.9; }
+
+/* Responsive */
+@media (max-width: 900px){
+  .navbar--lo .search input{ width: min(62vw, 360px); }
+}
+
+/* Dark */
+body.dark-mode .navbar--lo{ background:#111; }
+body.dark-mode .navbar--lo .search{ background: rgba(255,255,255,.12); box-shadow: 0 10px 24px rgba(0,0,0,.4); }
+body.dark-mode .navbar--lo .search input{ color:#eee; }
+
