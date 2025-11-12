@@ -1067,3 +1067,150 @@ body.dark-mode .btn-create {
 body.dark-mode::-webkit-scrollbar-thumb {
   background-color: #444 !important;
 }
+
+
+
+/* ---- Houver "+" nas coleções do detalhe ---- */
+.ev-col-item{
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+}
+.ev-col-item .hover-add{
+  position: absolute; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+  background: rgba(0,0,0,.45);
+  color: #fff;
+  opacity: 0; transition: opacity .18s ease, transform .18s ease;
+  backdrop-filter: blur(2px);
+}
+.ev-col-item:hover .hover-add{ opacity: 1; }
+
+.ev-col-item .hover-add .plus{
+  width: 40px; height: 40px; border-radius: 999px;
+  border: 2px solid #fff; display: flex; align-items: center; justify-content: center;
+  font-size: 24px; font-weight: 900; line-height: 1;
+}
+
+/* Botão outline para “Avaliar” */
+.btn.outline{
+  background: transparent;
+  color: #B22222;
+  border: 2px solid #B22222;
+}
+.btn.outline:hover{
+  background: #ffecec;
+}
+
+/* Estrelas na review modal */
+.rv-stars{ display:flex; gap:8px; margin:10px 0 12px; }
+.rv-stars .star{
+  font-size: 30px; line-height: 1;
+  background: transparent; border: 0; padding: 0 3px;
+  color: #c8c8c8; cursor: pointer; transition: transform .1s, color .1s;
+}
+.rv-stars .star:hover{ transform: translateY(-1px); }
+.rv-stars .star.active{ color: #f5b301; }  /* dourado */
+#rv-comment{
+  width: 100%; border: 1px solid #e1e3e8; border-radius: 10px; padding: 10px; resize: vertical;
+}
+
+
+
+
+/* Estilo para botões desativados do detalhe */
+.btn.disabled,
+.btn[disabled]{
+  background: #e5e7eb !important;   /* cinza claro */
+  color: #9ca3af !important;        /* cinza texto */
+  border-color: #e5e7eb !important;
+  cursor: not-allowed !important;
+  box-shadow: none !important;
+  transform: none !important;
+}
+
+
+
+/* --- EventForm: modal com scroll adaptativo --- */
+#eventForm .modal-content{ max-height: 88vh; overflow:auto; }
+
+/* Zona de coleções (com pesquisa + scroll) */
+.pick-search{ display:flex; margin:10px 0 8px; }
+.pick-search input{
+  width:100%; padding:8px 10px; border:1px solid #e1e3e8; border-radius:10px;
+}
+#f-col-list{ max-height: 28vh; overflow:auto; }
+
+/* Estados visuais das coleções */
+.pick-card.editing{ outline:3px solid #2b6cb0; background:#f0f7ff; }
+.pick-card.done{ outline:3px solid #16a34a; background:#f1fff5; }
+.pick-card .badge{
+  margin-left:auto; background:#eef2ff; color:#1f3bb3; font-size:11px; font-weight:700;
+  padding:2px 8px; border-radius:999px;
+}
+
+/* Itens da coleção (pesquisa + scroll) */
+#f-items-wrap{ max-height: 44vh; overflow:auto; }
+.item-search{ display:flex; margin:8px 0; }
+.item-search input{
+  width:100%; padding:8px 10px; border:1px solid #e1e3e8; border-radius:10px;
+}
+
+/* Barra de ações "Concluir" fixa ao fundo do bloco de itens */
+.items-actions{
+  position: sticky; bottom:0; display:flex; gap:8px; justify-content:flex-end;
+  padding-top:10px; background:linear-gradient(180deg, transparent, #fff 40%);
+}
+
+/* Força a esconder quando tiver o atributo hidden */
+.item-search[hidden] { display: none !important; }
+
+/* ——— apenas no modal de criar/editar evento ——— */
+#eventForm .pick-card:not(.done):not(.editing):has(input:checked){
+  outline: 0 !important;
+  background: #fff !important;
+}
+#eventForm .pick-card.done{
+  outline: 3px solid #16a34a !important;
+  background: #f1fff5 !important;
+}
+#eventForm .pick-card.editing{
+  outline: 3px solid #2b6cb0 !important;
+  background: #f0f7ff !important;
+}
+
+
+/* ——— join wizard: quando a coleção está selecionada deve ficar bem visível ——— */
+#joinForm .pick-card{ cursor: pointer; }
+#joinForm .pick-card:has(input:checked){
+  outline: 3px solid #B22222;
+  background: #fff6f6;
+}
+
+
+
+/* --- Interest (coração) no cartão --- */
+.event-card{ position: relative; }
+
+.ev-like{
+  position: absolute; top: 10px; right: 10px;
+  display: flex; flex-direction: column; align-items: center; gap: 4px;
+}
+
+.like-btn{
+  width: 36px; height: 36px; border-radius: 999px;
+  border: 1px solid #e5e7eb; background:#fff;
+  font-size: 18px; line-height: 1; cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0,0,0,.08);
+  transition: transform .12s, background .12s, color .12s, border-color .12s;
+}
+.like-btn:hover{ transform: translateY(-1px); }
+.like-btn[aria-pressed="true"]{
+  background:#ffe5e9; color:#c81e4a; border-color:#c81e4a;
+}
+
+.like-count{
+  font-size: 12px; font-weight: 700; color:#374151;
+  background:#fff; border:1px solid #e5e7eb; border-radius: 999px;
+  padding: 2px 8px; box-shadow: 0 1px 4px rgba(0,0,0,.06);
+}

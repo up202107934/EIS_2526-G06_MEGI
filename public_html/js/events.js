@@ -18,15 +18,45 @@ const state = {
   // Eventos de exemplo + imagens associadas (coleções do evento)
   events: [
     {
-      id: 1,
-      name: 'Star Wars Day',
-      date: '2025-05-04T18:00',
-      description: 'Meetup de colecionadores Star Wars.',
-      images: [
-        'collection1.jpg','collection2.jpg','collection3.jpg','collection4.jpg','collection5.jpg',
-        'starwars-banner.jpg','falcon.jpg','stormtrooper.jpg'
+  id: 1,
+  name: 'Star Wars Day',
+  date: '2025-05-04T18:00',
+  description: 'Meetup de colecionadores Star Wars.',
+  images: [
+    'collection1.jpg','collection2.jpg','collection3.jpg','collection4.jpg','collection5.jpg',
+    'starwars-banner.jpg','falcon.jpg','stormtrooper.jpg'
+  ],
+  collections: [
+    {
+      name: 'Collection1',
+      img: 'collection1.jpg',
+      items: [
+        { name: 'Millennium Falcon 1979', img: 'falcon.jpg' },
+        { name: 'Stormtrooper Mk I',      img: 'stormtrooper.jpg' },
+        { name: 'Banner 1997',            img: 'starwars-banner.jpg' }
       ]
     },
+    {
+      name: 'Collection2',
+      img: 'collection2.jpg',
+      items: [
+        { name: 'Poster X', img: 'collection2.jpg' },
+        { name: 'Poster Y', img: 'collection3.jpg' }
+      ]
+    },
+    {
+      name: 'Collection3',
+      img: 'collection3.jpg',
+      items: [
+        { name: 'Selos raros A', img: 'collection3.jpg' },
+        { name: 'Selos raros B', img: 'collection4.jpg' }
+      ]
+    }
+  ]
+},
+
+      
+    
     {
       id: 2,
       name: 'Coin Fair Lisboa',
@@ -42,8 +72,42 @@ const state = {
       images: ['stamp1.jpg','stamp2.jpg','stamp3.jpg','stamp4.jpg','train1.jpg','collection2.jpg']
     }
   ],
-  joined: new Set(JSON.parse(localStorage.getItem('joinedEvents') || '[]'))
+  joined: new Set(JSON.parse(localStorage.getItem('joinedEvents') || '[]')),
+  ratings: JSON.parse(localStorage.getItem('eventRatings') || '{}')
+
 };
+
+// --- Interesse (coração) ---
+state.interested = new Set(JSON.parse(localStorage.getItem('interestedEvents') || '[]'));
+const interestCounts = JSON.parse(localStorage.getItem('interestCounts') || '{}');
+
+function saveInterest(){
+  localStorage.setItem('interestedEvents', JSON.stringify([...state.interested]));
+  localStorage.setItem('interestCounts', JSON.stringify(interestCounts));
+}
+
+function getInterestCount(id){
+  if (interestCounts[id] == null) interestCounts[id] = 0;
+  return interestCounts[id];
+}
+
+function toggleInterest(id){
+  const wasOn = state.interested.has(id);
+  if (wasOn){
+    state.interested.delete(id);
+    interestCounts[id] = Math.max(0, (interestCounts[id]||0) - 1);
+  } else {
+    state.interested.add(id);
+    interestCounts[id] = (interestCounts[id]||0) + 1;
+  }
+  saveInterest();
+  // atualizar o cartão sem re-render completo
+  const btn = document.querySelector(`.like-btn[data-id="${id}"]`);
+  const cnt = document.getElementById(`like-${id}`);
+  if (btn) btn.setAttribute('aria-pressed', String(!wasOn));
+  if (cnt) cnt.textContent = interestCounts[id] || 0;
+}
+
 
 // Coleções do UTILIZADOR (mock). Cada uma com itens.
 state.userCollections = [
@@ -76,6 +140,7 @@ state.participations = []; // {eventId, collections:[{id, items:[ids]}], user:{.
 
 
 function saveJoined(){ localStorage.setItem('joinedEvents', JSON.stringify([...state.joined])); }
+function saveRatings(){ localStorage.setItem('eventRatings', JSON.stringify(state.ratings)); }
 function isUpcoming(iso){ return new Date(iso) > new Date(); }
 function fmtDate(iso){
   const d = new Date(iso);
@@ -123,6 +188,13 @@ function render(){
         ${thumbs.map(s => `<img class="ev-thumb" src="img/${s}" alt="">`).join('')}
       </div>
     </div>
+    
+    <div class="ev-like">
+        <button class="like-btn" data-id="${ev.id}" aria-pressed="${state.interested.has(ev.id)}" title="Tenho interesse">♥</button>
+        <span class="like-count" id="like-${ev.id}">${getInterestCount(ev.id)}</span>
+    </div>
+
+            
 
     <div class="ev-meta">
       <h2 class="ev-title">${ev.name}</h2>
@@ -134,6 +206,8 @@ function render(){
     </div>
   </article>`;
 }).join('');
+
+$$('.like-btn').forEach(b => b.onclick = () => toggleInterest(+b.dataset.id));
 
 
   // Inicializar carrossel de cada cartão
@@ -236,19 +310,65 @@ function openDetail(id){
 
   $('#ev-col-count').textContent = `${cols.length} ${cols.length===1 ? 'coleção' : 'coleções'}`;
   $('#ev-col-list').innerHTML = cols.length
-    ? cols.map(c => `
-        <article class="ev-col-item">
-          <img src="img/${c.img}" alt="${c.name}">
-          <span class="ev-col-name">${c.name}</span>
-        </article>
-      `).join('')
-    : `<p class="muted">Ainda sem coleções associadas.</p>`;
+  ? cols.map((c, i) => `
+      <article class="ev-col-item" data-col-idx="${i}" title="Ver itens desta coleção">
+        <img src="img/${c.img}" alt="${c.name}">
+        <span class="ev-col-name">${c.name}</span>
+        <div class="hover-add" aria-hidden="true">
+          <div class="plus">+</div>
+        </div>
+      </article>
+    `).join('')
+  : `<p class="muted">Ainda sem coleções associadas.</p>`;
+
+    // Clique numa coleção -> ver itens dessa coleção no evento
+    $('#ev-col-list').onclick = (e) => {
+      const tile = e.target.closest('.ev-col-item');
+      if (!tile) return;
+      const idx = +tile.dataset.colIdx;
+      const col = cols[idx] || null;
+      if (!col) return;
+      openCollectionItems(ev, col); // função abaixo
+    };
+    
+    
+// Botão "Avaliar": só visível para eventos já decorridos
+const reviewBtn = $('#d-review');
+if (isUpcoming(ev.date)) {
+  reviewBtn.style.display = 'none';
+  reviewBtn.onclick = null;
+} else {
+  reviewBtn.style.display = 'inline-block';
+  reviewBtn.onclick = () => openReview(ev);
+}
+
+    
+ // Atualizar a secção de avaliação (só mostra se o evento já ocorreu)
+
 
   // Ações
 const plusBtn = $('#d-plus');
 if (plusBtn) plusBtn.onclick = () => openForm(ev);  // só se existir
 
-$('#d-join').onclick = () => openJoin(ev);
+// Botão "Participar": só permite para eventos futuros
+const joinBtn = $('#d-join');
+
+if (isUpcoming(ev.date)) {
+  // evento ainda não aconteceu → pode participar
+  joinBtn.disabled = false;
+  joinBtn.textContent = 'Participar';
+  joinBtn.title = '';
+  joinBtn.classList.remove('disabled');
+  joinBtn.onclick = () => openJoin(ev);
+} else {
+  // evento já passou → bloquear
+  joinBtn.onclick = null;
+  joinBtn.disabled = true;                 // bloqueia o clique
+  joinBtn.textContent = 'Participação encerrada';
+  joinBtn.title = 'Já não é possível participar neste evento.';
+  joinBtn.classList.add('disabled');
+}
+
 
   
 
@@ -269,52 +389,336 @@ function closeDetail(){
   $('#eventDetail').classList.remove('show');
 }
 
+function openReview(ev){
+  const modal = $('#reviewForm');
+  const title = $('#rv-title');
+  const ta    = $('#rv-comment');
+  const stars = Array.from(document.querySelectorAll('#reviewForm .star'));
+
+  title.textContent = `Avaliar: ${ev.name}`;
+
+  // carregar avaliação anterior (se existir)
+  const saved = state.ratings[ev.id] || null;
+  let current = saved?.stars || 0;
+  ta.value = saved?.comment || '';
+
+  const paint = (n) => {
+    stars.forEach(b => b.classList.toggle('active', +b.dataset.value <= n));
+  };
+  paint(current);
+
+  stars.forEach(b=>{
+    b.onmouseenter = () => paint(+b.dataset.value);
+    b.onmouseleave = () => paint(current);
+    b.onclick      = () => { current = +b.dataset.value; paint(current); };
+  });
+
+  // submit/cancel/close
+  $('#rv-submit').onclick = () => {
+    if (current === 0){ alert('Escolhe de 1 a 5 estrelas.'); return; }
+    state.ratings[ev.id] = {
+      stars: current,
+      comment: ta.value.trim(),
+      when: new Date().toISOString()
+    };
+    saveRatings();
+    closeReview();
+    alert('✅ Avaliação submetida. Obrigado!');
+  };
+
+  const closeReview = () => { modal.classList.remove('show'); };
+  $('#rv-cancel').onclick = closeReview;
+  $('#review-close').onclick = closeReview;
+  modal.addEventListener('click', (e)=>{ if(e.target.id==='reviewForm') closeReview(); }, { once:true });
+  function esc(e){ if(e.key==='Escape'){ closeReview(); window.removeEventListener('keydown', esc); } }
+  window.addEventListener('keydown', esc);
+
+  // abrir modal
+  modal.classList.add('show');
+}
+
+
+
+function openCollectionItems(ev, col){
+  // col pode vir com { name, img, items: [{name,img}, ...] }
+  const modal = $('#colItems');
+  $('#colItems-title').textContent = `${col.name} — itens no evento`;
+
+  const items = Array.isArray(col.items) ? col.items : [];
+  const grid  = $('#colItems-grid');
+
+  if (!items.length){
+    grid.innerHTML = `<p class="muted">Ainda não há itens listados para esta coleção neste evento.</p>`;
+  } else {
+    grid.innerHTML = items.map(it => `
+      <div class="mini-card">
+        <img src="img/${it.img}" alt="${it.name}">
+        <span>${it.name}</span>
+      </div>
+    `).join('');
+  }
+
+  // abrir
+  modal.classList.add('show');
+
+  // fechar
+  const close = () => modal.classList.remove('show');
+  $('#colItems-close').onclick = close;
+  modal.addEventListener('click', (e)=>{ if(e.target.id==='colItems') close(); }, { once:true });
+  function esc(e){ if(e.key==='Escape'){ close(); window.removeEventListener('keydown', esc); } }
+  window.addEventListener('keydown', esc);
+}
+
+
 /* ============ MODAL: FORMULÁRIO (Criar / Editar) ============ */
-function openForm(ev=null){
+function openForm(ev = null){
+  // cabeçalho + campos
   $('#f-title').textContent = ev ? 'Edit Event' : 'New Event';
   $('#f-name').value = ev?.name || '';
   $('#f-date').value = ev?.date?.slice(0,16) || '';
   $('#f-desc').value = ev?.description || '';
+  $('#f-loc').value  = ev?.location || '';
+
+  // --- CLEANUP SEGURO (sem quebrar JS se não existirem elementos) ---
+  (function safeCleanup(){
+    const oldCol  = document.getElementById('col-search-wrap');
+    const oldItem = document.getElementById('item-search-wrap');
+    if (oldCol && oldCol.parentNode)  oldCol.parentNode.removeChild(oldCol);
+    if (oldItem && oldItem.parentNode) oldItem.parentNode.removeChild(oldItem);
+    const colList = document.getElementById('f-col-list');
+    const itemsW  = document.getElementById('f-items-wrap');
+    if (colList) colList.textContent = '';
+    if (itemsW)  itemsW.textContent  = '';
+    const modalEl = document.querySelector('#eventForm .modal-content');
+    if (modalEl) modalEl.scrollTop = 0;
+  })();
+
+  // monta a área de coleções/itens
+  const getSelectedCollections = setupEventFormCollections(ev);
 
   const modal = $('#eventForm');
-  modal.classList.add('show');             // <— usa classe .show (coerente com CSS)
+  modal.classList.add('show');
 
   // Guardar
   $('#f-save').onclick = () => {
     const name = $('#f-name').value.trim();
     const date = $('#f-date').value;
     const description = $('#f-desc').value.trim();
-    if (!name || !date) return;
+    const location = $('#f-loc').value.trim();
+    if (!name || !date){ alert('Nome e data são obrigatórios.'); return; }
+
+    const cols = getSelectedCollections(); // [{id,name,img,items:[...]}]
+    const totalItems = cols.reduce((s,c)=> s + c.items.length, 0);
+    if (totalItems === 0){ alert('Escolhe pelo menos 1 item.'); return; }
+
+    // imagens derivadas
+    const images = [...new Set(cols.flatMap(c => [c.img, ...c.items.map(it=>it.img)]) )].filter(Boolean);
 
     if (ev){
-      // update
-      ev.name = name; ev.date = date; ev.description = description;
-      // Sprint 2: PUT api/events.php?id=ev.id
+      ev.name = name; ev.date = date; ev.description = description; ev.location = location;
+      ev.collections = cols;
+      ev.images = images.length ? images : ev.images || [];
     } else {
-      // create
       const id = Math.max(0, ...state.events.map(e => e.id)) + 1;
-      state.events.push({ id, name, date, description });
-      // Sprint 2: POST api/events.php
+      state.events.push({ id, name, date, description, location, collections: cols, images });
     }
+
     closeForm();
     render();
   };
 
-  // Fechar (Cancel, X, clique fora, ESC)
+  // Fechar (Cancel, X, backdrop, ESC)
   $('#f-cancel').onclick = closeForm;
   $('#form-close').onclick = closeForm;
   modal.addEventListener('click', (e)=>{ if(e.target.id==='eventForm') closeForm(); }, { once:true });
-
-  function escCloseForm(e){
-    if (e.key === 'Escape'){ closeForm(); window.removeEventListener('keydown', escCloseForm); }
-  }
+  function escCloseForm(e){ if (e.key === 'Escape'){ closeForm(); window.removeEventListener('keydown', escCloseForm); } }
   window.addEventListener('keydown', escCloseForm);
 }
+
+
+
+function setupEventFormCollections(ev){
+  const grid = $('#f-col-list');
+  const wrap = $('#f-items-wrap');
+
+  // Estado local
+  const selected = new Map();     // colId -> Set(itemIds)
+  let editingColId = null;
+  let colFilter = '';
+  let itemFilter = '';
+
+  // Pré-preencher (edição)
+  if (ev?.collections?.length){
+    ev.collections.forEach(c=>{
+      const col = state.userCollections.find(x => x.id === c.id || x.name === c.name);
+      if (!col) return;
+      const set = new Set();
+      (c.items || []).forEach(it => set.add(it.id || it.name));
+      selected.set(col.id, set);
+    });
+  }
+
+  // Pesquisa de coleções (cria 1x)
+  const oldColSearch = document.getElementById('col-search-wrap');
+  if (oldColSearch) oldColSearch.remove();
+  grid.insertAdjacentHTML('beforebegin', `
+    <div class="pick-search" id="col-search-wrap">
+      <input id="col-search" placeholder="Pesquisar coleções…">
+    </div>
+  `);
+  const elColSearch = $('#col-search');
+  elColSearch.oninput = () => { colFilter = elColSearch.value.trim().toLowerCase(); paintCollections(); };
+
+  // Pesquisa de itens (cria 1x; começa escondida)
+  const oldItemSearch = document.getElementById('item-search-wrap');
+  if (oldItemSearch) oldItemSearch.remove();
+  wrap.insertAdjacentHTML('beforebegin', `
+    <div class="item-search" id="item-search-wrap" hidden>
+      <input id="item-search" placeholder="Pesquisar itens desta coleção…">
+    </div>
+  `);
+  const elItemSearchWrap = $('#item-search-wrap');
+  const elItemSearch     = document.querySelector('#item-search');
+  elItemSearchWrap.hidden = true; // começa sempre escondido
+  // ---- Renders ----
+  function paintCollections(){
+    const rows = state.userCollections.filter(c => !colFilter || c.name.toLowerCase().includes(colFilter));
+    grid.innerHTML = rows.map(c=>{
+      const isPicked = selected.has(c.id);
+      const cnt = isPicked ? selected.get(c.id).size : 0;
+      const badge = isPicked ? `<span class="badge">${cnt} item${cnt===1?'':'s'}</span>` : '';
+      const editingCls = editingColId === c.id ? 'editing' : '';
+      const doneCls = (isPicked && cnt > 0 && editingColId !== c.id) ? 'done' : '';
+      return `
+        <label class="pick-card ${editingCls} ${doneCls}">
+          <input type="checkbox" value="${c.id}" ${isPicked?'checked':''}>
+          <img src="img/${c.img}" alt="${c.name}">
+          <span>${c.name}</span>
+          ${badge}
+        </label>`;
+    }).join('');
+
+    // selecionar/deselecionar
+    grid.querySelectorAll('input[type="checkbox"]').forEach(cb=>{
+      cb.onchange = () => {
+        const cid = cb.value;
+        if (cb.checked){
+          if (!selected.has(cid)) selected.set(cid, new Set());
+          editingColId = cid;                 // abre para editar
+          itemFilter = ''; if (elItemSearch) elItemSearch.value = '';
+          paintCollections(); paintItems();
+        } else {
+          selected.delete(cid);
+          if (editingColId === cid) editingColId = null;
+          paintCollections(); paintItems();
+        }
+      };
+    });
+
+    // clicar no cartão reabre para editar
+    grid.querySelectorAll('.pick-card').forEach(card=>{
+      card.onclick = (e)=>{
+        const cb = card.querySelector('input');
+        if (e.target === cb) return;
+        if (!cb.checked){ cb.checked = true; cb.dispatchEvent(new Event('change')); return; }
+        editingColId = cb.value;
+        itemFilter = ''; if (elItemSearch) elItemSearch.value = '';
+        paintCollections(); paintItems();
+      };
+    });
+  }
+
+  function paintItems(){
+    const col = state.userCollections.find(c=>c.id===editingColId);
+    const set = col ? (selected.get(col.id) || new Set()) : null;
+
+    elItemSearchWrap.hidden = !col;
+
+    if (!col){
+      wrap.innerHTML = `<p class="muted">Seleciona uma coleção para escolher os itens.</p>`;
+      return;
+    }
+
+    const items = col.items.filter(it => !itemFilter || it.name.toLowerCase().includes(itemFilter));
+    wrap.innerHTML = `
+      <div class="items-block">
+        <div class="items-head">
+          <div class="items-col">
+            <img src="img/${col.img}" alt="${col.name}">
+            <strong>${col.name}</strong>
+          </div>
+          <div>
+            <button type="button" class="tiny" id="btn-all">Selecionar todos</button>
+            <button type="button" class="tiny" id="btn-none">Limpar</button>
+          </div>
+        </div>
+
+        <div class="mini-grid">
+          ${items.length ? items.map(it => `
+            <label class="mini-card">
+              <input type="checkbox" data-col="${col.id}" value="${it.id}" ${set.has(it.id)?'checked':''}>
+              <img src="img/${it.img}" alt="${it.name}">
+              <span>${it.name}</span>
+            </label>
+          `).join('') : '<p class="muted">Sem resultados…</p>'}
+        </div>
+
+        <div class="items-actions">
+          <button type="button" class="tiny" id="btn-finish">Concluir</button>
+        </div>
+      </div>
+    `;
+
+    // handlers
+    wrap.querySelectorAll('input[type="checkbox"][data-col]').forEach(cb=>{
+      cb.onchange = () => {
+        cb.checked ? set.add(cb.value) : set.delete(cb.value);
+        selected.set(col.id, set);
+        paintCollections();
+      };
+    });
+    $('#btn-all').onclick  = () => { col.items.forEach(it => set.add(it.id)); selected.set(col.id,set); paintItems(); paintCollections(); };
+    $('#btn-none').onclick = () => { set.clear(); selected.set(col.id,set); paintItems(); paintCollections(); };
+    $('#btn-finish').onclick = () => { editingColId = null; paintCollections(); paintItems(); };
+
+    // pesquisa live de itens
+    elItemSearch.oninput = () => { itemFilter = elItemSearch.value.trim().toLowerCase(); paintItems(); };
+  }
+
+  // Inicial
+  paintCollections();
+  editingColId = null;
+  elItemSearchWrap.hidden = true;
+  wrap.innerHTML = `<p class="muted">Seleciona uma coleção para escolher os itens.</p>`;
+
+  // devolve seleções para o Save
+  return function collectSelected(){
+    const result = [];
+    selected.forEach((set, colId) => {
+      const col = state.userCollections.find(c => c.id === colId);
+      if (!col) return;
+      const items = col.items.filter(it => set.has(it.id));
+      if (items.length === 0) return; // só guarda coleções com ≥1 item
+      result.push({
+        id: col.id, name: col.name, img: col.img,
+        items: items.map(({id,name,img}) => ({ id, name, img }))
+      });
+    });
+    return result;
+  };
+}
+
+
+
 function closeForm(){
   $('#eventForm').classList.remove('show');
 }
 /* ======== JOIN WIZARD ======== */
 function openJoin(ev){
+    if (!isUpcoming(ev.date)) {
+    alert('Já não é possível participar num evento que já aconteceu.');
+    return;
+  }
   closeDetail(); // fecha a modal de detalhe
   const modal = $('#joinForm');
   modal.classList.add('show');

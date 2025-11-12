@@ -25,18 +25,20 @@ document.addEventListener('DOMContentLoaded', () => {
   const strengthBar = document.getElementById('strength-bar');
 
   function showError(input, message) {
-    const small = input.parentElement.querySelector('small');
-    small.textContent = message;
-    small.style.color = 'red';
-    input.style.borderColor = 'red';
-  }
+  // procura o <small> dentro do .form-group, não apenas dentro do .password-wrapper
+  const small = input.closest('.form-group').querySelector('small');
+  small.textContent = message;
+  small.style.color = 'red';
+  input.style.borderColor = 'red';
+}
 
-  function showSuccess(input) {
-    const small = input.parentElement.querySelector('small');
-    small.textContent = '✔';
-    small.style.color = 'green';
-    input.style.borderColor = 'green';
-  }
+function showSuccess(input) {
+  const small = input.closest('.form-group').querySelector('small');
+  small.textContent = '✔';
+  small.style.color = 'green';
+  input.style.borderColor = 'green';
+}
+
 
   function checkEmail(input) {
     const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -94,13 +96,26 @@ document.addEventListener('DOMContentLoaded', () => {
     password.dataset.strength = strength;
   });
 
-  // ================== SUBMIT ==================
-  form.addEventListener('submit', (e) => {
-    const strength = Number(password.dataset.strength) || 0;
-    if (strength < 3) {
-      e.preventDefault();
-      alert('Please use a stronger password before continuing.');
-    }
-  });
+  // ================== SUBMIT ==================//
+form.addEventListener('submit', (e) => {
+  e.preventDefault(); 
 
+  const strength = Number(password.dataset.strength) || 0;
+
+  
+  if (confirmPassword.value !== password.value) {
+    showError(confirmPassword, 'Passwords do not match');
+    alert('Passwords do not match. Please check again.');
+    return;
+  }
+
+  if (strength < 3) {
+    alert('Please use a stronger password before continuing.');
+    return;
+  }
+
+  showSuccess(confirmPassword);
+  alert('Account created successfully!');
+  window.location.href = "user.html";
+}); 
 });
