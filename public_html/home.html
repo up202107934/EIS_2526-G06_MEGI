@@ -43,9 +43,19 @@
 
   <!-- ===== HOME CONTENT ===== -->
   <section class="home-section" id="collections">
-    <h2 class="home-title">Top 5 Collections</h2>
+    <div class="home-top-header">
+      <h2 class="home-title">Top 5 Collections</h2>
 
-    <div class="collections-container">
+      <div class="home-top-filters" aria-label="Top filters">
+        <button class="chip-top active" data-mode="featured">Featured</button>
+        <button class="chip-top" data-mode="recent">Recently added</button>
+      </div>
+    </div>
+
+    <!-- ESTE grid vai ser controlado em JS -->
+    <div id="topCollectionsGrid" class="collections-container">
+
+      <!-- (deixa aqui, por enquanto, os teus 5 cards como estão) -->
 
       <!-- Coleção 1 -->
       <div class="collection-card">

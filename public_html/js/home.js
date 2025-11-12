@@ -105,6 +105,85 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
   initMiniCarousels(document);
+  
+    // =========================
+  // TOP 5 FILTERS (Featured / Recently added)
+  // =========================
+  const topGrid   = document.getElementById("topCollectionsGrid");
+  const topChips  = document.querySelectorAll(".chip-top");
+  const originalTopHTML = topGrid ? topGrid.innerHTML : "";
+
+  // devolve as 5 coleções mais recentes criadas pelo utilizador
+  function getRecentTop5() {
+    const all = getCollections();          // usa o STORAGE_KEY = "collections"
+    if (!all.length) return [];
+
+    const copy = all.slice();
+    copy.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
+    return copy.slice(0, 5);
+  }
+
+  function renderTopCollections(mode = "featured") {
+    if (!topGrid) return;
+
+    // modo "Featured" → volta ao HTML original (as 5 famosas que já tinhas)
+    if (mode === "featured") {
+      topGrid.innerHTML = originalTopHTML;
+      initMiniCarousels(topGrid);  // reativar o mini-carousel nos cards
+      return;
+    }
+
+    // modo "recent" → mostra até 5 coleções criadas pelo utilizador
+    const recent = getRecentTop5();
+    if (!recent.length) {
+      topGrid.innerHTML = `
+        <p style="text-align:center; color:#777; padding:20px;">
+          No user collections yet. Create one using the button below 👇
+        </p>`;
+      return;
+    }
+
+    topGrid.innerHTML = recent.map(c => {
+      const img        = c.img || "img/collection-placeholder.jpg";
+      const itemCount  = Array.isArray(c.items) ? c.items.length : 0;
+      const safeId     = encodeURIComponent(c.id || c.name);
+
+      return `
+        <div class="collection-card">
+          <img src="${img}" alt="${c.name}">
+          <h2>${c.name}</h2>
+          <p>${itemCount ? `${itemCount} items` : "No items yet"}</p>
+
+          <div class="mini-carousel">
+            <div class="mini-track">
+              <div class="mini-item">
+                <p>${itemCount ? "Some items from this collection" : "Start adding items to this collection"}</p>
+              </div>
+            </div>
+          </div>
+
+          <a href="collection.html?id=${safeId}" class="btn">View Collection</a>
+        </div>
+      `;
+    }).join("");
+
+    // se quiseres duplicar mini-track como nas outras:
+    initMiniCarousels(topGrid);
+  }
+
+  // ligar cliques nos chips
+  topChips.forEach(chip => {
+    chip.addEventListener("click", () => {
+      topChips.forEach(c => c.classList.remove("active"));
+      chip.classList.add("active");
+      const mode = chip.dataset.mode || "featured";
+      renderTopCollections(mode);
+    });
+  });
+
+  // render inicial (usa o HTML que já vinha do ficheiro → featured)
+  renderTopCollections("featured");
+
 
   // =========================
   // 5) PESQUISA LOCAL
@@ -227,8 +306,16 @@ document.addEventListener("DOMContentLoaded", () => {
         : "img/collection-placeholder.jpg";
 
     const all = getCollections();
-    all.push({ id: uid(), name, desc, img: imgSrc, items: [] });
+    all.push({
+      id: uid(),
+      name,
+      desc,
+      img: imgSrc,
+      items: [],
+      createdAt: Date.now()    // <— nova propriedade
+    });
     saveCollections(all);
+
 
     // limpar modal
     nameInput.value = "";
