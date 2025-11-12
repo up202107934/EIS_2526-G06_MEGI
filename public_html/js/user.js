@@ -5,23 +5,43 @@
 ========================= */
 const STORAGE_KEY = "collections";
 
-const $ = (sel, root = document) => root.querySelector(sel);
+const $  = (sel, root = document) => root.querySelector(sel);
 const $$ = (sel, root = document) => Array.from(root.querySelectorAll(sel));
 
-const safeJSON = (s, fallback) => { try { return JSON.parse(s); } catch { return fallback; } };
-const getCollections = () => safeJSON(localStorage.getItem(STORAGE_KEY), []);
-const saveCollections = (arr) => localStorage.setItem(STORAGE_KEY, JSON.stringify(arr));
+/**
+ * Lê JSON seguro do localStorage.
+ * Usa: safeJSON("collections", []) -> nunca rebenta mesmo com storage vazio.
+ */
+const safeJSON = (key, fallback) => {
+  try {
+    const raw = localStorage.getItem(key);
+    if (!raw) return fallback;
+    return JSON.parse(raw);
+  } catch {
+    return fallback;
+  }
+};
+
+const getCollections = () => safeJSON(STORAGE_KEY, []);
+const saveCollections = (arr) => {
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(arr));
+  } catch (e) {
+    console.warn("Failed to save collections:", e);
+  }
+};
+
 const uid = () => (crypto?.randomUUID?.() || String(Date.now() + Math.random()));
 
 /* =========================
    Perfil: form + foto
 ========================= */
-const form = document.getElementById('userForm');
-const statusMsg = document.getElementById('statusMsg');
-const photoModal = document.getElementById('photoModal');
+const form        = document.getElementById('userForm');
+const statusMsg   = document.getElementById('statusMsg');
+const photoModal  = document.getElementById('photoModal');
 const editPhotoBtn = document.getElementById('editPhotoBtn');
 const closeModalX = document.getElementById('closeModal');
-const photoInput = document.getElementById('photoInput');
+const photoInput  = document.getElementById('photoInput');
 const profileImage = document.getElementById('profileImage');
 const displayName = document.getElementById('displayName');
 const displayEmail = document.getElementById('displayEmail');
@@ -31,7 +51,7 @@ form?.addEventListener('submit', e => {
   const first = document.getElementById('firstName').value.trim();
   const last  = document.getElementById('lastName').value.trim();
   const email = document.getElementById('email').value.trim();
-  if(!first || !last || !email){
+  if (!first || !last || !email) {
     alert("Please fill all required fields!");
     return;
   }
@@ -43,11 +63,11 @@ form?.addEventListener('submit', e => {
 
 editPhotoBtn?.addEventListener('click', () => { if (photoModal) photoModal.style.display = 'flex'; });
 closeModalX?.addEventListener('click', () => { if (photoModal) photoModal.style.display = 'none'; });
-window.addEventListener('click', e => { if(e.target === photoModal) photoModal.style.display = 'none'; });
+window.addEventListener('click', e => { if (e.target === photoModal) photoModal.style.display = 'none'; });
 
 photoInput?.addEventListener('change', e => {
   const file = e.target.files?.[0];
-  if(file){
+  if (file) {
     const reader = new FileReader();
     reader.onload = ev => {
       profileImage.src = ev.target.result;
@@ -57,8 +77,9 @@ photoInput?.addEventListener('change', e => {
     if (photoModal) photoModal.style.display = 'none';
   }
 });
+
 const savedPhoto = localStorage.getItem('profileImage');
-if(savedPhoto) profileImage.src = savedPhoto;
+if (savedPhoto) profileImage.src = savedPhoto;
 
 /* =========================
    Mini-carousel duplicador
@@ -75,12 +96,12 @@ function initMiniCarousels(root = document) {
 /* =========================
    Wishlist
 ========================= */
-(function initWishlist(){
+(function initWishlist() {
   const container = document.getElementById("wishlist-container");
   if (!container) return;
 
   function renderWishlist() {
-    const wishlist = safeJSON(localStorage.getItem("wishlist"), []);
+    const wishlist = safeJSON("wishlist", []);
     container.innerHTML = "";
 
     if (!wishlist.length) {
@@ -102,15 +123,23 @@ function initMiniCarousels(root = document) {
       `;
 
       card.querySelector(".remove-btn").addEventListener("click", () => {
-        let global = safeJSON(localStorage.getItem("wishlist"), []);
-        if (item.uid) global = global.filter(i => i.uid !== item.uid);
-        else global = global.filter(i => !(i.name === item.name && i.collection === item.collection));
+        // Global wishlist
+        let global = safeJSON("wishlist", []);
+        if (item.uid) {
+          global = global.filter(i => i.uid !== item.uid);
+        } else {
+          global = global.filter(i => !(i.name === item.name && i.collection === item.collection));
+        }
         localStorage.setItem("wishlist", JSON.stringify(global));
 
+        // Wishlist específica da coleção
         const key = `wishlist_${(item.collection || "default").replace(/\s+/g, "_")}`;
-        let cList = safeJSON(localStorage.getItem(key), []);
-        if (item.uid) cList = cList.filter(i => i.uid !== item.uid);
-        else cList = cList.filter(i => !(i.name === item.name && i.collection === item.collection));
+        let cList = safeJSON(key, []);
+        if (item.uid) {
+          cList = cList.filter(i => i.uid !== item.uid);
+        } else {
+          cList = cList.filter(i => !(i.name === item.name && i.collection === item.collection));
+        }
         localStorage.setItem(key, JSON.stringify(cList));
 
         renderWishlist();
@@ -131,7 +160,7 @@ function initMiniCarousels(root = document) {
 /* =========================
    Dark Mode
 ========================= */
-(function initDarkMode(){
+(function initDarkMode() {
   const themeToggle = document.getElementById("themeToggle");
   if (!themeToggle) return;
 
@@ -154,7 +183,7 @@ function initMiniCarousels(root = document) {
 document.addEventListener("DOMContentLoaded", () => {
   const grid = document.getElementById("userCollections") || document.querySelector(".collections-grid");
 
-  /* ===== Modal Create (registar SEM depender do grid) ===== */
+  /* ===== Modal Create (perfil) ===== */
   const createBtn  = document.getElementById("openModal");
   const modal      = document.getElementById("createCollectionModal");
   const cancelBtn  = document.getElementById("cancelCollection");
@@ -172,7 +201,7 @@ document.addEventListener("DOMContentLoaded", () => {
   cancelBtn?.addEventListener("click", closeModal);
   modal?.addEventListener("click", (e) => { if (e.target === modal) closeModal(); });
 
-  // Dropzone (usa classe "dragover" p/ bater com .drop-zone.dragover no CSS)
+  // Dropzone
   dropZone?.addEventListener("click", () => fileInput?.click());
   dropZone?.addEventListener("dragover", (e) => { e.preventDefault(); dropZone.classList.add("dragover"); });
   dropZone?.addEventListener("dragleave", () => dropZone.classList.remove("dragover"));
@@ -188,7 +217,13 @@ document.addEventListener("DOMContentLoaded", () => {
   // Preview
   fileInput?.addEventListener("change", () => {
     const file = fileInput.files?.[0];
-    if (!file) { if (previewImg && dropZone){ previewImg.style.display = "none"; dropZone.style.display = "flex"; } return; }
+    if (!file) {
+      if (previewImg && dropZone) {
+        previewImg.style.display = "none";
+        dropZone.style.display = "flex";
+      }
+      return;
+    }
     const reader = new FileReader();
     reader.onload = (ev) => {
       if (previewImg && dropZone) {
@@ -250,9 +285,10 @@ document.addEventListener("DOMContentLoaded", () => {
     const desc = (descInput?.value || "").trim();
     if (!name) { alert("Please enter a collection name!"); nameInput?.focus(); return; }
 
-    const imgSrc = (previewImg && previewImg.style.display !== "none" && previewImg.src)
-      ? previewImg.src
-      : "img/collection-placeholder.jpg";
+    const imgSrc =
+      (previewImg && previewImg.style.display !== "none" && previewImg.src)
+        ? previewImg.src
+        : "img/collection-placeholder.jpg";
 
     const all = getCollections();
     all.push({ id: uid(), name, desc, img: imgSrc, items: [] });
@@ -269,7 +305,7 @@ document.addEventListener("DOMContentLoaded", () => {
     renderAll();
   });
 
-  /* ===== Importa cartões estáticos do HTML só 1x (opcional) ===== */
+  /* ===== Importa cartões estáticos do HTML só 1x (primeira vez) ===== */
   (function maybeImportStatic() {
     if (!grid) return;
     const already = getCollections();

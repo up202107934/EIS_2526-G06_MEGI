@@ -2,11 +2,27 @@
 
 // === helpers de storage (home.js) ===
 const STORAGE_KEY = "collections";
-const getCollections = () => {
-  try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]"); }
-  catch { return []; }
+
+const safeJSON = (key, fallback) => {
+  try {
+    const raw = localStorage.getItem(key);
+    if (!raw) return fallback;
+    return JSON.parse(raw);
+  } catch (e) {
+    console.warn("Failed to parse localStorage key:", key, e);
+    return fallback;
+  }
 };
-const saveCollections = (arr) => localStorage.setItem(STORAGE_KEY, JSON.stringify(arr));
+
+const getCollections = () => safeJSON(STORAGE_KEY, []);
+const saveCollections = (arr) => {
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(arr));
+  } catch (e) {
+    console.warn("Failed to save collections:", e);
+  }
+};
+
 const uid = () => (crypto?.randomUUID?.() || String(Date.now() + Math.random()));
 const $$ = (sel, root = document) => Array.from(root.querySelectorAll(sel));
 
@@ -130,15 +146,15 @@ document.addEventListener("DOMContentLoaded", () => {
   // =========================
   // 6) MODAL "CREATE COLLECTION" (igual ao user)
   // =========================
-  const openBtn       = document.getElementById("openModal");
-  const modal         = document.getElementById("createCollectionModal");
-  const cancelBtn     = document.getElementById("cancelCollection");
-  const saveBtn       = document.getElementById("saveCollection");
-  const dropZone      = document.getElementById("dropZoneCollection");
-  const fileInput     = document.getElementById("collectionImage");
-  const preview       = document.getElementById("collectionPreview");
-  const nameInput     = document.getElementById("collectionName");
-  const descInput     = document.getElementById("collectionDescription");
+  const openBtn   = document.getElementById("openModal");
+  const modal     = document.getElementById("createCollectionModal");
+  const cancelBtn = document.getElementById("cancelCollection");
+  const saveBtn   = document.getElementById("saveCollection");
+  const dropZone  = document.getElementById("dropZoneCollection");
+  const fileInput = document.getElementById("collectionImage");
+  const preview   = document.getElementById("collectionPreview");
+  const nameInput = document.getElementById("collectionName");
+  const descInput = document.getElementById("collectionDescription");
 
   const openModal = (e) => {
     e?.preventDefault?.();
