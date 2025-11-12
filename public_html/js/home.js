@@ -28,6 +28,14 @@ const $$ = (sel, root = document) => Array.from(root.querySelectorAll(sel));
 
 document.addEventListener("DOMContentLoaded", () => {
   // =========================
+  // TOP COLLECTIONS FILTER ELEMENTS
+  // =========================
+  const topGrid      = document.getElementById("topCollectionsGrid");
+  const topChips     = document.querySelectorAll(".chip-top");
+  const topSubtitle  = document.getElementById("topSubtitle");
+  const originalTopHTML = topGrid ? topGrid.innerHTML : "";
+
+  // =========================
   // 1) DARK MODE
   // =========================
   const themeToggle = document.getElementById("themeToggle");
@@ -105,13 +113,10 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
   initMiniCarousels(document);
-  
-    // =========================
-  // TOP 5 FILTERS (Featured / Recently added)
+
   // =========================
-  const topGrid   = document.getElementById("topCollectionsGrid");
-  const topChips  = document.querySelectorAll(".chip-top");
-  const originalTopHTML = topGrid ? topGrid.innerHTML : "";
+  // 5) TOP 5 FILTERS (Featured / Recently added)
+  // =========================
 
   // devolve as 5 coleções mais recentes criadas pelo utilizador
   function getRecentTop5() {
@@ -126,19 +131,27 @@ document.addEventListener("DOMContentLoaded", () => {
   function renderTopCollections(mode = "featured") {
     if (!topGrid) return;
 
-    // modo "Featured" → volta ao HTML original (as 5 famosas que já tinhas)
     if (mode === "featured") {
+      // volta ao HTML original (top 5 globais)
       topGrid.innerHTML = originalTopHTML;
-      initMiniCarousels(topGrid);  // reativar o mini-carousel nos cards
+      initMiniCarousels(topGrid);
+
+      if (topSubtitle) {
+        topSubtitle.textContent = "Global featured collections that everyone can see.";
+      }
       return;
     }
 
-    // modo "recent" → mostra até 5 coleções criadas pelo utilizador
+    // --- recent (do user) ---
     const recent = getRecentTop5();
+    if (topSubtitle) {
+      topSubtitle.textContent = "Your last 5 created collections (only from your account).";
+    }
+
     if (!recent.length) {
       topGrid.innerHTML = `
         <p style="text-align:center; color:#777; padding:20px;">
-          No user collections yet. Create one using the button below 👇
+          You don't have any collections yet. Create one using the button below 👇
         </p>`;
       return;
     }
@@ -167,7 +180,6 @@ document.addEventListener("DOMContentLoaded", () => {
       `;
     }).join("");
 
-    // se quiseres duplicar mini-track como nas outras:
     initMiniCarousels(topGrid);
   }
 
@@ -184,26 +196,31 @@ document.addEventListener("DOMContentLoaded", () => {
   // render inicial (usa o HTML que já vinha do ficheiro → featured)
   renderTopCollections("featured");
 
-
   // =========================
-  // 5) PESQUISA LOCAL
+  // 6) PESQUISA LOCAL
   // =========================
   const searchForm = document.getElementById("searchForm");
   const searchInput = document.getElementById("searchInput");
-  const collectionCards = document.querySelectorAll(".collection-card");
 
-  if (searchForm && searchInput && collectionCards.length) {
+  if (searchForm && searchInput) {
     searchForm.addEventListener("submit", (e) => {
       e.preventDefault();
       const query = searchInput.value.trim().toLowerCase();
 
+      // apanha SEMPRE os cards atuais (pode ter mudado o filtro)
+      const cards = topGrid
+        ? topGrid.querySelectorAll(".collection-card")
+        : document.querySelectorAll(".collection-card");
+
+      if (!cards.length) return;
+
       if (query === "") {
-        collectionCards.forEach((card) => (card.style.display = "flex"));
+        cards.forEach((card) => (card.style.display = "flex"));
         return;
       }
 
       let found = false;
-      collectionCards.forEach((card) => {
+      cards.forEach((card) => {
         const title = (card.querySelector("h2")?.textContent || "")
           .trim()
           .toLowerCase();
@@ -217,13 +234,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
     searchInput.addEventListener("input", function () {
       if (this.value.trim() === "") {
-        collectionCards.forEach((card) => (card.style.display = "flex"));
+        const cards = topGrid
+          ? topGrid.querySelectorAll(".collection-card")
+          : document.querySelectorAll(".collection-card");
+        cards.forEach((card) => (card.style.display = "flex"));
       }
     });
   }
 
   // =========================
-  // 6) MODAL "CREATE COLLECTION" (igual ao user)
+  // 7) MODAL "CREATE COLLECTION" (igual ao user)
   // =========================
   const openBtn   = document.getElementById("openModal");
   const modal     = document.getElementById("createCollectionModal");
@@ -312,10 +332,9 @@ document.addEventListener("DOMContentLoaded", () => {
       desc,
       img: imgSrc,
       items: [],
-      createdAt: Date.now()    // <— nova propriedade
+      createdAt: Date.now()    // <— usado para “Recently added”
     });
     saveCollections(all);
-
 
     // limpar modal
     nameInput.value = "";

@@ -825,3 +825,9 @@ body.dark-mode .profile-dropdown a:hover {
     align-items: flex-start;
   }
 }
+
+.home-subtitle {
+  font-size: 14px;
+  color: #6b7280;
+  margin-top: 4px;
+}
