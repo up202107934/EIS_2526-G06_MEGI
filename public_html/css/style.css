@@ -5,16 +5,6 @@
     font-family: Arial, sans-serif;
 }
 body {
-<<<<<<< HEAD
-  margin: 0;
-  padding: 0;
-  background: #ffffff;
-  font-family: Arial, sans-serif;
-  overflow-x: hidden;
-}
-
-
-=======
     margin: 0;
     padding: 0;
     background: #ffffff;
@@ -148,7 +138,6 @@ body.auth-page {
 .login-container {
     margin: 0 auto;
 } 
->>>>>>> 8477646ffc9621be59a4072eea0c62cc0f757ece
 /* ===== TEAM PAGE ===== */
 body {
     flex-direction: column; /* <-- FORÇA o empilhamento vertical */
@@ -465,7 +454,11 @@ body.dark-mode .collection-card p {
 body.dark-mode .footer {
     background-color: #111;
     color: #ccc;
-} /*acabou dark mode*/
+} 
+
+
+
+
 .home-section {
     text-align: center;
     padding: 80px 20px;
@@ -716,7 +709,7 @@ body.dark-mode .footer {
 }
 .close:hover {
     color: #B22222;
-} /* ===== Base para modais genéricos (form de criar/editar evento) - parte do events termina aqui ===== */ /* ===== DROPDOWN DO PERFIL ===== */ /* 1. O 'container' que segura o menu */
+} /* ===== Base para modais genéricos (form de criar/editar evento) - parte do events termina aqui ===== / / ===== DROPDOWN DO PERFIL ===== / / 1. O 'container' que segura o menu */
 .navbar-user {
     position: relative; /* Obrigatório para o menu flutuar */
 } /* 2. O cursor do avatar */
@@ -725,22 +718,8 @@ body.dark-mode .footer {
     transition: all 0.2s ease;
 }
 .navbar-avatar:hover {
-<<<<<<< HEAD
-  opacity: 0.8; /* Efeito subtil */
-}
-
-.navbar-user img {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  border: 2px solid #2b2d42;
-}
-
-/* 3. O menu dropdown (escondido por defeito) */
-=======
     opacity: 0.8; /* Efeito subtil */
 } /* 3. O menu dropdown (escondido por defeito) */
->>>>>>> 8477646ffc9621be59a4072eea0c62cc0f757ece
 .profile-dropdown {
     display: none; /* Começa escondido */
     position: absolute;
