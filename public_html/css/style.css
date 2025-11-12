@@ -427,24 +427,27 @@ body.dark-mode .footer {
     box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
     transition: all 0.3s ease;
 }
-
 .my-collections-btn:hover {
     background-color: #45a049;
- }
- 
-.home-buttons-wrapper {
-  margin-top: 50px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 20px; /* Espaço entre os botões */
 }
 
-/* Remove a margem de cima dos botões para o wrapper a controlar */
-.home-buttons-wrapper .btn {
-  margin-top: 0; 
+.btn-add {
+    margin-top: 50px;
+    font-size: 18px;
+    padding: 14px 30px;
+    background: linear-gradient(135deg, #ef233c, #d90429);
+    color: #fff;
+    border-radius: 25px;
+    text-decoration: none;
+    display: inline-block;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
 }
- /* ===== MINI CAROUSEL ===== */
+.btn-add:hover {
+    background-color: #45a049;
+}
+
+/* ===== MINI CAROUSEL ===== */
 .mini-carousel {
     width: 100%;
     overflow: hidden;
