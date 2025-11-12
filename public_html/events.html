@@ -12,8 +12,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/html.html to edit this
   <meta charset="utf-8" />
   <title>Events | MyCollections</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <!-- CSS geral -->
-  <link rel="stylesheet" href="css/style.css" />
+ 
   <!-- CSS específico desta página -->
   <link rel="stylesheet" href="css/events.css" />
   <script defer src="js/events.js"></script>
@@ -21,20 +20,33 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/html.html to edit this
 <body>
 
   <!-- NAVBAR -->
-  <header class="navbar">
+<header class="navbar">
+  <!-- Esquerda -->
+  <div class="navbar-left">
     <div class="navbar-logo"><a href="home.html">MyCollections</a></div>
+  </div>
 
+  <!-- Centro -->
+  <nav class="navbar-center" aria-label="Primary">
+    <a id="nav-events" href="events.html">Events</a>
+    <a id="nav-mycollections" href="collection.html">My Collections</a>
+  </nav>
+
+  <!-- Direita -->
+  <div class="navbar-right">
     <div class="navbar-search">
       <input id="q" type="search" placeholder="Search events..." />
       <button id="btn-search" class="search-btn" aria-label="Search">🔎</button>
     </div>
 
     <a href="user.html" title="Profile">
-      <img class="navbar-avatar" src="img/user-avatar.png" alt="User" />
+      <img class="navbar-avatar" src="img/user.jpg" alt="User" />
     </a>
-    <button id="themeToggle" class="theme-toggle">🌙</button>
 
-  </header>
+    <button id="themeToggle" class="theme-toggle">🌙</button>
+  </div>
+</header>
+
 
   <main>
     <h1 class="events-title">EVENTS</h1>
@@ -252,7 +264,10 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/html.html to edit this
   </div>
 </div>
 
-  
+
+<footer class="footer">
+  <p>© 2025 MyCollections | All rights reserved.</p>
+</footer>
   
 
 </body>

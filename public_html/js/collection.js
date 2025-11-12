@@ -252,7 +252,25 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
+const avatarButton = document.getElementById('avatarButton');
+  const profileDropdown = document.getElementById('profileDropdown');
 
+  if (avatarButton && profileDropdown) {
+    // 1. Ao clicar no avatar, mostra/esconde o menu
+    avatarButton.addEventListener('click', (e) => {
+      // Impede que o clique "borbulhe" para a janela e feche o menu
+      e.stopPropagation(); 
+      profileDropdown.classList.toggle('show');
+    });
+
+    // 2. Ouve por cliques em qualquer lado na página
+    window.addEventListener('click', (e) => {
+      // Se o menu estiver aberto E o clique foi FORA do menu...
+      if (profileDropdown.classList.contains('show')) {
+        profileDropdown.classList.remove('show');
+      }
+    });
+  }
 
 // --- Mostrar nome do utilizador criador da coleção ---
 window.addEventListener("load", () => {
