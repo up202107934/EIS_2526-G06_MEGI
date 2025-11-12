@@ -1,32 +1,39 @@
 <!DOCTYPE html>
 <html lang="en">
-    
-<!-- ===== NAVBAR ===== -->
-<nav class="navbar">
-  <div class="navbar-logo">
-    <a href="home.html">MyCollections</a>
-  </div>
-
-  
-
-  <div class="navbar-user">
-    <a href="user.html">
-      <img src="img/user.jpg" alt="User" class="navbar-avatar">
-    </a>
-  </div>
-  <button id="themeToggle" class="theme-toggle">🌙</button>
-
-</nav>
-
-    
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Our Team | My Collections</title>
-  <link rel="stylesheet" href="css/style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Our Team | MyCollections</title>
+  <link rel="stylesheet" href="css/style.css" />
 </head>
 
 <body>
+  <!-- NAVBAR (nova versão igual à dos Events) -->
+  <header class="navbar">
+    <div class="navbar-left">
+      <div class="navbar-logo"><a href="home.html">MyCollections</a></div>
+    </div>
+
+    <nav class="navbar-center" aria-label="Primary">
+      <a href="events.html">Events</a>
+      <a href="collection.html">My Collections</a>
+    </nav>
+
+    <div class="navbar-right">
+      <div class="navbar-search">
+        <input id="q" type="search" placeholder="Search events..." />
+        <button id="btn-search" class="search-btn" aria-label="Search">🔎</button>
+      </div>
+      <a href="user.html" title="Profile">
+        <img src="img/user.jpg" alt="User" class="navbar-avatar" />
+      </a>
+      <button id="themeToggle" class="theme-toggle">🌙</button>
+    </div>
+  </header>
+
+  <!-- AGORA começa a secção do Team -->
+  <section class="team-deck-section">
+
   <section class="team-deck-section">
     <h1 class="deck-title">Meet Our Team</h1>
     
