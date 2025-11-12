@@ -23,31 +23,31 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-    const avatarButton = document.getElementById('avatarButton');
-    const profileDropdown = document.getElementById('profileDropdown');
+  // ----- 2. CÓDIGO DO DROPDOWN DE PERFIL -----
+  const avatarButton = document.getElementById('avatarButton');
+  const profileDropdown = document.getElementById('profileDropdown');
 
-    if (avatarButton && profileDropdown) {
-    // 1. Ao clicar no avatar, mostra/esconde o menu
-        avatarButton.addEventListener('click', (e) => {
-      // Impede que o clique "borbulhe" para a janela e feche o menu
-        e.stopPropagation(); 
-        profileDropdown.classList.toggle('show');
+  if (avatarButton && profileDropdown) {
+    avatarButton.addEventListener('click', (e) => {
+      e.stopPropagation(); 
+      profileDropdown.classList.toggle('show');
     });
 
-    // 2. Ouve por cliques em qualquer lado na página
     window.addEventListener('click', (e) => {
-      // Se o menu estiver aberto E o clique foi FORA do menu...
       if (profileDropdown.classList.contains('show')) {
         profileDropdown.classList.remove('show');
       }
     });
   }
   
-  // ----- 3. CÓDIGO DO CARROSSEL -----
-  document.querySelectorAll('.mini-track').forEach(track => {
+  // ----- 3. CÓDIGO DO CARROSSEL (O TEU CÓDIGO) -----
+  // (Este script está no teu HTML, mas se o moveres para aqui, também funciona)
+  /*
+  document.querySelectorAll('.mini-track').forEach(track => {
     const clone = track.innerHTML;
     track.insertAdjacentHTML('beforeend', clone);
   });
+  */
 
   // ----- 4. CÓDIGO DO BOTÃO EXPLORAR -----
   const heroBtn = document.querySelector('.hero-btn');
@@ -114,7 +114,73 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
- 
- 
+  // ==========================================================
+  // ----- 6. CÓDIGO DO MODAL "CREATE COLLECTION" (CORRIGIDO) -----
+  // ==========================================================
+  const createBtn = document.getElementById('openModalHome'); // <--- ID CORRETO DO BOTÃO DE ABRIR
+  const createModal = document.getElementById('createCollectionModal');
+  const cancelBtn = document.getElementById('cancelCollection'); // <--- ID CORRETO DO BOTÃO DE CANCELAR
+
+  // Verificamos apenas os botões que existem no home.html
+  if (createBtn && createModal && cancelBtn) {
+    
+    // Abrir o modal
+    createBtn.addEventListener('click', (e) => {
+      e.preventDefault(); // <-- ISTO AGORA VAI IMPEDIR O SALTO
+      createModal.classList.add('show');
+    });
+    
+    // Fechar no botão "Cancel"
+    cancelBtn.addEventListener('click', () => {
+      createModal.classList.remove('show');
+    });
+  }
+
+  // ----- 7. CÓDIGO DO BOTÃO "SAVE COLLECTION" -----
+  const saveBtn = document.getElementById('saveCollection');
+  const collectionsContainer = document.querySelector('.collections-container');
+
+  if (saveBtn && collectionsContainer && createModal) {
+    
+    saveBtn.addEventListener('click', () => {
+      // 1. Obter os valores do formulário
+      const name = document.getElementById('collectionName').value.trim();
+      const desc = document.getElementById('collectionDescription').value.trim();
+      const imageUrl = document.getElementById('collectionImage').value.trim(); // (Isto é de um input de texto, não do file upload)
+
+      if (!name) {
+        alert("Please enter a collection name.");
+        return;
+      }
+      
+      const finalImageUrl = imageUrl || 'img/collection-placeholder.jpg'; // (Placeholder)
+
+      // 4. Criar o novo HTML do cartão
+      const newCollectionCard = document.createElement('div');
+      newCollectionCard.classList.add('collection-card');
+      
+      newCollectionCard.innerHTML = `
+        <img src="${finalImageUrl}" alt="${name}">
+        <h2>${name}</h2>
+        <p>items:</p>
+        <div class="mini-carousel">
+          <div class="mini-track">
+            <div class="mini-item"><p>No items yet</p></div>
+          </div>
+        </div>
+        <a href="collection.html?id=new" class="btn">View Collection</a>
+      `;
+
+      // 5. Adicionar o novo cartão ao ecrã
+      collectionsContainer.appendChild(newCollectionCard);
+
+      // 6. Limpar o formulário e fechar o modal
+      document.getElementById('collectionName').value = '';
+      document.getElementById('collectionDescription').value = '';
+      document.getElementById('collectionImage').value = '';
+      
+      createModal.classList.remove('show');
+    });
+  }
 
 }); // <-- FIM DO "DOMContentLoaded"

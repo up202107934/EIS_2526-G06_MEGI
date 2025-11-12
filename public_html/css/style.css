@@ -427,9 +427,24 @@ body.dark-mode .footer {
     box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
     transition: all 0.3s ease;
 }
+
 .my-collections-btn:hover {
     background-color: #45a049;
-} /* ===== MINI CAROUSEL ===== */
+ }
+ 
+.home-buttons-wrapper {
+  margin-top: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px; /* Espaço entre os botões */
+}
+
+/* Remove a margem de cima dos botões para o wrapper a controlar */
+.home-buttons-wrapper .btn {
+  margin-top: 0; 
+}
+ /* ===== MINI CAROUSEL ===== */
 .mini-carousel {
     width: 100%;
     overflow: hidden;

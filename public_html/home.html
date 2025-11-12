@@ -1,171 +1,174 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Home | My Collections</title>
-  <link rel="stylesheet" href="css/style.css" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Home | My Collections</title>
+    <link rel="stylesheet" href="css/style.css" />
 </head>
-
-
 
 <body>
 
-  <!-- ===== NAVBAR ===== -->
-  <nav class="navbar">
-    <div class="navbar-logo">
-      <a href="home.html">MyCollections</a>
-    </div>
+    <nav class="navbar">
+    <div class="navbar-logo">
+      <a href="home.html">MyCollections</a>
+    </div>
 
-    <form class="navbar-search" id="searchForm" action="#" method="GET">
-        <input type="text" id="searchInput" name="q" placeholder="Search collections, items..." required />
-        <button type="submit" class="search-btn">🔍</button>
-    </form>
+    <form class="navbar-search" id="searchForm" action="#" method="GET">
+        <input type="text" id="searchInput" name="q" placeholder="Search collections, items..." required />
+        <button type="submit" class="search-btn">🔍</button>
+    </form>
 
-    <div class="navbar-user">
-        <img src="img/user.jpg" alt="User" class="navbar-avatar" id="avatarButton">
+    <div class="navbar-user">
+        <img src="img/user.jpg" alt="User" class="navbar-avatar" id="avatarButton">
+        <div class="profile-dropdown" id="profileDropdown">
+            <a href="user.html">👤 Ver Perfil</a>
+            <a href="home_withoutlogin.html">🚪 Log Out</a>
+        </div>
+    </div>
+    <button id="themeToggle" class="theme-toggle">🌙</button>
 
-        <div class="profile-dropdown" id="profileDropdown">
-            <a href="user.html">👤 Ver Perfil</a>
-            <a href="home_withoutlogin.html">🚪 Log Out</a>
-        </div>
-    </div>
-    <button id="themeToggle" class="theme-toggle">🌙</button>
+  </nav>
 
-  </nav>
-
-
-  <!-- ===== HERO SECTION ===== -->
-<section class="hero">
-  <!-- Fundo como imagem no HTML -->
-  <img src="img/hero-bg.jpg" alt="Hero Background" class="hero-bg">
-
-  <div class="hero-content">
-    <h1>Welcome to <span>MyCollections</span></h1>
-    <p>Discover and showcase your favorite collections</p>
-    <a href="#collections" class="hero-btn">Explore Collections</a>
-  </div>
+  <section class="hero">
+  <img src="img/hero-bg.jpg" alt="Hero Background" class="hero-bg">
+  <div class="hero-content">
+    <h1>Welcome to <span>MyCollections</span></h1>
+    <p>Discover and showcase your favorite collections</p>
+    <a href="#collections" class="hero-btn">Explore Collections</a>
+  </div>
 </section>
 
+    <section class="home-section" id="collections">
+    <h2 class="home-title">Top 5 Collections</h2>
+
+    <div class="collections-container">
+            <div class="collection-card">
+        <img src="img/collection1.jpg" alt="Star Wars Miniatures">
+        <h2>Star Wars Miniatures</h2>
+        <p>items:</p>
+        <div class="mini-carousel">
+          <div class="mini-track">
+              <div class="mini-item"><a href="item.html"><img src="img/item1.jpg" alt="Darth Vader"></a><p>Darth Vader</p></div>
+            <div class="mini-item"><a href="item.html"><img src="img/item2.jpg" alt="Luke Skywalker"></a><p>Luke Skywalker</p></div>
+            <div class="mini-item"><a href="item.html"><img src="img/item3.jpg" alt="Yoda"></a><p>Yoda</p></div>
+            <div class="mini-item"><a href="item.html"><img src="img/item4.jpg" alt="Han Solo"></a><p>Han Solo</p></div>
+            <div class="mini-item"><a href="item.html"><img src="img/item5.jpg" alt="Obi-Wan"></a><p>Obi-Wan</p></div>
+          </div>
+        </div>
+        <a href="collection.html?id=1" class="btn">View Collection</a>
+      </div>
+
+            <div class="collection-card">
+        <img src="img/collection2.jpg" alt="Comic Books">
+        <h2>Comic Books</h2>
+        <p>items:</p>
+        <div class="mini-carousel">
+          <div class="mini-track">
+              <div class="mini-item"><a href="item.html"><img src="img/spider man.jpg" alt="Spider-Man"></a><p>Spider-Man</p></div>
+            <div class="mini-item"><a href="item.html"><img src="img/Batman.jpg" alt="Batman"></a><p>Batman</p></div>
+            <div class="mini-item"><a href="item.html"><img src="img/Avengers4.jpg" alt="Avengers #4"></a><p>Avengers #4</p></div>
+            <div class="mini-item"><a href="item.html"><img src="img/Superman75.jpg" alt="Superman #75"></a><p>Superman #75</p></div>
+            <div class="mini-item"><a href="item.html"><img src="img/X-Men1.jpg" alt="X-Men #1"></a><p>X-Men #1</p></div>
+          </div>
+        </div>
+        <a href="collection.html?id=2" class="btn">View Collection</a>
+      </div>
+
+            <div class="collection-card">
+        <img src="img/collection3.jpg" alt="Coins">
+        <h2>Coins</h2>
+        <p>items:</p>
+        <div class="mini-carousel">
+          <div class="mini-track">
+              <div class="mini-item"><a href="item.html"><img src="img/coin1.jpg" alt="1 Euro 2020"></a><p>1 € 2020</p></div>
+              <div class="mini-item"><a href="item.html"><img src="img/coin2.jpg" alt="50 Cent 1999"></a><p>50 ¢ 1999</p></div>
+              <div class="mini-item"><a href="item.html"><img src="img/coin3.jpg" alt="2 Euro 2015"></a><p>2 € 2015</p></div>
+            <div class="mini-item"><a href="item.html"><img src="img/coin4.jpg" alt="1 Dollar 2000"></a><p>$1 2000</p></div>
+            <div class="mini-item"><a href="item.html"><img src="img/coin5.jpg" alt="10 Cent 2010"></a><p>10 ¢ 2010</p></div>
+          </div>
+        </div>
+        <a href="collection.html?id=3" class="btn">View Collection</a>
+      </div>
+
+            <div class="collection-card">
+        <img src="img/collection4.jpg" alt="Stamps">
+        <h2>Stamps</h2>
+        <p>items:</p>
+        <div class="mini-carousel">
+          <div class="mini-track">
+            <div class="mini-item"><a href="item.html"><img src="img/stamp1.jpg" alt="Portugal 1960"></a><p>Portugal 1960</p></div>
+            <div class="mini-item"><a href="item.html"><img src="img/stamp2.jpg" alt="Brazil 1980"></a><p>Brazil 1980</p></div>
+            <div class="mini-item"><a href="item.html"><img src="img/stamp3.jpg" alt="USA 1950"></a><p>USA 1950</p></div>
+            <div class="mini-item"><a href="item.html"><img src="img/stamp4.jpg" alt="Germany 1975"></a><p>Germany 1975</p></div>
+            <div class="mini-item"><a href="item.html"><img src="img/stamp5.jpg" alt="France 1990"></a><p>France 1990</p></div>
+          </div>
+        </div>
+        <a href="collection.html?id=4" class="btn">View Collection</a>
+      </div>
+
+            <div class="collection-card">
+        <img src="img/collection5.jpg" alt="Locomotive Miniatures">
+        <h2>Locomotive Miniatures</h2>
+        <p>items:</p>
+        <div class="mini-carousel">
+          <div class="mini-track">
+            <div class="mini-item"><a href="item.html"><img src="img/train1.jpg" alt="Train A"></a><p>Train A</p></div>
+            <div class="mini-item"><a href="item.html"><img src="img/train2.jpg" alt="Train B"></a><p>Train B</p></div>
+            <div class="mini-item"><a href="item.html"><img src="img/train3.jpg" alt="Train C"></a><p>Train C</p></div>
+            <div class="mini-item"><a href="item.html"><img src="img/train4.jpg" alt="Train D"></a><p>Train D</p></div>
+            <div class="mini-item"><a href="item.html"><img src="img/train5.jpg" alt="Train E"></a><p>Train E</p></div>
+          </div>
+        </div>
+        <a href="collection.html?id=5" class="btn">View Collection</a>
+      </div>
+
+    </div>
+    <div class="home-buttons-wrapper">
+        <a href="user.html#minhas-colecoes" class="btn my-collections-btn">My Collections</a>
+        <a href="#" class="btn create-collection" id="openModalHome">+ Create New Collection</a>
+    </div>
+      </section>
 
 
-  <!-- ===== HOME CONTENT ===== -->
-  <section class="home-section" id="collections">
-    <h2 class="home-title">Top 5 Collections</h2>
+  <div id="createCollectionModal" class="modal">
+  <div class="modal-content">
+    <h2>Create New Collection</h2>
 
-    <div class="collections-container">
+    <label for="collectionName">Name:</label>
+    <input type="text" id="collectionName" placeholder="Enter collection name" required>
 
-      <!-- Coleção 1 -->
-      <div class="collection-card">
-        <img src="img/collection1.jpg" alt="Star Wars Miniatures">
-        <h2>Star Wars Miniatures</h2>
-        <p>items:</p>
-        <div class="mini-carousel">
-          <div class="mini-track">
-              <div class="mini-item"><a href="item.html"><img src="img/item1.jpg" alt="Darth Vader"></a><p>Darth Vader</p></div>
-            <div class="mini-item"><a href="item.html"><img src="img/item2.jpg" alt="Luke Skywalker"></a><p>Luke Skywalker</p></div>
-            <div class="mini-item"><a href="item.html"><img src="img/item3.jpg" alt="Yoda"></a><p>Yoda</p></div>
-            <div class="mini-item"><a href="item.html"><img src="img/item4.jpg" alt="Han Solo"></a><p>Han Solo</p></div>
-            <div class="mini-item"><a href="item.html"><img src="img/item5.jpg" alt="Obi-Wan"></a><p>Obi-Wan</p></div>
-          </div>
-        </div>
-        <a href="collection.html?id=1" class="btn">View Collection</a>
-      </div>
+    <label for="collectionDescription">Description:</label>
+    <input type="text" id="collectionDescription" placeholder="Enter collection description" required>
 
-      <!-- Coleção 2 -->
-      <div class="collection-card">
-        <img src="img/collection2.jpg" alt="Comic Books">
-        <h2>Comic Books</h2>
-        <p>items:</p>
-        <div class="mini-carousel">
-          <div class="mini-track">
-              <div class="mini-item"><a href="item.html"><img src="img/spider man.jpg" alt="Spider-Man"></a><p>Spider-Man</p></div>
-            <div class="mini-item"><a href="item.html"><img src="img/Batman.jpg" alt="Batman"></a><p>Batman</p></div>
-            <div class="mini-item"><a href="item.html"><img src="img/Avengers4.jpg" alt="Avengers #4"></a><p>Avengers #4</p></div>
-            <div class="mini-item"><a href="item.html"><img src="img/Superman75.jpg" alt="Superman #75"></a><p>Superman #75</p></div>
-            <div class="mini-item"><a href="item.html"><img src="img/X-Men1.jpg" alt="X-Men #1"></a><p>X-Men #1</p></div>
-          </div>
-        </div>
-        <a href="collection.html?id=2" class="btn">View Collection</a>
-      </div>
+    <label for="collectionImage">Image:</label>
+    <div id="dropZoneCollection" class="drop-zone">
+      <p>Drag & drop an image here, or click to select</p>
+      <input type="file" id="collectionImage" accept="image/*" hidden>
+    </div>
+      <img id="collectionPreview" src="" alt="Preview" style="display:none; max-width:100%; margin-top:10px; border-radius:8px;">
 
-      <!-- Coleção 3 -->
-      <div class="collection-card">
-        <img src="img/collection3.jpg" alt="Coins">
-        <h2>Coins</h2>
-        <p>items:</p>
-        <div class="mini-carousel">
-          <div class="mini-track">
-              <div class="mini-item"><a href="item.html"><img src="img/coin1.jpg" alt="1 Euro 2020"></a><p>1 € 2020</p></div>
-              <div class="mini-item"><a href="item.html"><img src="img/coin2.jpg" alt="50 Cent 1999"></a><p>50 ¢ 1999</p></div>
-              <div class="mini-item"><a href="item.html"><img src="img/coin3.jpg" alt="2 Euro 2015"></a><p>2 € 2015</p></div>
-            <div class="mini-item"><a href="item.html"><img src="img/coin4.jpg" alt="1 Dollar 2000"></a><p>$1 2000</p></div>
-            <div class="mini-item"><a href="item.html"><img src="img/coin5.jpg" alt="10 Cent 2010"></a><p>10 ¢ 2010</p></div>
-          </div>
-        </div>
-        <a href="collection.html?id=3" class="btn">View Collection</a>
-      </div>
-
-      <!-- Coleção 4 -->
-      <div class="collection-card">
-        <img src="img/collection4.jpg" alt="Stamps">
-        <h2>Stamps</h2>
-        <p>items:</p>
-        <div class="mini-carousel">
-          <div class="mini-track">
-            <div class="mini-item"><a href="item.html"><img src="img/stamp1.jpg" alt="Portugal 1960"></a><p>Portugal 1960</p></div>
-            <div class="mini-item"><a href="item.html"><img src="img/stamp2.jpg" alt="Brazil 1980"></a><p>Brazil 1980</p></div>
-            <div class="mini-item"><a href="item.html"><img src="img/stamp3.jpg" alt="USA 1950"></a><p>USA 1950</p></div>
-            <div class="mini-item"><a href="item.html"><img src="img/stamp4.jpg" alt="Germany 1975"></a><p>Germany 1975</p></div>
-            <div class="mini-item"><a href="item.html"><img src="img/stamp5.jpg" alt="France 1990"></a><p>France 1990</p></div>
-          </div>
-        </div>
-        <a href="collection.html?id=4" class="btn">View Collection</a>
-      </div>
-
-      <!-- Coleção 5 -->
-      <div class="collection-card">
-        <img src="img/collection5.jpg" alt="Locomotive Miniatures">
-        <h2>Locomotive Miniatures</h2>
-        <p>items:</p>
-        <div class="mini-carousel">
-          <div class="mini-track">
-            <div class="mini-item"><a href="item.html"><img src="img/train1.jpg" alt="Train A"></a><p>Train A</p></div>
-            <div class="mini-item"><a href="item.html"><img src="img/train2.jpg" alt="Train B"></a><p>Train B</p></div>
-            <div class="mini-item"><a href="item.html"><img src="img/train3.jpg" alt="Train C"></a><p>Train C</p></div>
-            <div class="mini-item"><a href="item.html"><img src="img/train4.jpg" alt="Train D"></a><p>Train D</p></div>
-            <div class="mini-item"><a href="item.html"><img src="img/train5.jpg" alt="Train E"></a><p>Train E</p></div>
-          </div>
-        </div>
-        <a href="collection.html?id=5" class="btn">View Collection</a>
-      </div>
-
-    </div>
-
-    <a href="user.html#minhas-colecoes" class="btn my-collections-btn">My Collections</a>
-  </section>
-
-  <div id="createCollectionModal" class="modal">
-  
+    <div class="modal-buttons">
+      <button id="saveCollection">💾 Save</button>
+      <button id="cancelCollection" type="button">❌ Cancel</button>
+    </div>
+  </div>
 </div>
 
 
-
-  <!-- ===== FOOTER ===== -->
-  <footer class="footer">
-    <p>© 2025 MyCollections | All rights reserved.</p>
-  </footer>
+    <footer class="footer">
+    <p>© 2025 MyCollections | All rights reserved.</p>
+  </footer>
 
 
-  <!-- ===== SCRIPT ===== -->
-  <script>
-    document.querySelectorAll(".mini-track").forEach(track => {
-      const clone = track.innerHTML;
-      track.insertAdjacentHTML("beforeend", clone);
-    });
-  </script>
+    <script>
+    document.querySelectorAll(".mini-track").forEach(track => {
+      const clone = track.innerHTML;
+      track.insertAdjacentHTML("beforeend", clone);
+    });
+  </script>
 
-  <script src="js/home.js"></script>
+  <script src="js/home.js"></script>
 
 </body>
 </html>
