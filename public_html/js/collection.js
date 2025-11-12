@@ -161,7 +161,9 @@ if (addItemBtn && modal) {
     });
 
     // Guardar novo item
-    saveBtn.addEventListener('click', () => {
+    const form = document.getElementById('addItemForm');
+      form.addEventListener('submit', (e) => {
+      e.preventDefault();
       const name = document.getElementById('itemName').value.trim();
       const desc = document.getElementById('itemDesc').value.trim();
       const rating = document.getElementById('itemRating').value.trim();

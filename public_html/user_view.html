@@ -4,169 +4,159 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>User Profile | My Collections</title>
-    <link rel="stylesheet" href="css/user.css" />
+  <link rel="stylesheet" href="css/user.css" />
 </head>
 <body>
-    
+  <div class="page-container">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <h2>Menu</h2>
+      <a href="user.html" class="nav-item active">👤 User Info</a>
+      <a href="home.html" class="nav-item">📦 Home Page</a>
+      <a href="events.html" class="nav-item">📅 Events</a>
+      <a href="team.html" class="nav-item">👥 Team</a>
+      <button id="themeToggle" class="theme-toggle">🌙</button>
+    </aside>
 
-  <!-- Sidebar -->
-  <aside class="sidebar">
-  <h2>Menu</h2>
-    <a href="user.html" class="nav-item active">👤 User Info</a>
-    <a href="home.html" class="nav-item">📦 Home Page </a>
-    <a href="events.html" class="nav-item">📅 Events</a>
-    <a href="team.html" class="nav-item">👥 Team</a>
-    <button id="themeToggle" class="theme-toggle">🌙</button>
-
-  </aside>
-
-
-  <!-- Main content -->
-  <main class="main-content">
-    <div class="profile-header">
+    <!-- Main content -->
+    <main class="main-content">
+      <div class="profile-header">
         <div class="profile-photo">
-            <img src="img/ImagemPerfil.jpeg" alt="User Photo">
+          <img src="img/ImagemPerfil.jpeg" alt="User Photo">
         </div>
-    <div>
-       <h1 id="userName">User Name</h1>
-        <p id="userEmail">user@email.com</p>
-    </div>
-    </div>
-
-   
-      
-      
-          <!-- My Collections -->
-    <section class="collections-section">
-      <h2>My Collections</h2>
-       <div class="collections-grid">
-
-      <!-- Coleção 1 -->
-        <div class="collection-card">
-        <img src="img/starwars.jpg" alt="Star Wars Miniatures">
-        <h3>Star Wars Miniatures</h3>
-        <p>5 items</p>
-
-        <div class="mini-carousel">
-          <div class="mini-track">
-            <div class="mini-item"><img src="" alt="Darth Vader"></div>
-            <div class="mini-item"><img src="" alt="Luke Skywalker"></div>
-            <div class="mini-item"><img src="" alt="Yoda"></div>
-            <div class="mini-item"><img src="" alt="Han Solo"></div>
-            <div class="mini-item"><img src="" alt="Obi-Wan"></div>
-          </div>
-        </div>
-
-        <a href="collection.html" class="btn-view">View Collection</a>
-      </div>
-
-<!-- Coleção 2 -->
-        <div class="collection-card">
-        <img src="img/comics.jpg" alt="Comic Books">
-        <h3>Comic Books</h3>
-        <p>8 items</p>
-
-        <div class="mini-carousel">
-          <div class="mini-track">
-            <div class="mini-item"><img src="img/spiderman.jpg" alt="Spider-Man"></div>
-            <div class="mini-item"><img src="img/batman.jpg" alt="Batman"></div>
-            <div class="mini-item"><img src="img/avengers.jpg" alt="Avengers #4"></div>
-            <div class="mini-item"><img src="img/superman.jpg" alt="Superman #75"></div>
-            <div class="mini-item"><img src="img/xmen.jpg" alt="X-Men #1"></div>
-          </div>
-        </div>
-
-        <a href="collection.html" class="btn-view">View Collection</a>
-        </div>
-
-      <!-- Coleção 3 -->
-        <div class="collection-card">
-        <img src="img/coins.jpg" alt="Coins">
-        <h3>Coins</h3>
-        <p>10 items</p>
-
-        <div class="mini-carousel">
-          <div class="mini-track">
-            <div class="mini-item"><img src="img/1euro2020.jpg" alt="1 Euro 2020"></div>
-            <div class="mini-item"><img src="img/50cent1999.jpg" alt="50 Cent 1999"></div>
-            <div class="mini-item"><img src="img/2euro2015.jpg" alt="2 Euro 2015"></div>
-            <div class="mini-item"><img src="img/1dollar2000.jpg" alt="1 Dollar 2000"></div>
-            <div class="mini-item"><img src="img/10cent2010.jpg" alt="10 Cent 2010"></div>
-          </div>
-        </div>
-
-        <a href="collection.html" class="btn-view">View Collection</a>
-        </div>
-
-      <!-- Coleção 4 -->
-        <div class="collection-card">
-        <img src="img/stamps.jpg" alt="Stamps">
-        <h3>Stamps</h3>
-        <p>12 items</p>
-
-        <div class="mini-carousel">
-          <div class="mini-track">
-            <div class="mini-item"><img src="img/portugal1960.jpg" alt="Portugal 1960"></div>
-            <div class="mini-item"><img src="img/brazil1980.jpg" alt="Brazil 1980"></div>
-            <div class="mini-item"><img src="img/usa1950.jpg" alt="USA 1950"></div>
-            <div class="mini-item"><img src="img/germany1975.jpg" alt="Germany 1975"></div>
-            <div class="mini-item"><img src="img/france1990.jpg" alt="France 1990"></div>
-          </div>
-        </div>
-
-        <a href="collection.html" class="btn-view">View Collection</a>
-        </div>
-      
-      <!-- Coleção 5 -->
-    <div class="collection-card">
-      <img src="img/trains.jpg" alt="Locomotive Miniatures">
-      <h3>Locomotive Miniatures</h3>
-      <p>6 items</p>
-
-      <div class="mini-carousel">
-        <div class="mini-track">
-          <div class="mini-item"><img src="img/trainA.jpg" alt="Train A"></div>
-          <div class="mini-item"><img src="img/trainB.jpg" alt="Train B"></div>
-          <div class="mini-item"><img src="img/trainC.jpg" alt="Train C"></div>
-          <div class="mini-item"><img src="img/trainD.jpg" alt="Train D"></div>
-          <div class="mini-item"><img src="img/trainE.jpg" alt="Train E"></div>
+        <div>
+          <h1 id="userName">User Name</h1>
+          <p id="userEmail">user@email.com</p>
         </div>
       </div>
-      <a href="collection.html" class="btn-view">View Collection</a>
-    </div>
-    </div>
-    </section>
 
-  </main>
+      <!-- My Collections -->
+      <section class="collections-section">
+        <h2>My Collections</h2>
+        <div class="collections-grid">
 
-  
-<script src="js/data.js"></script>
-<script>
-  // pega o id do user no URL
-  const params = new URLSearchParams(window.location.search);
-  const userId = parseInt(params.get("id"));
+          <!-- Coleção 1 -->
+          <div class="collection-card">
+            <img src="img/starwars.jpg" alt="Star Wars Miniatures">
+            <h3>Star Wars Miniatures</h3>
+            <p>5 items</p>
+            <div class="mini-carousel">
+              <div class="mini-track">
+                <div class="mini-item"><img src="img/darthvader.jpg" alt="Darth Vader"></div>
+                <div class="mini-item"><img src="img/luke.jpg" alt="Luke Skywalker"></div>
+                <div class="mini-item"><img src="img/yoda.jpg" alt="Yoda"></div>
+                <div class="mini-item"><img src="img/hansolo.jpg" alt="Han Solo"></div>
+                <div class="mini-item"><img src="img/obiwon.jpg" alt="Obi-Wan"></div>
+              </div>
+            </div>
+            <a href="collection.html" class="btn-view">View Collection</a>
+          </div>
 
-  const user = users.find(u => u.id === userId);
-  const userCollections = collections.filter(c => c.userId === userId);
+          <!-- Coleção 2 -->
+          <div class="collection-card">
+            <img src="img/comics.jpg" alt="Comic Books">
+            <h3>Comic Books</h3>
+            <p>8 items</p>
+            <div class="mini-carousel">
+              <div class="mini-track">
+                <div class="mini-item"><img src="img/spiderman.jpg" alt="Spider-Man"></div>
+                <div class="mini-item"><img src="img/batman.jpg" alt="Batman"></div>
+                <div class="mini-item"><img src="img/avengers.jpg" alt="Avengers #4"></div>
+                <div class="mini-item"><img src="img/superman.jpg" alt="Superman #75"></div>
+                <div class="mini-item"><img src="img/xmen.jpg" alt="X-Men #1"></div>
+              </div>
+            </div>
+            <a href="collection.html" class="btn-view">View Collection</a>
+          </div>
 
-  // mostra nome e email (aqui podes gerar e-mails fictícios só para exemplo)
-  document.getElementById("userName").textContent = user.name;
-  document.getElementById("userEmail").textContent = `${user.name.toLowerCase().replace(" ", ".")}@gmail.com`;
+          <!-- Coleção 3 -->
+          <div class="collection-card">
+            <img src="img/coins.jpg" alt="Coins">
+            <h3>Coins</h3>
+            <p>10 items</p>
+            <div class="mini-carousel">
+              <div class="mini-track">
+                <div class="mini-item"><img src="img/1euro2020.jpg" alt="1 Euro 2020"></div>
+                <div class="mini-item"><img src="img/50cent1999.jpg" alt="50 Cent 1999"></div>
+                <div class="mini-item"><img src="img/2euro2015.jpg" alt="2 Euro 2015"></div>
+                <div class="mini-item"><img src="img/1dollar2000.jpg" alt="1 Dollar 2000"></div>
+                <div class="mini-item"><img src="img/10cent2010.jpg" alt="10 Cent 2010"></div>
+              </div>
+            </div>
+            <a href="collection.html" class="btn-view">View Collection</a>
+          </div>
 
-  // mostra coleções
-  const grid = document.querySelector(".collections-grid");
-  grid.innerHTML = userCollections.map(c => `
-    <div class="collection-card">
-      <img src="img/${c.name.toLowerCase().replace(/ /g, '')}.jpg" alt="${c.name}">
-      <h3>${c.name}</h3>
-      <a href="collection.html?id=${c.id}" class="btn-view">View Collection</a>
-    </div>
-  `).join("");
-</script>
+          <!-- Coleção 4 -->
+          <div class="collection-card">
+            <img src="img/stamps.jpg" alt="Stamps">
+            <h3>Stamps</h3>
+            <p>12 items</p>
+            <div class="mini-carousel">
+              <div class="mini-track">
+                <div class="mini-item"><img src="img/portugal1960.jpg" alt="Portugal 1960"></div>
+                <div class="mini-item"><img src="img/brazil1980.jpg" alt="Brazil 1980"></div>
+                <div class="mini-item"><img src="img/usa1950.jpg" alt="USA 1950"></div>
+                <div class="mini-item"><img src="img/germany1975.jpg" alt="Germany 1975"></div>
+                <div class="mini-item"><img src="img/france1990.jpg" alt="France 1990"></div>
+              </div>
+            </div>
+            <a href="collection.html" class="btn-view">View Collection</a>
+          </div>
 
-<footer class="footer">
-  <p>© 2025 MyCollections | All rights reserved.</p>
-</footer>
+          <!-- Coleção 5 -->
+          <div class="collection-card">
+            <img src="img/trains.jpg" alt="Locomotive Miniatures">
+            <h3>Locomotive Miniatures</h3>
+            <p>6 items</p>
+            <div class="mini-carousel">
+              <div class="mini-track">
+                <div class="mini-item"><img src="img/trainA.jpg" alt="Train A"></div>
+                <div class="mini-item"><img src="img/trainB.jpg" alt="Train B"></div>
+                <div class="mini-item"><img src="img/trainC.jpg" alt="Train C"></div>
+                <div class="mini-item"><img src="img/trainD.jpg" alt="Train D"></div>
+                <div class="mini-item"><img src="img/trainE.jpg" alt="Train E"></div>
+              </div>
+            </div>
+            <a href="collection.html" class="btn-view">View Collection</a>
+          </div>
 
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <script src="js/data.js"></script>
+  <script>
+    // pega o id do user no URL (exemplo)
+    const params = new URLSearchParams(window.location.search);
+    const userId = parseInt(params.get("id")) || 1;
+
+    // se estiveres a usar um ficheiro js com arrays `users`/`collections`
+    if (typeof users !== "undefined") {
+      const user = users.find(u => u.id === userId) || users[0];
+      document.getElementById("userName").textContent = user ? user.name : "User Name";
+      document.getElementById("userEmail").textContent = user ? `${user.name.toLowerCase().replace(" ", ".")}@gmail.com` : "user@email.com";
+    }
+
+    if (typeof collections !== "undefined") {
+      const grid = document.querySelector(".collections-grid");
+      const userCollections = collections.filter(c => c.userId === userId);
+      if (grid && userCollections.length) {
+        grid.innerHTML = userCollections.map(c => `
+          <div class="collection-card">
+            <img src="img/${c.name.toLowerCase().replace(/ /g, '')}.jpg" alt="${c.name}">
+            <h3>${c.name}</h3>
+            <p>${c.items ? c.items.length + ' items' : ''}</p>
+            <a href="collection.html?id=${c.id}" class="btn-view">View Collection</a>
+          </div>
+        `).join("");
+      }
+    }
+  </script>
+
+  <footer class="footer">
+    <p>© 2025 MyCollections | All rights reserved.</p>
+  </footer>
 </body>
 </html>

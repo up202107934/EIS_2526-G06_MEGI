@@ -236,31 +236,41 @@
 </section>
 
   <div id="addItemModal" class="modal">
-    <div class="modal-content">
-      <h2>Add New Item</h2>
-      <label>Name:</label>
-      <input type="text" id="itemName" placeholder="Enter item name">
-      <label>Description:</label>
-      <input type="text" id="itemDesc" placeholder="Short description">
-      <label>Importance (1–10):</label>
-      <input type="number" id="itemRating" min="1" max="10" value="1">
-      <label>Price (€):</label>
-      <input type="number" id="itemPrice" min="0" step="0.01" value="0">
-      <label>Weight (g):</label>
-      <input type="number" id="itemWeight" min="0" step="1" value="0">
-      <label>Date of acquisition:</label>
-      <input type="date" id="itemDate">
-      <label for="itemImage">Image:</label>
-      <div id="dropZone" class="drop-zone">
-        <p>Drag & drop an image here, or click to select</p>
-        <input type="file" id="itemImage" accept="image/*" hidden>
-      </div>
-      <div class="modal-buttons">
-        <button id="saveItem">💾 Save</button>
-        <button id="cancelItem">❌ Cancel</button>
-      </div>
-    </div>
-  </div>
+  <div class="modal-content">
+    <h2>Add New Item</h2>
+    <form id="addItemForm">
+      <label>Name:</label>
+      <input type="text" id="itemName" placeholder="Enter item name" required>
+
+      <label>Description:</label>
+      <input type="text" id="itemDesc" placeholder="Short description" required>
+
+      <label>Importance (1–10):</label>
+      <input type="number" id="itemRating" min="1" max="10" value="1" required>
+
+      <label>Price (€):</label>
+      <input type="number" id="itemPrice" min="0" step="0.01" value="0" required>
+
+      <label>Weight (g):</label>
+      <input type="number" id="itemWeight" min="0" step="1" value="0">
+
+      <label>Date of acquisition:</label>
+      <input type="date" id="itemDate">
+
+      <label for="itemImage">Image:</label>
+      <div id="dropZone" class="drop-zone">
+        <p>Drag & drop an image here, or click to select</p>
+        <input type="file" id="itemImage" accept="image/*" hidden>
+      </div>
+
+      <div class="modal-buttons">
+        <button type="submit" id="saveItem">💾 Save</button>
+        <button type="button" id="cancelItem">❌ Cancel</button>
+      </div>
+    </form>
+  </div>
+</div>
+
  
   <button class="add-item-btn">➕ Add Item</button>
   <script src="js/data.js"></script>
