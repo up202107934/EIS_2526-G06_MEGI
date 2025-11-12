@@ -127,26 +127,41 @@
     }
     .back-btn:hover { background-color: #FF4C4C; transform: scale(1.05); }
 
+    /* ===== Modal (Edit & Delete) ===== */
+    .modal-overlay{ position:fixed; inset:0; background:rgba(0,0,0,.45); display:none; align-items:center; justify-content:center; z-index:1000 }
+    .modal{ background:#fff; border-radius:16px; width:min(680px,92vw); box-shadow:0 10px 30px rgba(0,0,0,.25); overflow:hidden }
+    .modal header{ padding:16px 20px; border-bottom:1px solid #eee; color:#B22222; font-weight:800 }
+    .modal .body{ padding:16px 20px }
+    .modal .footer{ padding:14px 20px; border-top:1px solid #eee; display:flex; gap:10px; justify-content:flex-end }
+    .modal .row{ display:grid; grid-template-columns: 1fr 1fr; gap:12px }
+    .modal label{ font-size:12px; font-weight:700; color:#B22222; text-transform:uppercase; letter-spacing:.06em }
+    .modal input[type="text"], .modal input[type="number"], .modal input[type="date"], .modal textarea, .modal select {
+      width:100%; padding:10px 12px; border-radius:10px; border:1px solid #ddd; font-size:14px
+    }
+    .modal textarea{ min-height:100px; resize:vertical }
+    .btn{ background:#B22222; color:#fff; border:none; padding:10px 14px; border-radius:10px; cursor:pointer }
+    .btn.secondary{ background:#eee; color:#333 }
+
     /* ===== Responsive ===== */
     @media (max-width: 900px) {
       .item-header { grid-template-columns: 1fr; }
       .item-header img { height: 300px; }
       .spec-grid { grid-template-columns: 1fr; }
+      .modal .row{ grid-template-columns: 1fr }
     }
   </style>
 </head>
 
 <body>
-    
-   <!-- ===== NAVBAR ===== -->
+  <!-- ===== NAVBAR ===== -->
   <nav class="navbar">
     <div class="navbar-logo">
       <a href="home.html">MyCollections</a>
     </div>
 
     <form class="navbar-search" id="searchForm" action="#" method="GET">
-        <input type="text" id="searchInput" name="q" placeholder="Search collections, items..." required />
-        <button type="submit" class="search-btn">🔍</button>
+      <input type="text" id="searchInput" name="q" placeholder="Search collections, items..." required />
+      <button type="submit" class="search-btn">🔍</button>
     </form>
 
     <div class="navbar-user">
@@ -155,50 +170,38 @@
       </a>
     </div>
     <button id="themeToggle" class="theme-toggle">🌙</button>
-
   </nav>
-   
+
   <div class="item-page-container">
     <!-- Header: image left, info + tech sheet right -->
     <div class="item-header">
       <img src="img/luke.jpg" alt="Luke Skywalker" />
 
       <div>
-        <h1 class="item-title">Luke Skywalker</h1>
+        <h1 class="item-title" id="itemName">Luke Skywalker</h1>
         <p class="item-category">Category: Star Wars Miniature</p>
 
         <!-- Technical Sheet stays here, at the side of the figure -->
         <section class="tech-sheet" aria-labelledby="tech-title">
           <h2 id="tech-title">Technical Sheet</h2>
-          <ul class="spec-grid">
-            <li class="kv"><span class="k">Item</span><span class="v">Luke Skywalker</span></li>
+          <ul class="spec-grid" id="specGrid">
+            <li class="kv"><span class="k">Item</span><span class="v" id="field-item">Luke Skywalker</span></li>
             <li class="kv"><span class="k">Importance</span>
               <span class="v">
-                <span class="stars" aria-label="4 out of 5 stars" role="img">
-                  <!-- Thin outlined stars -->
-                  <svg class="filled" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.5l2.9 5.88 6.49.94-4.7 4.58 1.1 6.43L12 18.9 6.21 21.33l1.1-6.43-4.7-4.58 6.49-.94L12 3.5z"/></svg>
-                  <svg class="filled" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.5l2.9 5.88 6.49.94-4.7 4.58 1.1 6.43L12 18.9 6.21 21.33l1.1-6.43-4.7-4.58 6.49-.94L12 3.5z"/></svg>
-                  <svg class="filled" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.5l2.9 5.88 6.49.94-4.7 4.58 1.1 6.43L12 18.9 6.21 21.33l1.1-6.43-4.7-4.58 6.49-.94L12 3.5z"/></svg>
-                  <svg class="filled" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.5l2.9 5.88 6.49.94-4.7 4.58 1.1 6.43L12 18.9 6.21 21.33l1.1-6.43-4.7-4.58 6.49-.94L12 3.5z"/></svg>
-                  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.5l2.9 5.88 6.49.94-4.7 4.58 1.1 6.43L12 18.9 6.21 21.33l1.1-6.43-4.7-4.58 6.49-.94L12 3.5z"/></svg>
-                </span>
+                <span class="stars" id="importanceStars" data-importance="4" aria-label="4 out of 5 stars" role="img"></span>
               </span>
             </li>
-            <li class="kv"><span class="k">Weight</span><span class="v">120 g</span></li>
-            <li class="kv"><span class="k">Price</span><span class="v">25€</span></li>
-            <li class="kv"><span class="k">Date of acquisition</span><span class="v">12/04/2023</span></li>
+            <li class="kv"><span class="k">Weight</span><span class="v" id="field-weight">120 g</span></li>
+            <li class="kv"><span class="k">Price</span><span class="v" id="field-price">25€</span></li>
+            <li class="kv"><span class="k">Date of acquisition</span><span class="v" id="field-date">12/04/2023</span></li>
 
             <!-- Extra characteristics (suggested) -->
-            <li class="kv"><span class="k">Rarity</span><span class="v">★★★★☆</span></li>
-            <li class="kv"><span class="k">Dimensions</span><span class="v">12 cm height</span></li>
-            <li class="kv"><span class="k">Year of release</span><span class="v">2022</span></li>
-            <li class="kv"><span class="k">Edition number</span><span class="v">#543</span></li>
-            <li class="kv"><span class="k">Condition</span><span class="v">Mint</span></li>
-            <li class="kv"><span class="k">Franchise</span><span class="v">Star Wars</span></li>
-            <li class="kv"><span class="k">Material</span><span class="v">Resin/PVC</span></li>
-            <li class="kv"><span class="k">Scale</span><span class="v">~1:12</span></li>
-            <li class="kv"><span class="k">Serial no.</span><span class="v">SW-LK-0543</span></li>
-            <li class="kv"><span class="k">Status</span><span class="v">In collection</span></li>
+            <li class="kv"><span class="k">Rarity</span><span class="v" id="field-rarity" data-rarity="4">★★★★☆</span></li>
+            <li class="kv"><span class="k">Dimensions</span><span class="v" id="field-dimensions">12 cm height</span></li>
+            <li class="kv"><span class="k">Year of release</span><span class="v" id="field-year">2022</span></li>
+            <li class="kv"><span class="k">Edition number</span><span class="v" id="field-edition">#543</span></li>
+            <li class="kv"><span class="k">Material</span><span class="v" id="field-material">Resin/PVC</span></li>
+            <li class="kv"><span class="k">Serial no.</span><span class="v" id="field-serial">SW-LK-0543</span></li>
           </ul>
         </section>
       </div>
@@ -207,7 +210,7 @@
     <!-- Description -->
     <div class="description">
       <h2>Description</h2>
-      <p>
+      <p id="itemDescription">
         Luke Skywalker is one of the most iconic characters from the Star Wars universe. This miniature captures his heroic
         spirit, featuring his blue lightsaber and signature Rebel attire — a must‑have for collectors and fans of the saga.
       </p>
@@ -223,13 +226,229 @@
     <a href="collection.html" class="back-btn">← Back to Collection</a>
   </div>
 
+  <!-- ====== EDIT MODAL ====== -->
+  <div id="editModal" class="modal-overlay" aria-hidden="true">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="editTitle">
+      <header id="editTitle">Edit Item</header>
+      <div class="body">
+        <div class="row">
+          <div>
+            <label for="inputName">Item</label>
+            <input id="inputName" type="text" />
+          </div>
+          <div>
+            <label for="inputImportance">Importance (0–5)</label>
+            <select id="inputImportance">
+              <option>0</option><option>1</option><option>2</option><option>3</option><option selected>4</option><option>5</option>
+            </select>
+          </div>
+        </div>
+        <div class="row" style="margin-top:12px">
+          <div>
+            <label for="inputWeight">Weight</label>
+            <input id="inputWeight" type="text" />
+          </div>
+          <div>
+            <label for="inputPrice">Price</label>
+            <input id="inputPrice" type="text" />
+          </div>
+        </div>
+        <div class="row" style="margin-top:12px">
+          <div>
+            <label for="inputDate">Date of acquisition</label>
+            <input id="inputDate" type="text" placeholder="dd/mm/yyyy" />
+          </div>
+          <div>
+            <label for="inputRarity">Rarity (0–5)</label>
+            <select id="inputRarity">
+              <option>0</option><option>1</option><option>2</option><option>3</option><option selected>4</option><option>5</option>
+            </select>
+          </div>
+        </div>
+        <div class="row" style="margin-top:12px">
+          <div>
+            <label for="inputDimensions">Dimensions</label>
+            <input id="inputDimensions" type="text" />
+          </div>
+          <div>
+            <label for="inputYear">Year of release</label>
+            <input id="inputYear" type="number" />
+          </div>
+        </div>
+        <div class="row" style="margin-top:12px">
+          <div>
+            <label for="inputEdition">Edition number</label>
+            <input id="inputEdition" type="text" />
+          </div>
+          <div>
+            <label for="inputMaterial">Material</label>
+            <input id="inputMaterial" type="text" />
+          </div>
+        </div>
+        <div class="row" style="margin-top:12px">
+          <div>
+            <label for="inputSerial">Serial no.</label>
+            <input id="inputSerial" type="text" />
+          </div>
+          <div>
+            <label for="inputCategory">Category</label>
+            <input id="inputCategory" type="text" />
+          </div>
+        </div>
+        <div style="margin-top:12px">
+          <label for="inputDescription">Description</label>
+          <textarea id="inputDescription"></textarea>
+        </div>
+
+        <hr style="border:none; border-top:1px solid #eee; margin:16px 0" />
+        <div class="row">
+          <div>
+            <label for="newKey">New characteristic — label</label>
+            <input id="newKey" type="text" placeholder="e.g., Manufacturer" />
+          </div>
+          <div>
+            <label for="newValue">New characteristic — value</label>
+            <input id="newValue" type="text" placeholder="e.g., Kenner" />
+          </div>
+        </div>
+        <div style="margin-top:10px; display:flex; justify-content:flex-end; gap:10px">
+          <button id="addCharacteristic" class="btn secondary" type="button">Add characteristic</button>
+        </div>
+      </div>
+      <div class="footer">
+        <button id="cancelEdit" class="btn secondary" type="button">Cancel</button>
+        <button id="saveEdit" class="btn" type="button">Save</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ====== DELETE MODAL ====== -->
+  <div id="deleteModal" class="modal-overlay" aria-hidden="true">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="deleteTitle">
+      <header id="deleteTitle">Delete Item</header>
+      <div class="body">
+        Are you sure you want to delete this item?
+      </div>
+      <div class="footer">
+        <button id="cancelDelete" class="btn secondary" type="button">Cancel</button>
+        <button id="confirmDelete" class="btn" type="button">Delete</button>
+      </div>
+    </div>
+  </div>
+
   <script>
-    document.getElementById("editBtn").addEventListener("click", () => {
-      alert("Edit modal will open here (coming next)");
+    // ===== Utility: render thin stars based on rating =====
+    function renderStars(container, rating){
+      container.innerHTML = '';
+      const path = 'M12 3.5l2.9 5.88 6.49.94-4.7 4.58 1.1 6.43L12 18.9 6.21 21.33l1.1-6.43-4.7-4.58 6.49-.94L12 3.5z';
+      for(let i=1;i<=5;i++){
+        const svg = document.createElementNS('http://www.w3.org/2000/svg','svg');
+        svg.setAttribute('viewBox','0 0 24 24');
+        const p = document.createElementNS('http://www.w3.org/2000/svg','path');
+        p.setAttribute('d', path);
+        svg.appendChild(p);
+        svg.classList.add(i <= rating ? 'filled' : '');
+        container.appendChild(svg);
+      }
+      container.setAttribute('data-importance', String(rating));
+      container.setAttribute('aria-label', rating + ' out of 5 stars');
+      container.setAttribute('role','img');
+    }
+
+    // Initial stars
+    const importanceStars = document.getElementById('importanceStars');
+    renderStars(importanceStars, parseInt(importanceStars.dataset.importance||'0',10));
+
+    // ===== Open/close modals =====
+    const editModal = document.getElementById('editModal');
+    const deleteModal = document.getElementById('deleteModal');
+    const open = (el)=>{ el.style.display='flex'; el.setAttribute('aria-hidden','false'); }
+    const close = (el)=>{ el.style.display='none'; el.setAttribute('aria-hidden','true'); }
+
+    document.getElementById('editBtn').addEventListener('click', () => {
+      // Prefill
+      document.getElementById('inputName').value = document.getElementById('field-item').textContent.trim();
+      document.getElementById('inputImportance').value = importanceStars.getAttribute('data-importance')||'0';
+      document.getElementById('inputWeight').value = document.getElementById('field-weight').textContent.trim();
+      document.getElementById('inputPrice').value = document.getElementById('field-price').textContent.trim();
+      document.getElementById('inputDate').value = document.getElementById('field-date').textContent.trim();
+      document.getElementById('inputRarity').value = document.getElementById('field-rarity').dataset.rarity || '0';
+      document.getElementById('inputDimensions').value = document.getElementById('field-dimensions').textContent.trim();
+      document.getElementById('inputYear').value = document.getElementById('field-year').textContent.trim();
+      document.getElementById('inputEdition').value = document.getElementById('field-edition').textContent.trim();
+      document.getElementById('inputMaterial').value = document.getElementById('field-material').textContent.trim();
+      document.getElementById('inputSerial').value = document.getElementById('field-serial').textContent.trim();
+      document.getElementById('inputCategory').value = document.querySelector('.item-category').textContent.replace('Category: ','');
+      document.getElementById('inputDescription').value = document.getElementById('itemDescription').textContent.trim();
+      open(editModal);
     });
-    document.getElementById("deleteBtn").addEventListener("click", () => {
-      const ok = confirm("Are you sure you want to delete this item?");
-      if (ok) alert("Item deleted (placeholder)");
+    document.getElementById('deleteBtn').addEventListener('click', () => open(deleteModal));
+
+    document.getElementById('cancelEdit').addEventListener('click', () => close(editModal));
+    document.getElementById('cancelDelete').addEventListener('click', () => close(deleteModal));
+
+    // ===== Save edits =====
+    document.getElementById('saveEdit').addEventListener('click', () => {
+      const name = document.getElementById('inputName').value.trim();
+      const importance = parseInt(document.getElementById('inputImportance').value,10) || 0;
+      const weight = document.getElementById('inputWeight').value.trim();
+      const price = document.getElementById('inputPrice').value.trim();
+      const date = document.getElementById('inputDate').value.trim();
+      const rarity = parseInt(document.getElementById('inputRarity').value,10) || 0;
+      const dimensions = document.getElementById('inputDimensions').value.trim();
+      const year = document.getElementById('inputYear').value.trim();
+      const edition = document.getElementById('inputEdition').value.trim();
+      const material = document.getElementById('inputMaterial').value.trim();
+      const serial = document.getElementById('inputSerial').value.trim();
+      const category = document.getElementById('inputCategory').value.trim();
+      const desc = document.getElementById('inputDescription').value.trim();
+
+      if(name){
+        document.getElementById('field-item').textContent = name;
+        document.getElementById('itemName').textContent = name;
+      }
+      renderStars(importanceStars, importance);
+      if(weight) document.getElementById('field-weight').textContent = weight;
+      if(price) document.getElementById('field-price').textContent = price;
+      if(date) document.getElementById('field-date').textContent = date;
+      const rarityEl = document.getElementById('field-rarity');
+      rarityEl.dataset.rarity = String(rarity);
+      rarityEl.textContent = '★★★★★'.slice(0,rarity) + '☆☆☆☆☆'.slice(0,5-rarity);
+      if(dimensions) document.getElementById('field-dimensions').textContent = dimensions;
+      if(year) document.getElementById('field-year').textContent = year;
+      if(edition) document.getElementById('field-edition').textContent = edition;
+      if(material) document.getElementById('field-material').textContent = material;
+      if(serial) document.getElementById('field-serial').textContent = serial;
+      if(category) document.querySelector('.item-category').textContent = 'Category: ' + category;
+      if(desc) document.getElementById('itemDescription').textContent = desc;
+
+      close(editModal);
+    });
+
+    // ===== Add new characteristic =====
+    document.getElementById('addCharacteristic').addEventListener('click', () => {
+      const key = document.getElementById('newKey').value.trim();
+      const val = document.getElementById('newValue').value.trim();
+      if(!key || !val) return;
+      const li = document.createElement('li');
+      li.className = 'kv';
+      const k = document.createElement('span');
+      k.className = 'k';
+      k.textContent = key;
+      const v = document.createElement('span');
+      v.className = 'v';
+      v.textContent = val;
+      li.appendChild(k); li.appendChild(v);
+      document.getElementById('specGrid').appendChild(li);
+      document.getElementById('newKey').value = '';
+      document.getElementById('newValue').value = '';
+    });
+
+    // ===== Confirm delete =====
+    document.getElementById('confirmDelete').addEventListener('click', () => {
+      close(deleteModal);
+      // Here you could redirect or remove from DOM. Placeholder:
+      alert('Item deleted (placeholder)');
     });
   </script>
 </body>
