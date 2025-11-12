@@ -1,4 +1,15 @@
 // home.js
+
+// === helpers de storage (home.js) ===
+const STORAGE_KEY = "collections";
+const getCollections = () => {
+  try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]"); }
+  catch { return []; }
+};
+const saveCollections = (arr) => localStorage.setItem(STORAGE_KEY, JSON.stringify(arr));
+const uid = () => (crypto?.randomUUID?.() || String(Date.now() + Math.random()));
+const $$ = (sel, root = document) => Array.from(root.querySelectorAll(sel));
+
 document.addEventListener("DOMContentLoaded", () => {
   // =========================
   // 1) DARK MODE
@@ -31,11 +42,9 @@ document.addEventListener("DOMContentLoaded", () => {
       profileDropdown.classList.toggle("show");
     });
 
-    // Impede fechar ao clicar dentro do próprio dropdown
     profileDropdown.addEventListener("click", (e) => e.stopPropagation());
     navbarUser?.addEventListener("click", (e) => e.stopPropagation());
 
-    // Fecha ao clicar fora
     document.addEventListener("click", () => {
       profileDropdown.classList.remove("show");
     });
@@ -72,8 +81,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // 4) MINI-CAROUSEL (clona itens p/ loop)
   // =========================
   function initMiniCarousels(root = document) {
-    root.querySelectorAll(".mini-track").forEach((track) => {
-      // evita clonar mais que uma vez
+    $$(".mini-track", root).forEach((track) => {
       if (!track.dataset.cloned) {
         track.insertAdjacentHTML("beforeend", track.innerHTML);
         track.dataset.cloned = "1";
@@ -120,40 +128,33 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // =========================
-  // 6) MODAL "CREATE COLLECTION"
+  // 6) MODAL "CREATE COLLECTION" (igual ao user)
   // =========================
-  const openBtn = document.getElementById("openModal"); // botão "+ Create New Collection"
-  const modal = document.getElementById("createCollectionModal");
-  const cancelX = document.getElementById("cancelCollection"); // <span class="close" id="cancelCollection">×</span>
-  const cancelBtn = document.getElementById("cancelCollectionBtn"); // botão "Cancel"
-  const saveBtn = document.getElementById("saveCollection");
+  const openBtn       = document.getElementById("openModal");
+  const modal         = document.getElementById("createCollectionModal");
+  const cancelBtn     = document.getElementById("cancelCollection");
+  const saveBtn       = document.getElementById("saveCollection");
+  const dropZone      = document.getElementById("dropZoneCollection");
+  const fileInput     = document.getElementById("collectionImage");
+  const preview       = document.getElementById("collectionPreview");
+  const nameInput     = document.getElementById("collectionName");
+  const descInput     = document.getElementById("collectionDescription");
 
-  const dropZone = document.getElementById("dropZoneCollection");
-  const fileInput = document.getElementById("collectionImage");
-  const preview = document.getElementById("collectionPreview");
-
-  const nameInput = document.getElementById("collectionName");
-  const descInput = document.getElementById("collectionDescription");
-
-  // Abrir modal
-  openBtn?.addEventListener("click", (e) => {
-    e.preventDefault();
-    modal?.classList.add("show"); // precisa existir .modal.show { display:flex !important; }
-  });
-
-  // Fechar modal
-  function closeModal() {
+  const openModal = (e) => {
+    e?.preventDefault?.();
+    modal?.classList.add("show");
+  };
+  const closeModal = () => {
     modal?.classList.remove("show");
-  }
-  cancelX?.addEventListener("click", closeModal);
-  cancelBtn?.addEventListener("click", closeModal);
+  };
 
-  // Fechar clicando fora do conteúdo
+  openBtn?.addEventListener("click", openModal);
+  cancelBtn?.addEventListener("click", closeModal);
   modal?.addEventListener("click", (e) => {
     if (e.target === modal) closeModal();
   });
 
-  // ===== Dropzone / Upload
+  // Dropzone
   dropZone?.addEventListener("click", () => fileInput?.click());
   dropZone?.addEventListener("dragover", (e) => {
     e.preventDefault();
@@ -191,7 +192,7 @@ document.addEventListener("DOMContentLoaded", () => {
     reader.readAsDataURL(file);
   });
 
-  // ===== Guardar coleção (adiciona card à lista)
+  // ===== Guardar coleção (home: guarda e redireciona p/ user)
   saveBtn?.addEventListener("click", () => {
     if (!nameInput) return;
 
@@ -209,33 +210,19 @@ document.addEventListener("DOMContentLoaded", () => {
         ? preview.src
         : "img/collection-placeholder.jpg";
 
-    const container = document.querySelector(".collections-container");
-    if (container) {
-      const card = document.createElement("div");
-      card.className = "collection-card";
-      card.innerHTML = `
-        <img src="${imgSrc}" alt="${name}">
-        <h2>${name}</h2>
-        <p>${desc ? desc : "items:"}</p>
-        <div class="mini-carousel">
-          <div class="mini-track">
-            <div class="mini-item"><p>No items yet</p></div>
-          </div>
-        </div>
-        <a href="collection.html?id=new" class="btn">View Collection</a>
-      `;
+    const all = getCollections();
+    all.push({ id: uid(), name, desc, img: imgSrc, items: [] });
+    saveCollections(all);
 
-      container.prepend(card);
-      // inicializa o mini-carousel do novo card
-      initMiniCarousels(card);
-    }
-
-    // Limpa e fecha
-    if (nameInput) nameInput.value = "";
+    // limpar modal
+    nameInput.value = "";
     if (descInput) descInput.value = "";
     if (fileInput) fileInput.value = "";
     if (preview) preview.style.display = "none";
     if (dropZone) dropZone.style.display = "flex";
     closeModal();
+
+    // vai ver a coleção na página do utilizador
+    window.location.href = "user.html#minhas-colecoes";
   });
 });

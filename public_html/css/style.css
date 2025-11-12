@@ -415,7 +415,8 @@ body.dark-mode .footer {
     box-shadow: 0 12px 25px rgba(0, 0, 0, 0.3);
     background: linear-gradient(135deg, #d90429, #ef233c);
 } /* ===== MY COLLECTIONS BUTTON ===== */
-.my-collections-btn {
+.my-collections-btn,
+.btn-add {
     margin-top: 50px;
     font-size: 18px;
     padding: 14px 30px;
@@ -426,9 +427,13 @@ body.dark-mode .footer {
     display: inline-block;
     box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
     transition: all 0.3s ease;
+    cursor: pointer; /* maozinha nos dois */
 }
-.my-collections-btn:hover {
-    background-color: #45a049;
+
+.my-collections-btn:hover,
+.btn-add:hover {
+    background: linear-gradient(135deg, #d90429, #ef233c);
+    transform: translateY(-3px) scale(1.05);
 }
 
 .btn-add {
@@ -446,6 +451,121 @@ body.dark-mode .footer {
 .btn-add:hover {
     background-color: #45a049;
 }
+
+/* === UNIFICAR MODAL DA HOME COM O DO USER === */
+
+.modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal.show {
+  display: flex !important;
+}
+
+.modal-content {
+  background: #fff;
+  padding: 25px;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 400px;
+  text-align: left;
+  position: relative;
+}
+
+/* Título igual ao user */
+.modal-content h2,
+.modal-content h3 {
+  color: #B22222;
+  margin-bottom: 15px;
+  font-weight: 700;
+}
+
+/* Inputs iguais */
+.modal-content input,
+.modal-content textarea {
+  width: 100%;
+  margin-bottom: 15px;
+  padding: 10px 14px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  font-size: 15px;
+  font-family: "Poppins", sans-serif;
+  box-sizing: border-box;
+}
+
+/* Dropzone igual */
+.drop-zone {
+  border: 2px dashed #B22222;
+  border-radius: 10px;
+  padding: 20px;
+  text-align: center;
+  background-color: #fff7f7;
+  cursor: pointer;
+  transition: background-color 0.3s, border-color 0.3s;
+  margin-bottom: 10px;
+}
+.drop-zone:hover {
+  background-color: #ffeaea;
+  border-color: #FF4C4C;
+}
+.drop-zone.dragover {
+  background-color: #ffefef;
+  border-color: #FF4C4C;
+}
+
+/* Botões do modal */
+.modal-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+
+.modal-buttons button {
+  padding: 8px 18px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-family: "Poppins", sans-serif;
+  font-size: 14px;
+}
+
+/* Save vermelho, Cancel cinzento – igual user */
+#saveCollection {
+  background-color: #B22222;
+  color: #fff;
+}
+#saveCollection:hover {
+  background-color: #FF4C4C;
+}
+
+#cancelCollection {
+  background-color: #ccc;
+  color: #333;
+}
+#cancelCollection:hover {
+  background-color: #bbb;
+}
+
+/* Ícone de fechar (se usares <span class="close">) */
+.close {
+  position: absolute;
+  right: 15px;
+  top: 10px;
+  font-size: 22px;
+  cursor: pointer;
+  color: #555;
+}
+.close:hover {
+  color: #B22222;
+}
+
+
 
 /* ===== MINI CAROUSEL ===== */
 .mini-carousel {

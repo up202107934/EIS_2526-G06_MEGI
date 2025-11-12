@@ -7,8 +7,6 @@
   <link rel="stylesheet" href="css/style.css" />
 </head>
 
-
-
 <body>
 
   <!-- ===== NAVBAR ===== -->
@@ -18,36 +16,30 @@
     </div>
 
     <form class="navbar-search" id="searchForm" action="#" method="GET">
-        <input type="text" id="searchInput" name="q" placeholder="Search collections, items..." required />
-        <button type="submit" class="search-btn">🔍</button>
+      <input type="text" id="searchInput" name="q" placeholder="Search collections, items..." required />
+      <button type="submit" class="search-btn">🔍</button>
     </form>
 
     <div class="navbar-user">
-        <img src="img/user.jpg" alt="User" class="navbar-avatar" id="avatarButton">
+      <img src="img/user.jpg" alt="User" class="navbar-avatar" id="avatarButton">
 
-        <div class="profile-dropdown" id="profileDropdown">
-            <a href="user.html">👤 Ver Perfil</a>
-            <a href="home_withoutlogin.html">🚪 Log Out</a>
-        </div>
+      <div class="profile-dropdown" id="profileDropdown">
+        <a href="user.html">👤 Ver Perfil</a>
+        <a href="home_withoutlogin.html">🚪 Log Out</a>
+      </div>
     </div>
     <button id="themeToggle" class="theme-toggle">🌙</button>
-
   </nav>
 
-
   <!-- ===== HERO SECTION ===== -->
-<section class="hero">
-  <!-- Fundo como imagem no HTML -->
-  <img src="img/hero-bg.jpg" alt="Hero Background" class="hero-bg">
-
-  <div class="hero-content">
-    <h1>Welcome to <span>MyCollections</span></h1>
-    <p>Discover and showcase your favorite collections</p>
-    <a href="#collections" class="hero-btn">Explore Collections</a>
-  </div>
-</section>
-
-
+  <section class="hero">
+    <img src="img/hero-bg.jpg" alt="Hero Background" class="hero-bg">
+    <div class="hero-content">
+      <h1>Welcome to <span>MyCollections</span></h1>
+      <p>Discover and showcase your favorite collections</p>
+      <a href="#collections" class="hero-btn">Explore Collections</a>
+    </div>
+  </section>
 
   <!-- ===== HOME CONTENT ===== -->
   <section class="home-section" id="collections">
@@ -62,7 +54,7 @@
         <p>items:</p>
         <div class="mini-carousel">
           <div class="mini-track">
-              <div class="mini-item"><a href="item.html"><img src="img/item1.jpg" alt="Darth Vader"></a><p>Darth Vader</p></div>
+            <div class="mini-item"><a href="item.html"><img src="img/item1.jpg" alt="Darth Vader"></a><p>Darth Vader</p></div>
             <div class="mini-item"><a href="item.html"><img src="img/item2.jpg" alt="Luke Skywalker"></a><p>Luke Skywalker</p></div>
             <div class="mini-item"><a href="item.html"><img src="img/item3.jpg" alt="Yoda"></a><p>Yoda</p></div>
             <div class="mini-item"><a href="item.html"><img src="img/item4.jpg" alt="Han Solo"></a><p>Han Solo</p></div>
@@ -79,7 +71,7 @@
         <p>items:</p>
         <div class="mini-carousel">
           <div class="mini-track">
-              <div class="mini-item"><a href="item.html"><img src="img/spider man.jpg" alt="Spider-Man"></a><p>Spider-Man</p></div>
+            <div class="mini-item"><a href="item.html"><img src="img/spider man.jpg" alt="Spider-Man"></a><p>Spider-Man</p></div>
             <div class="mini-item"><a href="item.html"><img src="img/Batman.jpg" alt="Batman"></a><p>Batman</p></div>
             <div class="mini-item"><a href="item.html"><img src="img/Avengers4.jpg" alt="Avengers #4"></a><p>Avengers #4</p></div>
             <div class="mini-item"><a href="item.html"><img src="img/Superman75.jpg" alt="Superman #75"></a><p>Superman #75</p></div>
@@ -96,9 +88,9 @@
         <p>items:</p>
         <div class="mini-carousel">
           <div class="mini-track">
-              <div class="mini-item"><a href="item.html"><img src="img/coin1.jpg" alt="1 Euro 2020"></a><p>1 € 2020</p></div>
-              <div class="mini-item"><a href="item.html"><img src="img/coin2.jpg" alt="50 Cent 1999"></a><p>50 ¢ 1999</p></div>
-              <div class="mini-item"><a href="item.html"><img src="img/coin3.jpg" alt="2 Euro 2015"></a><p>2 € 2015</p></div>
+            <div class="mini-item"><a href="item.html"><img src="img/coin1.jpg" alt="1 Euro 2020"></a><p>1 € 2020</p></div>
+            <div class="mini-item"><a href="item.html"><img src="img/coin2.jpg" alt="50 Cent 1999"></a><p>50 ¢ 1999</p></div>
+            <div class="mini-item"><a href="item.html"><img src="img/coin3.jpg" alt="2 Euro 2015"></a><p>2 € 2015</p></div>
             <div class="mini-item"><a href="item.html"><img src="img/coin4.jpg" alt="1 Dollar 2000"></a><p>$1 2000</p></div>
             <div class="mini-item"><a href="item.html"><img src="img/coin5.jpg" alt="10 Cent 2010"></a><p>10 ¢ 2010</p></div>
           </div>
@@ -146,49 +138,40 @@
     <button class="btn-add" id="openModal">+ Create New Collection</button>
   </section>
 
+  <!-- ===== MODAL IGUAL AO USER ===== -->
   <div id="createCollectionModal" class="modal">
-  <div class="modal-content">
-    <span class="close" id="cancelCollection">&times;</span>
-    <h2>Create New Collection</h2>
+    <div class="modal-content">
+      <h2>Create New Collection</h2>
 
-    <label for="collectionName">Name</label>
-    <input type="text" id="collectionName" placeholder="e.g., Retro Games">
+      <label for="collectionName">Name:</label>
+      <input type="text" id="collectionName" placeholder="Enter collection name" required>
 
-    <label for="collectionDescription">Description</label>
-    <textarea id="collectionDescription" rows="3" placeholder="Short description..."></textarea>
+      <label for="collectionDescription">Description:</label>
+      <input type="text" id="collectionDescription" placeholder="Enter collection description">
 
-    <div id="dropZoneCollection" class="drop-zone">
-      <p>Drop an image here or click to upload</p>
-      <input type="file" id="collectionImage" accept="image/*" hidden>
-    </div>
+      <label for="collectionImage">Image:</label>
+      <div id="dropZoneCollection" class="drop-zone">
+        <p>Drag & drop an image here, or click to select</p>
+        <input type="file" id="collectionImage" accept="image/*" hidden>
+      </div>
+      <img id="collectionPreview"
+           src=""
+           alt="Preview"
+           style="display:none; max-width:100%; margin-top:10px; border-radius:8px;">
 
-    <img id="collectionPreview" style="display:none; max-width:100%; border-radius:8px; margin-top:10px;" alt="Preview">
-
-    <div class="modal-buttons">
-      <button id="saveCollection" class="btn">Save</button>
-      <button id="cancelCollectionBtn" class="btn">Cancel</button>
+      <div class="modal-buttons">
+        <button id="saveCollection">💾 Save</button>
+        <button id="cancelCollection">❌ Cancel</button>
+      </div>
     </div>
   </div>
-</div>
-
-
-
 
   <!-- ===== FOOTER ===== -->
   <footer class="footer">
     <p>© 2025 MyCollections | All rights reserved.</p>
   </footer>
 
-
   <!-- ===== SCRIPT ===== -->
-  <script>
-    document.querySelectorAll(".mini-track").forEach(track => {
-      const clone = track.innerHTML;
-      track.insertAdjacentHTML("beforeend", clone);
-    });
-  </script>
-
   <script src="js/home.js"></script>
-
 </body>
 </html>
