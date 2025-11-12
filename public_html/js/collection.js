@@ -160,74 +160,96 @@ if (addItemBtn && modal) {
       modal.style.display = 'none';
     });
 
-    // Guardar novo item
+    // Guardar novo item (todos os campos obrigatórios)
     const form = document.getElementById('addItemForm');
-      form.addEventListener('submit', (e) => {
+    form.addEventListener('submit', (e) => {
       e.preventDefault();
-      const name = document.getElementById('itemName').value.trim();
-      const desc = document.getElementById('itemDesc').value.trim();
-      const rating = document.getElementById('itemRating').value.trim();
-      const price = document.getElementById('itemPrice').value.trim();
-      const weight = document.getElementById('itemWeight').value.trim();
 
+      const name   = document.getElementById('itemName').value.trim();
+      const desc   = document.getElementById('itemDesc').value.trim();
+      const rating = document.getElementById('itemRating').value.trim();
+      const price  = document.getElementById('itemPrice').value.trim();
+      const weight = document.getElementById('itemWeight').value.trim();
+      const date   = document.getElementById('itemDate').value;
 
-      // Verificar campos obrigatórios
-      if(!name || !desc){
-        alert("Please fill in all required fields.");
-        return;
-      }
+      // 1) Verificar se algum está vazio
+      if (!name || !desc || !rating || !price || !weight || !date) {
+        alert("Please fill in all fields (name, description, rating, price, weight and date).");
+        return;
+      }
 
-      // Garantir que rating está entre 1 e 10
-      const ratingNum = Number(rating);
-      if (ratingNum < 1 || ratingNum > 10) {
-        alert("Rating must be between 1 and 10.");
-        return;
-      }
+      // 2) Rating 1–10
+      const ratingNum = Number(rating);
+      if (Number.isNaN(ratingNum) || ratingNum < 1 || ratingNum > 10) {
+        alert("Rating must be a number between 1 and 10.");
+        return;
+      }
 
-    // Criar novo card
-    const newCard = document.createElement('div');
-    newCard.classList.add('item-card');
-    newCard.dataset.rating = rating || 0;
-    newCard.dataset.price  = price  || 0;
-    newCard.dataset.weight = weight || 0;
-    newCard.dataset.__index = itemsContainer.children.length;
+      // 3) Preço ≥ 0
+      const priceNum = Number(price);
+      if (Number.isNaN(priceNum) || priceNum < 0) {
+        alert("Price must be a number greater than or equal to 0.");
+        return;
+      }
 
-    newCard.innerHTML = `
-      <img src="${uploadedImageURL}" alt="${name}">
-      <div class="item-details">
-        <div class="item-text">
-          <h3>${name}</h3>
-          <p>${desc}</p>
-        </div>
-        <div class="item-info">
-          <span>⭐ ${rating}/10</span>
-          <span>💰 ${price}€</span>
-          <span>⚖️ ${weight}g</span>
-          <span class="like-container">
-               <button class="like-btn" type="button" aria-label="Like item">♡</button>
-               <span class="like-count">0</span>
-          </span>
-        </div>
-      </div>
-      <div class="item-actions">
-        <button>View Details</button>
-      </div>
-    `;
+      // 4) Peso > 0  (se quiseres aceitar 0, troca para weightNum < 0)
+      const weightNum = Number(weight);
+      if (Number.isNaN(weightNum) || weightNum <= 0) {
+        alert("Weight must be a number greater than 0.");
+        return;
+      }
 
-      // Adicionar ao ecrã
-      collection.appendChild(newCard);
-     
-      // Adiciona o listener ao novo botão "View Details"
-      newCard.querySelector('button').addEventListener('click', () => {
-          window.location.href = 'item.html';
-      });
+      // 5) Imagem obrigatória
+      if (!fileInput.files || !fileInput.files.length) {
+        alert("Please upload an image for the item.");
+        return;
+      }
 
-      // Fechar modal e limpar campos
-      modal.style.display = 'none';
-      document.querySelectorAll('#addItemModal input').forEach(i => i.value = '');
-      uploadedImageURL = "img/default.jpg"; 
-      dropZone.innerHTML = '<p>Drag & drop an image here, or click to select</p>';
+      // Criar novo card
+      const newCard = document.createElement('div');
+      newCard.classList.add('item-card');
+      newCard.dataset.rating  = ratingNum;
+      newCard.dataset.price   = priceNum;
+      newCard.dataset.weight  = weightNum;
+      newCard.dataset.__index = itemsContainer.children.length;
+
+      newCard.innerHTML = `
+        <img src="${uploadedImageURL}" alt="${name}">
+        <div class="item-details">
+          <div class="item-text">
+            <h3>${name}</h3>
+            <p>${desc}</p>
+          </div>
+          <div class="item-info">
+            <span>⭐ ${ratingNum}/10</span>
+            <span>💰 ${priceNum}€</span>
+            <span>⚖️ ${weightNum}g</span>
+            <span class="like-container">
+              <button class="like-btn" type="button" aria-label="Like item">♡</button>
+              <span class="like-count">0</span>
+            </span>
+          </div>
+        </div>
+        <div class="item-actions">
+          <button class="btn-details">View Details</button>
+        </div>
+      `;
+
+      // Adicionar ao ecrã
+      collection.appendChild(newCard);
+
+      // Click em "View Details" → item.html
+      newCard.querySelector('.btn-details').addEventListener('click', () => {
+        window.location.href = 'item.html';
+      });
+
+      // Fechar modal e limpar campos
+      form.reset();
+      uploadedImageURL = "img/default.jpg";
+      dropZone.innerHTML = '<p>Drag & drop an image here, or click to select</p>';
+      modal.style.display = 'none';
     });
+
     
 } // <-- FIM DA CONDIÇÃO DE PROTEÇÃO (if)
 

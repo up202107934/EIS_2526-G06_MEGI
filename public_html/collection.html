@@ -41,20 +41,36 @@
   
   <h1 class="collection-title">Star Wars Miniatures</h1>
   
-<div class="collection-toolbar">
-  <div class="view-toggle" role="group" aria-label="View toggle">
-    <button class="btn-view" data-view="grid" aria-pressed="true" title="Grid view">🔲 Grid</button>
-    <button class="btn-view" data-view="list" aria-pressed="false" title="List view">📃 List</button>
-  </div>
-  <select id="sortSelect">
-    <option value="default">Default</option>
-    <option value="ratingDesc">Importance (High → Low)</option>
-    <option value="ratingAsc">Importance (Low → High)</option>
-    <option value="priceAsc">Price (Low → High)</option>
-    <option value="priceDesc">Price (High → Low)</option>
-    <option value="weightAsc">Weight (Low → High)</option>
-    <option value="weightDesc">Weight (High → Low)</option>
-  </select>
+<div class="collection-toolbar pro">
+  <!-- lado esquerdo: Grid / List -->
+  <div class="toolbar-left">
+    <div class="view-toggle" role="group" aria-label="View toggle">
+      <button class="btn-view chip" data-view="grid" aria-pressed="true" title="Grid view">
+        <span class="icon-grid" aria-hidden="true"></span>
+        <span>Grid</span>
+      </button>
+      <button class="btn-view chip" data-view="list" aria-pressed="false" title="List view">
+        <span class="icon-list" aria-hidden="true"></span>
+        <span>List</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- lado direito: Sort -->
+  <div class="toolbar-right">
+    <label class="field">
+      <span>Sort</span>
+      <select id="sortSelect">
+        <option value="default">Default</option>
+        <option value="ratingDesc">Importance (High → Low)</option>
+        <option value="ratingAsc">Importance (Low → High)</option>
+        <option value="priceAsc">Price (Low → High)</option>
+        <option value="priceDesc">Price (High → Low)</option>
+        <option value="weightAsc">Weight (Low → High)</option>
+        <option value="weightDesc">Weight (High → Low)</option>
+      </select>
+    </label>
+  </div>
 </div>
 
 <section class="collection-items grid-view"><div class="item-card" data-rating="9" data-price="25" data-weight="120">
@@ -252,10 +268,10 @@
       <input type="number" id="itemPrice" min="0" step="0.01" value="0" required>
 
       <label>Weight (g):</label>
-      <input type="number" id="itemWeight" min="0" step="1" value="0">
+      <input type="number" id="itemWeight" min="0" step="1" value="0" required>
 
       <label>Date of acquisition:</label>
-      <input type="date" id="itemDate">
+      <input type="date" id="itemDate" required>
 
       <label for="itemImage">Image:</label>
       <div id="dropZone" class="drop-zone">

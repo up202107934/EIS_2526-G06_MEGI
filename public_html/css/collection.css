@@ -138,52 +138,8 @@ body.dark-mode .navbar-center a {
   text-transform: uppercase;
 }
 
-/* ===== TOOLBAR (GRID/LIST + SORT) =====
-   -> fica por baixo do título, alinhada à direita */
-.collection-toolbar {
-  max-width: 1200px;
-  margin: 0 auto 24px auto;
-  padding: 0 20px;
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  gap: 20px;
-}
-.view-toggle {
-  display: inline-flex;
-  gap: 8px;
-}
-.btn-view {
-  background: #eee;
-  border: 1px solid #ddd;
-  padding: 8px 12px;
-  border-radius: 8px;
-  cursor: pointer;
-  font-size: 14px;
-  transition: all 0.3s;
-}
-.btn-view[aria-pressed="true"] {
-  background: #B22222;
-  color: #fff;
-  border-color: #B22222;
-}
-.btn-view:hover {
-  background: #FF4C4C;
-  color: #fff;
-}
 
-/* SORT */
-.sort-wrap {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-#sortSelect {
-  padding: 8px 10px;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  font-size: 14px;
-}
+
 
 /* ===== GRID DOS ITENS =====
    -> grelha responsiva (4 colunas desktop) */
@@ -725,4 +681,258 @@ body.dark-mode .footer {
 body.dark-mode .navbar--lo{ background:#111; }
 body.dark-mode .navbar--lo .search{ background: rgba(255,255,255,.12); box-shadow: 0 10px 24px rgba(0,0,0,.4); }
 body.dark-mode .navbar--lo .search input{ color:#eee; }
+
+
+/* ===========================
+   ADD NEW ITEM MODAL – estilo igual ao Create Collection
+=========================== */
+
+/* Só afeta o modal desta página */
+#addItemModal .modal-content {
+  background: #fff;
+  padding: 25px;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 420px;
+  text-align: left;
+  position: relative;
+  font-family: "Poppins", sans-serif;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.25);
+}
+
+/* Título vermelho, igual ao das coleções */
+#addItemModal h2 {
+  color: #B22222;
+  margin-bottom: 18px;
+  font-size: 22px;
+  font-weight: 700;
+}
+
+/* Labels mais consistentes */
+#addItemModal label {
+  display: block;
+  font-size: 14px;
+  font-weight: 500;
+  margin: 8px 0 4px;
+  color: #444;
+}
+
+/* Inputs iguais aos do user/home */
+#addItemModal input[type="text"],
+#addItemModal input[type="number"],
+#addItemModal input[type="date"] {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 10px 14px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  font-size: 15px;
+  font-family: "Poppins", sans-serif;
+  margin-bottom: 8px;
+}
+
+#addItemModal input:focus {
+  outline: none;
+  border-color: #B22222;
+}
+
+/* Dropzone igual à das coleções */
+#addItemModal .drop-zone {
+  border: 2px dashed #B22222;
+  border-radius: 10px;
+  padding: 20px;
+  text-align: center;
+  background-color: #fff7f7;
+  cursor: pointer;
+  transition: background-color 0.3s, border-color 0.3s;
+  margin-top: 4px;
+  margin-bottom: 12px;
+}
+
+#addItemModal .drop-zone:hover {
+  background-color: #ffeaea;
+  border-color: #FF4C4C;
+}
+
+#addItemModal .drop-zone.dragover {
+  background-color: #ffefef;
+  border-color: #FF4C4C;
+}
+
+/* Botões no fundo alinhados e bonitinhos */
+#addItemModal .modal-buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+#addItemModal .modal-buttons button {
+  padding: 8px 18px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-family: "Poppins", sans-serif;
+  font-size: 14px;
+}
+
+/* Save = vermelho, Cancel = cinza (igual ao resto do site) */
+#saveItem {
+  background-color: #B22222;
+  color: #fff;
+}
+#saveItem:hover {
+  background-color: #FF4C4C;
+}
+
+#cancelItem {
+  background-color: #ccc;
+  color: #333;
+}
+#cancelItem:hover {
+  background-color: #bbb;
+}
+
+/* Dark mode para o modal */
+body.dark-mode #addItemModal .modal-content {
+  background-color: #1e1e1e;
+  color: #f1f1f1;
+  border: 1px solid #333;
+}
+
+body.dark-mode #addItemModal input[type="text"],
+body.dark-mode #addItemModal input[type="number"],
+body.dark-mode #addItemModal input[type="date"] {
+  background-color: #2a2a2a;
+  border-color: #444;
+  color: #f1f1f1;
+}
+
+body.dark-mode #addItemModal .drop-zone {
+  background-color: #2a2a2a;
+  border-color: #B22222;
+}
+body.dark-mode #addItemModal .drop-zone:hover {
+  background-color: #333;
+}
+
+
+/* ===== TOOLBAR DA COLLECTION – igual aos Events ===== */
+
+/* Card branco com sombra */
+.collection-toolbar.pro {
+  max-width: 1200px;
+  margin: 0 auto 24px;
+  padding: 12px 16px;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 6px 16px rgba(0,0,0,0.08);
+
+  display: grid;
+  grid-template-columns: 1fr auto; /* esquerda | direita */
+  align-items: center;
+  gap: 16px;
+}
+
+.toolbar-left  { justify-self: start; }
+.toolbar-right { justify-self: end;  }
+
+/* botões Grid / List em “chip” redondinho */
+.collection-toolbar .view-toggle {
+  display: flex;
+  gap: 10px;
+}
+
+.btn-view.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  border: 1px solid #e1e3e8;
+  border-radius: 999px;
+  background: #f7f7f9;
+  color: #2b2d42;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 14px;
+  transition: all 0.2s ease;
+}
+
+.btn-view.chip:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+}
+
+/* ativo (aria-pressed="true") em vermelho, como nos Events */
+.btn-view[aria-pressed="true"] {
+  background: #B22222;
+  color: #fff;
+  border-color: #B22222;
+}
+
+/* ícones desenhados em CSS, iguais aos de events.css */
+.icon-grid,
+.icon-list {
+  width: 16px;
+  height: 16px;
+  display: inline-block;
+}
+
+/* 4 quadradinhos */
+.icon-grid {
+  background:
+    linear-gradient(currentColor,currentColor) 0   0/7px 7px no-repeat,
+    linear-gradient(currentColor,currentColor) 9px 0/7px 7px no-repeat,
+    linear-gradient(currentColor,currentColor) 0   9px/7px 7px no-repeat,
+    linear-gradient(currentColor,currentColor) 9px 9px/7px 7px no-repeat;
+  border-radius: 3px;
+}
+
+/* 3 linhas */
+.icon-list {
+  background:
+    linear-gradient(currentColor,currentColor) left  2px/16px 2px no-repeat,
+    linear-gradient(currentColor,currentColor) left  7px/16px 2px no-repeat,
+    linear-gradient(currentColor,currentColor) left 12px/16px 2px no-repeat;
+}
+
+/* “Sort” em pastilha igual ao Sort/Status dos Events */
+.collection-toolbar .field {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #f7f7f9;
+  padding: 6px 10px;
+  border-radius: 10px;
+  border: 1px solid #e1e3e8;
+}
+
+.collection-toolbar .field > span {
+  font-weight: 600;
+  color: #2b2d42;
+}
+
+.collection-toolbar .field select {
+  border: 0;
+  background: transparent;
+  outline: none;
+  font-weight: 600;
+  color: #2b2d42;
+  padding: 6px 4px;
+}
+
+/* Responsivo: empilha em ecrãs pequenos */
+@media (max-width: 900px) {
+  .collection-toolbar.pro {
+    grid-template-columns: 1fr;
+    gap: 10px;
+    padding: 10px 12px;
+  }
+
+  .toolbar-right {
+    justify-self: stretch;
+    display: flex;
+    justify-content: flex-end;
+  }
+}
 
