@@ -646,3 +646,8 @@ body.dark-mode .footer {
 }
 
 html { scroll-behavior: smooth; }
+
+#myCollectionsSection {
+    scroll-margin-top: 90px;
+}
+
