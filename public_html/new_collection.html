@@ -54,7 +54,7 @@
     <button class="btn-view" data-view="list" aria-pressed="false" title="List view">📃 List</button>
   </div>
 
-  <!-- SORT BY (colado aqui) -->
+  <!-- SORT + CATEGORY -->
   <div class="sort-wrap">
     <label for="sortSelect">Sort by:</label>
     <select id="sortSelect">
@@ -63,8 +63,19 @@
       <option value="priceAsc">Price (Low → High)</option>
       <option value="priceDesc">Price (High → Low)</option>
     </select>
-  </div>
+
+    <label for="categoryFilter" class="category-label">Category:</label>
+         <label class="field">
+        <span>Category</span>
+        <select id="categoryFilter">
+          <option value="all">All Categories</option>
+          <option value="Star Wars Miniatures">Star Wars Miniatures</option>
+          <option value="Comic Books">Comic Books</option>
+        </select>
+      </label>
+    </div>
 </div>
+
 
   <!-- Itens da coleção -->
   <section class="collection-items grid-view">

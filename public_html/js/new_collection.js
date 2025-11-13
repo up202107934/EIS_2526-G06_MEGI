@@ -63,6 +63,27 @@
   }
 
 
+/* === CATEGORY FILTER === */
+const categorySelect = document.getElementById("categoryFilter");
+
+if (categorySelect) {
+  categorySelect.addEventListener("change", () => {
+    const selected = categorySelect.value;
+    const cards = document.querySelectorAll(".item-card");
+
+    cards.forEach(card => {
+      const cat = card.dataset.category || "uncategorized";
+      if (selected === "all" || cat === selected) {
+        card.style.display = "";
+      } else {
+        card.style.display = "none";
+      }
+    });
+  });
+}
+
+
+
 // ----- VIEW TOGGLE (Grid / List) -----
 const viewButtons = document.querySelectorAll('.btn-view');
 const itemsSection = document.querySelector('.collection-items');
