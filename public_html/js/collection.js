@@ -72,6 +72,37 @@
   }
 
 
+
+
+    /* === CATEGORY FILTER (FINAL) === */
+const categorySelect = document.getElementById("categoryFilter");
+
+if (categorySelect) {
+  categorySelect.addEventListener("change", () => {
+    const selected = categorySelect.value.toLowerCase();
+    const cards = document.querySelectorAll(".item-card");
+
+    cards.forEach(card => {
+      const category = (card.dataset.category || "").toLowerCase();
+
+      // "all" mostra tudo
+      if (selected === "all" || category === selected) {
+        card.style.display = "";
+      } else {
+        card.style.display = "none";
+      }
+    });
+  });
+}
+
+
+
+
+
+
+
+
+
 // ----- VIEW TOGGLE (Grid / List) -----
 const viewButtons = document.querySelectorAll('.btn-view');
 const itemsSection = document.querySelector('.collection-items');
