@@ -7,205 +7,119 @@
     <link rel="stylesheet" href="css/user.css" />
 </head>
 <body>
-    
-<!-- ===== Create New Collection ===== -->
-<div id="createCollectionModal" class="modal">
-  <div class="modal-content">
-    <h2>Create New Collection</h2>
 
-    <label for="collectionName">Name:</label>
-    <input type="text" id="collectionName" placeholder="Enter collection name" required>
-    
-    <label for="collectionDescription">Description:</label>
-    <input type="text" id="collectionDescription" placeholder="Enter collection description" required>
-
-    <label for="collectionImage">Image:</label>
-    <div id="dropZoneCollection" class="drop-zone">
-      <p>Drag & drop an image here, or click to select</p>
-      <input type="file" id="collectionImage" accept="image/*" hidden>
+  <!-- ===== NAVBAR (igual à dos Events) ===== -->
+  <header class="navbar">
+    <div class="navbar-logo">
+      <a href="home.html">MyCollections</a>
     </div>
-      <img id="collectionPreview" src="" alt="Preview" style="display:none; max-width:100%; margin-top:10px; border-radius:8px;">
 
-    <div class="modal-buttons">
-      <button id="saveCollection">💾 Save</button>
-      <button id="cancelCollection">❌ Cancel</button>
+    <nav class="navbar-links">
+      <a href="events.html" class="nav-link">Events</a>
+      <a href="home.html" class="nav-link">My Collections</a>
+      <a href="team.html" class="nav-link">Team</a>
+    </nav>
+
+    <div class="navbar-actions">
+      <form class="navbar-search" action="#" method="GET">
+        <input type="search" name="q" placeholder="Search events..." />
+        <button type="submit" class="search-btn" aria-label="Search">🔎</button>
+      </form>
+
+      <a href="user.html" class="navbar-avatar-wrapper">
+        <img src="img/user.jpg" alt="User avatar" class="navbar-avatar">
+      </a>
+
+      <button id="themeToggle" class="theme-toggle" type="button">🌙</button>
+    </div>
+  </header>
+
+  <!-- ===== Create New Collection ===== -->
+  <div id="createCollectionModal" class="modal">
+    <div class="modal-content">
+      <h2>Create New Collection</h2>
+
+      <label for="collectionName">Name:</label>
+      <input type="text" id="collectionName" placeholder="Enter collection name" required>
+
+      <label for="collectionDescription">Description:</label>
+      <input type="text" id="collectionDescription" placeholder="Enter collection description" required>
+
+      <label for="collectionImage">Image:</label>
+      <div id="dropZoneCollection" class="drop-zone">
+        <p>Drag & drop an image here, or click to select</p>
+        <input type="file" id="collectionImage" accept="image/*" hidden>
+      </div>
+      <img id="collectionPreview" src="" alt="Preview"
+           style="display:none; max-width:100%; margin-top:10px; border-radius:8px;">
+
+      <div class="modal-buttons">
+        <button id="saveCollection">💾 Save</button>
+        <button id="cancelCollection">❌ Cancel</button>
+      </div>
     </div>
   </div>
-</div>
 
+  <div class="page-container">
+    <!-- JÁ NÃO HÁ SIDEBAR AQUI -->
 
-<div class="page-container">
-  <!-- Sidebar -->
-  <aside class="sidebar">
-  <h2>Menu</h2>
-    <a href="user.html" class="nav-item active">👤 User Info</a>
-    <a href="home.html" class="nav-item">📦 Home Page </a>
-    <a href="events.html" class="nav-item">📅 Events</a>
-    <a href="team.html" class="nav-item">👥 Team</a>
-    <button id="themeToggle" class="theme-toggle">🌙</button>
-
-  </aside>
-
-
-  <!-- Main content -->
-  <main class="main-content">
-    <div class="profile-header">
-      <div class="profile-photo">
-        <img src="img/user.jpg" alt="User Photo" id="profileImage">
-        <div class="edit-icon" id="editPhotoBtn">✎</div>
-      </div>
-      <div>
-        <h1 id="displayName">Joana Ferreira</h1>
-        <p id="displayEmail">up202106097@up.pt</p>
-      </div>
-    </div>
-
-    <form id="userForm" class="form-container">
-      <div class="form-row">
-        <div class="form-group">
-          <label for="firstName">First Name</label>
-          <input type="text" id="firstName" value="Joana" required>
+    <!-- Main content -->
+    <main class="main-content">
+      <div class="profile-header">
+        <div class="profile-photo">
+          <img src="img/user.jpg" alt="User Photo" id="profileImage">
+          <div class="edit-icon" id="editPhotoBtn">✎</div>
         </div>
-        <div class="form-group">
-          <label for="lastName">Last Name</label>
-          <input type="text" id="lastName" value="Ferreira" required>
+        <div>
+          <h1 id="displayName">Joana Ferreira</h1>
+          <p id="displayEmail">up202106097@up.pt</p>
         </div>
       </div>
 
-      <div class="form-row">
-        <div class="form-group">
-          <label for="email">Email</label>
-          <input type="email" id="email" value="up202106097@up.pt" required>
+      <form id="userForm" class="form-container">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="firstName">First Name</label>
+            <input type="text" id="firstName" value="Joana" required>
+          </div>
+          <div class="form-group">
+            <label for="lastName">Last Name</label>
+            <input type="text" id="lastName" value="Ferreira" required>
+          </div>
         </div>
-        <div class="form-group">
-          <label for="birth">Date of Birth</label>
-          <input type="date" id="birth" value="2002-03-14">
-        </div>
-      </div>
 
-      <button type="submit" class="btn-save">Save Changes</button>
-      <span class="status" id="statusMsg">✔ Changes saved!</span>
-    </form>
-      
-      
-      
+        <div class="form-row">
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" id="email" value="up202106097@up.pt" required>
+          </div>
+          <div class="form-group">
+            <label for="birth">Date of Birth</label>
+            <input type="date" id="birth" value="2002-03-14">
+          </div>
+        </div>
+
+        <button type="submit" class="btn-save">Save Changes</button>
+        <span class="status" id="statusMsg">✔ Changes saved!</span>
+      </form>
+
       <!-- Wishlist Section -->
-    <section class="wishlist-section">
+      <section class="wishlist-section">
         <h2>My Wishlist ❤️</h2>
         <div id="wishlist-container" class="wishlist-grid"></div>
-    </section>
-      
-          <!-- My Collections -->
-    <section class="collections-section" id="minhas-colecoes">
-      <h2>My Collections</h2>
-       <div class="collections-grid" id="userCollections">
-          
-      <!-- Coleção 1 -->
-        <div class="collection-card">
-        <img src="img/starwars.jpg" alt="Star Wars Miniatures">
-        <h3>Star Wars Miniatures</h3>
-        <p>5 items</p>
+      </section>
 
-        <div class="mini-carousel">
-          <div class="mini-track">
-            <div class="mini-item"><img src="" alt="Darth Vader"></div>
-            <div class="mini-item"><img src="" alt="Luke Skywalker"></div>
-            <div class="mini-item"><img src="" alt="Yoda"></div>
-            <div class="mini-item"><img src="" alt="Han Solo"></div>
-            <div class="mini-item"><img src="" alt="Obi-Wan"></div>
-          </div>
+      <!-- My Collections -->
+      <section class="collections-section" id="minhas-colecoes">
+        <h2>My Collections</h2>
+        <div class="collections-grid" id="userCollections">
+          <!-- (mantém aqui exatamente as tuas collection-card todas) -->
+          <!-- ... TODO O TEU CÓDIGO DAS COLEÇÕES ... -->
         </div>
-
-        <a href="collection.html" class="btn-view">View Collection</a>
-        <button class="btn-remove">🗑</button>
-
-      </div>
-
-<!-- Coleção 2 -->
-        <div class="collection-card">
-        <img src="img/comics.jpg" alt="Comic Books">
-        <h3>Comic Books</h3>
-        <p>8 items</p>
-
-        <div class="mini-carousel">
-          <div class="mini-track">
-            <div class="mini-item"><img src="img/spiderman.jpg" alt="Spider-Man"></div>
-            <div class="mini-item"><img src="img/batman.jpg" alt="Batman"></div>
-            <div class="mini-item"><img src="img/avengers.jpg" alt="Avengers #4"></div>
-            <div class="mini-item"><img src="img/superman.jpg" alt="Superman #75"></div>
-            <div class="mini-item"><img src="img/xmen.jpg" alt="X-Men #1"></div>
-          </div>
-        </div>
-
-        <a href="collection.html" class="btn-view">View Collection</a>
-        <button class="btn-remove">🗑</button>
-        </div>
-
-      <!-- Coleção 3 -->
-        <div class="collection-card">
-        <img src="img/coins.jpg" alt="Coins">
-        <h3>Coins</h3>
-        <p>10 items</p>
-
-        <div class="mini-carousel">
-          <div class="mini-track">
-            <div class="mini-item"><img src="img/1euro2020.jpg" alt="1 Euro 2020"></div>
-            <div class="mini-item"><img src="img/50cent1999.jpg" alt="50 Cent 1999"></div>
-            <div class="mini-item"><img src="img/2euro2015.jpg" alt="2 Euro 2015"></div>
-            <div class="mini-item"><img src="img/1dollar2000.jpg" alt="1 Dollar 2000"></div>
-            <div class="mini-item"><img src="img/10cent2010.jpg" alt="10 Cent 2010"></div>
-          </div>
-        </div>
-
-        <a href="collection.html" class="btn-view">View Collection</a>
-        <button class="btn-remove">🗑</button>
-        </div>
-
-      <!-- Coleção 4 -->
-        <div class="collection-card">
-        <img src="img/stamps.jpg" alt="Stamps">
-        <h3>Stamps</h3>
-        <p>12 items</p>
-
-        <div class="mini-carousel">
-          <div class="mini-track">
-            <div class="mini-item"><img src="img/portugal1960.jpg" alt="Portugal 1960"></div>
-            <div class="mini-item"><img src="img/brazil1980.jpg" alt="Brazil 1980"></div>
-            <div class="mini-item"><img src="img/usa1950.jpg" alt="USA 1950"></div>
-            <div class="mini-item"><img src="img/germany1975.jpg" alt="Germany 1975"></div>
-            <div class="mini-item"><img src="img/france1990.jpg" alt="France 1990"></div>
-          </div>
-        </div>
-
-        <a href="collection.html" class="btn-view">View Collection</a>
-        <button class="btn-remove">🗑</button>
-        </div>
-      
-      <!-- Coleção 5 -->
-    <div class="collection-card">
-      <img src="img/trains.jpg" alt="Locomotive Miniatures">
-      <h3>Locomotive Miniatures</h3>
-      <p>6 items</p>
-
-      <div class="mini-carousel">
-        <div class="mini-track">
-          <div class="mini-item"><img src="img/trainA.jpg" alt="Train A"></div>
-          <div class="mini-item"><img src="img/trainB.jpg" alt="Train B"></div>
-          <div class="mini-item"><img src="img/trainC.jpg" alt="Train C"></div>
-          <div class="mini-item"><img src="img/trainD.jpg" alt="Train D"></div>
-          <div class="mini-item"><img src="img/trainE.jpg" alt="Train E"></div>
-        </div>
-      </div>
-      <a href="collection.html" class="btn-view">View Collection</a>
-      <button class="btn-remove">🗑</button>
-    </div>
-    </div>
-    <button class="btn-add" id="openModal">+ Create New Collection</button>
-    </section>
-
-  </main>
-  
-</div>
+        <button class="btn-add" id="openModal">+ Create New Collection</button>
+      </section>
+    </main>
+  </div>
 
   <!-- Modal Change Photo -->
   <div id="photoModal" class="modal">
@@ -215,11 +129,13 @@
       <input type="file" id="photoInput" accept="image/*">
     </div>
   </div>
-<script src="js/user.js"></script>
 
-<footer class="footer">
-  <p>© 2025 MyCollections | All rights reserved.</p>
-</footer>
+  <script src="js/user.js"></script>
+
+  <footer class="footer">
+    <p>© 2025 MyCollections | All rights reserved.</p>
+  </footer>
 
 </body>
+
 </html>

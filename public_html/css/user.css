@@ -3,6 +3,126 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to c
 Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/css.css to edit this template
 */
 
+/* ===== NAVBAR (igual aos Events) ===== */
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #2b2d42;
+  padding: 15px 40px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.navbar-logo a {
+  font-size: 24px;
+  font-weight: 700;
+  color: #edf2f4;
+  text-decoration: none;
+}
+
+.navbar-links {
+  display: flex;
+  gap: 40px;
+  font-size: 18px;
+}
+
+.navbar-links .nav-link {
+  color: #edf2f4;
+  text-decoration: none;
+  position: relative;
+  padding-bottom: 4px;
+}
+
+.navbar-links .nav-link:hover,
+.navbar-links .nav-link.nav-link-active {
+  font-weight: 600;
+}
+
+.navbar-links .nav-link.nav-link-active::after,
+.navbar-links .nav-link:hover::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 2px;
+  background: #edf2f4;
+  border-radius: 999px;
+}
+
+.navbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+/* search bubble da direita */
+.navbar-search {
+  display: flex;
+  align-items: center;
+  background: #ffffff;
+  border-radius: 999px;
+  padding: 6px 14px;
+  min-width: 260px;
+}
+
+.navbar-search input {
+  border: none;
+  outline: none;
+  flex: 1;
+  font-size: 14px;
+  background: transparent;
+}
+
+.navbar-search .search-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 18px;
+}
+
+.navbar-avatar-wrapper {
+  display: block;
+}
+
+.navbar-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #ffffff;
+}
+
+.theme-toggle {
+  background: transparent;
+  border: none;
+  font-size: 22px;
+  cursor: pointer;
+}
+
+/* Dark mode na navbar */
+body.dark-mode .navbar {
+  background-color: #111827;
+}
+
+body.dark-mode .navbar-logo a,
+body.dark-mode .navbar .nav-link {
+  color: #f9fafb;
+}
+
+body.dark-mode .navbar-search {
+  background-color: #111;
+}
+
+body.dark-mode .navbar-search input {
+  color: #f9fafb;
+}
+
+
+
+
 /* ===== USER PAGE ===== */
 body {
   margin: 0;
@@ -15,9 +135,12 @@ body {
 }
 
 .page-container {
-  display: flex;
   flex-grow: 1;
+  max-width: 1400px;
+  margin: 40px auto 60px;
+  padding: 0 20px;
 }
+
 a { text-decoration: none; color: inherit; }
 
 /* ====== WhishList ====== */
@@ -113,10 +236,11 @@ body.dark-mode .wishlist-item {
 /* ====== MAIN CONTENT ====== */
 .main-content {
   flex: 1;
-  padding: 50px 70px;
+  padding: 0;
   display: flex;
   flex-direction: column;
 }
+
 
 .profile-header {
   display: flex;
@@ -171,7 +295,9 @@ body.dark-mode .wishlist-item {
   padding: 35px;
   border-radius: 14px;
   box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-  max-width: 800px;
+  max-width: 1100px;   /* Aumenta o tamanho */
+  width: 100%;         /* Garante que preenche bem */
+  margin: 0 auto;      /* C E N T R A */
 }
 
 .form-row {
@@ -328,12 +454,15 @@ input:focus {
 }
 
 .collections-grid {
-  display: grid !important;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
   gap: 30px;
   justify-items: center;
   width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
 }
+
 
 /* ===== COLLECTION CARD ===== */
 .collection-card {
