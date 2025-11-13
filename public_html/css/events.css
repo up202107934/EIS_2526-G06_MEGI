@@ -1382,3 +1382,33 @@ body.dark-mode .footer {
     background-color: #111;
     color: #ccc;
 }
+
+
+
+
+
+
+/* --- Navbar para páginas sem login (body.no-auth) --- */
+
+/* ---- PAGE WITHOUT LOGIN ---- */
+body.no-auth .navbar-avatar {
+  display: none !important;
+}
+
+body.no-auth .btn-signin {
+  display: inline-block;
+  background: #B22222;
+  color: #fff;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-weight: 700;
+  text-decoration: none;
+  margin-left: 10px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+  transition: all .2s;
+}
+
+body.no-auth .btn-signin:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
