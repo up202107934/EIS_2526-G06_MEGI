@@ -7,11 +7,28 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/css.css to edit this t
     Author     : hp
 */
 
-/* ===== NAVBAR COMPLETA – apenas para COLLECTIONS ===== */
+/* ===== NAVBAR – igual aos Events ===== */
+
+/* RESET GLOBAL SÓ PARA A COLLECTION - supostamnete esta parte deveria tirar o espaçamento em cima mas não está a tirar*/ 
+html, body {
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+body {
+  background: #ffffff;
+  font-family: Arial, sans-serif;
+}
+
+/* garante que a navbar não herda nenhuma margem estranha */
 .navbar {
-  display: grid;
-  grid-template-columns: 1fr auto 1fr; /* esquerda | centro | direita */
+  margin: 0 !important;
+}
+
+.navbar {
+  display: flex;
   align-items: center;
+  justify-content: space-between;
   background-color: #2b2d42;
   padding: 15px 40px;
   position: sticky;
@@ -19,12 +36,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/css.css to edit this t
   z-index: 100;
 }
 
-/* Grupos */
-.navbar-left   { justify-self: start; }
-.navbar-center { justify-self: center; display: flex; gap: 24px; }
-.navbar-right  { justify-self: end; display: flex; align-items: center; gap: 14px; }
-
-/* Logo */
+/* logo da navbar (texto MyCollections) */
 .navbar-logo a {
   font-size: 24px;
   font-weight: bold;
@@ -32,19 +44,31 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/css.css to edit this t
   text-decoration: none;
 }
 
-/* Links centrais */
-.navbar-center a {
+
+.navbar-links {
+  display: flex;
+  gap: 24px;
+  align-items: center;
+}
+
+.navbar-links a {
   color: #edf2f4;
   text-decoration: none;
   font-weight: 600;
   padding: 6px 10px;
   border-radius: 8px;
 }
-.navbar-center a:hover {
+
+.navbar-links a:hover {
   background: rgba(255,255,255,0.1);
 }
 
-/* Pesquisa */
+.navbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
 .navbar-search {
   display: flex;
   align-items: center;
@@ -54,12 +78,14 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/css.css to edit this t
   padding: 6px 10px;
   box-shadow: 0 2px 6px rgba(0, 80, 255, 0.15);
 }
+
 .navbar-search input {
   border: none;
   outline: none;
   padding: 6px 8px;
   width: 220px;
 }
+
 .search-btn {
   background: none;
   border: none;
@@ -68,13 +94,13 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/css.css to edit this t
   cursor: pointer;
 }
 
-/* Avatar e dark mode */
 .navbar-avatar {
   width: 40px;
   height: 40px;
   border-radius: 50%;
   border: 2px solid #edf2f4;
 }
+
 .theme-toggle {
   background: none;
   border: none;
@@ -83,31 +109,12 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/css.css to edit this t
   cursor: pointer;
   transition: transform 0.2s, color 0.2s;
 }
+
 .theme-toggle:hover {
   transform: scale(1.2);
   color: #FFD700;
 }
 
-/* Responsivo */
-@media (max-width: 700px) {
-  .navbar {
-    grid-template-columns: 1fr;
-    row-gap: 10px;
-    padding: 10px 16px;
-  }
-  .navbar-center { justify-self: center; }
-  .navbar-right  { justify-self: center; flex-wrap: wrap; }
-  .navbar-search input { width: 100%; }
-}
-
-/* DARK MODE */
-body.dark-mode .navbar {
-  background-color: #111 !important;
-}
-body.dark-mode .navbar-logo a,
-body.dark-mode .navbar-center a {
-  color: #FFD700 !important;
-}
 
 /* ===== COLLECTION PAGE ===== */
 

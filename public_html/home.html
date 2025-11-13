@@ -9,27 +9,51 @@
 
 <body>
 
-  <!-- ===== NAVBAR ===== -->
-  <nav class="navbar">
-    <div class="navbar-logo">
-      <a href="home.html">MyCollections</a>
-    </div>
+<!-- ===== NAVBAR ===== -->
+<header class="navbar">
+  <!-- LADO ESQUERDO: LOGO -->
+  <div class="navbar-logo">
+    <a href="home.html">MyCollections</a>
+  </div>
 
+  <!-- CENTRO: LINKS (IGUAL AOS EVENTS) -->
+  <nav class="navbar-center">
+    <a href="events.html">Events</a>
+    <a href="user.html#minhas-colecoes">My Collections</a>
+  </nav>
+
+  <!-- DIREITA: SEARCH + AVATAR + LUA -->
+  <div class="navbar-right">
     <form class="navbar-search" id="searchForm" action="#" method="GET">
-      <input type="text" id="searchInput" name="q" placeholder="Search collections, items..." required />
-      <button type="submit" class="search-btn">🔍</button>
+      <input
+        type="text"
+        id="searchInput"
+        name="q"
+        placeholder="Search collections, items..."
+        required
+      />
+      <button type="submit" class="search-btn">🔎</button>
     </form>
 
     <div class="navbar-user">
-      <img src="img/user.jpg" alt="User" class="navbar-avatar" id="avatarButton">
+      <img
+        src="img/user.jpg"
+        alt="User"
+        class="navbar-avatar"
+        id="avatarButton"
+      />
 
       <div class="profile-dropdown" id="profileDropdown">
         <a href="user.html">👤 Ver Perfil</a>
         <a href="home_withoutlogin.html">🚪 Log Out</a>
       </div>
     </div>
+
     <button id="themeToggle" class="theme-toggle">🌙</button>
-  </nav>
+  </div>
+</header>
+
+
 
   <!-- ===== HERO SECTION ===== -->
   <section class="hero">
