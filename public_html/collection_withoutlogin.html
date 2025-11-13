@@ -34,21 +34,34 @@
   
   <h1 class="collection-title">Star Wars Miniatures</h1>
   
-<div class="collection-toolbar">
-  <div class="view-toggle" role="group" aria-label="View toggle">
-    <button class="btn-view" data-view="grid" aria-pressed="true" title="Grid view">🔲 Grid</button>
-    <button class="btn-view" data-view="list" aria-pressed="false" title="List view">📃 List</button>
-  </div>
-  <select id="sortSelect">
-    <option value="default">Default</option>
-    <option value="ratingDesc">Importance (High → Low)</option>
-    <option value="ratingAsc">Importance (Low → High)</option>
-    <option value="priceAsc">Price (Low → High)</option>
-    <option value="priceDesc">Price (High → Low)</option>
-    <option value="weightAsc">Weight (Low → High)</option>
-    <option value="weightDesc">Weight (High → Low)</option>
-  </select>
+<div class="collection-toolbar pro">
+  <div class="toolbar-left">
+    <div class="view-toggle" role="group" aria-label="View toggle">
+      <button class="btn-view chip" data-view="grid" aria-pressed="true" title="Grid view">
+        <span class="icon-grid"></span> Grid
+      </button>
+      <button class="btn-view chip" data-view="list" aria-pressed="false" title="List view">
+        <span class="icon-list"></span> List
+      </button>
+    </div>
+  </div>
+
+  <div class="toolbar-right">
+    <div class="field">
+      <span>Sort:</span>
+      <select id="sortSelect">
+        <option value="default">Default</option>
+        <option value="ratingDesc">Importance (High → Low)</option>
+        <option value="ratingAsc">Importance (Low → High)</option>
+        <option value="priceAsc">Price (Low → High)</option>
+        <option value="priceDesc">Price (High → Low)</option>
+        <option value="weightAsc">Weight (Low → High)</option>
+        <option value="weightDesc">Weight (High → Low)</option>
+      </select>
+    </div>
+  </div>
 </div>
+
 
 <section class="collection-items grid-view"><div class="item-card" data-rating="9" data-price="25" data-weight="120">
     <img src="img/luke.jpg" alt="Miniature of Luke Skywalker - Rebel Hero">
@@ -198,7 +211,7 @@ s     </div>
 
 
   <script src="js/data.js"></script>
-  <script src="js/collection.js"></script>
+  <script src="js/collection_withoutlogin.js"></script>
 
 <footer class="footer">
   <p>© 2025 MyCollections | All rights reserved.</p>

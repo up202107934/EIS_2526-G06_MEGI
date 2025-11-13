@@ -1,16 +1,7 @@
 /* * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/javascript.js to edit this template
  */
-   const collectionId = new URLSearchParams(window.location.search).get("id");
-    const allCollections = JSON.parse(localStorage.getItem("collections") || "[]");
-    const currentCollection = allCollections.find(c => c.id === collectionId);
-
-    // Seleciona o botão Add Item (se existir)
-    const pageAddBtn = document.querySelector(".add-item-btn");
-
-    if (pageAddBtn && (!currentCollection || !currentCollection.ownedByUser)) {
-      pageAddBtn.style.display = "none";
-    }
+    
 
   // ----- SORTING (rating/price) -----
   const itemsContainer = document.querySelector('.collection-items');

@@ -46,7 +46,7 @@
   <h1 class="collection-title">Star Wars Miniatures</h1>
   <!-- Toolbar: alternar vista -->
   
-<div class="collection-toolbar">
+<div class="collection-toolbar pro">
   <div class="view-toggle" role="group" aria-label="View toggle">
     <button class="btn-view" data-view="grid" aria-pressed="true" title="Grid view">🔲 Grid</button>
     <button class="btn-view" data-view="list" aria-pressed="false" title="List view">📃 List</button>
@@ -74,38 +74,44 @@
 <div id="addItemModal" class="modal">
   <div class="modal-content">
     <h2>Add New Item</h2>
-    <label>Name:</label>
-    <input type="text" id="itemName" placeholder="Enter item name">
 
-    <label>Description:</label>
-    <input type="text" id="itemDesc" placeholder="Short description">
+    <form id="addItemForm">
+      <label>Name:</label>
+      <input type="text" id="itemName" placeholder="Enter item name">
 
-    <label>Importance (1–10):</label>
-    <input type="number" id="itemRating" min="1" max="10" value="1">
+      <label>Description:</label>
+      <input type="text" id="itemDesc" placeholder="Short description">
 
-    <label>Price (€):</label>
-    <input type="number" id="itemPrice" min="0" step="0.01" value="0">
+      <label>Importance (1–10):</label>
+      <input type="number" id="itemRating" min="1" max="10" value="1">
 
-    <label>Date of acquisition:</label>
-    <input type="date" id="itemDate">
-    
-    <label for="itemImage">Image:</label>
-        <div id="dropZone" class="drop-zone">
-            <p>Drag & drop an image here, or click to select</p>
-            <input type="file" id="itemImage" accept="image/*" hidden>
-        </div>
+      <label>Price (€):</label>
+      <input type="number" id="itemPrice" min="0" step="0.01" value="0">
 
-    <div class="modal-buttons">
-      <button id="saveItem">💾 Save</button>
-      <button id="cancelItem">❌ Cancel</button>
-    </div>
+      <label>Weight (g):</label>
+      <input type="number" id="itemWeight" min="1" step="1" value="1">
+
+      <label>Date of acquisition:</label>
+      <input type="date" id="itemDate">
+
+      <label for="itemImage">Image:</label>
+      <div id="dropZone" class="drop-zone">
+        <p>Drag & drop an image here, or click to select</p>
+        <input type="file" id="itemImage" accept="image/*" hidden>
+      </div>
+
+      <div class="modal-buttons">
+        <button type="submit" id="saveItem">💾 Save</button>
+        <button type="button" id="cancelItem">❌ Cancel</button>
+      </div>
+    </form>
   </div>
 </div>
+
  
  
   <!-- Botão Add Item -->
   <button class="add-item-btn">➕ Add Item</button>
-  <script src="js/collection.js"></script>
 
 
 <script>
@@ -119,7 +125,7 @@
   }
  </script>
  
-  <script src="js/collection.js"></script>
+  <script src="js/new_collection.js"></script>
 
 </body>
 </html>

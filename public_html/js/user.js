@@ -8,10 +8,7 @@ const STORAGE_KEY = "collections";
 const $  = (sel, root = document) => root.querySelector(sel);
 const $$ = (sel, root = document) => Array.from(root.querySelectorAll(sel));
 
-/**
- * Lê JSON seguro do localStorage.
- * Usa: safeJSON("collections", []) -> nunca rebenta mesmo com storage vazio.
- */
+
 const safeJSON = (key, fallback) => {
   try {
     const raw = localStorage.getItem(key);
@@ -261,7 +258,7 @@ document.addEventListener("DOMContentLoaded", () => {
         </div>
 
         <div style="display:flex; gap:8px; justify-content:center; margin-top:10px;">
-          <a href="collection.html?id=${encodeURIComponent(c.id)}" class="btn-view">View Collection</a>
+          <a href="new_collection.html?id=${encodeURIComponent(c.id)}" class="btn-view">View Collection</a>
           <button class="btn-remove" data-remove="${c.id}">🗑</button>
         </div>
       </div>

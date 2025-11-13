@@ -157,28 +157,33 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     topGrid.innerHTML = recent.map(c => {
-      const img        = c.img || "img/collection-placeholder.jpg";
-      const itemCount  = Array.isArray(c.items) ? c.items.length : 0;
-      const safeId     = encodeURIComponent(c.id || c.name);
+        const img        = c.img || "img/collection-placeholder.jpg";
+        const itemCount  = Array.isArray(c.items) ? c.items.length : 0;
+        const safeId     = encodeURIComponent(c.id || c.name);
 
-      return `
-        <div class="collection-card">
-          <img src="${img}" alt="${c.name}">
-          <h2>${c.name}</h2>
-          <p>${itemCount ? `${itemCount} items` : "No items yet"}</p>
+        // ✅ Aqui garantimos que Recently Added abre em new_collection.html
+        // e Featured continua a abrir em collection.html
+        const pageLink = mode === "recent" ? "new_collection.html" : "collection.html";
 
-          <div class="mini-carousel">
-            <div class="mini-track">
-              <div class="mini-item">
-                <p>${itemCount ? "Some items from this collection" : "Start adding items to this collection"}</p>
+        return `
+          <div class="collection-card">
+            <img src="${img}" alt="${c.name}">
+            <h2>${c.name}</h2>
+            <p>${itemCount ? `${itemCount} items` : "No items yet"}</p>
+
+            <div class="mini-carousel">
+              <div class="mini-track">
+                <div class="mini-item">
+                  <p>${itemCount ? "Some items from this collection" : "Start adding items to this collection"}</p>
+                </div>
               </div>
             </div>
-          </div>
 
-          <a href="collection.html?id=${safeId}" class="btn">View Collection</a>
-        </div>
-      `;
-    }).join("");
+            <a href="${pageLink}?id=${safeId}" class="btn">View Collection</a>
+          </div>
+        `;
+      }).join("");
+
 
     initMiniCarousels(topGrid);
   }
@@ -332,8 +337,10 @@ document.addEventListener("DOMContentLoaded", () => {
       desc,
       img: imgSrc,
       items: [],
-      createdAt: Date.now()    // <— usado para “Recently added”
-    });
+      createdAt: Date.now(),// <— usado para “Recently added”
+      ownedByUser: true 
+});
+    
     saveCollections(all);
 
     // limpar modal
