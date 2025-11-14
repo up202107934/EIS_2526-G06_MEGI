@@ -200,7 +200,7 @@ window.addEventListener("load", () => {
         <span class="collection-author-label">Created by</span>
         ${
           user
-            ? `<a href="user_view.html?id=${user.id}&public=1" class="collection-author-name">${user.name}</a>`
+            ? `<a href="user_withoutlogin.html?id=${user.id}&public=1" class="collection-author-name">${user.name}</a>`
             : `<span class="collection-author-name">Unknown</span>`
         }
       </div>
