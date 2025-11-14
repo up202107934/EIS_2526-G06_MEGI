@@ -5,7 +5,7 @@
 
 document.addEventListener('DOMContentLoaded', () => {
 
-  // ================== TOGGLE PASSWORD ==================
+  // password
   document.querySelectorAll('.toggle-password').forEach(btn => {
     btn.addEventListener('click', () => {
       const targetId = btn.dataset.target;
@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // ================== FORM VALIDATION ==================
+  // validacao ao preencher
   const form = document.getElementById('register-form');
   const username = document.getElementById('username');
   const email = document.getElementById('email');
@@ -25,7 +25,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const strengthBar = document.getElementById('strength-bar');
 
   function showError(input, message) {
-  // procura o <small> dentro do .form-group, não apenas dentro do .password-wrapper
   const small = input.closest('.form-group').querySelector('small');
   small.textContent = message;
   small.style.color = 'red';
@@ -45,7 +44,6 @@ function showSuccess(input) {
     return re.test(input.value.trim());
   }
 
-  // Validação em tempo real
   username.addEventListener('input', () => {
     if(username.value.trim().length < 4) showError(username, 'Username must be at least 4 characters');
     else showSuccess(username);
@@ -61,7 +59,7 @@ function showSuccess(input) {
     else showSuccess(confirmPassword);
   });
 
-  // ================== PASSWORD STRENGTH ==================
+  // força da password
   password.addEventListener('input', () => {
     const val = password.value;
     let strength = 0;
@@ -71,7 +69,6 @@ function showSuccess(input) {
     if (/[0-9]/.test(val)) strength += 1;
     if (/[!@#$%^&*(),.?":{}|<>]/.test(val)) strength += 1;
 
-    // Atualiza barra
     switch (strength) {
       case 0:
       case 1:
@@ -92,11 +89,10 @@ function showSuccess(input) {
         break;
     }
 
-    // Guarda força para submit
     password.dataset.strength = strength;
   });
 
-  // ================== SUBMIT ==================//
+  // submeter as informacoes
 form.addEventListener('submit', (e) => {
   e.preventDefault(); 
 
