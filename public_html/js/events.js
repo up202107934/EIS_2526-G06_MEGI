@@ -3,9 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/javascript.js to edit this template
  */
 
-/* js/events.js — versão alinhada com modais por classe .show */
 
-// Helpers curtos
 const $  = (s) => document.querySelector(s);
 const $$ = (s) => Array.from(document.querySelectorAll(s));
 
@@ -18,7 +16,7 @@ const state = {
   sort: 'date_asc',
   status: '',
   q: '',
-  // Eventos de exemplo + imagens associadas (coleções do evento)
+  // Eventos + imagens (coleções do evento)
   events: [
     {
   id: 1,
@@ -80,7 +78,7 @@ const state = {
 
 };
 
-// --- Interesse (coração) ---
+// --- Like ---
 state.interested = new Set(JSON.parse(localStorage.getItem('interestedEvents') || '[]'));
 const interestCounts = JSON.parse(localStorage.getItem('interestCounts') || '{}');
 
@@ -104,7 +102,7 @@ function toggleInterest(id){
     interestCounts[id] = (interestCounts[id]||0) + 1;
   }
   saveInterest();
-  // atualizar o cartão sem re-render completo
+  // atualizar o cartão
   const btn = document.querySelector(`.like-btn[data-id="${id}"]`);
   const cnt = document.getElementById(`like-${id}`);
   if (btn) btn.setAttribute('aria-pressed', String(!wasOn));
@@ -112,7 +110,7 @@ function toggleInterest(id){
 }
 
 
-// Coleções do UTILIZADOR (mock). Cada uma com itens.
+// Coleções do UTILIZADOR
 state.userCollections = [
   {
     id: 'c1', name: 'Collection1', img: 'collection1.jpg',
@@ -138,7 +136,7 @@ state.userCollections = [
   }
 ];
 
-// registo simples das participações
+// registo das participações
 state.participations = []; // {eventId, collections:[{id, items:[ids]}], user:{...}}
 
 
@@ -150,14 +148,14 @@ function fmtDate(iso){
   return d.toLocaleString([], { day:'2-digit', month:'short', year:'numeric', hour:'2-digit', minute:'2-digit' });
 }
 
-/* ===== Carrosséis por evento (gestão de timers) ===== */
+/* ===== Carrosséis por evento ===== */
 const carousels = new Map(); // id -> { timer, idx, imgs }
 
-/* ============ RENDER DOS CARTÕES (com galeria) ============ */
+/* ============ CARTÕES ============ */
 function render(){
   const wrap = $('#events');
 
-  // limpar timers antigos para evitar leaks sempre que re-renderizamos
+  // limpar timers antigos
   carousels.forEach(c => clearInterval(c.timer));
   carousels.clear();
 
@@ -177,7 +175,7 @@ function render(){
     }
   });
 
-  // HTML dos cartões (com galeria)
+  // cartões
  wrap.innerHTML = rows.map(ev => {
   const imgs   = (ev.images && ev.images.length ? ev.images : ['event-placeholder.jpg']);
   const main   = imgs[0];
@@ -225,7 +223,7 @@ $$('.like-btn').forEach(b => b.onclick = () => toggleInterest(+b.dataset.id));
   }));
 }
 
-/* ===== Inicialização/rotação do carrossel de um evento (pausa/retoma) ===== */
+/* ===== carrossel do evento ===== */
 function initCarouselFor(ev){
   const gallery = document.querySelector(`.ev-gallery[data-id="${ev.id}"]`);
   if (!gallery) return;
@@ -235,14 +233,13 @@ function initCarouselFor(ev){
   const mainEl  = gallery.querySelector('.ev-main');
   const stripEl = gallery.querySelector('.ev-strip');
 
-  // estado local do carrossel guardado também no Map()
   const car = { idx: 0, imgs, timer: null };
 
   function paint(){
     const n = car.imgs.length;
     if (!n) return;
 
-    const i = ((car.idx % n) + n) % n; // índice circular
+    const i = ((car.idx % n) + n) % n;
     mainEl.src = `img/${car.imgs[i]}`;
 
     const thumbs = [];
@@ -253,7 +250,7 @@ function initCarouselFor(ev){
   }
 
   function start(){
-    if (car.timer || car.imgs.length <= 1) return; // nada a rodar
+    if (car.timer || car.imgs.length <= 1) return; 
     car.timer = setInterval(() => {
       car.idx = (car.idx + 1) % car.imgs.length;
       paint();
@@ -267,15 +264,15 @@ function initCarouselFor(ev){
     }
   }
 
-  // primeira pintura + arranque
+  // primeira + arranque
   paint();
   start();
 
-  // pausa/retoma no hover
+  
   gallery.addEventListener('mouseenter', stop);
   gallery.addEventListener('mouseleave', start);
 
-  // (opcional) clicar numa miniatura avança imediatamente para essa imagem
+  // clicar numa miniatura 
   stripEl.addEventListener('click', (e) => {
     if (e.target.matches('.ev-thumb')){
       const src = e.target.getAttribute('src').replace(/^img\//,'');
@@ -284,29 +281,29 @@ function initCarouselFor(ev){
     }
   });
 
-  // guarda para limpeza no próximo render
+  // guarda
   carousels.set(ev.id, car);
 }
 
 
 
-/* ===== Cartão de detalhes (modal leve .ev-modal) ===== */
+/* ===== Cartão de detalhes===== */
 function filenameToLabel(s){
-  // "coin1.jpg" -> "coin1" (ou capitaliza se quiseres)
+  // "coin1.jpg" -> "coin1"
   const base = s.split('/').pop();
   return base.replace(/\.[a-z0-9]+$/i,'').replace(/[-_]+/g,' ').replace(/\b\w/g,m=>m.toUpperCase());
 }
 
-/* ===== Cartão de detalhes (modal leve .ev-modal) ===== */
+/* ===== Cartão de detalhes ===== */
 function openDetail(id){
   const ev = state.events.find(x => x.id === id);
 
-  // Preenche campos base
+  // Campos preenchidos
   $('#ev-name').textContent = ev.name;
   $('#ev-date').textContent = fmtDate(ev.date);
   $('#ev-desc').textContent = ev.description || '—';
 
-  // Coleções (usa ev.collections se existir; senão deriva de images)
+  // Coleções
   const cols = Array.isArray(ev.collections) && ev.collections.length
     ? ev.collections.map(c => ({ name: c.name || filenameToLabel(c.img || ''), img: c.img }))
     : (Array.isArray(ev.images) ? ev.images.slice(0,6).map(img => ({ name: filenameToLabel(img), img })) : []);
@@ -324,7 +321,7 @@ function openDetail(id){
     `).join('')
   : `<p class="muted">No associated collections yet.</p>`;
 
-    // Clique numa coleção -> ver itens dessa coleção no evento
+    // ver itens dessa coleção no evento
     $('#ev-col-list').onclick = (e) => {
       const tile = e.target.closest('.ev-col-item');
       if (!tile) return;
@@ -335,39 +332,36 @@ function openDetail(id){
     };
     
     
-// Botão "Avaliar"
+// Botão Avaliar
 const reviewBtn = $('#d-review');
 
 if (IS_GUEST) {
-  // Versão sem login → só mostra aviso
+  // Versão sem login: só mostra aviso
   reviewBtn.style.display = 'inline-block';
   reviewBtn.onclick = () => {
     alert('You must be logged in to leave a review.');
   };
 } else if (isUpcoming(ev.date)) {
-  // Com login, mas evento futuro → não pode avaliar
+  // Com login, mas evento futuro: não pode avaliar
   reviewBtn.style.display = 'none';
   reviewBtn.onclick = null;
 } else {
-  // Com login, evento passado → avaliação normal
+  // Com login, evento passado: avaliação normal
   reviewBtn.style.display = 'inline-block';
   reviewBtn.onclick = () => openReview(ev);
 }
 
-
-    
+ 
  // Atualizar a secção de avaliação (só mostra se o evento já ocorreu)
 
-
-  // Ações
 const plusBtn = $('#d-plus');
-if (plusBtn) plusBtn.onclick = () => openForm(ev);  // só se existir
+if (plusBtn) plusBtn.onclick = () => openForm(ev);
 
-// Botão "Participar"
+// Botão Participar
 const joinBtn = $('#d-join');
 
 if (IS_GUEST) {
-  // Versão sem login → só mostra aviso
+  // Versão sem login: só mostra aviso
   joinBtn.disabled = false;
   joinBtn.textContent = 'Participate';
   joinBtn.title = 'You must be logged in to participate in this event.';
@@ -376,14 +370,14 @@ if (IS_GUEST) {
     alert('You must be logged in to participate in this event.');
   };
 } else if (isUpcoming(ev.date)) {
-  // Com login, evento futuro → pode participar
+  // Com login, evento futuro: pode participar
   joinBtn.disabled = false;
   joinBtn.textContent = 'Participate';
   joinBtn.title = '';
   joinBtn.classList.remove('disabled');
   joinBtn.onclick = () => openJoin(ev);
 } else {
-  // Com login, evento passado → participação encerrada
+  // Com login, evento passado: participação encerrada
   joinBtn.onclick = null;
   joinBtn.disabled = true;
   joinBtn.textContent = 'Participation closed';
@@ -391,15 +385,10 @@ if (IS_GUEST) {
   joinBtn.classList.add('disabled');
 }
 
-
-
-  
-
-  // Mostrar
   const modal = $('#eventDetail');
   modal.classList.add('show');
 
-  // Fechar (X, ESC, clique fora)
+  // Fechar
   $('#ev-close').onclick = closeDetail;
   modal.addEventListener('click', (e) => { if (e.target.id === 'eventDetail') closeDetail(); }, { once:true });
   window.addEventListener('keydown', escCloseOnce);
@@ -420,7 +409,7 @@ function openReview(ev){
 
   title.textContent = `Avaliar: ${ev.name}`;
 
-  // carregar avaliação anterior (se existir)
+  // carregar avaliação anterior
   const saved = state.ratings[ev.id] || null;
   let current = saved?.stars || 0;
   ta.value = saved?.comment || '';
@@ -446,7 +435,7 @@ function openReview(ev){
     };
     saveRatings();
     closeReview();
-    alert('✅ Avaliação submetida. Obrigado!');
+    alert('✅ Evaluation submited. Thank you!');
   };
 
   const closeReview = () => { modal.classList.remove('show'); };
@@ -461,9 +450,7 @@ function openReview(ev){
 }
 
 
-
 function openCollectionItems(ev, col){
-  // col pode vir com { name, img, items: [{name,img}, ...] }
   const modal = $('#colItems');
   $('#colItems-title').textContent = `${col.name} — itens no evento`;
 
@@ -493,7 +480,7 @@ function openCollectionItems(ev, col){
 }
 
 
-/* ============ MODAL: FORMULÁRIO (Criar / Editar) ============ */
+/* ============ FORMULÁRIO (Criar / Editar) ============ */
 function openForm(ev = null){
   // cabeçalho + campos
   $('#f-title').textContent = ev ? 'Edit Event' : 'New Event';
@@ -502,7 +489,6 @@ function openForm(ev = null){
   $('#f-desc').value = ev?.description || '';
   $('#f-loc').value  = ev?.location || '';
 
-  // --- CLEANUP SEGURO (sem quebrar JS se não existirem elementos) ---
   (function safeCleanup(){
     const oldCol  = document.getElementById('col-search-wrap');
     const oldItem = document.getElementById('item-search-wrap');
@@ -516,7 +502,7 @@ function openForm(ev = null){
     if (modalEl) modalEl.scrollTop = 0;
   })();
 
-  // monta a área de coleções/itens
+  //área de coleções/itens
   const getSelectedCollections = setupEventFormCollections(ev);
 
   const modal = $('#eventForm');
@@ -534,7 +520,7 @@ function openForm(ev = null){
     const totalItems = cols.reduce((s,c)=> s + c.items.length, 0);
     if (totalItems === 0){ alert('Escolhe pelo menos 1 item.'); return; }
 
-    // imagens derivadas
+    // imagens
     const images = [...new Set(cols.flatMap(c => [c.img, ...c.items.map(it=>it.img)]) )].filter(Boolean);
 
     if (ev){
@@ -550,7 +536,7 @@ function openForm(ev = null){
     render();
   };
 
-  // Fechar (Cancel, X, backdrop, ESC)
+  // Fechar
   $('#f-cancel').onclick = closeForm;
   $('#form-close').onclick = closeForm;
   modal.addEventListener('click', (e)=>{ if(e.target.id==='eventForm') closeForm(); }, { once:true });
@@ -565,7 +551,7 @@ function setupEventFormCollections(ev){
   const wrap = $('#f-items-wrap');
 
   // Estado local
-  const selected = new Map();     // colId -> Set(itemIds)
+  const selected = new Map();    
   let editingColId = null;
   let colFilter = '';
   let itemFilter = '';
@@ -581,7 +567,7 @@ function setupEventFormCollections(ev){
     });
   }
 
-  // Pesquisa de coleções (cria 1x)
+  // Pesquisa de coleções
   const oldColSearch = document.getElementById('col-search-wrap');
   if (oldColSearch) oldColSearch.remove();
   grid.insertAdjacentHTML('beforebegin', `
@@ -592,7 +578,7 @@ function setupEventFormCollections(ev){
   const elColSearch = $('#col-search');
   elColSearch.oninput = () => { colFilter = elColSearch.value.trim().toLowerCase(); paintCollections(); };
 
-  // Pesquisa de itens (cria 1x; começa escondida)
+  // Pesquisa de itens
   const oldItemSearch = document.getElementById('item-search-wrap');
   if (oldItemSearch) oldItemSearch.remove();
   wrap.insertAdjacentHTML('beforebegin', `
@@ -602,8 +588,8 @@ function setupEventFormCollections(ev){
   `);
   const elItemSearchWrap = $('#item-search-wrap');
   const elItemSearch     = document.querySelector('#item-search');
-  elItemSearchWrap.hidden = true; // começa sempre escondido
-  // ---- Renders ----
+  elItemSearchWrap.hidden = true; 
+  
   function paintCollections(){
     const rows = state.userCollections.filter(c => !colFilter || c.name.toLowerCase().includes(colFilter));
     grid.innerHTML = rows.map(c=>{
@@ -638,7 +624,7 @@ function setupEventFormCollections(ev){
       };
     });
 
-    // clicar no cartão reabre para editar
+    // clicar no cartão: reabre para editar
     grid.querySelectorAll('.pick-card').forEach(card=>{
       card.onclick = (e)=>{
         const cb = card.querySelector('input');
@@ -692,7 +678,6 @@ function setupEventFormCollections(ev){
       </div>
     `;
 
-    // handlers
     wrap.querySelectorAll('input[type="checkbox"][data-col]').forEach(cb=>{
       cb.onchange = () => {
         cb.checked ? set.add(cb.value) : set.delete(cb.value);
@@ -704,7 +689,7 @@ function setupEventFormCollections(ev){
     $('#btn-none').onclick = () => { set.clear(); selected.set(col.id,set); paintItems(); paintCollections(); };
     $('#btn-finish').onclick = () => { editingColId = null; paintCollections(); paintItems(); };
 
-    // pesquisa live de itens
+    // pesquisa itens
     elItemSearch.oninput = () => { itemFilter = elItemSearch.value.trim().toLowerCase(); paintItems(); };
   }
 
@@ -714,7 +699,7 @@ function setupEventFormCollections(ev){
   elItemSearchWrap.hidden = true;
   wrap.innerHTML = `<p class="muted">Seleciona uma coleção para escolher os itens.</p>`;
 
-  // devolve seleções para o Save
+  // devolver seleções para o Save
   return function collectSelected(){
     const result = [];
     selected.forEach((set, colId) => {
@@ -736,25 +721,24 @@ function setupEventFormCollections(ev){
 function closeForm(){
   $('#eventForm').classList.remove('show');
 }
-/* ======== JOIN WIZARD ======== */
+/* =============== */
 function openJoin(ev){
     if (!isUpcoming(ev.date)) {
     alert('Já não é possível participar num evento que já aconteceu.');
     return;
   }
-  closeDetail(); // fecha a modal de detalhe
+  closeDetail(); // fecha o modal
   const modal = $('#joinForm');
   modal.classList.add('show');
   $('#join-title').textContent = `Participar em: ${ev.name}`;
 
-  // estado interno do wizard
-  const pick = {
+    const pick = {
     eventId: ev.id,
     collections: new Map(), // colId -> Set(itemIds)
     user: { name:'', dob:'', email:'', phone:'', note:'' }
   };
 
-  // STEP 1: render coleções do utilizador
+  // STEP 1
   const grid = $('#user-col-list');
   grid.innerHTML = state.userCollections.map(c => `
     <label class="pick-card">
@@ -764,7 +748,7 @@ function openJoin(ev){
     </label>
   `).join('');
 
-  // next 1 -> step 2
+  // 
   $('#join-next-1').onclick = () => {
     const chosen = [...grid.querySelectorAll('input[type="checkbox"]:checked')].map(i=>i.value);
     if (!chosen.length){ alert('Escolhe pelo menos 1 coleção.'); return; }
@@ -803,7 +787,7 @@ function openJoin(ev){
     });
     wrap.innerHTML = blocks.join('');
 
-    // select all por coleção
+    // select por coleção
     wrap.addEventListener('click', (e)=>{
       if (e.target.matches('button.tiny')){
         const colId = e.target.dataset.all;
@@ -811,7 +795,7 @@ function openJoin(ev){
       }
     });
 
-    // sync picks
+    // 
     wrap.addEventListener('change', (e)=>{
       if (e.target.matches('input[type="checkbox"][data-col]')){
         const colId = e.target.dataset.col;
@@ -823,7 +807,7 @@ function openJoin(ev){
 
   $('#join-back-2').onclick = () => gotoStep(1);
   $('#join-next-2').onclick = () => {
-    // se algum set ficar vazio, assume "todos"
+    // se algum set ficar vazio: assume todos
     pick.collections.forEach((set, colId) => {
       if (set.size === 0){
         const col = state.userCollections.find(c=>c.id===colId);
@@ -866,11 +850,11 @@ function openJoin(ev){
   function closeJoin(){ modal.classList.remove('show'); }
 
   function gotoStep(n){
-    // header
+    // cabecalho
     [1,2,3].forEach(i=>{
       $('#w-step-'+i).className = i<n ? 'done' : (i===n ? 'active' : '');
     });
-    // sections
+    // secçoes
     $('#join-step-1').hidden = n!==1;
     $('#join-step-2').hidden = n!==2;
     $('#join-step-3').hidden = n!==3;
@@ -878,7 +862,7 @@ function openJoin(ev){
 }
 
 
-/* ============ GRID/LIST TOGGLE (aplica .list-view ao #events) ============ */
+/* ============ GRID/LIST ============ */
 function setGrid(){
   const el = $('#events');
   el.classList.remove('list-view');
@@ -892,7 +876,7 @@ function setList(){
   $('#btn-list').setAttribute('aria-pressed','true');
 }
 
-/* ============ BIND UI ============ */
+/* ======================= */
 function bindUI(){
   // Grid/List
   $('#btn-grid').onclick = () => { setGrid(); render(); };
@@ -909,22 +893,22 @@ function bindUI(){
   // Novo evento
   $('#btn-new').onclick = () => openForm();
 
-  // Backdrop close de segurança (detalhe)
+  //
   $('#eventDetail').addEventListener('click', (e)=>{ if(e.target.id==='eventDetail') closeDetail(); });
 }
 
-/* ============ INIT ============ */
+/* ======================== */
 window.addEventListener('DOMContentLoaded', () => {
   bindUI();
-  setGrid();     // arranca em grid
+  setGrid();    
   render();
 });
 
 
-// === DARK MODE TOGGLE ===
+// === DARK MODE ===
 document.addEventListener("DOMContentLoaded", () => {
   const themeToggle = document.getElementById("themeToggle");
-  if (!themeToggle) return; // segurança
+  if (!themeToggle) return; 
 
   const currentTheme = localStorage.getItem("theme");
 

@@ -2,75 +2,41 @@
 Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
 Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/css.css to edit this template
 */
-/* 
-    Created on : 08/11/2025, 12:10:02
-    Author     : Pedro Almeida
-*/
 
-/* 
-/* Título da página alinhado ao teu estilo */
 
 .events-title {
-
   font-size: 36px;
-
   color: #2b2d42;
-
   text-align: center;
-
   text-transform: uppercase;
-
   letter-spacing: 1.5px;
-
   margin: 30px 0 10px;
-
 }
 
-
-
-/* Barra de ferramentas (reutiliza visuais do site) */
+/* Barra de ferramentas */
 
 .events-toolbar {
 
   max-width: 1200px;
-
   margin: 0 auto 10px auto;
-
   padding: 0 20px;
 
-
-
   display: flex;
-
   gap: 12px;
-
   align-items: center;
-
   justify-content: space-between;
 
 }
-
-
-
-/* parte esquerda (grid/list) + parte direita (sort/status/novo) */
-
 .events-toolbar .left,
-
 .events-toolbar .right { display: flex; align-items: center; gap: 10px; }
 
-
-
-/* Botões grid/list – aproveita teu padrão .btn-view */
-
+/* Botões grid/list */
 .btn-view[aria-pressed="true"]{
-
   background:#B22222; color:#fff; border-color:#B22222;
 
 }
 
-
-
-/* Grelha/Lista – aproveita .collections-container e .collection-card */
+/* Grelha/Lista*/
 
 #events.collections-container.list-view { display:block; padding: 20px 0; }
 
@@ -89,19 +55,19 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/css.css to edit this t
   }
 }
 
-/* Texto auxiliar cinza para datas */
+/* Texto para datas */
 
 .muted { color:#555; }
 
-/* Ajuste de imagem do cartão de evento (quando em grelha) */
+/* Ajuste de imagem do cartão de evento  */
 .event-card img { object-fit: cover; height: 160px; }
 
 /* ===== Modal ===== */
 .ev-modal{
   position: fixed; inset: 0;
-  display: none;                /* show via JS */
+  display: none;         
   align-items: center; justify-content: center;
-  background: rgba(0,0,0,0.25); /* overlay suave */
+  background: rgba(0,0,0,0.25);
   z-index: 1000;
   padding: 24px;
   backdrop-filter: blur(2px);
@@ -179,211 +145,129 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/css.css to edit this t
 }
 .ev-thumb:hover{ transform:scale(1.05); opacity:1; }
 
-/* Overrides dentro dos cartões de EVENTO */
 
-.event-card .ev-gallery img { margin-bottom: 0; } /* anula o margin da global */
-
-
+.event-card .ev-gallery img { margin-bottom: 0; }
 
 .event-card .ev-gallery .ev-main{
 
   width: 100%;
-
-  height: 200px;           /* mantém a de cima grande */
-
+  height: 200px;         
   object-fit: cover;
-
   border-radius: 12px;
-
   box-shadow: 0 3px 10px rgba(0,0,0,.08);
-
 }
 
 
 
 .event-card .ev-gallery .ev-strip{
-
   display:flex; gap:8px; justify-content:center; overflow:hidden;
-
 }
-
 
 
 .event-card .ev-gallery .ev-thumb{
-
   width: 64px;
-
   height: 64px;
-
   object-fit: cover;
-
   border-radius: 10px;
-
   box-shadow: 0 2px 8px rgba(0,0,0,.08);
-
   opacity: .9;
-
   transition: transform .2s, opacity .2s;
 
 }
-
 .event-card .ev-gallery .ev-thumb:hover{ transform:scale(1.05); opacity:1; }
 
 /* ===== Toolbar ===== */
 
 .events-toolbar.pro{
-
   max-width: 1200px;
-
   margin: 0 auto 24px;
-
   padding: 12px 16px;
-
   background: #fff;
-
   border-radius: 12px;
-
   box-shadow: 0 6px 16px rgba(0,0,0,.08);
-
   display: grid;
-
-  grid-template-columns: 1fr auto 1fr; /* esquerda | centro | direita */
-
+  grid-template-columns: 1fr auto 1fr;
   align-items: center;
-
   gap: 16px;
 
 }
-
 .toolbar-left{ justify-self: start; }
-
 .toolbar-center{ justify-self: center; display: flex; gap: 12px; align-items: center; }
-
 .toolbar-right{ justify-self: end; }
-
 
 /* Botões Grid/List */
 
 .chip{
-
   display: inline-flex;
-
   align-items: center;
-
   gap: 8px;
-
   padding: 8px 14px;
-
   border: 1px solid #e1e3e8;
-
   border-radius: 999px;
-
   background: #f7f7f9;
-
   color: #2b2d42;
-
   cursor: pointer;
-
   transition: all .2s ease;
-
   font-weight: 600;
-
 }
-
 .chip:hover{ transform: translateY(-1px); box-shadow: 0 2px 6px rgba(0,0,0,.06); }
-
 .chip[aria-pressed="true"]{ background:#B22222; color:#fff; border-color:#B22222; }
-
-
 
 /* Ícones */
 
 .icon-grid, .icon-list{
-
   width: 16px; height: 16px; display: inline-block;
-
 }
 
 .icon-grid{
-
   background:
-
     linear-gradient(currentColor,currentColor) 0   0/7px 7px no-repeat,
-
     linear-gradient(currentColor,currentColor) 9px 0/7px 7px no-repeat,
-
     linear-gradient(currentColor,currentColor) 0   9px/7px 7px no-repeat,
-
     linear-gradient(currentColor,currentColor) 9px 9px/7px 7px no-repeat;
-
   border-radius: 3px;
 
 }
 
 .icon-list{
-
   background:
-
     linear-gradient(currentColor,currentColor) left   2px /16px 2px no-repeat,
-
     linear-gradient(currentColor,currentColor) left   7px /16px 2px no-repeat,
-
     linear-gradient(currentColor,currentColor) left  12px /16px 2px no-repeat;
 
 }
 
 
 
-/* Campos Sort/Status */
-
 .field{
-
   display: inline-flex;
-
   align-items: center;
-
   gap: 8px;
-
   background: #f7f7f9;
-
   padding: 6px 10px;
-
   border-radius: 10px;
-
   border: 1px solid #e1e3e8;
-
 }
 
 .field > span{ font-weight: 600; color:#2b2d42; }
 
 .field select{
-
   border: 0; background: transparent; outline: none;
-
   font-weight: 600; color:#2b2d42; padding: 6px 4px;
-
 }
 
 
 
-/* Botão principal “+ New Event” */
+/* Botão+ New Event” */
 
 .btn.primary{
-
   background: #ef233c;
-
   color: #fff;
-
   border: 0;
-
   padding: 10px 16px;
-
   border-radius: 10px;
-
   box-shadow: 0 4px 10px rgba(239,35,60,.25);
-
   cursor: pointer;
-
   transition: all .2s ease;
 
 }
@@ -391,23 +275,14 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/css.css to edit this t
 .btn.primary:hover{ transform: translateY(-1px); box-shadow: 0 6px 16px rgba(239,35,60,.32); }
 
 
-
 @media (max-width: 900px){
-
   .events-toolbar.pro{
-
     grid-template-columns: 1fr;
-
     gap: 10px;
-
     padding: 10px 12px;
-
   }
-
   .toolbar-center{ justify-self: stretch; justify-content: space-between; }
-
   .toolbar-right{ justify-self: stretch; display: flex; justify-content: flex-end; }
-
 }
 
 
@@ -430,7 +305,6 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/css.css to edit this t
   border-radius: 12px;
   box-shadow: 0 2px 8px rgba(0,0,0,.06);
   transition: transform .2s, box-shadow .2s;
-
 }
 
 #events.collections-container.list-view .event-card:hover {
@@ -438,18 +312,13 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/css.css to edit this t
   box-shadow: 0 1px 16px rgba(0,0,0,.1);
 }
 
-/* Coluna 1: Galeria (imagem principal + 3 thumbs HORIZONTAIS) */
+/* Coluna 1: imagens  */
 
 #events.collections-container.list-view .ev-gallery {
-
   display: grid !important;
-
   grid-template-columns: 280px 1fr !important;
-
   gap: 12px;
-
   align-items: start;
-
 }
 
 
@@ -466,21 +335,16 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/css.css to edit this t
 }
 
 
-
 #events.collections-container.list-view .ev-strip {
-
   display: flex !important;
-  flex-direction: column !important;  /* empilha as 3 thumbs */
+  flex-direction: column !important; 
   gap: 8px;
   grid-column: 2;
   grid-row: 1 / span 3;
 
 }
 
-
-
 #events.collections-container.list-view .ev-thumb {
-
   width: 120px !important;
   height: 54px !important;
   object-fit: cover;
@@ -490,49 +354,31 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/css.css to edit this t
   transition: transform .2s, opacity .2s;
   cursor: pointer;
   margin: 0 !important;
-
 }
 
 #events.collections-container.list-view .ev-thumb:hover {
   transform: scale(1.05);
   opacity: 1;
-
 }
 
-
-/* Coluna 2: Info (título + data) */
+/*  (título + data) */
 
 #events.collections-container.list-view .ev-meta {
-
   display: flex !important;
-
   flex-direction: column;
-
   gap: 8px;
-
   justify-content: center;
-
   padding: 0 20px;
-
 }
 
-
-
 #events.collections-container.list-view .ev-title {
-
   margin: 0 !important;
-
   font-size: 28px;
-
   font-weight: 700;
-
   color: #2b2d42;
-
   line-height: 1.3;
 
 }
-
-
 
 #events.collections-container.list-view .ev-date {
   margin: 0 !important;
@@ -571,128 +417,74 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/css.css to edit this t
   box-shadow: 0 4px 12px rgba(178,34,34,.3);
 }
 
-/* Responsivo */
 
 @media (max-width: 1100px) {
 
   #events.collections-container.list-view .event-card {
-
     grid-template-columns: auto auto 1fr ;
-
     gap: 20px;
-
   }
 
  
   #events.collections-container.list-view .ev-gallery {
-
     grid-template-columns: 240px 1fr !important;
-
   }
-
   
-
   #events.collections-container.list-view .ev-main {
-
     width: 240px !important;
-
     height: 150px !important;
-
-  }
-
-  
+  } 
 
   #events.collections-container.list-view .ev-thumb {
-
     width: 100px !important;
-
     height: 44px !important;
-
   }
-
 }
 
 
 @media (max-width: 900px) {
-
   #events.collections-container.list-view .event-card {
-
     grid-template-columns: 1fr !important;
-
     gap: 16px;
-
   }
 
   #events.collections-container.list-view .ev-gallery {
-
     grid-template-columns: 1fr !important;
-
     justify-items: center;
-
   }
-
-  
+ 
 
   #events.collections-container.list-view .ev-main {
-
     grid-row: 1;
-
     width: 100% !important;
-
     max-width: 400px;
-
     height: 240px !important;
-
   }
-
-  
 
   #events.collections-container.list-view .ev-strip {
-
     grid-row: 2;
-
     flex-direction: row !important;
-
     justify-content: center;
-
     gap: 10px;
-
-  }
-
-  
+  }  
 
   #events.collections-container.list-view .ev-thumb {
-
     width: 90px !important;
-
     height: 90px !important;
-
-  }
-
-  
+  } 
 
   #events.collections-container.list-view .ev-meta {
-
     text-align: center;
-
     align-items: center;
-
     padding: 0;
-
-  }
-
-  
+  } 
 
   #events.collections-container.list-view .ev-actions {
-
     justify-content: center;
-
     padding: 0;
-
   }
-
 }
-/* ===== Coleções dentro da modal ===== */
+/* ===== Coleções do modal ===== */
 .ev-collections{
   border-top: 1px solid #eef0f3;
   padding-top: 12px;
@@ -735,11 +527,11 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/css.css to edit this t
 
 
 
-/* Centrar o botão na modal de detalhe */
+/* Centrar o botão*/
 .ev-actions{ justify-content: center; }
-#d-plus{ display: none; } /* caso ainda exista no HTML */
+#d-plus{ display: none; }
 
-/* ===== JOIN WIZARD modal ===== */
+/* =====  ===== */
 .modal .wide{ max-width: 820px; }
 
 .wizard{
@@ -788,17 +580,10 @@ button.tiny:hover{ background:#e2e8f0; }
 
 
 /* ===== DARK MODE ===== */
-/* fallback: garantir aplicação visual do dark-mode */
 body.dark-mode {
   background-color: #0b0b0b !important;
   color: #e9e9e9 !important;
 }
-
-/* navbar */
-/*body.dark-mode .navbar {
-  background-color: #111 !important;
-  color: #f1f1f1 !important;
-} */
 
 body.dark-mode .navbar-logo a { color: #f3d24a !important; }
 
@@ -814,13 +599,13 @@ body.dark-mode .collection-title {
   text-shadow: 2px 2px 6px rgba(0,0,0,0.5) !important;
 }
 
-/* toolbar / controls */
+/* toolbar*/
 body.dark-mode .collection-toolbar,
 body.dark-mode .collection-items {
   background-color: transparent !important;
 }
 
-/* itens/cards */
+/* itens */
 body.dark-mode .item-card,
 body.dark-mode .collection-card {
   background-color: #1b1b1b !important;
@@ -853,7 +638,6 @@ body.dark-mode .btn-create {
   color: #fff !important;
 }
 
-/* tornar visível o toggle */
 .theme-toggle {
   background: transparent;
   border: none;
@@ -861,14 +645,13 @@ body.dark-mode .btn-create {
   cursor: pointer;
 }
 
-/* scroll dark */
 body.dark-mode::-webkit-scrollbar-thumb {
   background-color: #444 !important;
 }
 
 
 
-/* ---- Houver "+" nas coleções do detalhe ---- */
+/* ----  "+" nas coleções do detalhe ---- */
 .ev-col-item{
   position: relative;
   overflow: hidden;
@@ -890,7 +673,7 @@ body.dark-mode::-webkit-scrollbar-thumb {
   font-size: 24px; font-weight: 900; line-height: 1;
 }
 
-/* Botão outline para “Avaliar” */
+/*  “Avaliar” */
 .btn.outline{
   background: transparent;
   color: #B22222;
@@ -900,7 +683,7 @@ body.dark-mode::-webkit-scrollbar-thumb {
   background: #ffecec;
 }
 
-/* Estrelas na review modal */
+/* Estrelas */
 .rv-stars{ display:flex; gap:8px; margin:10px 0 12px; }
 .rv-stars .star{
   font-size: 30px; line-height: 1;
@@ -908,19 +691,16 @@ body.dark-mode::-webkit-scrollbar-thumb {
   color: #c8c8c8; cursor: pointer; transition: transform .1s, color .1s;
 }
 .rv-stars .star:hover{ transform: translateY(-1px); }
-.rv-stars .star.active{ color: #f5b301; }  /* dourado */
+.rv-stars .star.active{ color: #f5b301; } 
 #rv-comment{
   width: 100%; border: 1px solid #e1e3e8; border-radius: 10px; padding: 10px; resize: vertical;
 }
 
 
-
-
-/* Estilo para botões desativados do detalhe */
 .btn.disabled,
 .btn[disabled]{
-  background: #e5e7eb !important;   /* cinza claro */
-  color: #9ca3af !important;        /* cinza texto */
+  background: #e5e7eb !important;   
+  color: #9ca3af !important;        
   border-color: #e5e7eb !important;
   cursor: not-allowed !important;
   box-shadow: none !important;
@@ -928,18 +708,17 @@ body.dark-mode::-webkit-scrollbar-thumb {
 }
 
 
-
-/* --- EventForm: modal com scroll adaptativo --- */
+/* --- EventForm--- */
 #eventForm .modal-content{ max-height: 88vh; overflow:auto; }
 
-/* Zona de coleções (com pesquisa + scroll) */
+/* coleçoes */
 .pick-search{ display:flex; margin:10px 0 8px; }
 .pick-search input{
   width:100%; padding:8px 10px; border:1px solid #e1e3e8; border-radius:10px;
 }
 #f-col-list{ max-height: 28vh; overflow:auto; }
 
-/* Estados visuais das coleções */
+
 .pick-card.editing{ outline:3px solid #2b6cb0; background:#f0f7ff; }
 .pick-card.done{ outline:3px solid #16a34a; background:#f1fff5; }
 .pick-card .badge{
@@ -947,23 +726,23 @@ body.dark-mode::-webkit-scrollbar-thumb {
   padding:2px 8px; border-radius:999px;
 }
 
-/* Itens da coleção (pesquisa + scroll) */
+/* Itens da coleção  */
 #f-items-wrap{ max-height: 44vh; overflow:auto; }
 .item-search{ display:flex; margin:8px 0; }
 .item-search input{
   width:100%; padding:8px 10px; border:1px solid #e1e3e8; border-radius:10px;
 }
 
-/* Barra de ações "Concluir" fixa ao fundo do bloco de itens */
+
 .items-actions{
   position: sticky; bottom:0; display:flex; gap:8px; justify-content:flex-end;
   padding-top:10px; background:linear-gradient(180deg, transparent, #fff 40%);
 }
 
-/* Força a esconder quando tiver o atributo hidden */
+
 .item-search[hidden] { display: none !important; }
 
-/* ——— apenas no modal de criar/editar evento ——— */
+
 #eventForm .pick-card:not(.done):not(.editing):has(input:checked){
   outline: 0 !important;
   background: #fff !important;
@@ -978,7 +757,6 @@ body.dark-mode::-webkit-scrollbar-thumb {
 }
 
 
-/* ——— join wizard: quando a coleção está selecionada deve ficar bem visível ——— */
 #joinForm .pick-card{ cursor: pointer; }
 #joinForm .pick-card:has(input:checked){
   outline: 3px solid #B22222;
@@ -987,7 +765,7 @@ body.dark-mode::-webkit-scrollbar-thumb {
 
 
 
-/* --- Interest (coração) no cartão --- */
+/* ---  like --- */
 .event-card{ position: relative; }
 
 .ev-like{
@@ -1014,14 +792,14 @@ body.dark-mode::-webkit-scrollbar-thumb {
 }
 
 
-/* ===== EVENTS PAGE BOOTSTRAP (isolado) ===== */
+/* ===== EVENTS PAGE  ===== */
 * { margin:0; padding:0; box-sizing:border-box; font-family: Arial, sans-serif; }
 html, body { height:100%; }
 body {
   margin:0; padding:0; background:#ffffff; color:#2b2d42; line-height:1.6; overflow-x:hidden;
 }
 
-/* Navbar mínima, independente do style.css */
+
 .navbar{
   display:flex; align-items:center; justify-content:space-between;
   background:#2b2d42; padding:15px 40px; position:sticky; top:0; z-index:100;
@@ -1049,45 +827,44 @@ body {
   .navbar-search{ width:100%; justify-content:center; }
 }
 
-/* Dark mode da navbar (compatível com o teu JS) */
+/* Dark mode da navbar */
 body.dark-mode .navbar{ background:#111 !important; }
 body.dark-mode .navbar-logo a, body.dark-mode .navbar-center a{ color:#FFD700 !important; }
 
-/* ===== Navbar em 3 zonas: esquerda | centro | direita ===== */
+/* ===== Navbar em 3 zonas ===== */
 .navbar{
   display: grid;
-  grid-template-columns: 1fr auto 1fr;  /* L | C | R */
+  grid-template-columns: 1fr auto 1fr;  
   align-items: center;
   background:#2b2d42;
   padding:15px 40px;
   position: sticky; top:0; z-index:100;
 }
 
-/* posicionamento de cada zona */
+
 .navbar-left   { justify-self: start; }
 .navbar-center { justify-self: center; display:flex; gap:24px; }
 .navbar-right  { justify-self: end;    display:flex; align-items:center; gap:14px; }
 
-/* pill de pesquisa compacta e alinhada */
+
 .navbar-search{
   display:flex; align-items:center; gap:6px;
   background:#fff; border-radius:999px; padding:6px 10px;
   box-shadow:0 2px 6px rgba(0, 80, 255, 0.15);
 }
 .navbar-search input{
-  width: 240px;               /* ajusta aqui se quiseres menor/maior */
+  width: 240px;             
   border:0; outline:0; padding:6px 8px;
 }
 .search-btn{ background:none; border:0; font-size:16px; line-height:1; cursor:pointer; }
 
-/* avatar e ícone com alinhamento perfeito (sem “afundar” na linha) */
+/* avatar e ícone  */
 .navbar-avatar{ width:40px; height:40px; border-radius:50%; border:2px solid #edf2f4; display:block; }
 .theme-toggle{ background:none; border:0; color:#fff; font-size:22px; line-height:1; height:40px; display:flex; align-items:center; }
 
-/* hover */
+
 .theme-toggle:hover{ transform:scale(1.1); color:#FFD700; }
 
-/* responsivo: empilha tudo em ecrã pequeno */
 @media (max-width: 700px){
   .navbar{
     grid-template-columns: 1fr; 
@@ -1101,13 +878,13 @@ body.dark-mode .navbar-logo a, body.dark-mode .navbar-center a{ color:#FFD700 !i
 
 
 
-/* ===== GRID BASE P/ #events ===== */
+/* ===== grid===== */
 #events.collections-container{
   display:flex; flex-wrap:wrap; justify-content:center; gap:30px;
   padding: 20px;
 }
 
-/* Cartão base para evento (substitui .collection-card do style.css) */
+/* Cartão */
 .collection-card.event-card{
   background:#fff; border-radius:16px;
   box-shadow:0 4px 12px rgba(0,0,0,.1);
@@ -1121,14 +898,11 @@ body.dark-mode .navbar-logo a, body.dark-mode .navbar-center a{ color:#FFD700 !i
   box-shadow:0 10px 22px rgba(0,0,0,.18);
 }
 
-/* A galeria já está bem no teu CSS; garante só que imagens não “arrebentam” o cartão */
 .collection-card.event-card img{ max-width:100%; border-radius:12px; display:block; }
 
 
-
-/* ===== Base para modais genéricos — necessário nesta página ===== */
 .modal{
-  display: none !important; /* escondido por defeito */
+  display: none !important;
   position: fixed; inset: 0;
   z-index: 1000;
   background: rgba(0,0,0,0.6);
@@ -1158,7 +932,7 @@ body.dark-mode .navbar-logo a, body.dark-mode .navbar-center a{ color:#FFD700 !i
 }
 .close:hover{ color:#B22222; }
 
-/* Dark mode das modais */
+
 body.dark-mode .modal-content{
   background:#222 !important; color:#eee !important; border:1px solid #333 !important;
 }
@@ -1170,8 +944,8 @@ body.dark-mode .modal-content{
     text-align: center;
     padding: 25px 10px;
     font-size: 14px;
-    margin-top: 0; /* O flex-grow no container trata do espaço */
-    width: 100%; /* Garante a largura total */
+    margin-top: 0;
+    width: 100%;
 }
 
 /* Footer para o Dark Mode */
@@ -1180,12 +954,7 @@ body.dark-mode .footer {
     color: #ccc;
 }
 
-
-
-
-
-
-/* --- Navbar para páginas sem login (body.no-auth) --- */
+/* --- barra de navegaçao para página sem login  --- */
 
 /* ---- PAGE WITHOUT LOGIN ---- */
 body.no-auth .navbar-avatar {
@@ -1215,12 +984,10 @@ body.no-auth #btn-new {
 }
 
 body.no-auth .like-btn {
-  pointer-events: none;   /* não clica */
+  pointer-events: none;  
   opacity: 0.6;
   cursor: not-allowed;
 }
-
-
 body.no-auth #d-join,
 body.no-auth #d-review {
   opacity: 0.6;

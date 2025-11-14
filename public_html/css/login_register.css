@@ -104,13 +104,8 @@ body {
   text-decoration: underline;
 }
 
-body.login-page {
-}
 
-body.register-page {
-}
-
-/* PASSWORD WRAPPER */
+/* password */
 .password-wrapper {
   position: relative;
   display: flex;
@@ -208,7 +203,6 @@ body.auth-page {
   z-index: 1;
 }
 
-/* CAMADAS DE FUNDO (IMAGEM + OVERLAY) */
 
 body.auth-page::before,
 body.auth-page::after {
@@ -221,7 +215,7 @@ body.auth-page::after {
 }
 
 body.auth-page::before {
-  background: url("../img/collection2.jpg") no-repeat center center;
+  background: url("../img/Collection.png") no-repeat center center;
   background-size: cover;
   filter: blur(4px); 
   z-index: -2; 
