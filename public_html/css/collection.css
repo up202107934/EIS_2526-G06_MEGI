@@ -965,3 +965,56 @@ body.dark-mode #addItemModal .drop-zone:hover {
   background: #FF4C4C;
   transform: translateY(-1px);
 }
+
+
+/* Card do autor */
+.collection-info{
+  max-width: 1100px;
+  margin: 12px auto 24px;
+  padding: 16px 20px;
+  background: #fff;
+  border: 1px solid #eee;
+  border-radius: 12px;
+  box-shadow: 0 2px 12px rgba(0,0,0,.04);
+}
+
+.collection-author-box{
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+
+.collection-author-avatar img{
+  width: 72px;
+  height: 72px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 2px solid #ddd;
+}
+
+/* tipografia */
+.collection-author-text{ line-height: 1.2; }
+.collection-author-label{
+  display: block;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  color: #6b7280;        
+  margin-bottom: 4px;
+}
+.collection-author-name{
+  font-weight: 600;
+  font-size: 16px;
+  color: #111827;
+  text-decoration: none;
+}
+.collection-author-name:hover{ text-decoration: underline; }
+
+
+@media (max-width: 480px){
+  .collection-info{ padding: 12px 14px; }
+  .collection-author-avatar img{ width: 56px; height: 56px; }
+}
+
+.hidden { display: none !important; }

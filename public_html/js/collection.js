@@ -135,9 +135,7 @@ function applyView(view) {
   });
 }
 
-// =======================================================
-// ===== A CORREÇÃO ESTÁ AQUI ============================
-// =======================================================
+
 // CRIAR UM ITEM NOVO
 // ======== LÓGICA DO FORMULÁRIO ========
 const addItemBtn = document.querySelector('.add-item-btn');
@@ -364,17 +362,17 @@ window.addEventListener("load", () => {
   const infoContainer = document.createElement("div");
   infoContainer.classList.add("collection-info");
   infoContainer.innerHTML = `
-    <div class="collection-author-box">
-      <div class="collection-author-avatar">
-        <img src="img/user.jpg" alt="${user ? user.name : 'User'}">
-      </div>
-      <div class="collection-author-text">
-        <span class="collection-author-label">Created by</span>
-        <a href="user_view.html?id=${user ? user.id : ''}" class="collection-author-name">
-          ${user ? user.name : 'Unknown'}
-        </a>
-      </div>
+      <div class="collection-info">
+  <div class="collection-author-box">
+    <div class="collection-author-avatar">
+      <img src="img/user.jpg" alt="Ana Silva">
     </div>
+    <div class="collection-author-text">
+      <span class="collection-author-label">Created by</span>
+      <a href="user_view.html?id=123" class="collection-author-name">Ana Silva</a>
+    </div>
+  </div>
+</div>
   `;
 
   const header = document.querySelector(".collection-header");
@@ -559,3 +557,53 @@ function notifyWishlistChanged() {
   } catch (err) { /* ignore */ }
   updateLikesFromStorage();
 }
+
+// =========================
+// PESQUISA LOCAL (página Collection)
+// =========================
+
+document.addEventListener("DOMContentLoaded", () => {
+  const searchInput = document.getElementById("q");           // navbar input
+  const btnSearch   = document.getElementById("btn-search");  // navbar button
+  if (!searchInput || !btnSearch) return;
+
+  const getItemCards = () =>
+    document.querySelectorAll(".collection-items .item-card");
+
+  const showAll = () => getItemCards().forEach(c => c.classList.remove("hidden"));
+
+  const runFilter = () => {
+    const q = searchInput.value.trim().toLowerCase();
+    if (!q) { showAll(); return; }
+
+    let found = false;
+    getItemCards().forEach(card => {
+      const title = (card.querySelector("h3, .item-title")?.textContent || "")
+        .trim().toLowerCase();
+      const match = title.includes(q);
+      card.classList.toggle("hidden", !match);
+      if (match) found = true;
+    });
+    if (!found) alert("No items found in this collection 😔");
+  };
+
+  // Clicar na lupinha
+  btnSearch.addEventListener("click", (e) => {
+    e.preventDefault();
+    runFilter();
+  });
+
+  // Enter dentro do input da navbar
+  searchInput.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      runFilter();
+    }
+  });
+
+  // Limpa filtro ao apagar tudo
+  searchInput.addEventListener("input", () => {
+    if (searchInput.value.trim() === "") showAll();
+  });
+});
+
