@@ -12,25 +12,31 @@
 <body>
 
     
-  <!-- ===== NAVBAR ===== -->
-  <nav class="navbar">
-    <div class="navbar-logo">
-      <a href="home_withoutlogin.html">MyCollections</a>
-    </div>
+  <header class="navbar">
+  <!-- ESQUERDA -->
+  <div class="navbar-logo">
+    <a href="home_withoutlogin.html">MyCollections</a>
+  </div>
 
-    <form class="navbar-search" id="searchForm" action="#" method="GET">
-        <input type="text" id="searchInput" name="q" placeholder="Search collections, items..." required />
-        <button type="submit" class="search-btn">🔍</button>
-    </form>
-
-    <div class="navbar-user">
-      <a href="login.html">
-        <img src="img/ImagemPerfil.jpeg" alt="User" class="navbar-avatar" />
-      </a>
-    </div>
-    <button id="themeToggle" class="theme-toggle">🌙</button>
-
+  <!-- CENTRO -->
+  <nav class="navbar-center" aria-label="Main Navigation">
+    <a href="events.html">Events</a>
+    <a href="team.html">Team</a>
   </nav>
+
+  <!-- DIREITA -->
+  <div class="navbar-right">
+    <div class="navbar-search">
+      <input type="search" placeholder="Search collections..." />
+      <button class="search-btn" aria-label="Search">🔎</button>
+    </div>
+
+    <a href="login.html" class="signin-chip">Sign in</a>
+
+    <button id="themeToggle" class="theme-toggle">🌙</button>
+  </div>
+</header>
+
 
 
   <!-- ===== HERO SECTION ===== -->
