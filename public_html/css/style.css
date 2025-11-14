@@ -440,6 +440,7 @@ body.dark-mode .footer {
     flex-wrap: wrap;
     justify-content: center;
     gap: 30px;
+    margin-top: 40px;
 }
 .collection-card {
     background: #fff;
@@ -953,8 +954,8 @@ body.dark-mode .profile-dropdown a:hover {
 
 .category-badge {
   display: inline-block;
-  background-color: #b30000;
-  color: white;
+  background-color: white;
+  color: #9c0808;
   padding: 4px 10px;
   font-size: 14px;
   border-radius: 6px;

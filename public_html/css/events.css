@@ -579,75 +579,225 @@ button.tiny:hover{ background:#e2e8f0; }
 @media (max-width:700px){ .twocol{ grid-template-columns: 1fr; } }
 
 
-/* ===== DARK MODE ===== */
+/* ===== DARK MODE – EVENTS PAGE ===== */
+
 body.dark-mode {
   background-color: #0b0b0b !important;
   color: #e9e9e9 !important;
 }
 
-body.dark-mode .navbar-logo a { color: #f3d24a !important; }
-
-/* banner/header */
-body.dark-mode .collection-header {
-  background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url("img/starwars-banner.jpg") center/cover no-repeat !important;
-  border-bottom-color: #b8860b !important;
+/* Navbar */
+body.dark-mode .navbar {
+  background-color: #111 !important;
+}
+body.dark-mode .navbar-logo a,
+body.dark-mode .navbar-center a {
+  color: #f3d24a !important;
+}
+body.dark-mode .navbar-search {
+  background: #111827;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.7);
+}
+body.dark-mode .navbar-search input {
+  color: #e5e7eb;
+  background: transparent;
+}
+body.dark-mode .search-btn {
+  color: #e5e7eb;
 }
 
-/* título */
-body.dark-mode .collection-title {
-  color: #ffd54f !important;
-  text-shadow: 2px 2px 6px rgba(0,0,0,0.5) !important;
+/* Dropdown perfil */
+body.dark-mode .profile-dropdown {
+  background-color: #1b1b1b;
+  border: 1px solid #333;
+}
+body.dark-mode .profile-dropdown a {
+  color: #eee;
+}
+body.dark-mode .profile-dropdown a:hover {
+  background-color: #333;
 }
 
-/* toolbar*/
-body.dark-mode .collection-toolbar,
-body.dark-mode .collection-items {
-  background-color: transparent !important;
+/* Título */
+body.dark-mode .events-title {
+  color: #ffd54f;
 }
 
-/* itens */
-body.dark-mode .item-card,
-body.dark-mode .collection-card {
-  background-color: #1b1b1b !important;
-  color: #eee !important;
-  box-shadow: 0 6px 18px rgba(0,0,0,0.6) !important;
+/* Toolbar */
+body.dark-mode .events-toolbar.pro {
+  background: #111827;
+  box-shadow: 0 6px 16px rgba(0,0,0,0.7);
+  border: 1px solid #1f2937;
 }
-body.dark-mode .item-card h3,
-body.dark-mode .collection-card h2,
-body.dark-mode .collection-card h3 {
-  color: #ffd54f !important;
+body.dark-mode .field {
+  background: #111827;
+  border-color: #374151;
+}
+body.dark-mode .field > span {
+  color: #e5e7eb;
+}
+body.dark-mode .field select {
+  color: #e5e7eb;
 }
 
-/* inputs, selects, modals */
-body.dark-mode input,
-body.dark-mode select,
-body.dark-mode textarea,
+/* Botões de vista (Grid/List) */
+body.dark-mode .chip {
+  background: #111827;
+  color: #e5e7eb;
+  border-color: #374151;
+}
+body.dark-mode .chip:hover {
+  box-shadow: 0 2px 6px rgba(0,0,0,0.7);
+}
+body.dark-mode .chip[aria-pressed="true"] {
+  background: #b22222;
+  color: #fff;
+  border-color: #b22222;
+}
+
+/* Cards de eventos (grid e list view) */
+body.dark-mode .collection-card.event-card,
+body.dark-mode #events.collections-container.list-view .event-card {
+  background-color: #1b1b1b;
+  color: #eee;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.6);
+}
+body.dark-mode .collection-card.event-card h2,
+body.dark-mode .collection-card.event-card h3,
+body.dark-mode #events.collections-container.list-view .ev-title {
+  color: #ffd54f;
+}
+body.dark-mode #events.collections-container.list-view .ev-date {
+  color: #9ca3af;
+}
+
+/* Modal de detalhes do evento */
+body.dark-mode .ev-card {
+  background-color: #1f2933;
+  color: #e5e7eb;
+  border: 1px solid #374151;
+}
+body.dark-mode .ev-title {
+  color: #ffd54f;
+}
+body.dark-mode .ev-subtitle {
+  color: #9ca3af;
+}
+body.dark-mode .ev-desc {
+  color: #e5e7eb;
+}
+
+/* Coleções dentro do modal */
+body.dark-mode .ev-collections {
+  border-top-color: #374151;
+}
+body.dark-mode .ev-col-title,
+body.dark-mode .ev-col-name {
+  color: #e5e7eb;
+}
+body.dark-mode .ev-badge {
+  background: #111827;
+  color: #e5e7eb;
+}
+body.dark-mode .ev-col-item {
+  background: #111827;
+  border-color: #374151;
+}
+
+/* Modals genéricos (criar evento, review, join, etc.) */
 body.dark-mode .modal-content {
-  background-color: #222 !important;
-  color: #eee !important;
-  border: 1px solid #333 !important;
+  background-color: #1f2933 !important;
+  color: #e5e7eb !important;
+  border: 1px solid #374151 !important;
+}
+body.dark-mode .modal-content h2 {
+  color: #ffd54f;
+}
+body.dark-mode .modal-content label {
+  color: #e5e7eb;
+}
+body.dark-mode .modal input,
+body.dark-mode .modal textarea,
+body.dark-mode .modal select {
+  background-color: #111827;
+  color: #e5e7eb;
+  border: 1px solid #374151;
 }
 
-/* botão add / view */
-body.dark-mode .add-item-btn,
+/* Botões */
 body.dark-mode .btn,
-body.dark-mode .btn-add,
-body.dark-mode .btn-view,
-body.dark-mode .btn-create {
+body.dark-mode .btn.primary {
   background-color: #9f1f1f !important;
   color: #fff !important;
+  border-color: #9f1f1f !important;
 }
-
-.theme-toggle {
+body.dark-mode .btn:hover,
+body.dark-mode .btn.primary:hover {
+  background-color: #ef4444 !important;
+}
+body.dark-mode .btn.outline {
   background: transparent;
-  border: none;
-  font-size: 20px;
-  cursor: pointer;
+  color: #fca5a5;
+  border-color: #fca5a5;
+}
+body.dark-mode .btn.outline:hover {
+  background: rgba(248, 113, 113, 0.1);
 }
 
+/* Estrelas de rating */
+body.dark-mode .rv-stars .star {
+  color: #4b5563;
+}
+body.dark-mode .rv-stars .star.active {
+  color: #fbbf24;
+}
+body.dark-mode #rv-comment {
+  background-color: #111827;
+  border-color: #374151;
+  color: #e5e7eb;
+}
+
+/* Cartões de escolha (pick-card, mini-card, items-block, etc.) */
+body.dark-mode .pick-card,
+body.dark-mode .items-block,
+body.dark-mode .mini-card {
+  background-color: #111827;
+  border-color: #374151;
+}
+body.dark-mode .pick-card span,
+body.dark-mode .mini-card span,
+body.dark-mode .items-col span {
+  color: #e5e7eb;
+}
+body.dark-mode .items-actions {
+  background: linear-gradient(180deg, transparent, #111827 40%);
+}
+
+/* Wizard */
+body.dark-mode .wizard li {
+  background: #111827;
+  color: #e5e7eb;
+}
+body.dark-mode .wizard li.active {
+  background: #b22222;
+  color: #fff;
+}
+body.dark-mode .wizard li.done {
+  background: #14532d;
+  color: #bbf7d0;
+}
+
+/* Footer */
+body.dark-mode .footer {
+  background-color: #111;
+  color: #ccc;
+}
+
+/* Scrollbar */
 body.dark-mode::-webkit-scrollbar-thumb {
   background-color: #444 !important;
 }
+
 
 
 

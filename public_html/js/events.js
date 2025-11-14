@@ -696,7 +696,7 @@ function setupEventFormCollections(ev){
   paintCollections();
   editingColId = null;
   elItemSearchWrap.hidden = true;
-  wrap.innerHTML = `<p class="muted">Seleciona uma coleção para escolher os itens.</p>`;
+  wrap.innerHTML = `<p class="muted">Sellect a collection to choose the items.</p>`;
 
   
   return function collectSelected(){
@@ -723,13 +723,13 @@ function closeForm(){
 /* =============== */
 function openJoin(ev){
     if (!isUpcoming(ev.date)) {
-    alert('Já não é possível participar num evento que já aconteceu.');
+    alert('It is no longer possible to particpate in this event, it has already happen.');
     return;
   }
   closeDetail(); // fecha o modal
   const modal = $('#joinForm');
   modal.classList.add('show');
-  $('#join-title').textContent = `Participar em: ${ev.name}`;
+  $('#join-title').textContent = `Participate in: ${ev.name}`;
 
     const pick = {
     eventId: ev.id,
@@ -778,7 +778,7 @@ function openJoin(ev){
               <img src="img/${col.img}" alt="${col.name}">
               <strong>${col.name}</strong>
             </div>
-            <button type="button" class="tiny" data-all="${colId}">Selecionar todos</button>
+            <button type="button" class="tiny" data-all="${colId}">Sellect all</button>
           </div>
           <div class="mini-grid">${itemsHtml}</div>
         </div>
@@ -836,10 +836,10 @@ function openJoin(ev){
       user: pick.user
     };
     state.participations.push(payload);
-    console.log('Participação registada:', payload); 
+    console.log('Participation registered:', payload); 
 
     closeJoin();
-    alert('Participação confirmada! 🎉');
+    alert('Participation confirmed! 🎉');
   };
 
  
@@ -945,6 +945,28 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 });
+
+document.addEventListener("DOMContentLoaded", () => {
+  if (window.location.hash === "#eventDetail") {
+    const modal = document.getElementById("eventDetail");
+
+    if (!modal) return;
+
+    if (typeof openEventDetail === "function" && Array.isArray(window.events) && window.events.length > 0) {
+     
+      openEventDetail(window.events[0]);
+    } else {
+    
+      modal.setAttribute("aria-hidden", "false");
+      modal.classList.add("open");
+    }
+  }
+});
+
+
+
+
+
 
 
 

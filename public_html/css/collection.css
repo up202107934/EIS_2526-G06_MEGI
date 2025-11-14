@@ -6,9 +6,6 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/css.css to edit this t
     Created on : 08/11/2025, 11:11:08
     Author     : hp
 */
-
-
- 
 html, body {
   margin: 0 !important;
   padding: 0 !important;
@@ -193,7 +190,7 @@ body {
   color: #444;
   margin-bottom: 10px;
 }
-.item-info {
+.category-badge {
   display: inline-flex;          
   gap: 16px;
   justify-content: center;
@@ -203,7 +200,7 @@ body {
   font-size: 13px;
   color: #333;
 }
-.item-info span { display: inline-flex; align-items: center; gap: 6px; }
+.item-info span { display: inline-flex; align-items: center; gap: 6px; flex-wrap: nowrap; }
 .item-card .btn-details {
   background-color: #B22222;
   color: white;
@@ -297,9 +294,101 @@ body.dark-mode .navbar {
 }
 body.dark-mode .navbar-logo a { color: #f3d24a !important; }
 
+body.dark-mode .navbar-search {
+  background: #1e1e1e;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.7);
+}
+
+body.dark-mode .navbar-search input {
+  color: #f1f1f1;
+}
+
+body.dark-mode .search-btn {
+  color: #f1f1f1;
+}
+
+body.dark-mode .collection-toolbar.pro {
+  background: #111827;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.7);
+  border: 1px solid #1f2933;
+}
+
+body.dark-mode .collection-toolbar .field {
+  background: #111827;
+  border-color: #374151;
+}
+
+body.dark-mode .collection-toolbar .field > span {
+  color: #e5e7eb;
+}
+
+body.dark-mode .collection-toolbar .field select {
+  color: #e5e7eb;
+}
+
+
+body.dark-mode .btn-view.chip {
+  background: #111827;
+  color: #e5e7eb;
+  border-color: #374151;
+}
+
+body.dark-mode .btn-view.chip:hover {
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.7);
+}
+
+body.dark-mode .btn-view[aria-pressed="true"] {
+  background: #b22222;
+  color: #fff;
+  border-color: #b22222;
+}
+
+body.dark-mode .collection-events {
+  background: #111827;
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.7);
+  border: 1px solid #1f2937;
+}
+
+body.dark-mode .collection-events > h2 {
+  color: #ffd54f;
+}
+
+body.dark-mode .collection-events-columns h3 {
+  color: #9ca3af;
+}
+
+body.dark-mode .event-card {
+  background: #1f2933;
+  border-color: #374151;
+}
+
+body.dark-mode .event-card h4 {
+  color: #e5e7eb;
+}
+
+body.dark-mode .event-meta {
+  color: #9ca3af;
+}
+
+body.dark-mode .event-desc {
+  color: #d1d5db;
+}
+
+body.dark-mode .event-link {
+  color: #fca5a5;
+}
+
+
 body.dark-mode .collection-header {
-  background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url("img/starwars-banner.jpg") center/cover no-repeat !important;
+  background:
+    linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)),
+    url("../img/starwars-banner.jpg") center/cover no-repeat !important;
   border-bottom-color: #b8860b !important;
+}
+
+body.dark-mode .collection-author-box {
+  background-color: #111 !important;
+  color: #f1f1f1 !important;
 }
 
 body.dark-mode .collection-title {
@@ -336,7 +425,6 @@ body.dark-mode .modal-content {
 body.dark-mode .add-item-btn,
 body.dark-mode .btn,
 body.dark-mode .btn-add,
-body.dark-mode .btn-view,
 body.dark-mode .btn-create {
   background-color: #9f1f1f !important;
   color: #fff !important;
@@ -426,10 +514,11 @@ body.dark-mode .collection-items.list-view .item-card h3 {
   display: flex;
   justify-content: flex-start; 
   gap: 15px; 
-  font-size: 13px;
+  font-size: 12px;
   color: #555;
   margin-bottom: 0;
   margin-top: 5px; 
+  flex-wrap: nowrap;
 }
 body.dark-mode .collection-items.list-view .item-card .item-info span {
     color: #ccc !important; 
@@ -772,6 +861,31 @@ body.dark-mode #addItemModal input[type="date"] {
   color: #f1f1f1;
 }
 
+body.dark-mode .categorySelect {
+  background: #111827;
+  color: #e5e7eb;
+  border-color: #374151;
+  background-image: linear-gradient(45deg, transparent 50%, #e5e7eb 50%),
+                    linear-gradient(135deg, #e5e7eb 50%, transparent 50%),
+                    linear-gradient(to right, #374151, #374151);
+}
+
+body.dark-mode .categorySelect:hover {
+  border-color: #4b5563;
+}
+
+body.dark-mode .categorySelect:focus {
+  border-color: #b22222;
+  box-shadow: 0 0 0 3px rgba(178, 34, 34, 0.4);
+  background-color: #020617;
+}
+
+body.dark-mode .categorySelect option {
+  background-color: #020617;
+  color: #e5e7eb;
+}
+
+
 body.dark-mode #addItemModal .drop-zone {
   background-color: #2a2a2a;
   border-color: #B22222;
@@ -780,6 +894,31 @@ body.dark-mode #addItemModal .drop-zone:hover {
   background-color: #333;
 }
 
+body.dark-mode .collection-info {
+  background-color: #111827;
+  border-color: #1f2937;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.7);
+}
+
+body.dark-mode .collection-author-box {
+  color: #f1f1f1;
+}
+
+body.dark-mode .collection-author-avatar img {
+  border-color: #374151;
+}
+
+body.dark-mode .collection-author-label {
+  color: #9ca3af;
+}
+
+body.dark-mode .collection-author-name {
+  color: #e5e7eb;
+}
+
+body.dark-mode .collection-author-name:hover {
+  color: #fde68a;
+}
 
 /*TOOLBAR */
 

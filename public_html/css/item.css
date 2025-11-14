@@ -291,3 +291,157 @@
 .profile-dropdown a:hover {
   background: #f5f5f5;
 }
+
+
+/* =========================
+   DARK MODE – ITEM PAGE
+   ========================= */
+
+/* Fundo da página */
+body.dark-mode {
+  background-color: #0b0b0b;
+  color: #e9e9e9;
+}
+
+/* Navbar */
+body.dark-mode .navbar {
+  background-color: #111;
+  color: #f1f1f1;
+}
+
+body.dark-mode .navbar a {
+  color: #f1f1f1;
+}
+
+body.dark-mode .navbar a:hover {
+  background-color: rgba(255,255,255,0.08);
+}
+
+/* item */
+body.dark-mode .item-page-container {
+  background: #111827;
+  color: #e5e7eb;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.7);
+}
+
+/* Título e categoria */
+body.dark-mode .item-title {
+  color: #ffd54f;
+}
+
+body.dark-mode .item-category {
+  color: #9ca3af;
+}
+
+/* Imag */
+body.dark-mode .item-header img {
+  box-shadow: 0 6px 15px rgba(0,0,0,0.6);
+}
+
+/* Technical Sheet */
+body.dark-mode .tech-sheet {
+  background: #020617;
+  border-left-color: #b8860b;
+}
+
+body.dark-mode .tech-sheet h2 {
+  color: #ffd54f;
+}
+
+body.dark-mode .k {
+  color: #fbbf24;
+}
+
+body.dark-mode .v {
+  color: #e5e7eb;
+}
+
+/* Descrição */
+body.dark-mode .description h2 {
+  color: #ffd54f;
+}
+
+body.dark-mode .description p {
+  color: #e5e7eb;
+}
+
+/* Botões  (Edit / Delete) */
+body.dark-mode .btn {
+  background-color: #9f1f1f;
+  color: #fff;
+}
+
+body.dark-mode .btn:hover {
+  background-color: #ef4444;
+}
+
+/* Botão (Cancel) */
+body.dark-mode .btn.secondary {
+  background-color: #374151;
+  color: #e5e7eb;
+}
+
+body.dark-mode .btn.secondary:hover {
+  background-color: #4b5563;
+}
+
+/* Botão "Back to Collection" */
+body.dark-mode .back-btn {
+  background-color: #9f1f1f;
+  color: #fff;
+}
+
+body.dark-mode .back-btn:hover {
+  background-color: #ef4444;
+}
+
+/* Modais */
+body.dark-mode .modal {
+  background: rgba(0, 0, 0, 0.7);
+}
+
+body.dark-mode .modal-content {
+  background: #111827;
+  color: #e5e7eb;
+  border: 1px solid #374151;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+}
+
+body.dark-mode .modal label {
+  color: #fbbf24;
+}
+
+body.dark-mode .modal input,
+body.dark-mode .modal textarea,
+body.dark-mode .modal select {
+  background-color: #020617;
+  border-color: #4b5563;
+  color: #e5e7eb;
+}
+
+/* Like  */
+body.dark-mode .like-count {
+  color: #e5e7eb;
+}
+
+body.dark-mode .like-btn {
+  color: #fca5a5;
+}
+
+body.dark-mode .like-btn.liked {
+  color: #fb7185;
+}
+
+body.dark-mode .profile-dropdown {
+  background: #111827;
+  border: 1px solid #374151;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.7);
+}
+
+body.dark-mode .profile-dropdown a {
+  color: #e5e7eb;
+}
+
+body.dark-mode .profile-dropdown a:hover {
+  background: #1f2933;
+}
