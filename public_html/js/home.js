@@ -1,6 +1,5 @@
 // home.js
 
-// === helpers de storage (home.js) ===
 const STORAGE_KEY = "collections";
 
 const safeJSON = (key, fallback) => {
@@ -27,17 +26,15 @@ const uid = () => (crypto?.randomUUID?.() || String(Date.now() + Math.random()))
 const $$ = (sel, root = document) => Array.from(root.querySelectorAll(sel));
 
 document.addEventListener("DOMContentLoaded", () => {
-  // =========================
-  // TOP COLLECTIONS FILTER ELEMENTS
-  // =========================
+    
+  // Top collections elementos para filtrar
   const topGrid      = document.getElementById("topCollectionsGrid");
   const topChips     = document.querySelectorAll(".chip-top");
   const topSubtitle  = document.getElementById("topSubtitle");
   const originalTopHTML = topGrid ? topGrid.innerHTML : "";
 
-  // =========================
-  // 1) DARK MODE
-  // =========================
+ 
+  // Dark mode
   const themeToggle = document.getElementById("themeToggle");
   if (themeToggle) {
     const currentTheme = localStorage.getItem("theme");
@@ -53,9 +50,8 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // =========================
-  // 2) DROPDOWN DE PERFIL
-  // =========================
+  
+  // perfil
   const avatarButton = document.getElementById("avatarButton");
   const profileDropdown = document.getElementById("profileDropdown");
   const navbarUser = document.querySelector(".navbar-user");
@@ -74,9 +70,8 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // =========================
-  // 3) HERO - SCROLL SUAVE
-  // =========================
+  
+  // scroll para a parte das colecoes
   const heroBtn = document.querySelector(".hero-btn");
   if (heroBtn) {
     heroBtn.addEventListener("click", function (e) {
@@ -101,9 +96,8 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // =========================
-  // 4) MINI-CAROUSEL (clona itens p/ loop)
-  // =========================
+  
+  // carrosel para os itens
   function initMiniCarousels(root = document) {
     $$(".mini-track", root).forEach((track) => {
       if (!track.dataset.cloned) {
@@ -114,13 +108,11 @@ document.addEventListener("DOMContentLoaded", () => {
   }
   initMiniCarousels(document);
 
-  // =========================
-  // 5) TOP 5 FILTERS (Featured / Recently added)
-  // =========================
+ 
 
-  // devolve as 5 coleções mais recentes criadas pelo utilizador
+  // 5 coleções mais recentes criadas pelo utilizador
   function getRecentTop5() {
-    const all = getCollections();          // usa o STORAGE_KEY = "collections"
+    const all = getCollections();          
     if (!all.length) return [];
 
     const copy = all.slice();
@@ -142,7 +134,6 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    // --- recent (do user) ---
     const recent = getRecentTop5();
     if (topSubtitle) {
       topSubtitle.textContent = "Your last 5 created collections (only from your account).";
@@ -161,8 +152,6 @@ document.addEventListener("DOMContentLoaded", () => {
         const itemCount  = Array.isArray(c.items) ? c.items.length : 0;
         const safeId     = encodeURIComponent(c.id || c.name);
 
-        // ✅ Aqui garantimos que Recently Added abre em new_collection.html
-        // e Featured continua a abrir em collection.html
         const pageLink = mode === "recent" ? "new_collection.html" : "collection.html";
 
         return `
@@ -188,7 +177,6 @@ document.addEventListener("DOMContentLoaded", () => {
     initMiniCarousels(topGrid);
   }
 
-  // ligar cliques nos chips
   topChips.forEach(chip => {
     chip.addEventListener("click", () => {
       topChips.forEach(c => c.classList.remove("active"));
@@ -198,12 +186,9 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  // render inicial (usa o HTML que já vinha do ficheiro → featured)
   renderTopCollections("featured");
 
-  // =========================
-  // 6) PESQUISA LOCAL
-  // =========================
+  // search bar
   const searchForm = document.getElementById("searchForm");
   const searchInput = document.getElementById("searchInput");
 
@@ -212,7 +197,6 @@ document.addEventListener("DOMContentLoaded", () => {
       e.preventDefault();
       const query = searchInput.value.trim().toLowerCase();
 
-      // apanha SEMPRE os cards atuais (pode ter mudado o filtro)
       const cards = topGrid
         ? topGrid.querySelectorAll(".collection-card")
         : document.querySelectorAll(".collection-card");
@@ -247,9 +231,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // =========================
-  // 7) MODAL "CREATE COLLECTION" (igual ao user)
-  // =========================
+  // criar colecao
   const openBtn   = document.getElementById("openModal");
   const modal     = document.getElementById("createCollectionModal");
   const cancelBtn = document.getElementById("cancelCollection");
@@ -274,7 +256,6 @@ document.addEventListener("DOMContentLoaded", () => {
     if (e.target === modal) closeModal();
   });
 
-  // Dropzone
   dropZone?.addEventListener("click", () => fileInput?.click());
   dropZone?.addEventListener("dragover", (e) => {
     e.preventDefault();
@@ -312,7 +293,7 @@ document.addEventListener("DOMContentLoaded", () => {
     reader.readAsDataURL(file);
   });
 
-  // ===== Guardar coleção (home: guarda e redireciona p/ user)
+  // guardar coleção- guarda e depois leva para a parte do user
   saveBtn?.addEventListener("click", () => {
     if (!nameInput) return;
 
@@ -337,13 +318,12 @@ document.addEventListener("DOMContentLoaded", () => {
       desc,
       img: imgSrc,
       items: [],
-      createdAt: Date.now(),// <— usado para “Recently added”
+      createdAt: Date.now(),
       ownedByUser: true 
 });
     
     saveCollections(all);
 
-    // limpar modal
     nameInput.value = "";
     if (descInput) descInput.value = "";
     if (fileInput) fileInput.value = "";
@@ -351,7 +331,6 @@ document.addEventListener("DOMContentLoaded", () => {
     if (dropZone) dropZone.style.display = "flex";
     closeModal();
 
-    // vai ver a coleção na página do utilizador
     window.location.href = "user.html#minhas-colecoes";
   });
 });
