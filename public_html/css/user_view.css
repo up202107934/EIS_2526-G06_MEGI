@@ -3,9 +3,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to c
 Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/css.css to edit this template
 */
 
-/* ============================
-   BASE & RESET
-============================ */
+
 * {
   box-sizing: border-box;
   margin: 0;
@@ -30,7 +28,7 @@ a {
   color: inherit;
 }
 
-/* ===== NAVBAR ===== */
+/* navbar */
 .navbar {
   display: flex;
   align-items: center;
@@ -85,7 +83,6 @@ a {
   gap: 16px;
 }
 
-/* search bubble da direita */
 .navbar-search {
   display: flex;
   align-items: center;
@@ -129,7 +126,7 @@ a {
   cursor: pointer;
 }
 
-/* Dark mode na navbar */
+/* dark mode */
 body.dark-mode .navbar {
   background-color: #111827;
 }
@@ -148,21 +145,16 @@ body.dark-mode .navbar-search input {
 }
 
 
-/* ============================
-   LAYOUT GERAL
-============================ */
+/*geral */
 .page-container {
   flex-grow: 1;
   max-width: 1200px;
   margin: 40px auto 60px;
   padding: 0 20px;
-  /* já não precisamos de flex aqui porque não há sidebar */
 }
 
 
-/* ============================
-   SIDEBAR
-============================ */
+/* sidebar*/
 .sidebar {
   width: 260px;
   background: #ffffff;
@@ -202,7 +194,6 @@ body.dark-mode .navbar-search input {
   font-weight: 600;
 }
 
-/* RESET do botão da navbar — usa só o estilo original */
 .theme-toggle {
   background: transparent !important;
   border: none;
@@ -216,14 +207,12 @@ body.dark-mode .navbar-search input {
   transform: scale(1.1);
 }
 
-/* ============================
-   CONTEÚDO PRINCIPAL
-============================ */
+
 .main-content {
   flex: 1;
 }
 
-/* ----- Cartão de Perfil ----- */
+/* perfil */
 .profile-header {
   display: flex;
   align-items: center;
@@ -299,9 +288,7 @@ body.dark-mode .navbar-search input {
 }
 
 
-/* ============================
-   FOOTER
-============================ */
+/* footer*/
 .footer {
   background-color: #2b2d42;
   color: #edf2f4;
@@ -311,9 +298,7 @@ body.dark-mode .navbar-search input {
   margin-top: auto;
 }
 
-/* ============================
-   DARK MODE
-============================ */
+/* darkmode*/
 body.dark-mode {
   background-color: #121212;
   color: #f1f1f1;
@@ -393,9 +378,7 @@ body.dark-mode .footer {
   color: #ccc;
 }
 
-/* ============================
-   RESPONSIVO
-============================ */
+
 @media (max-width: 900px) {
   .page-container {
     flex-direction: column;
@@ -434,9 +417,7 @@ body.dark-mode .footer {
   }
 }
 
-/* ============================
-   MY COLLECTIONS
-============================ */
+/* my collection */
 .collections-section {
   margin-top: 24px;
 }
@@ -447,14 +428,12 @@ body.dark-mode .footer {
   color: #b22222;
 }
 
-/* Grelha das coleções: 2–3 cards por linha consoante a largura */
 .collections-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
   gap: 20px;
 }
 
-/* ----- Cartão de coleção ----- */
 .collection-card {
   background: #ffffff;
   border-radius: 16px;
@@ -470,7 +449,6 @@ body.dark-mode .footer {
   box-shadow: 0 8px 22px rgba(0, 0, 0, 0.12);
 }
 
-/* imagem de capa */
 .collection-card > img {
   width: 100%;
   height: 150px;
@@ -479,7 +457,6 @@ body.dark-mode .footer {
   margin-bottom: 10px;
 }
 
-/* título + texto “X items” */
 .collection-card h3 {
   margin: 4px 2px 2px;
   font-size: 16px;
@@ -493,10 +470,9 @@ body.dark-mode .footer {
 }
 
 
-/* ----- mini-carousel (comboio automático) ----- */
 .mini-carousel {
   margin-bottom: 10px;
-  overflow: hidden;               /* esconde scrollbars */
+  overflow: hidden;              
   position: relative;
 }
 
@@ -531,9 +507,9 @@ body.dark-mode .footer {
 }
 
 
-/* ----- Botão View Collection ----- */
+/*Botão View Collection */
 .btn-view {
-  margin-top: auto;          /* encosta o botão ao fundo do card */
+  margin-top: auto;          
   align-self: stretch;
   display: inline-block;
   text-align: center;
@@ -552,7 +528,7 @@ body.dark-mode .footer {
   transform: translateY(-1px);
 }
 
-/* Botão remover (se usares) */
+/* Botão remover */
 .btn-remove {
   margin-top: 8px;
   align-self: flex-end;
@@ -596,7 +572,7 @@ body.dark-mode .footer {
 
 
 
-/* DROPDOWN PERFIL */
+/* dropdown do perfil */
 .navbar-avatar-wrapper {
   position: relative;
 }

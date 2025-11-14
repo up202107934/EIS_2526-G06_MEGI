@@ -19,7 +19,6 @@ body {
   font-family: Arial, sans-serif;
 }
 
-/* garante que a navbar não herda nenhuma margem estranha */
 .navbar {
   margin: 0 !important;
 }
@@ -114,7 +113,7 @@ body {
 }
 
 
-/* ===== BANNER HEADER ===== */
+/* BANNER HEADER */
 
 .collection-header{
   position: relative;
@@ -129,7 +128,7 @@ body {
 }
 
 
-/* ===== TÍTULO ABAIXO DO BANNER ===== */
+/*TITULO ABAIXO DO BANNER */
 .collection-title {
   text-align: center;
   font-size: 40px;
@@ -144,8 +143,7 @@ body {
 
 
 
-/* ===== GRID DOS ITENS =====
-   */
+/* GRID DOS ITENS*/
 .collection-items {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -224,7 +222,7 @@ body {
   color: white; 
 }
 
-/* ===== BOTÃO ADD ITEM =====*/
+/* BOTÃO ADD ITEM*/
 .add-item-btn {
   position: static;             
   display: block;
@@ -244,7 +242,7 @@ body {
   transform: scale(1.05);
 }
 
-/* ===== MODAL ===== */
+/* MODAL */
 .modal {
   display: none;
   position: fixed;
@@ -287,7 +285,7 @@ body {
 #saveItem { background-color: #B22222; color: white; }
 #cancelItem { background-color: #ccc; }
 
-/* ===== DARK MODE ===== */
+/*DARK MODE*/
 body.dark-mode {
   background-color: #0b0b0b !important;
   color: #e9e9e9 !important;
@@ -357,7 +355,7 @@ body.dark-mode::-webkit-scrollbar-thumb {
   background-color: #444 !important;
 }
 
-/* ===== LIST VIEW STYLES ===== */
+/*LIST VIEW*/
 
 
 .collection-items.list-view {
@@ -402,22 +400,19 @@ body.dark-mode::-webkit-scrollbar-thumb {
 
 
 .collection-items.list-view .item-text {
-  /* ADICIONA/ALTERA ISTO */
   display: flex;
-  align-items: baseline; /* Alinha o título e a descrição pela base */
-  gap: 10px; /* Espaço entre o nome e a descrição */
-  margin-bottom: 8px; /* Espaço para a linha de info (rating/preço) */
+  align-items: baseline; 
+  gap: 10px; 
+  margin-bottom: 8px; 
 }
 
 .collection-items.list-view .item-card h3 {
-  /* ALTERAÇÃO AQUI */
-  font-size: 18px; /* Um pouco mais pequeno para caber */
-  margin-bottom: 0; /* O flex-gap controla o espaço */
-  color: #B22222;   /* A cor vermelha pedida */
-  flex-shrink: 0; /* Impede o nome de quebrar */
+  font-size: 18px; 
+  margin-bottom: 0; 
+  color: #B22222;  
+  flex-shrink: 0; 
 }
 
-/* Deixa a regra do dark-mode como está */
 body.dark-mode .collection-items.list-view .item-card h3 {
     color: #ffd54f !important; 
 }
@@ -425,63 +420,60 @@ body.dark-mode .collection-items.list-view .item-card h3 {
 .collection-items.list-view .item-card p {
   font-size: 14px;
   color: #666;
-  /* ADICIONA ISTO */
-  margin-bottom: 0; /* O flex-gap controla o espaço */
+  margin-bottom: 0; 
 }
-/* 6. Informações (rating, preço, peso) */
 .collection-items.list-view .item-info {
   display: flex;
-  justify-content: flex-start; /* Alinha à esquerda */
-  gap: 15px; /* Espaço entre os spans */
+  justify-content: flex-start; 
+  gap: 15px; 
   font-size: 13px;
   color: #555;
-  margin-bottom: 0; /* Remove a margem extra */
-  margin-top: 5px; /* Pequena margem superior */
+  margin-bottom: 0;
+  margin-top: 5px; 
 }
 body.dark-mode .collection-items.list-view .item-card .item-info span {
-    color: #ccc !important; /* Cor no dark mode */
+    color: #ccc !important; 
 }
 
 
-/* 7. Botão "View Details" */
+/* Botão "View Details" */
 .collection-items.list-view .item-actions {
-  flex-shrink: 0; /* Impede o botão de encolher */
-  margin-left: auto; /* Empurra para a extrema direita */
+  flex-shrink: 0; 
+  margin-left: auto; 
 }
 
 .collection-items.list-view .item-actions button {
-  padding: 10px 20px; /* Mais padding para o botão */
+  padding: 10px 20px; 
   font-size: 14px;
   border-radius: 6px;
-  min-width: 120px; /* Garante uma largura mínima */
+  min-width: 120px; 
 }
 
-/* Responsividade para ecrãs mais pequenos na List View */
 @media (max-width: 768px) {
   .collection-items.list-view .item-card {
-    flex-direction: column; /* Empilha tudo verticalmente */
-    align-items: flex-start; /* Alinha à esquerda */
+    flex-direction: column; 
+    align-items: flex-start; 
     gap: 10px;
   }
   .collection-items.list-view .item-card img {
     margin-right: 0;
-    margin-bottom: 10px; /* Espaço abaixo da imagem */
+    margin-bottom: 10px; 
   }
   .collection-items.list-view .item-details {
     margin-right: 0;
-    width: 100%; /* Ocupa a largura toda */
+    width: 100%; 
     align-items: flex-start;
   }
   .collection-items.list-view .item-actions {
-    margin-left: 0; /* Remove o margin-left: auto */
-    width: 100%; /* Ocupa a largura toda */
+    margin-left: 0; 
+    width: 100%; 
   }
   .collection-items.list-view .item-actions button {
-    width: 100%; /* Botão ocupa a largura toda */
+    width: 100%; 
   }
 }
 
-/* Ajustes para Dark Mode */
+/*Dark Mode */
 body.dark-mode .collection-items.list-view .item-card {
     background-color: #1b1b1b !important;
     box-shadow: 0 4px 10px rgba(0,0,0,0.4) !important;
@@ -490,13 +482,12 @@ body.dark-mode .collection-items.list-view .item-card:hover {
     box-shadow: 0 8px 15px rgba(0,0,0,0.6) !important;
 }
 
-/* ===== ESTILOS DO BOTÃO "LIKE" ===== */
+/* BOTÃO like*/
 
 .like-container {
   display: inline-flex;
   align-items: center;
-  gap: 6px; /* Espaço entre o coração e o número */
-  /* O .item-info já é flex, por isso isto alinha-se bem */
+  gap: 6px; 
 }
 
 .like-btn {
@@ -505,30 +496,27 @@ body.dark-mode .collection-items.list-view .item-card:hover {
   padding: 0;
   margin: 0;
   cursor: pointer;
-  font-size: 22px; /* Tamanho do coração */
-  color: #B22222; /* Cor do coração (vermelho) */
+  font-size: 22px; 
+  color: #B22222; 
   transition: transform 0.2s ease, color 0.2s;
-  
-  /* Remove o outline azul feio ao clicar */
-  outline: none; 
+    outline: none; 
 }
 
 .like-btn:hover {
-  transform: scale(1.2); /* Efeito de zoom */
+  transform: scale(1.2); 
 }
 
 .like-btn.liked {
-  color: #FF4C4C; /* Cor mais viva quando gostado */
-  /* O emoji de coração preenchido é adicionado via JS */
+  color: #FF4C4C; 
 }
 
 .like-count {
-  font-size: 16px; /* Tamanho do número */
+  font-size: 16px; 
   font-weight: 600;
-  color: #333; /* Cor do número */
+  color: #333; 
 }
 
-/* Ajustes para o Dark Mode */
+/*Dark Mode */
 body.dark-mode .like-count {
   color: #eee;
 }
@@ -541,56 +529,50 @@ body.dark-mode .like-btn.liked {
   color: #FF4C4C;
 }
 
-/* ===== DROPDOWN DO PERFIL ===== */
+/* dropdown do perfil */
 
-/* 1. O 'container' que segura o menu */
 .navbar-user {
-  position: relative; /* Obrigatório para o menu flutuar */
+  position: relative;
 }
 
-/* 2. O cursor do avatar */
 .navbar-avatar {
-  cursor: pointer; /* Mãozinha ao passar por cima */
+  cursor: pointer; 
   transition: all 0.2s ease;
 }
 .navbar-avatar:hover {
-  opacity: 0.8; /* Efeito subtil */
+  opacity: 0.8; 
 }
 
 
-/* 3. O menu dropdown (escondido por defeito) */
 .profile-dropdown {
-  display: none; /* Começa escondido */
+  display: none; 
   position: absolute;
-  top: 55px; /* Posição abaixo do avatar (ajusta se for preciso) */
-  right: 0; /* Alinhado à direita */
+  top: 55px;
+  right: 0; 
   background-color: #fff;
   min-width: 160px;
   box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
   border-radius: 8px;
-  z-index: 101; /* Garante que fica por cima de tudo */
+  z-index: 101; 
 }
 
-/* 4. Os links dentro do menu */
 .profile-dropdown a {
-  color: #333; /* Cor do texto */
+  color: #333; 
   padding: 12px 16px;
   text-decoration: none;
   display: block;
   font-size: 14px;
 }
 
-/* 5. O efeito hover nos links */
+
 .profile-dropdown a:hover {
   background-color: #f1f1f1;
 }
 
-/* 6. A classe que o JS vai adicionar para mostrar o menu */
 .profile-dropdown.show {
   display: block;
 }
 
-/* 7. Estilos para o Dark Mode (importante!) */
 body.dark-mode .profile-dropdown {
   background-color: #1b1b1b;
   border: 1px solid #333;
@@ -602,29 +584,28 @@ body.dark-mode .profile-dropdown a:hover {
   background-color: #333;
 }
 
-/* ===== FOOTER ===== */
+/* FOOTER */
 .footer {
     background-color: #2b2d42;
     color: #edf2f4;
     text-align: center;
     padding: 25px 10px;
     font-size: 14px;
-    margin-top: 0; /* O flex-grow no container trata do espaço */
-    width: 100%; /* Garante a largura total */
+    margin-top: 0; 
+    width: 100%; 
 }
 
-/* Footer para o Dark Mode */
 body.dark-mode .footer {
     background-color: #111;
     color: #ccc;
 }
 
-/* =========== NAVBAR (LOGGED OUT) — 2 colunas, sem título ao centro =========== */
+/*NAVBAR (LOGGED OUT) */
 .navbar--lo{
   --bg:#2b2d42; --fg:#fff; --chip:#B22222; --chip-hover:#FF4C4C;
   position: sticky; top: 0; z-index: 1000;
   display: grid;
-  grid-template-columns: 1fr auto;                 /* esquerda | direita */
+  grid-template-columns: 1fr auto;                 
   align-items: center;
   gap: 16px;
   padding: 18px 28px;
@@ -634,12 +615,10 @@ body.dark-mode .footer {
 .navbar--lo .nav-left  { justify-self: start; }
 .navbar--lo .nav-right { justify-self: end; display: flex; align-items:center; gap: 14px; }
 
-/* Marca (sem sublinhado) */
 .navbar--lo .brand{
   color: var(--fg); text-decoration: none; font-weight: 800; font-size: 22px; letter-spacing:.3px;
 }
 
-/* Pesquisa “pill” */
 .navbar--lo .search{
   display:flex; align-items:center; gap:10px;
   background: rgba(255,255,255,.96);
@@ -652,41 +631,34 @@ body.dark-mode .footer {
 }
 .navbar--lo .icon-btn{ border:0; background:transparent; font-size:18px; opacity:.75; cursor:pointer; }
 
-/* Chip Sign in (SEM sublinhado e numa linha) */
 .navbar--lo .signin-chip{
-  text-decoration: none;                       /* <— elimina sublinhado */
+  text-decoration: none;                      
   background: var(--chip); color:#fff;
   padding: 10px 16px; border-radius: 999px;
-  font-weight: 700; line-height: 1;            /* mantém 1 linha */
+  font-weight: 700; line-height: 1;            
   display:inline-flex; align-items:center; gap:8px;
   transition: background .2s, transform .2s;
-  white-space: nowrap;                          /* evita quebra “Sign / in” */
+  white-space: nowrap;                         
 }
 .navbar--lo .signin-chip:hover{ background: var(--chip-hover); transform: translateY(-1px); }
 
-/* Botão tema */
 .navbar--lo .theme-toggle{
   border:0; background:transparent; color:#fff; font-size:22px; cursor:pointer;
   transition: transform .2s, opacity .2s;
 }
 .navbar--lo .theme-toggle:hover{ transform: scale(1.12); opacity:.9; }
 
-/* Responsive */
 @media (max-width: 900px){
   .navbar--lo .search input{ width: min(62vw, 360px); }
 }
 
-/* Dark */
 body.dark-mode .navbar--lo{ background:#111; }
 body.dark-mode .navbar--lo .search{ background: rgba(255,255,255,.12); box-shadow: 0 10px 24px rgba(0,0,0,.4); }
 body.dark-mode .navbar--lo .search input{ color:#eee; }
 
 
-/* ===========================
-   ADD NEW ITEM MODAL – estilo igual ao Create Collection
-=========================== */
+/* ADD NEW ITEM MODAL */
 
-/* Só afeta o modal desta página */
 #addItemModal .modal-content {
   background: #fff;
   padding: 25px;
@@ -699,7 +671,6 @@ body.dark-mode .navbar--lo .search input{ color:#eee; }
   box-shadow: 0 10px 25px rgba(0,0,0,0.25);
 }
 
-/* Título vermelho, igual ao das coleções */
 #addItemModal h2 {
   color: #B22222;
   margin-bottom: 18px;
@@ -707,7 +678,6 @@ body.dark-mode .navbar--lo .search input{ color:#eee; }
   font-weight: 700;
 }
 
-/* Labels mais consistentes */
 #addItemModal label {
   display: block;
   font-size: 14px;
@@ -716,7 +686,6 @@ body.dark-mode .navbar--lo .search input{ color:#eee; }
   color: #444;
 }
 
-/* Inputs iguais aos do user/home */
 #addItemModal input[type="text"],
 #addItemModal input[type="number"],
 #addItemModal input[type="date"] {
@@ -735,7 +704,6 @@ body.dark-mode .navbar--lo .search input{ color:#eee; }
   border-color: #B22222;
 }
 
-/* Dropzone igual à das coleções */
 #addItemModal .drop-zone {
   border: 2px dashed #B22222;
   border-radius: 10px;
@@ -758,7 +726,6 @@ body.dark-mode .navbar--lo .search input{ color:#eee; }
   border-color: #FF4C4C;
 }
 
-/* Botões no fundo alinhados e bonitinhos */
 #addItemModal .modal-buttons {
   display: flex;
   justify-content: flex-end;
@@ -775,7 +742,6 @@ body.dark-mode .navbar--lo .search input{ color:#eee; }
   font-size: 14px;
 }
 
-/* Save = vermelho, Cancel = cinza (igual ao resto do site) */
 #saveItem {
   background-color: #B22222;
   color: #fff;
@@ -792,7 +758,6 @@ body.dark-mode .navbar--lo .search input{ color:#eee; }
   background-color: #bbb;
 }
 
-/* Dark mode para o modal */
 body.dark-mode #addItemModal .modal-content {
   background-color: #1e1e1e;
   color: #f1f1f1;
@@ -816,9 +781,8 @@ body.dark-mode #addItemModal .drop-zone:hover {
 }
 
 
-/* ===== TOOLBAR DA COLLECTION – igual aos Events ===== */
+/*TOOLBAR */
 
-/* Card branco com sombra */
 .collection-toolbar.pro {
   max-width: 1200px;
   margin: 0 auto 24px;
@@ -828,7 +792,7 @@ body.dark-mode #addItemModal .drop-zone:hover {
   box-shadow: 0 6px 16px rgba(0,0,0,0.08);
 
   display: grid;
-  grid-template-columns: 1fr auto; /* esquerda | direita */
+  grid-template-columns: 1fr auto; 
   align-items: center;
   gap: 16px;
 }
@@ -836,7 +800,6 @@ body.dark-mode #addItemModal .drop-zone:hover {
 .toolbar-left  { justify-self: start; }
 .toolbar-right { justify-self: end;  }
 
-/* botões Grid / List em “chip” redondinho */
 .collection-toolbar .view-toggle {
   display: flex;
   gap: 10px;
@@ -862,14 +825,12 @@ body.dark-mode #addItemModal .drop-zone:hover {
   box-shadow: 0 2px 6px rgba(0,0,0,0.06);
 }
 
-/* ativo (aria-pressed="true") em vermelho, como nos Events */
 .btn-view[aria-pressed="true"] {
   background: #B22222;
   color: #fff;
   border-color: #B22222;
 }
 
-/* ícones desenhados em CSS, iguais aos de events.css */
 .icon-grid,
 .icon-list {
   width: 16px;
@@ -877,7 +838,6 @@ body.dark-mode #addItemModal .drop-zone:hover {
   display: inline-block;
 }
 
-/* 4 quadradinhos */
 .icon-grid {
   background:
     linear-gradient(currentColor,currentColor) 0   0/7px 7px no-repeat,
@@ -887,7 +847,6 @@ body.dark-mode #addItemModal .drop-zone:hover {
   border-radius: 3px;
 }
 
-/* 3 linhas */
 .icon-list {
   background:
     linear-gradient(currentColor,currentColor) left  2px/16px 2px no-repeat,
@@ -895,7 +854,6 @@ body.dark-mode #addItemModal .drop-zone:hover {
     linear-gradient(currentColor,currentColor) left 12px/16px 2px no-repeat;
 }
 
-/* “Sort” em pastilha igual ao Sort/Status dos Events */
 .collection-toolbar .field {
   display: inline-flex;
   align-items: center;
@@ -920,7 +878,6 @@ body.dark-mode #addItemModal .drop-zone:hover {
   padding: 6px 4px;
 }
 
-/* Responsivo: empilha em ecrãs pequenos */
 @media (max-width: 900px) {
   .collection-toolbar.pro {
     grid-template-columns: 1fr;
@@ -937,9 +894,8 @@ body.dark-mode #addItemModal .drop-zone:hover {
 
 
 
-/* Sign in chip – igual ao dos Events */
 .signin-chip{
-  text-decoration: none;        /* tira o sublinhado roxo */
+  text-decoration: none;        
   background: #B22222;
   color: #fff;
   padding: 10px 16px;
@@ -949,7 +905,7 @@ body.dark-mode #addItemModal .drop-zone:hover {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  white-space: nowrap;          /* evita “Sign” ir para outra linha */
+  white-space: nowrap;         
   transition: background .2s, transform .2s;
 }
 
@@ -959,7 +915,6 @@ body.dark-mode #addItemModal .drop-zone:hover {
 }
 
 
-/* Card do autor */
 .collection-info{
   max-width: 1100px;
   margin: 12px auto 24px;
@@ -985,7 +940,6 @@ body.dark-mode #addItemModal .drop-zone:hover {
   border: 2px solid #ddd;
 }
 
-/* tipografia */
 .collection-author-text{ line-height: 1.2; }
 .collection-author-label{
   display: block;
@@ -1011,7 +965,7 @@ body.dark-mode #addItemModal .drop-zone:hover {
 
 .hidden { display: none !important; }
 
-/* ===== Events section on collection page ===== */
+/* secao de evetnos na pagina colecao */
 .collection-events {
   margin: 24px auto 10px;
   max-width: 1200px;
@@ -1081,7 +1035,7 @@ body.dark-mode #addItemModal .drop-zone:hover {
   font-weight: 600;
 }
 
-/* ===== SELECT DE CATEGORIA (MODAL) ===== */
+/* SELECT DE CATEGORIA */
 
 .categorySelect {
   width: 100%;
@@ -1117,12 +1071,11 @@ body.dark-mode #addItemModal .drop-zone:hover {
 }
 
 .categorySelect:focus {
-  border-color: #b22222;      /* vermelho bonito igual aos teus chips */
+  border-color: #b22222;      
   box-shadow: 0 0 0 3px rgba(178, 34, 34, 0.2);
   background-color: #fff;
 }
 
-/* estilo das opções internas */
 .categorySelect option {
   font-weight: 500;
   padding: 8px;

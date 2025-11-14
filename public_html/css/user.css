@@ -3,7 +3,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to c
 Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/css.css to edit this template
 */
 
-/* ===== NAVBAR (igual aos Events) ===== */
+/*  NAVBAR */
 .navbar {
   display: flex;
   align-items: center;
@@ -58,7 +58,6 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/css.css to edit this t
   gap: 16px;
 }
 
-/* search bubble da direita */
 .navbar-search {
   display: flex;
   align-items: center;
@@ -102,7 +101,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/css.css to edit this t
   cursor: pointer;
 }
 
-/* Dark mode na navbar */
+/* Dark mode */
 body.dark-mode .navbar {
   background-color: #111827;
 }
@@ -123,7 +122,6 @@ body.dark-mode .navbar-search input {
 
 
 
-/* ===== USER PAGE ===== */
 body {
   margin: 0;
   font-family: "Poppins", sans-serif;
@@ -143,7 +141,7 @@ body {
 
 a { text-decoration: none; color: inherit; }
 
-/* ====== WhishList ====== */
+/* WhishList  */
 .wishlist-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -197,7 +195,7 @@ body.dark-mode .wishlist-item {
   transform: scale(0.95);
 }
 
-/* ====== SIDEBAR ====== */
+/* SIDEBAR*/
 .sidebar {
   width: 230px;
   background: #fff;
@@ -233,7 +231,7 @@ body.dark-mode .wishlist-item {
   color: #fff;
 }
 
-/* ====== MAIN CONTENT ====== */
+/*main content */
 .main-content {
   flex: 1;
   padding: 0;
@@ -289,15 +287,15 @@ body.dark-mode .wishlist-item {
   margin: 0;
 }
 
-/* ====== FORM ====== */
+/* form*/
 .form-container {
   background: #fff;
   padding: 35px;
   border-radius: 14px;
   box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-  max-width: 1100px;   /* Aumenta o tamanho */
-  width: 100%;         /* Garante que preenche bem */
-  margin: 0 auto;      /* C E N T R A */
+  max-width: 1100px;   
+  width: 100%;         
+  margin: 0 auto;     
 }
 
 .form-row {
@@ -353,7 +351,7 @@ input:focus {
   display: none;
 }
 
-/* ====== MODAL ====== */
+/* modal */
 .modal {
   display: none;
   position: fixed;
@@ -364,7 +362,6 @@ input:focus {
   z-index: 1000;
 }
 
-/* 🩶 ADICIONADO: faz o modal aparecer quando a classe .show é aplicada */
 .modal.show {
   display: flex !important;
 }
@@ -419,7 +416,6 @@ input:focus {
 #saveCollection { background-color: #B22222; color: white; }
 #cancelCollection { background-color: #ccc; }
 
-/* Drag and drop zone */
 .drop-zone {
   border: 2px dashed #B22222;
   border-radius: 10px;
@@ -439,7 +435,6 @@ input:focus {
   border-color: #FF4C4C;
 }
 
-/* ===== MY COLLECTIONS ===== */
 .collections-section {
   margin-top: 60px;
   padding: 40px;
@@ -464,7 +459,6 @@ input:focus {
 }
 
 
-/* ===== COLLECTION CARD ===== */
 .collection-card {
   background: #fff;
   border-radius: 14px;
@@ -497,7 +491,6 @@ input:focus {
   color: #555;
 }
 
-/* ===== MINI CAROUSEL ===== */
 .mini-carousel {
   overflow: hidden;
   width: 100%;
@@ -534,7 +527,6 @@ input:focus {
   animation-play-state: paused;
 }
 
-/* ===== BUTTONS ===== */
 .btn-view, .btn-create {
   display: inline-block;
   padding: 8px 18px;
@@ -574,7 +566,7 @@ input:focus {
   transform: scale(1.05);
 }
 
-/* ===== DARK MODE ===== */
+/* dark mode*/
 body.dark-mode {
   background-color: #121212;
   color: #f1f1f1;
@@ -631,7 +623,7 @@ body.dark-mode .btn-remove:hover {
   background-color: #ff4c4c;
 }
 
-/* ===== FOOTER ===== */
+/* footer */
 .footer {
   background-color: #2b2d42;
   color: #edf2f4;
@@ -653,7 +645,7 @@ html { scroll-behavior: smooth; }
 
 
 
-/* DROPDOWN PERFIL */
+/* dropdown do perfil*/
 .navbar-avatar-wrapper {
   position: relative;
 }
