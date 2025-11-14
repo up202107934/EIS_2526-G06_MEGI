@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // validacao ao preencher
+  
   const form = document.getElementById('register-form');
   const username = document.getElementById('username');
   const email = document.getElementById('email');

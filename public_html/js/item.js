@@ -23,37 +23,37 @@
     bodyLock(false);
   };
 
-  // Open
+  
   $('btn-edit')?.addEventListener('click', () => open(editModal));
   $('btn-delete')?.addEventListener('click', () => open(deleteModal));
 
-  // Close (X, cancel)
+  
   $('edit-close')?.addEventListener('click', () => close(editModal));
   $('edit-cancel')?.addEventListener('click', () => close(editModal));
   $('delete-close')?.addEventListener('click', () => close(deleteModal));
   $('delete-cancel')?.addEventListener('click', () => close(deleteModal));
 
-  // Close clicking outside
+  
   [editModal, deleteModal].forEach(modal => {
     modal.addEventListener('click', (e) => {
       if (e.target === modal) close(modal);
     });
   });
 
-  // Close on ESC
+  
   window.addEventListener('keydown', (e) => {
     if (e.key !== 'Escape') return;
     if (editModal.classList.contains('show')) close(editModal);
     if (deleteModal.classList.contains('show')) close(deleteModal);
   });
 
-  // Save button
+  // Save 
   $('edit-save')?.addEventListener('click', () => {
     // Placeholder: aqui ligas o backend depois
     close(editModal);
   });
 
-  // Delete confirm
+  // Delete 
   $('delete-confirm')?.addEventListener('click', () => {
     window.location.href = 'collection.html';
   });
@@ -64,10 +64,10 @@ document.addEventListener("DOMContentLoaded", () => {
   const likeBtn = document.getElementById("likeBtn");
   const likeCount = document.getElementById("likeCount");
 
-  // Guarda likes por item (cada item pode ter ID diferente)
+
   const itemId = document.getElementById("itemName").textContent.trim();
 
-  // Carregar do localStorage
+  
   const savedLikes = localStorage.getItem("likes_" + itemId);
   const savedState = localStorage.getItem("liked_" + itemId);
 
@@ -103,20 +103,20 @@ document.addEventListener("DOMContentLoaded", () => {
 
 });
 
-// === DARK MODE TOGGLE ===
+
 document.addEventListener("DOMContentLoaded", () => {
   const themeToggle = document.getElementById("themeToggle");
   if (!themeToggle) return;
 
   const currentTheme = localStorage.getItem("theme");
 
-  // aplicar o tema guardado
+  
   if (currentTheme === "dark") {
     document.body.classList.add("dark-mode");
     themeToggle.textContent = "☀️";
   }
 
-  // alterações de tema
+  
   themeToggle.addEventListener("click", () => {
     document.body.classList.toggle("dark-mode");
 
@@ -127,7 +127,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
-// === PROFILE DROPDOWN (caso exista no item) ===
+
 const avatarButton = document.getElementById('avatarButton');
 const profileDropdown = document.getElementById('profileDropdown');
 
@@ -146,7 +146,7 @@ if (avatarButton && profileDropdown) {
 }
 
 
-// === DROPDOWN DO PERFIL ===
+
 document.addEventListener("DOMContentLoaded", () => {
   const profileBtn = document.getElementById("profileBtn");
   const dropdown = document.getElementById("profileDropdown");
@@ -157,7 +157,7 @@ document.addEventListener("DOMContentLoaded", () => {
     dropdown.style.display = dropdown.style.display === "block" ? "none" : "block";
   });
 
-  // fecha ao clicar fora
+ 
   document.addEventListener("click", (e) => {
     if (!dropdown.contains(e.target) && !profileBtn.contains(e.target)) {
       dropdown.style.display = "none";

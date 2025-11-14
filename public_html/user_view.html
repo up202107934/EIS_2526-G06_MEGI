@@ -11,7 +11,7 @@
 
 <body>
 
-  <!-- ===== NAVBAR  ===== -->
+  
   <header class="navbar">
     <div class="navbar-logo">
       <a href="home.html">MyCollections</a>
@@ -128,7 +128,7 @@
       });
     });
     
-    // === DROPDOWN DO PERFIL ===
+    
 document.addEventListener("DOMContentLoaded", () => {
   const profileBtn = document.getElementById("profileBtn");
   const dropdown = document.getElementById("profileDropdown");
@@ -139,7 +139,7 @@ document.addEventListener("DOMContentLoaded", () => {
     dropdown.style.display = dropdown.style.display === "block" ? "none" : "block";
   });
 
-  // fecha ao clicar fora
+  
   document.addEventListener("click", (e) => {
     if (!dropdown.contains(e.target) && !profileBtn.contains(e.target)) {
       dropdown.style.display = "none";
@@ -165,7 +165,7 @@ document.getElementById("themeToggle").addEventListener("click", () => {
     }
 });
 
-// carrega o tema ao abrir a página
+
 if (localStorage.getItem("theme") === "dark") {
     document.body.classList.add("dark-mode");
 }

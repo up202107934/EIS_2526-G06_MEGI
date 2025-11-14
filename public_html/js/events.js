@@ -7,10 +7,10 @@
 const $  = (s) => document.querySelector(s);
 const $$ = (s) => Array.from(document.querySelectorAll(s));
 
-// true se esta página for sem login (body class="no-auth")
+
 const IS_GUEST = document.body && document.body.classList.contains('no-auth');
 
-// Estado da página
+
 const state = {
   view: 'grid',
   sort: 'date_asc',
@@ -88,7 +88,7 @@ function saveInterest(){
 }
 
 function getInterestCount(id){
-  if (interestCounts[id] == null) interestCounts[id] = 0;
+  if (interestCounts[id] === null) interestCounts[id] = 0;
   return interestCounts[id];
 }
 
@@ -110,7 +110,7 @@ function toggleInterest(id){
 }
 
 
-// Coleções do UTILIZADOR
+// Coleções do user
 state.userCollections = [
   {
     id: 'c1', name: 'Collection1', img: 'collection1.jpg',
@@ -148,10 +148,9 @@ function fmtDate(iso){
   return d.toLocaleString([], { day:'2-digit', month:'short', year:'numeric', hour:'2-digit', minute:'2-digit' });
 }
 
-/* ===== Carrosséis por evento ===== */
 const carousels = new Map(); // id -> { timer, idx, imgs }
 
-/* ============ CARTÕES ============ */
+
 function render(){
   const wrap = $('#events');
 
@@ -175,7 +174,7 @@ function render(){
     }
   });
 
-  // cartões
+  
  wrap.innerHTML = rows.map(ev => {
   const imgs   = (ev.images && ev.images.length ? ev.images : ['event-placeholder.jpg']);
   const main   = imgs[0];
@@ -211,13 +210,13 @@ function render(){
 $$('.like-btn').forEach(b => b.onclick = () => toggleInterest(+b.dataset.id));
 
 
-  // Inicializar carrossel de cada cartão
+ 
   rows.forEach(ev => initCarouselFor(ev));
 
-  // Abrir detalhe ao clicar no botão
+  
   $$('.btn-details').forEach(b => b.addEventListener('click', e => openDetail(+e.currentTarget.dataset.id)));
 
-  // Acessibilidade: Enter sobre o cartão abre detalhe
+  
   $$('.event-card').forEach(c => c.addEventListener('keydown', (e) => {
     if (e.key === 'Enter') openDetail(+c.dataset.id);
   }));
@@ -264,7 +263,7 @@ function initCarouselFor(ev){
     }
   }
 
-  // primeira + arranque
+  
   paint();
   start();
 
@@ -272,7 +271,7 @@ function initCarouselFor(ev){
   gallery.addEventListener('mouseenter', stop);
   gallery.addEventListener('mouseleave', start);
 
-  // clicar numa miniatura 
+ 
   stripEl.addEventListener('click', (e) => {
     if (e.target.matches('.ev-thumb')){
       const src = e.target.getAttribute('src').replace(/^img\//,'');
@@ -287,14 +286,14 @@ function initCarouselFor(ev){
 
 
 
-/* ===== Cartão de detalhes===== */
+
 function filenameToLabel(s){
   // "coin1.jpg" -> "coin1"
   const base = s.split('/').pop();
   return base.replace(/\.[a-z0-9]+$/i,'').replace(/[-_]+/g,' ').replace(/\b\w/g,m=>m.toUpperCase());
 }
 
-/* ===== Cartão de detalhes ===== */
+
 function openDetail(id){
   const ev = state.events.find(x => x.id === id);
 
@@ -336,7 +335,7 @@ function openDetail(id){
 const reviewBtn = $('#d-review');
 
 if (IS_GUEST) {
-  // Versão sem login: só mostra aviso
+  // Versão sem login
   reviewBtn.style.display = 'inline-block';
   reviewBtn.onclick = () => {
     alert('You must be logged in to leave a review.');
@@ -352,7 +351,7 @@ if (IS_GUEST) {
 }
 
  
- // Atualizar a secção de avaliação (só mostra se o evento já ocorreu)
+ 
 
 const plusBtn = $('#d-plus');
 if (plusBtn) plusBtn.onclick = () => openForm(ev);
@@ -388,7 +387,7 @@ if (IS_GUEST) {
   const modal = $('#eventDetail');
   modal.classList.add('show');
 
-  // Fechar
+  
   $('#ev-close').onclick = closeDetail;
   modal.addEventListener('click', (e) => { if (e.target.id === 'eventDetail') closeDetail(); }, { once:true });
   window.addEventListener('keydown', escCloseOnce);
@@ -409,7 +408,7 @@ function openReview(ev){
 
   title.textContent = `Avaliar: ${ev.name}`;
 
-  // carregar avaliação anterior
+  
   const saved = state.ratings[ev.id] || null;
   let current = saved?.stars || 0;
   ta.value = saved?.comment || '';
@@ -425,7 +424,7 @@ function openReview(ev){
     b.onclick      = () => { current = +b.dataset.value; paint(current); };
   });
 
-  // submit/cancel/close
+  
   $('#rv-submit').onclick = () => {
     if (current === 0){ alert('Escolhe de 1 a 5 estrelas.'); return; }
     state.ratings[ev.id] = {
@@ -445,7 +444,7 @@ function openReview(ev){
   function esc(e){ if(e.key==='Escape'){ closeReview(); window.removeEventListener('keydown', esc); } }
   window.addEventListener('keydown', esc);
 
-  // abrir modal
+ 
   modal.classList.add('show');
 }
 
@@ -471,7 +470,7 @@ function openCollectionItems(ev, col){
   // abrir
   modal.classList.add('show');
 
-  // fechar
+ 
   const close = () => modal.classList.remove('show');
   $('#colItems-close').onclick = close;
   modal.addEventListener('click', (e)=>{ if(e.target.id==='colItems') close(); }, { once:true });
@@ -480,7 +479,7 @@ function openCollectionItems(ev, col){
 }
 
 
-/* ============ FORMULÁRIO (Criar / Editar) ============ */
+
 function openForm(ev = null){
   // cabeçalho + campos
   $('#f-title').textContent = ev ? 'Edit Event' : 'New Event';
@@ -502,13 +501,13 @@ function openForm(ev = null){
     if (modalEl) modalEl.scrollTop = 0;
   })();
 
-  //área de coleções/itens
+
   const getSelectedCollections = setupEventFormCollections(ev);
 
   const modal = $('#eventForm');
   modal.classList.add('show');
 
-  // Guardar
+  
   $('#f-save').onclick = () => {
     const name = $('#f-name').value.trim();
     const date = $('#f-date').value;
@@ -516,11 +515,11 @@ function openForm(ev = null){
     const location = $('#f-loc').value.trim();
     if (!name || !date){ alert('Nome e data são obrigatórios.'); return; }
 
-    const cols = getSelectedCollections(); // [{id,name,img,items:[...]}]
+    const cols = getSelectedCollections();
     const totalItems = cols.reduce((s,c)=> s + c.items.length, 0);
     if (totalItems === 0){ alert('Escolhe pelo menos 1 item.'); return; }
 
-    // imagens
+    
     const images = [...new Set(cols.flatMap(c => [c.img, ...c.items.map(it=>it.img)]) )].filter(Boolean);
 
     if (ev){
@@ -536,7 +535,7 @@ function openForm(ev = null){
     render();
   };
 
-  // Fechar
+  
   $('#f-cancel').onclick = closeForm;
   $('#form-close').onclick = closeForm;
   modal.addEventListener('click', (e)=>{ if(e.target.id==='eventForm') closeForm(); }, { once:true });
@@ -550,13 +549,13 @@ function setupEventFormCollections(ev){
   const grid = $('#f-col-list');
   const wrap = $('#f-items-wrap');
 
-  // Estado local
+ 
   const selected = new Map();    
   let editingColId = null;
   let colFilter = '';
   let itemFilter = '';
 
-  // Pré-preencher (edição)
+ 
   if (ev?.collections?.length){
     ev.collections.forEach(c=>{
       const col = state.userCollections.find(x => x.id === c.id || x.name === c.name);
@@ -567,7 +566,7 @@ function setupEventFormCollections(ev){
     });
   }
 
-  // Pesquisa de coleções
+  
   const oldColSearch = document.getElementById('col-search-wrap');
   if (oldColSearch) oldColSearch.remove();
   grid.insertAdjacentHTML('beforebegin', `
@@ -578,7 +577,7 @@ function setupEventFormCollections(ev){
   const elColSearch = $('#col-search');
   elColSearch.oninput = () => { colFilter = elColSearch.value.trim().toLowerCase(); paintCollections(); };
 
-  // Pesquisa de itens
+  
   const oldItemSearch = document.getElementById('item-search-wrap');
   if (oldItemSearch) oldItemSearch.remove();
   wrap.insertAdjacentHTML('beforebegin', `
@@ -607,13 +606,13 @@ function setupEventFormCollections(ev){
         </label>`;
     }).join('');
 
-    // selecionar/deselecionar
+   
     grid.querySelectorAll('input[type="checkbox"]').forEach(cb=>{
       cb.onchange = () => {
         const cid = cb.value;
         if (cb.checked){
           if (!selected.has(cid)) selected.set(cid, new Set());
-          editingColId = cid;                 // abre para editar
+          editingColId = cid;                 
           itemFilter = ''; if (elItemSearch) elItemSearch.value = '';
           paintCollections(); paintItems();
         } else {
@@ -624,7 +623,7 @@ function setupEventFormCollections(ev){
       };
     });
 
-    // clicar no cartão: reabre para editar
+    
     grid.querySelectorAll('.pick-card').forEach(card=>{
       card.onclick = (e)=>{
         const cb = card.querySelector('input');
@@ -689,17 +688,17 @@ function setupEventFormCollections(ev){
     $('#btn-none').onclick = () => { set.clear(); selected.set(col.id,set); paintItems(); paintCollections(); };
     $('#btn-finish').onclick = () => { editingColId = null; paintCollections(); paintItems(); };
 
-    // pesquisa itens
+   
     elItemSearch.oninput = () => { itemFilter = elItemSearch.value.trim().toLowerCase(); paintItems(); };
   }
 
-  // Inicial
+ 
   paintCollections();
   editingColId = null;
   elItemSearchWrap.hidden = true;
   wrap.innerHTML = `<p class="muted">Seleciona uma coleção para escolher os itens.</p>`;
 
-  // devolver seleções para o Save
+  
   return function collectSelected(){
     const result = [];
     selected.forEach((set, colId) => {
@@ -734,7 +733,7 @@ function openJoin(ev){
 
     const pick = {
     eventId: ev.id,
-    collections: new Map(), // colId -> Set(itemIds)
+    collections: new Map(), 
     user: { name:'', dob:'', email:'', phone:'', note:'' }
   };
 
@@ -830,27 +829,27 @@ function openJoin(ev){
       alert('Preenche todos os dados obrigatórios.'); return;
     }
 
-    // guardar (mock)
+    // guardar 
     const payload = {
       eventId: pick.eventId,
       collections: [...pick.collections.entries()].map(([cid,set])=>({ id: cid, items: [...set] })),
       user: pick.user
     };
     state.participations.push(payload);
-    console.log('Participação registada:', payload); // aqui farás POST no Sprint 2
+    console.log('Participação registada:', payload); 
 
     closeJoin();
     alert('Participação confirmada! 🎉');
   };
 
-  // fechar modal
+ 
   $('#join-close').onclick = closeJoin;
   modal.addEventListener('click', (e)=>{ if(e.target.id==='joinForm') closeJoin(); }, { once:true });
 
   function closeJoin(){ modal.classList.remove('show'); }
 
   function gotoStep(n){
-    // cabecalho
+   
     [1,2,3].forEach(i=>{
       $('#w-step-'+i).className = i<n ? 'done' : (i===n ? 'active' : '');
     });
@@ -862,7 +861,7 @@ function openJoin(ev){
 }
 
 
-/* ============ GRID/LIST ============ */
+
 function setGrid(){
   const el = $('#events');
   el.classList.remove('list-view');
@@ -876,7 +875,7 @@ function setList(){
   $('#btn-list').setAttribute('aria-pressed','true');
 }
 
-/* ======================= */
+/* ----- */
 function bindUI(){
   // Grid/List
   $('#btn-grid').onclick = () => { setGrid(); render(); };
@@ -886,7 +885,7 @@ function bindUI(){
   $('#btn-search').onclick = () => { state.q = $('#q').value.trim(); render(); };
   $('#q').addEventListener('keydown', (e) => { if (e.key === 'Enter') $('#btn-search').click(); });
 
-  // Sort / Status
+  // Sort 
   $('#sort').onchange   = (e) => { state.sort   = e.target.value; render(); };
   $('#status').onchange = (e) => { state.status = e.target.value; render(); };
 
@@ -897,7 +896,7 @@ function bindUI(){
   $('#eventDetail').addEventListener('click', (e)=>{ if(e.target.id==='eventDetail') closeDetail(); });
 }
 
-/* ======================== */
+/* ------*/
 window.addEventListener('DOMContentLoaded', () => {
   bindUI();
   setGrid();    
@@ -905,20 +904,20 @@ window.addEventListener('DOMContentLoaded', () => {
 });
 
 
-// === DARK MODE ===
+// DARK MODE
 document.addEventListener("DOMContentLoaded", () => {
   const themeToggle = document.getElementById("themeToggle");
   if (!themeToggle) return; 
 
   const currentTheme = localStorage.getItem("theme");
 
-  // aplica o tema guardado
+ 
   if (currentTheme === "dark") {
     document.body.classList.add("dark-mode");
     themeToggle.textContent = "☀️";
   }
 
-  // alterna entre claro/escuro
+ 
   themeToggle.addEventListener("click", () => {
     document.body.classList.toggle("dark-mode");
     const isDark = document.body.classList.contains("dark-mode");
@@ -928,7 +927,7 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 
-// === DROPDOWN DO PERFIL ===
+
 document.addEventListener("DOMContentLoaded", () => {
   const profileBtn = document.getElementById("profileBtn");
   const dropdown = document.getElementById("profileDropdown");
@@ -939,7 +938,7 @@ document.addEventListener("DOMContentLoaded", () => {
     dropdown.style.display = dropdown.style.display === "block" ? "none" : "block";
   });
 
-  // fecha ao clicar fora
+ 
   document.addEventListener("click", (e) => {
     if (!dropdown.contains(e.target) && !profileBtn.contains(e.target)) {
       dropdown.style.display = "none";

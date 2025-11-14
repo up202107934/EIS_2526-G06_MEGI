@@ -1,8 +1,6 @@
 /* user.js */
 
-/* =========================
-   Constantes & Helpers
-========================= */
+
 const STORAGE_KEY = "collections";
 
 const $  = (sel, root = document) => root.querySelector(sel);
@@ -30,9 +28,7 @@ const saveCollections = (arr) => {
 
 const uid = () => (crypto?.randomUUID?.() || String(Date.now() + Math.random()));
 
-/* =========================
-   Perfil: form + foto
-========================= */
+
 const form        = document.getElementById('userForm');
 const statusMsg   = document.getElementById('statusMsg');
 const photoModal  = document.getElementById('photoModal');
@@ -78,9 +74,7 @@ photoInput?.addEventListener('change', e => {
 const savedPhoto = localStorage.getItem('profileImage');
 if (savedPhoto) profileImage.src = savedPhoto;
 
-/* =========================
-   Mini-carousel duplicador
-========================= */
+
 function initMiniCarousels(root = document) {
   $$(".mini-track", root).forEach(track => {
     if (!track.dataset.cloned) {
@@ -90,9 +84,7 @@ function initMiniCarousels(root = document) {
   });
 }
 
-/* =========================
-   Wishlist
-========================= */
+/*  Wishlist */
 (function initWishlist() {
   const container = document.getElementById("wishlist-container");
   if (!container) return;
@@ -154,9 +146,7 @@ function initMiniCarousels(root = document) {
   });
 })();
 
-/* =========================
-   Dark Mode
-========================= */
+/* Dark Mode */
 (function initDarkMode() {
   const themeToggle = document.getElementById("themeToggle");
   if (!themeToggle) return;
@@ -174,13 +164,11 @@ function initMiniCarousels(root = document) {
   });
 })();
 
-/* =========================
-   Collections (User page)
-========================= */
+/* ----- */
 document.addEventListener("DOMContentLoaded", () => {
   const grid = document.getElementById("userCollections") || document.querySelector(".collections-grid");
 
-  /* ===== Modal Create (perfil) ===== */
+  /* (perfil) */
   const createBtn  = document.getElementById("openModal");
   const modal      = document.getElementById("createCollectionModal");
   const cancelBtn  = document.getElementById("cancelCollection");
@@ -198,7 +186,7 @@ document.addEventListener("DOMContentLoaded", () => {
   cancelBtn?.addEventListener("click", closeModal);
   modal?.addEventListener("click", (e) => { if (e.target === modal) closeModal(); });
 
-  // Dropzone
+  
   dropZone?.addEventListener("click", () => fileInput?.click());
   dropZone?.addEventListener("dragover", (e) => { e.preventDefault(); dropZone.classList.add("dragover"); });
   dropZone?.addEventListener("dragleave", () => dropZone.classList.remove("dragover"));
@@ -211,7 +199,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // Preview
+ 
   fileInput?.addEventListener("change", () => {
     const file = fileInput.files?.[0];
     if (!file) {
@@ -232,7 +220,7 @@ document.addEventListener("DOMContentLoaded", () => {
     reader.readAsDataURL(file);
   });
 
-  /* ===== Funções de render ===== */
+  /* ----- */
   function cardHTML(c) {
     const img = c.img || "img/collection-placeholder.jpg";
     const itemCount = Array.isArray(c.items) ? c.items.length : 0;
@@ -276,7 +264,7 @@ document.addEventListener("DOMContentLoaded", () => {
     initMiniCarousels(grid);
   }
 
-  /* ===== Guardar (no perfil) ===== */
+  /*------ */
   saveBtn?.addEventListener("click", () => {
     const name = nameInput?.value.trim();
     const desc = (descInput?.value || "").trim();
@@ -291,7 +279,7 @@ document.addEventListener("DOMContentLoaded", () => {
     all.push({ id: uid(), name, desc, img: imgSrc, items: [] });
     saveCollections(all);
 
-    // limpar & fechar
+   
     if (nameInput) nameInput.value = "";
     if (descInput) descInput.value = "";
     if (fileInput) fileInput.value = "";
@@ -302,7 +290,7 @@ document.addEventListener("DOMContentLoaded", () => {
     renderAll();
   });
 
-  /* ===== Importa cartões estáticos do HTML só 1x (primeira vez) ===== */
+ 
   (function maybeImportStatic() {
     if (!grid) return;
     const already = getCollections();
@@ -330,7 +318,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   })();
 
-  /* ===== Render inicial & remoção ===== */
+  
   renderAll();
 
   grid?.addEventListener("click", (e) => {
@@ -347,7 +335,7 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 
-// === DROPDOWN DO PERFIL ===
+
 document.addEventListener("DOMContentLoaded", () => {
   const profileBtn = document.getElementById("profileBtn");
   const dropdown = document.getElementById("profileDropdown");
@@ -358,7 +346,7 @@ document.addEventListener("DOMContentLoaded", () => {
     dropdown.style.display = dropdown.style.display === "block" ? "none" : "block";
   });
 
-  // fecha ao clicar fora
+  
   document.addEventListener("click", (e) => {
     if (!dropdown.contains(e.target) && !profileBtn.contains(e.target)) {
       dropdown.style.display = "none";

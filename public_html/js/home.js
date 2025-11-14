@@ -27,7 +27,7 @@ const $$ = (sel, root = document) => Array.from(root.querySelectorAll(sel));
 
 document.addEventListener("DOMContentLoaded", () => {
     
-  // Top collections elementos para filtrar
+  // Top collections 
   const topGrid      = document.getElementById("topCollectionsGrid");
   const topChips     = document.querySelectorAll(".chip-top");
   const topSubtitle  = document.getElementById("topSubtitle");
@@ -124,7 +124,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!topGrid) return;
 
     if (mode === "featured") {
-      // volta ao HTML original (top 5 globais)
+      
       topGrid.innerHTML = originalTopHTML;
       initMiniCarousels(topGrid);
 
@@ -299,7 +299,7 @@ document.addEventListener("DOMContentLoaded", () => {
     reader.readAsDataURL(file);
   });
 
-  // guardar coleção- guarda e depois leva para a parte do user
+  
   saveBtn?.addEventListener("click", () => {
     if (!nameInput) return;
 

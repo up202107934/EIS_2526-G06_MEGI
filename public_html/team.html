@@ -82,7 +82,7 @@
     const dotsContainer = document.querySelector('.deck-dots');
     let currentIndex = 0;
 
-    // Criar pontinhos
+    
     slides.forEach((_, idx) => {
       const dot = document.createElement('span');
       dot.classList.add('dot');
@@ -109,10 +109,10 @@
       });
     }
 
-    // Inicializa
+    
     updateDeck();
 
-    // Auto slide
+   
     setInterval(() => {
       currentIndex = (currentIndex + 1) % slides.length;
       updateDeck();

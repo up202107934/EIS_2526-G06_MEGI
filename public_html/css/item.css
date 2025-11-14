@@ -36,7 +36,7 @@
   margin-bottom: 14px;
 }
 
-/* === Technical sheet === */
+
 .tech-sheet {
   margin-top: 8px;
   padding: 16px;
@@ -72,7 +72,7 @@
   color: #333;
 }
 
-/* === Description === */
+
 .description h2 {
   color: #B22222;
   font-size: 24px;
@@ -85,7 +85,7 @@
   color: #444;
 }
 
-/* === Buttons === */
+
 .footer-actions {
   margin-top: 22px;
   display: flex;
@@ -131,7 +131,7 @@
   transform: scale(1.05);
 }
 
-/* === Modal === */
+
 .modal {
   display: none;
   position: fixed;
@@ -205,9 +205,9 @@
 }
 
 
-/* Botão Sign in – igual em todas as páginas */
+/* Botão Sign in */
 .signin-chip {
-  background: #d62828;        /* vermelho como nos events */
+  background: #d62828;       
   color: #ffffff;
   padding: 10px 26px;
   border-radius: 999px;
@@ -219,7 +219,7 @@
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  white-space: nowrap;        /* NÃO deixa o "Sign in" partir em duas linhas */
+  white-space: nowrap;        
   box-shadow: 0 4px 12px rgba(0,0,0,0.15);
   transition: background 0.15s ease, transform 0.15s ease, box-shadow 0.15s ease;
 }
@@ -262,7 +262,7 @@
 
 
 
-/* DROPDOWN PERFIL */
+
 .navbar-avatar-wrapper {
   position: relative;
 }

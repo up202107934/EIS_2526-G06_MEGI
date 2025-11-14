@@ -19,7 +19,7 @@ const collections = [
 ];
 
 
-// Eventos globais, acessíveis em várias páginas
+
 const events = [
   {
     id: 1,
