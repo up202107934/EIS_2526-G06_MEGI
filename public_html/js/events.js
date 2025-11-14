@@ -9,6 +9,9 @@
 const $  = (s) => document.querySelector(s);
 const $$ = (s) => Array.from(document.querySelectorAll(s));
 
+// true se esta página for sem login (body class="no-auth")
+const IS_GUEST = document.body && document.body.classList.contains('no-auth');
+
 // Estado da página
 const state = {
   view: 'grid',
@@ -332,15 +335,25 @@ function openDetail(id){
     };
     
     
-// Botão "Avaliar": só visível para eventos já decorridos
+// Botão "Avaliar"
 const reviewBtn = $('#d-review');
-if (isUpcoming(ev.date)) {
+
+if (IS_GUEST) {
+  // Versão sem login → só mostra aviso
+  reviewBtn.style.display = 'inline-block';
+  reviewBtn.onclick = () => {
+    alert('You must be logged in to leave a review.');
+  };
+} else if (isUpcoming(ev.date)) {
+  // Com login, mas evento futuro → não pode avaliar
   reviewBtn.style.display = 'none';
   reviewBtn.onclick = null;
 } else {
+  // Com login, evento passado → avaliação normal
   reviewBtn.style.display = 'inline-block';
   reviewBtn.onclick = () => openReview(ev);
 }
+
 
     
  // Atualizar a secção de avaliação (só mostra se o evento já ocorreu)
@@ -350,24 +363,34 @@ if (isUpcoming(ev.date)) {
 const plusBtn = $('#d-plus');
 if (plusBtn) plusBtn.onclick = () => openForm(ev);  // só se existir
 
-// Botão "Participar": só permite para eventos futuros
+// Botão "Participar"
 const joinBtn = $('#d-join');
 
-if (isUpcoming(ev.date)) {
-  // evento ainda não aconteceu → pode participar
+if (IS_GUEST) {
+  // Versão sem login → só mostra aviso
+  joinBtn.disabled = false;
+  joinBtn.textContent = 'Participate';
+  joinBtn.title = 'You must be logged in to participate in this event.';
+  joinBtn.classList.remove('disabled');
+  joinBtn.onclick = () => {
+    alert('You must be logged in to participate in this event.');
+  };
+} else if (isUpcoming(ev.date)) {
+  // Com login, evento futuro → pode participar
   joinBtn.disabled = false;
   joinBtn.textContent = 'Participar';
   joinBtn.title = '';
   joinBtn.classList.remove('disabled');
   joinBtn.onclick = () => openJoin(ev);
 } else {
-  // evento já passou → bloquear
+  // Com login, evento passado → participação encerrada
   joinBtn.onclick = null;
-  joinBtn.disabled = true;                 // bloqueia o clique
+  joinBtn.disabled = true;
   joinBtn.textContent = 'Participação encerrada';
   joinBtn.title = 'Já não é possível participar neste evento.';
   joinBtn.classList.add('disabled');
 }
+
 
 
   
@@ -919,3 +942,12 @@ document.addEventListener("DOMContentLoaded", () => {
     localStorage.setItem("theme", isDark ? "dark" : "light");
   });
 });
+
+
+
+
+
+
+
+
+

@@ -1412,3 +1412,19 @@ body.no-auth .btn-signin:hover {
   transform: translateY(-2px);
   box-shadow: 0 4px 10px rgba(0,0,0,0.2);
 }
+
+body.no-auth #btn-new {
+  display: none !important;
+}
+
+body.no-auth .like-btn {
+  pointer-events: none;   /* não clica */
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+
+body.no-auth #d-join,
+body.no-auth #d-review {
+  opacity: 0.6;
+}

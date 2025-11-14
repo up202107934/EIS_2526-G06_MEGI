@@ -9,22 +9,27 @@
 
 <body class="logged-out">
 
-<!-- ===== NAVBAR (LOGGED OUT) — versão simples, sem título duplicado ===== -->
-<header class="navbar navbar--lo">
-  <div class="nav-left">
-    <a class="brand" href="home_withoutlogin.html">MyCollections</a>
+<header class="navbar">
+  <div class="navbar-logo">
+    <a href="home.html">MyCollections</a>
   </div>
 
-  <div class="nav-right">
-    <form class="search" action="search.html">
-      <input type="search" placeholder="Search collections, items..." aria-label="Search" />
-      <button type="submit" class="icon-btn" aria-label="Search">🔎</button>
-    </form>
+  <nav class="navbar-links">
+    <a href="events.html">Events</a>
+    <a href="team.html">Team</a>
+  </nav>
+
+  <div class="navbar-actions">
+    <div class="navbar-search">
+      <input id="q" type="search" placeholder="Search collections..." />
+      <button id="btn-search" class="search-btn" aria-label="Search">🔎</button>
+    </div>
 
     <a href="login.html" class="signin-chip" aria-label="Sign in">Sign in</a>
     <button id="themeToggle" class="theme-toggle" aria-label="Toggle theme">🌙</button>
   </div>
 </header>
+
 
 
   <header class="collection-header">

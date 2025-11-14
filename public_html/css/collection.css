@@ -943,3 +943,25 @@ body.dark-mode #addItemModal .drop-zone:hover {
   }
 }
 
+
+
+/* Sign in chip – igual ao dos Events */
+.signin-chip{
+  text-decoration: none;        /* tira o sublinhado roxo */
+  background: #B22222;
+  color: #fff;
+  padding: 10px 16px;
+  border-radius: 999px;
+  font-weight: 700;
+  line-height: 1;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  white-space: nowrap;          /* evita “Sign” ir para outra linha */
+  transition: background .2s, transform .2s;
+}
+
+.signin-chip:hover{
+  background: #FF4C4C;
+  transform: translateY(-1px);
+}
