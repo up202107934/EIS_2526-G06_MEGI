@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>User Profile | My Collections</title>
-  <link rel="stylesheet" href="css/user.css" />
+  <link rel="stylesheet" href="css/user_view.css" />
 </head>
 <body>
   <div class="page-container">
@@ -22,16 +22,29 @@
     <main class="main-content">
       <div class="profile-header">
         <div class="profile-photo">
-          <img src="img/ImagemPerfil.jpeg" alt="User Photo">
-        </div>
-        <div>
-          <h1 id="userName">User Name</h1>
-          <p id="userEmail">user@email.com</p>
-        </div>
-      </div>
+    <img src="img/ImagemPerfil.jpeg" alt="User Photo">
+         </div>
 
-      <!-- My Collections -->
-      <section class="collections-section">
+  <div class="profile-meta">
+    <h1 id="userName">User Name</h1>
+    <p id="userEmail">user@email.com</p>
+    <p class="user-extra-line">Collector · Lisbon, Portugal · Member since 2024</p>
+
+    <div class="user-stats">
+      <div class="user-stat">
+        <span id="statCollections" class="user-stat-number">5</span>
+        <span class="user-stat-label">Collections</span>
+      </div>
+      <div class="user-stat">
+        <span id="statItems" class="user-stat-number">42</span>
+        <span class="user-stat-label">Items</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+          <!-- My Collections -->
+                <section class="collections-section">
         <h2>My Collections</h2>
         <div class="collections-grid">
 
@@ -126,34 +139,62 @@
     </main>
   </div>
 
-  <script src="js/data.js"></script>
-  <script>
-    // pega o id do user no URL (exemplo)
-    const params = new URLSearchParams(window.location.search);
-    const userId = parseInt(params.get("id")) || 1;
 
-    // se estiveres a usar um ficheiro js com arrays `users`/`collections`
-    if (typeof users !== "undefined") {
-      const user = users.find(u => u.id === userId) || users[0];
-      document.getElementById("userName").textContent = user ? user.name : "User Name";
-      document.getElementById("userEmail").textContent = user ? `${user.name.toLowerCase().replace(" ", ".")}@gmail.com` : "user@email.com";
-    }
+<script src="js/data.js"></script>
+<script>
+  const params   = new URLSearchParams(window.location.search);
+  const userId   = parseInt(params.get("id")) || 1;
+  const isPublic = params.get("public") === "1";
 
-    if (typeof collections !== "undefined") {
-      const grid = document.querySelector(".collections-grid");
-      const userCollections = collections.filter(c => c.userId === userId);
-      if (grid && userCollections.length) {
-        grid.innerHTML = userCollections.map(c => `
-          <div class="collection-card">
-            <img src="img/${c.name.toLowerCase().replace(/ /g, '')}.jpg" alt="${c.name}">
-            <h3>${c.name}</h3>
-            <p>${c.items ? c.items.length + ' items' : ''}</p>
-            <a href="collection.html?id=${c.id}" class="btn-view">View Collection</a>
+  // escolhe a página de coleção certa
+  const collectionPage = isPublic
+    ? "collection_withoutlogin.html"
+    : "collection.html";
+
+  // --------- preencher info do user ---------
+  if (typeof users !== "undefined") {
+    const user = users.find(u => u.id === userId) || users[0];
+    document.getElementById("userName").textContent  = user ? user.name : "User Name";
+    document.getElementById("userEmail").textContent = user
+      ? `${user.name.toLowerCase().replace(" ", ".")}@gmail.com`
+      : "user@email.com";
+  }
+
+  // --------- preencher coleções do user ---------
+  if (typeof collections !== "undefined") {
+    const grid = document.querySelector(".collections-grid");
+    const userCollections = collections.filter(c => c.userId === userId); // TODAS as coleções deste user
+
+    if (grid && userCollections.length) {
+      grid.innerHTML = userCollections.map(c => `
+        <div class="collection-card">
+          <img src="img/${c.name.toLowerCase().replace(/ /g, '')}.jpg" alt="${c.name}">
+          <h3>${c.name}</h3>
+          <p>${c.items ? c.items.length + ' items' : ''}</p>
+
+          <div class="mini-carousel">
+            <div class="mini-track">
+              ${(c.items || []).slice(0, 5).map(item => `
+                <div class="mini-item">
+                  <img src="${item.image || 'img/placeholder.jpg'}" alt="${item.name || ''}">
+                </div>
+              `).join("")}
+            </div>
           </div>
-        `).join("");
-      }
+
+          <a href="${collectionPage}?id=${c.id}" class="btn-view">View Collection</a>
+        </div>
+      `).join("");
     }
-  </script>
+  }
+
+  // --------- duplicar miniaturas para o “comboio” ---------
+  document.addEventListener("DOMContentLoaded", () => {
+    document.querySelectorAll(".mini-carousel .mini-track").forEach(track => {
+      track.innerHTML += track.innerHTML;
+    });
+  });
+</script>
 
   <footer class="footer">
     <p>© 2025 MyCollections | All rights reserved.</p>

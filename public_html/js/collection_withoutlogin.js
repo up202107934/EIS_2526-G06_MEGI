@@ -161,41 +161,64 @@ const avatarButton = document.getElementById('avatarButton');
     });
   }
 
-// --- Mostrar nome do utilizador criador da coleção ---
+// --- Mostrar autor da coleção (versão sem login) ---
 window.addEventListener("load", () => {
-  // espera até TUDO (incluindo data.js) estar carregado
-  const params = new URLSearchParams(window.location.search);
-  const collectionId = parseInt(params.get("id"));
+  // espera até TUDO (incluindo data.js) estar carregado
+  const params = new URLSearchParams(window.location.search);
+  const collectionId = Number(params.get("id"));
 
-  if (!collectionId) {
-    console.warn("Nenhum ID recebido no URL.");
-    return;
-  }
+  if (!collectionId) {
+    console.warn("Nenhum ID recebido no URL.");
+    return;
+  }
 
-  // confirma se as variáveis globais existem
-  if (typeof collections === "undefined" || typeof users === "undefined") {
-    console.error("data.js ainda não carregado ou com erro.");
-    return;
-  }
+  // confirma se as variáveis globais existem
+  if (typeof collections === "undefined" || typeof users === "undefined") {
+    console.error("data.js ainda não carregado ou com erro.");
+    return;
+  }
 
-  const collection = collections.find(c => c.id === collectionId);
-  if (!collection) {
-    console.error("Coleção não encontrada para ID:", collectionId);
-    return;
-  }
+  const collection = collections.find((c) => c.id === collectionId);
+  if (!collection) {
+    console.error("Coleção não encontrada para ID:", collectionId);
+    return;
+  }
 
-  const user = users.find(u => u.id === collection.userId);
-  const infoContainer = document.createElement("div");
-  infoContainer.classList.add("collection-info");
-  infoContainer.innerHTML = `
-    <h2>${collection.name}</h2>
-    <p>Criada por: <a href="user_view.html?id=${user.id}">${user.name}</a></p>
-  `;
+  const user = users.find((u) => u.id === collection.userId);
 
-  const header = document.querySelector(".collection-header");
-  if (header) header.after(infoContainer);
-  else document.body.prepend(infoContainer);
+  // cria o card com as MESMAS classes de CSS da versão com login
+  const infoContainer = document.createElement("div");
+  infoContainer.className = "collection-info";
+  infoContainer.innerHTML = `
+    <div class="collection-author-box">
+      <div class="collection-author-avatar">
+        <img src="${user?.avatar || "img/user.jpg"}" alt="${
+    user ? user.name : "User"
+  }">
+      </div>
+      <div class="collection-author-text">
+        <span class="collection-author-label">Created by</span>
+        ${
+          user
+            ? `<a href="user_view.html?id=${user.id}&public=1" class="collection-author-name">${user.name}</a>`
+            : `<span class="collection-author-name">Unknown</span>`
+        }
+      </div>
+    </div>
+  `;
+
+  // tenta inserir o card mesmo antes do título da coleção
+  const title = document.querySelector(".collection-title");
+  if (title && title.parentElement) {
+    title.parentElement.insertBefore(infoContainer, title);
+  } else {
+    const header = document.querySelector(".collection-header");
+    if (header) header.after(infoContainer);
+    else document.body.prepend(infoContainer);
+  }
 });
+
+
 
 
 

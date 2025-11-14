@@ -229,3 +229,33 @@
   transform: translateY(-1px);
   box-shadow: 0 6px 16px rgba(0,0,0,0.18);
 }
+
+.like-container {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 10px;
+}
+
+.like-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 26px;
+  color: #B22222;
+  transition: transform 0.2s ease, color 0.2s;
+}
+
+.like-btn:hover {
+  transform: scale(1.2);
+}
+
+.like-btn.liked {
+  color: #FF4C4C;
+}
+
+.like-count {
+  font-size: 16px;
+  font-weight: 600;
+  color: #333;
+}
