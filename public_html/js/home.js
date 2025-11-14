@@ -22,8 +22,28 @@ const saveCollections = (arr) => {
   }
 };
 
+// filtrar categoria da colecao
 const uid = () => (crypto?.randomUUID?.() || String(Date.now() + Math.random()));
 const $$ = (sel, root = document) => Array.from(root.querySelectorAll(sel));
+
+function applyCategoryFilter() {
+  const selected = document.getElementById("categoryFilter")?.value || "all";
+  const cards = document.querySelectorAll(".collection-card");
+
+  cards.forEach(card => {
+    const badge = card.querySelector(".category-badge");
+    const cardCategory = badge ? badge.textContent.trim() : "";
+
+    if (selected === "all" || cardCategory === selected) {
+      card.style.display = "flex";
+    } else {
+      card.style.display = "none";
+    }
+  });
+}
+
+
+
 
 document.addEventListener("DOMContentLoaded", () => {
     
@@ -158,6 +178,7 @@ document.addEventListener("DOMContentLoaded", () => {
           <div class="collection-card">
             <img src="${img}" alt="${c.name}">
             <h2>${c.name}</h2>
+            <span class="category-badge">${c.category || "Uncategorized"}</span>
             <p>${itemCount ? `${itemCount} items` : "No items yet"}</p>
 
             <div class="mini-carousel">
@@ -181,12 +202,24 @@ document.addEventListener("DOMContentLoaded", () => {
     chip.addEventListener("click", () => {
       topChips.forEach(c => c.classList.remove("active"));
       chip.classList.add("active");
+
       const mode = chip.dataset.mode || "featured";
       renderTopCollections(mode);
+
+      applyCategoryFilter(); 
     });
   });
 
+
   renderTopCollections("featured");
+
+  const catFilter = document.getElementById("categoryFilter");
+
+  catFilter?.addEventListener("change", () => {
+  applyCategoryFilter();
+    });
+
+
 
   // search bar
   const searchForm = document.getElementById("searchForm");
@@ -305,6 +338,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const name = nameInput.value.trim();
     const desc = (descInput?.value || "").trim();
+    const categorySelect = document.getElementById("collectionCategory");
+    const category = categorySelect ? categorySelect.value : "";
 
     if (!name) {
       alert("Please enter a collection name!");
@@ -322,6 +357,7 @@ document.addEventListener("DOMContentLoaded", () => {
       id: uid(),
       name,
       desc,
+      category,
       img: imgSrc,
       items: [],
       createdAt: Date.now(),

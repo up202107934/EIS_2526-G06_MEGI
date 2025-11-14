@@ -674,3 +674,65 @@ html { scroll-behavior: smooth; }
 .profile-dropdown a:hover {
   background: #f5f5f5;
 }
+
+/*categoria*/
+.category-badge {
+  display: inline-block;
+  background: #ececec;
+  color: #444;
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: bold;
+  margin-bottom: 6px;
+}
+
+/*parte da categoria dentro do modal de nova colecao*/
+.form-row-2col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 25px;
+  margin-top: 20px;
+  align-items: start;
+}
+
+.form-group select {
+  padding: 12px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  font-size: 15px;
+  background: #fff;
+}
+
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.form-group select {
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+}
+
+.drop-zone {
+  border: 2px dashed #B22222;
+  border-radius: 12px;
+  padding: 25px;
+  text-align: center;
+  background-color: #fff7f7;
+  cursor: pointer;
+  transition: 0.2s;
+  min-height: 130px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.drop-zone p {
+  color: #777;
+  font-size: 14px;
+}

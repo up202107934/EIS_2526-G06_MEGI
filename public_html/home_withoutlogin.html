@@ -61,9 +61,17 @@
   </p>
 
   <div class="top-chips">
-    <button class="chip-top active" data-mode="featured">Featured</button>
-    <button class="chip-top" data-mode="recent">Recently Added</button>
-  </div>
+  <button class="chip-top active" data-mode="featured">Featured</button>
+
+  <select id="categoryFilter" class="category-filter">
+    <option value="all">All categories</option>
+    <option value="Miniatures">Miniatures</option>
+    <option value="Card Games">Card Games</option>
+    <option value="Coins">Coins</option>
+    <option value="Books">Books</option>
+  </select>
+</div>
+
 
   <div class="collections-container" id="topCollectionsGrid">
 
@@ -71,6 +79,7 @@
     <div class="collection-card">
       <img src="img/collection1.jpg" alt="Star Wars Miniatures">
       <h2>Star Wars Miniatures</h2>
+      <span class="category-badge">Miniatures</span>
       <p>items:</p>
       <div class="mini-carousel">
         <div class="mini-track">
@@ -88,6 +97,7 @@
     <div class="collection-card">
       <img src="img/collection2.jpg" alt="Comic Books">
       <h2>Comic Books</h2>
+      <span class="category-badge">Books</span>
       <p>items:</p>
       <div class="mini-carousel">
         <div class="mini-track">
@@ -105,6 +115,7 @@
     <div class="collection-card">
       <img src="img/collection3.jpg" alt="Coins">
       <h2>Coins</h2>
+      <span class="category-badge">Coins</span>
       <p>items:</p>
       <div class="mini-carousel">
         <div class="mini-track">
@@ -122,6 +133,7 @@
     <div class="collection-card">
       <img src="img/collection4.jpg" alt="Stamps">
       <h2>Stamps</h2>
+      <span class="category-badge">Miniatures</span>
       <p>items:</p>
       <div class="mini-carousel">
         <div class="mini-track">
@@ -139,6 +151,7 @@
     <div class="collection-card">
       <img src="img/collection5.jpg" alt="Locomotive Miniatures">
       <h2>Locomotive Miniatures</h2>
+      <span class="category-badge">Miniatures</span>
       <p>items:</p>
       <div class="mini-carousel">
         <div class="mini-track">

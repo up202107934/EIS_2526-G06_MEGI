@@ -223,36 +223,46 @@ if (window.SKIP_USER_JS) return;
 
   /* ----- */
   function cardHTML(c) {
-    const img = c.img || "img/collection-placeholder.jpg";
-    const itemCount = Array.isArray(c.items) ? c.items.length : 0;
-    return `
-      <div class="collection-card" data-id="${c.id}">
-        <img src="${img}" alt="${c.name}">
-        <h2>${c.name}</h2>
-        <p>${itemCount} items</p>
+  const img = c.img || "img/collection-placeholder.jpg";
+  const itemCount = Array.isArray(c.items) ? c.items.length : 0;
+  const category = c.category || "Uncategorized";
 
-        <div class="mini-carousel">
-          <div class="mini-track">
-            ${
-              itemCount
-                ? c.items.map((it, i) => `
-                    <div class="mini-item">
-                      <img src="${it?.img || img}" alt="${it?.name || `Item ${i+1}`}">
-                      <p>${it?.name || ""}</p>
-                    </div>
-                  `).join("")
-                : `<div class="mini-item"><p>No items yet</p></div>`
-            }
-          </div>
-        </div>
+  return `
+    <div class="collection-card" data-id="${c.id}">
+      <img src="${img}" alt="${c.name}">
+      
+      <h2>${c.name}</h2>
+      <span class="category-badge">${category}</span>
 
-        <div style="display:flex; gap:8px; justify-content:center; margin-top:10px;">
-          <a href="new_collection.html?id=${encodeURIComponent(c.id)}" class="btn-view">View Collection</a>
-          <button class="btn-remove" data-remove="${c.id}">🗑</button>
+      <p>${itemCount} items</p>
+
+      <div class="mini-carousel">
+        <div class="mini-track">
+          ${
+            itemCount
+              ? c.items
+                  .map(
+                    (it, i) => `
+              <div class="mini-item">
+                <img src="${it?.img || img}" alt="${it?.name || `Item ${i+1}`}">
+                <p>${it?.name || ""}</p>
+              </div>
+            `
+                  )
+                  .join("")
+              : `<div class="mini-item"><p>No items yet</p></div>`
+          }
         </div>
       </div>
-    `;
-  }
+
+      <div style="display:flex; gap:8px; justify-content:center; margin-top:10px;">
+        <a href="new_collection.html?id=${encodeURIComponent(c.id)}" class="btn-view">View Collection</a>
+        <button class="btn-remove" data-remove="${c.id}">🗑</button>
+      </div>
+    </div>
+  `;
+}
+
 
   function renderAll() {
     if (!grid) return;
@@ -277,7 +287,18 @@ if (window.SKIP_USER_JS) return;
         : "img/collection-placeholder.jpg";
 
     const all = getCollections();
-    all.push({ id: uid(), name, desc, img: imgSrc, items: [] });
+    const categorySelect = document.getElementById("collectionCategory");
+    const category = categorySelect ? categorySelect.value : "";
+
+    all.push({
+      id: uid(),
+      name,
+      desc,
+      category,
+      img: imgSrc,
+      items: []
+    });
+
     saveCollections(all);
 
    
@@ -301,18 +322,25 @@ if (window.SKIP_USER_JS) return;
     if (!staticCards.length) return;
 
     const imported = staticCards.map(card => {
-      const name = (card.querySelector("h2,h3")?.textContent || "Untitled").trim();
-      const img  = card.querySelector("img")?.getAttribute("src") || "img/collection-placeholder.jpg";
-      const itemsText = (card.querySelector("p")?.textContent || "").trim();
-      const itemsNum = parseInt(itemsText, 10);
-      return {
-        id: uid(),
-        name,
-        desc: "",
-        img,
-        items: isNaN(itemsNum) ? [] : new Array(itemsNum).fill(null)
-      };
-    });
+    const name = (card.querySelector("h2,h3")?.textContent || "Untitled").trim();
+    const img  = card.querySelector("img")?.getAttribute("src") || "img/collection-placeholder.jpg";
+    const itemsText = (card.querySelector("p")?.textContent || "").trim();
+    const itemsNum = parseInt(itemsText, 10);
+
+    const category =
+      card.querySelector(".category-badge")?.textContent.trim() ||
+      "Uncategorized";
+
+    return {
+      id: uid(),
+      name,
+      desc: "",
+      img,
+      category,  // 💥 ADICIONADO AQUI
+      items: isNaN(itemsNum) ? [] : new Array(itemsNum).fill(null)
+    };
+  });
+
 
     if (imported.length) {
       saveCollections(imported);
