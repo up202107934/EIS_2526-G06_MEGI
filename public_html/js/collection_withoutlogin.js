@@ -395,3 +395,62 @@ function notifyWishlistChanged() {
   } catch (err) { /* ignore */ }
   updateLikesFromStorage();
 }
+
+// ====== Events where this collection appears ======
+(function () {
+  if (typeof events === "undefined") return;
+
+  const params = new URLSearchParams(window.location.search);
+  const collectionId = Number(params.get("id"));
+  if (!collectionId) return;
+
+  const related = events.filter(ev =>
+    Array.isArray(ev.collectionIds) &&
+    ev.collectionIds.includes(collectionId)
+  );
+
+  const upcomingContainer = document.getElementById("eventsUpcoming");
+  const pastContainer     = document.getElementById("eventsPast");
+  if (!upcomingContainer || !pastContainer) return;
+
+  if (!related.length) {
+    upcomingContainer.innerHTML = `<p class="events-empty">
+      This collection is not linked to any event (yet).
+    </p>`;
+    pastContainer.innerHTML = "";
+    return;
+  }
+
+  const today = new Date();
+
+  const upcoming = [];
+  const past = [];
+
+  related.forEach(ev => {
+    const d = ev.date ? new Date(ev.date) : null;
+    if (d && d >= today) upcoming.push(ev);
+    else past.push(ev);
+  });
+
+  const renderEventCard = (ev) => `
+    <article class="event-card">
+      <h4>${ev.name}</h4>
+      <p class="event-meta">
+        <span>📅 ${ev.date || "TBA"}</span>
+        <span>📍 ${ev.location || "Location TBA"}</span>
+      </p>
+      ${ev.description ? `<p class="event-desc">${ev.description}</p>` : ""}
+      <a href="events.html?id=${ev.id}" class="event-link">View event</a>
+    </article>
+  `;
+
+  upcomingContainer.innerHTML =
+    upcoming.length
+      ? upcoming.map(renderEventCard).join("")
+      : `<p class="events-empty">No upcoming events for this collection.</p>`;
+
+  pastContainer.innerHTML =
+    past.length
+      ? past.map(renderEventCard).join("")
+      : `<p class="events-empty">No past events for this collection.</p>`;
+})();

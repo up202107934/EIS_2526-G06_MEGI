@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Star Wars Miniatures Collection</title>
-  <link rel="stylesheet" href="css/collection.css">
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&display=swap" rel="stylesheet">
+  <meta charset="UTF-8">
+  <title>Star Wars Miniatures Collection</title>
+  <link rel="stylesheet" href="css/collection.css">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&display=swap" rel="stylesheet">
 </head>
 
 <body>
@@ -34,14 +34,12 @@
   </div>
 </header>
 
+<header class="collection-header">
+  <div class="search-bar"></div>
+</header>
 
-  <header class="collection-header">
-    <div class="search-bar">
-    </div>
-  </header>
-  
-  <h1 class="collection-title">Star Wars Miniatures</h1>
-  
+<h1 class="collection-title">Star Wars Miniatures</h1>
+
 <div class="collection-toolbar pro">
   <!-- lado esquerdo: Grid / List -->
   <div class="toolbar-left">
@@ -57,7 +55,7 @@
     </div>
   </div>
 
-  <!-- lado direito: Sort -->
+  
   <div class="toolbar-right">
     <label class="field">
       <span>Sort</span>
@@ -70,19 +68,75 @@
         <option value="weightAsc">Weight (Low → High)</option>
         <option value="weightDesc">Weight (High → Low)</option>
       </select>
-    <label class="field">
-        <span>Category</span>
-        <select id="categoryFilter">
-          <option value="all">All Categories</option>
-          <option value="Figures">Figures</option>
-          <option value="Vehicles">Vehicles</option>
-          <option value="Droids">Droids</option>
-        </select>
     </label>
 
+    <label class="field">
+      <span>Category</span>
+      <select id="categoryFilter">
+        <option value="all">All Categories</option>
+        <option value="Figures">Figures</option>
+        <option value="Vehicles">Vehicles</option>
+        <option value="Droids">Droids</option>
+      </select>
+    </label>
   </div>
 </div>
 
+<!-- ==================== EVENTS SECTION ==================== -->
+<section class="collection-events">
+  <h2>Events with this collection</h2>
+
+  <div class="collection-events-columns">
+    <div>
+      <h3>Upcoming</h3>
+      <div class="events-list">
+        <article class="event-card">
+          <h4>Star Wars Day – Lisbon</h4>
+          <p class="event-meta">
+            <span>📅 04 May 2025 · 18:00</span>
+            <span>📍 Lisbon, Portugal</span>
+          </p>
+          <p class="event-desc">
+            Special Star Wars meetup with miniatures exhibition and trading.
+          </p>
+          <a href="events.html" class="event-link">View event</a>
+        </article>
+
+        <article class="event-card">
+          <h4>Collectors Expo – Porto</h4>
+          <p class="event-meta">
+            <span>📅 12 Dec 2025 · 15:00</span>
+            <span>📍 Porto, Portugal</span>
+          </p>
+          <p class="event-desc">
+            Large convention featuring Star Wars figures, comics and retro games.
+          </p>
+          <a href="events.html" class="event-link">View event</a>
+        </article>
+      </div>
+    </div>
+
+    <div>
+      <h3>Past</h3>
+      <div class="events-list">
+        <article class="event-card">
+          <h4>May the 4th Celebration</h4>
+          <p class="event-meta">
+            <span>📅 04 May 2024 · 19:00</span>
+            <span>📍 Online event</span>
+          </p>
+          <p class="event-desc">
+            Online showcase of iconic Star Wars miniatures from this collection.
+          </p>
+          <a href="events.html" class="event-link">View event</a>
+        </article>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ==================== ITEMS DA COLEÇÃO ==================== -->
 <section class="collection-items grid-view">
 
   <div class="item-card" data-rating="9" data-price="25" data-weight="120" data-category="Figures">
@@ -271,8 +325,8 @@
 
 </section>
 
-
-  <div id="addItemModal" class="modal">
+<!-- MODAL ADD ITEM -->
+<div id="addItemModal" class="modal">
   <div class="modal-content">
     <h2>Add New Item</h2>
     <form id="addItemForm">
@@ -308,13 +362,13 @@
   </div>
 </div>
 
- 
-  <button class="add-item-btn">➕ Add Item</button>
-  <script src="js/data.js"></script>
-  <script src="js/collection.js"></script>
+<button class="add-item-btn">➕ Add Item</button>
+
+<script src="js/data.js"></script>
+<script src="js/collection.js"></script>
 
 <footer class="footer">
-  <p>© 2025 MyCollections | All rights reserved.</p>
+  <p>© 2025 MyCollections | All rights reserved.</p>
 </footer>
 
 </body>

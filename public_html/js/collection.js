@@ -607,3 +607,84 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
+// ====== Events where this collection appears ======
+window.addEventListener("load", () => {
+  if (!window.events) {
+    console.warn("Sem array global 'events'. Verifica se data.js está carregado.");
+    return;
+  }
+
+  const params = new URLSearchParams(window.location.search);
+  const collectionId = Number(params.get("id"));
+  if (!collectionId) {
+    console.warn("Sem ?id= na URL da coleção.");
+    return;
+  }
+
+  // Como descobrir o nome da coleção atual
+  let currentCollectionName = "";
+  if (window.collections) {
+    const col = collections.find(c => c.id === collectionId);
+    if (col) currentCollectionName = col.name;
+  }
+  if (!currentCollectionName) {
+    // fallback: usa o título da página
+    const titleEl = document.querySelector(".collection-title");
+    currentCollectionName = titleEl ? titleEl.textContent.trim() : "";
+  }
+
+  console.log("Collection id/name:", collectionId, currentCollectionName);
+
+  const upcomingContainer = document.getElementById("eventsUpcoming");
+  const pastContainer     = document.getElementById("eventsPast");
+  if (!upcomingContainer || !pastContainer) return;
+
+  // Ligação: um evento está associado a esta coleção se tiver
+  // pelo menos uma entry em ev.collections com o mesmo nome
+  const related = events.filter(ev =>
+    Array.isArray(ev.collections) &&
+    ev.collections.some(c => c.name === currentCollectionName)
+  );
+
+  console.log("Eventos relacionados:", related);
+
+  if (!related.length) {
+    upcomingContainer.innerHTML = `<p class="events-empty">
+      This collection is not linked to any event (yet).
+    </p>`;
+    pastContainer.innerHTML = "";
+    return;
+  }
+
+  const today = new Date();
+  const upcoming = [];
+  const past = [];
+
+  related.forEach(ev => {
+    const d = ev.date ? new Date(ev.date) : null;
+    if (d && d >= today) upcoming.push(ev);
+    else past.push(ev);
+  });
+
+  const renderEventCard = (ev) => `
+    <article class="event-card">
+      <h4>${ev.name}</h4>
+      <p class="event-meta">
+        <span>📅 ${ev.date ? new Date(ev.date).toLocaleString() : "TBA"}</span>
+        ${ev.location ? `<span>📍 ${ev.location}</span>` : ""}
+      </p>
+      ${ev.description ? `<p class="event-desc">${ev.description}</p>` : ""}
+      <a href="events.html?id=${ev.id}" class="event-link">View event</a>
+    </article>
+  `;
+
+  upcomingContainer.innerHTML =
+    upcoming.length
+      ? upcoming.map(renderEventCard).join("")
+      : `<p class="events-empty">No upcoming events for this collection.</p>`;
+
+  pastContainer.innerHTML =
+    past.length
+      ? past.map(renderEventCard).join("")
+      : `<p class="events-empty">No past events for this collection.</p>`;
+});

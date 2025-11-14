@@ -50,39 +50,50 @@
   <!-- Toolbar: alternar vista -->
   
 <div class="collection-toolbar pro">
-  <div class="view-toggle" role="group" aria-label="View toggle">
-    <button class="btn-view" data-view="grid" aria-pressed="true" title="Grid view">🔲 Grid</button>
-    <button class="btn-view" data-view="list" aria-pressed="false" title="List view">📃 List</button>
+  <!-- LADO ESQUERDO: GRID / LIST -->
+  <div class="toolbar-left">
+    <div class="view-toggle" role="group" aria-label="View toggle">
+      <button class="btn-view chip" data-view="grid" aria-pressed="true" title="Grid view">
+        <span class="icon-grid"></span>
+        <span>Grid</span>
+      </button>
+
+      <button class="btn-view chip" data-view="list" aria-pressed="false" title="List view">
+        <span class="icon-list"></span>
+        <span>List</span>
+      </button>
+    </div>
   </div>
 
-  <!-- SORT + CATEGORY -->
-  <div class="sort-wrap">
-    <label for="sortSelect">Sort by:</label>
-    <select id="sortSelect">
-      <option value="default">Default</option>
-      <option value="ratingDesc">Rating (High → Low)</option>
-      <option value="priceAsc">Price (Low → High)</option>
-      <option value="priceDesc">Price (High → Low)</option>
-    </select>
+  <!-- LADO DIREITO: SORT + CATEGORY -->
+  <div class="toolbar-right">
+    <label class="field">
+      <span>Sort</span>
+      <select id="sortSelect">
+        <option value="default">Default</option>
+        <option value="ratingDesc">Rating (High → Low)</option>
+        <option value="priceAsc">Price (Low → High)</option>
+        <option value="priceDesc">Price (High → Low)</option>
+      </select>
+    </label>
 
     <label class="field">
-        <span>Category</span>
-        <select id="categoryFilter">
-          <option value="all">All Categories</option>
-          <option value="Figures">Figures</option>
-          <option value="Vehicles">Vehicles</option>
-          <option value="Droids">Droids</option>
-        </select>
+      <span>Category</span>
+      <select id="categoryFilter">
+        <option value="all">All Categories</option>
+        <option value="Figures">Figures</option>
+        <option value="Vehicles">Vehicles</option>
+        <option value="Droids">Droids</option>
+      </select>
     </label>
-    </div>
+  </div>
 </div>
-
-
-
-      
-
-  </section>
- <!-- Botão Add Item -->
+  
+<section class="collection-items grid-view">
+   
+</section>
+     
+<!-- Botão Add Item -->
 <div id="addItemModal" class="modal">
   <div class="modal-content">
     <h2>Add New Item</h2>
