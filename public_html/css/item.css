@@ -203,3 +203,29 @@
   .item-header { grid-template-columns: 1fr; }
   .spec-grid { grid-template-columns: 1fr; }
 }
+
+
+/* Botão Sign in – igual em todas as páginas */
+.signin-chip {
+  background: #d62828;        /* vermelho como nos events */
+  color: #ffffff;
+  padding: 10px 26px;
+  border-radius: 999px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  text-decoration: none;
+  border: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  white-space: nowrap;        /* NÃO deixa o "Sign in" partir em duas linhas */
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  transition: background 0.15s ease, transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.signin-chip:hover {
+  background: #c41f20;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(0,0,0,0.18);
+}
