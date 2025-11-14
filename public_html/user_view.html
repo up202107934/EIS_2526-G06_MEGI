@@ -77,6 +77,9 @@
     </main>
   </div>
 
+  <script>
+     window.SKIP_USER_JS = true;
+  </script>
   <script src="js/data.js"></script>
   <script>
     const params   = new URLSearchParams(window.location.search);
@@ -97,7 +100,7 @@
 
     if (typeof collections !== "undefined") {
       const grid = document.querySelector(".collections-grid");
-      const userCollections = collections.filter(c => c.userId === userId);
+      const userCollections = collections.filter(c => c.userId === userId) || [];
 
       if (grid && userCollections.length) {
         grid.innerHTML = userCollections.map(c => `

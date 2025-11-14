@@ -341,7 +341,7 @@ window.addEventListener("load", () => {
     </div>
     <div class="collection-author-text">
       <span class="collection-author-label">Created by</span>
-      <a href="user_view.html?id=123" class="collection-author-name">Ana Silva</a>
+      <a href="user_view.html" class="collection-author-name">Ana Silva</a>
     </div>
   </div>
 </div>

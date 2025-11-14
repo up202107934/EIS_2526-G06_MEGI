@@ -167,6 +167,7 @@ function initMiniCarousels(root = document) {
 /* ----- */
 document.addEventListener("DOMContentLoaded", () => {
   const grid = document.getElementById("userCollections") || document.querySelector(".collections-grid");
+if (window.SKIP_USER_JS) return;
 
   /* (perfil) */
   const createBtn  = document.getElementById("openModal");
