@@ -10,14 +10,13 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/html.html to edit this
   <title>Events | MyCollections</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
  
-  <!-- CSS específico desta página -->
   <link rel="stylesheet" href="css/events.css" />
   <script defer src="js/events.js"></script>
 </head>
 
 <body class="no-auth">
     
-<!-- NavBar -->
+<!-- barra de navegaçao -->
 <header class="navbar">
   <div class="navbar-left">
   <div class="navbar-logo">
@@ -42,7 +41,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/html.html to edit this
     <!-- SIGN IN button -->
     <a href="login.html" class="btn-signin">Sign in</a>
 
-    <!-- theme toggle -->
+    <!-- modo noturno -->
     <button id="themeToggle" class="theme-toggle">🌙</button>
   </div>
 </header>
@@ -52,7 +51,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/html.html to edit this
   <main>
     <h1 class="events-title">EVENTS</h1>
 
-    <!-- TOOLBAR (nova) -->
+    <!-- barra -->
 <section class="events-toolbar pro">
   <div class="toolbar-left">
     <div class="view-toggle" role="group" aria-label="View toggle">
@@ -97,8 +96,6 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/html.html to edit this
     <section id="events" class="collections-container"></section>
   </main>
 
-  <!-- ===== DETALHE DO EVENTO (NOVO — manter) ===== -->
-  <!-- FICA DENTRO DO <body> e é o ÚNICO "eventDetail" -->
   <div id="eventDetail" class="ev-modal" aria-hidden="true">
     <div class="ev-card" role="dialog" aria-modal="true" aria-labelledby="ev-name">
       <button class="ev-close" id="ev-close" aria-label="Close">✕</button>
@@ -117,17 +114,16 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/html.html to edit this
         <div id="ev-col-list" class="ev-col-list" aria-live="polite"></div>
       </div>
       
-      
-      
+          
       
       <div class="ev-actions">
         <button id="d-review" class="btn outline">Rate</button>
         <button id="d-join" class="btn">Participate</button>
       </div>
-    </div> <!-- aqui sim fecha a .ev-card -->
-  </div>   <!-- aqui fecha o #eventDetail -->
+    </div>
+  </div>   
 
-  <!-- ===== REVIEW MODAL (Avaliar evento) ===== -->
+  <!-- ===== Avaliar evento ===== -->
 <div id="reviewForm" class="modal" aria-hidden="true">
   <div class="modal-content">
     <span class="close" id="review-close" aria-label="Close">×</span>
@@ -152,20 +148,17 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/html.html to edit this
 
   
   
-  <!-- MODAL: Itens da coleção no evento -->
+  <!-- Itens da coleção no evento -->
   <div id="colItems" class="modal" aria-hidden="true">
     <div class="modal-content">
       <span class="close" id="colItems-close" aria-label="Close">×</span>
       <h2 id="colItems-title">Collection Items</h2>
       <div id="colItems-grid" class="mini-grid"></div>
     </div>
-  </div>
-  <!-- === AQUI TERMINA ===   Parte do user -->
+  </div> 
   
   
-  
-  <!-- ===== FORM MODAL (CRIAR/EDITAR) — manter ===== -->
-  <!-- Sem onclick inline; o JS abre/fecha via classList .show -->
+  <!-- ===== CRIAR/EDITAR ===== -->
   <div id="eventForm" class="modal" aria-hidden="true">
     <div class="modal-content">
       <span class="close" id="form-close" aria-label="Close">×</span>
@@ -191,10 +184,10 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/html.html to edit this
           <h3 class="ev-col-title" style="margin-top:14px;">Collections and Items</h3>
     <p class="muted" style="margin-bottom:8px;">Choose the collections for this event and, for each one, the items. At least one item in total.</p>
 
-    <!-- Lista de coleções (com checkbox) -->
+    <!-- Lista de coleções -->
     <div id="f-col-list" class="pick-grid"></div>
 
-    <!-- Itens por coleção escolhida (aparece abaixo) -->
+    <!-- Itens por coleção escolhida -->
     <div id="f-items-wrap" style="margin-top:10px;"></div>
 
 
@@ -204,13 +197,13 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/html.html to edit this
       </div>
     </div>
   </div>
-  <!-- ===== JOIN FORM (passo-a-passo) ===== -->
+
 <div id="joinForm" class="modal" aria-hidden="true">
   <div class="modal-content wide">
     <span class="close" id="join-close" aria-label="Close">×</span>
     <h2 id="join-title">Participate in the event</h2>
 
-    <!-- wizard steps header -->
+    
     <ol class="wizard">
       <li class="done"   id="w-step-1">Collections</li>
       <li class=""       id="w-step-2">Items</li>

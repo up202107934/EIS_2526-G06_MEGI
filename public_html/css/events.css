@@ -1170,8 +1170,8 @@ body.dark-mode .modal-content{
     text-align: center;
     padding: 25px 10px;
     font-size: 14px;
-    margin-top: 0; /* O flex-grow no container trata do espaço */
-    width: 100%; /* Garante a largura total */
+    margin-top: 0;
+    width: 100%;
 }
 
 /* Footer para o Dark Mode */
@@ -1180,12 +1180,7 @@ body.dark-mode .footer {
     color: #ccc;
 }
 
-
-
-
-
-
-/* --- Navbar para páginas sem login (body.no-auth) --- */
+/* --- barra de navegaçao para página sem login  --- */
 
 /* ---- PAGE WITHOUT LOGIN ---- */
 body.no-auth .navbar-avatar {
@@ -1215,12 +1210,10 @@ body.no-auth #btn-new {
 }
 
 body.no-auth .like-btn {
-  pointer-events: none;   /* não clica */
+  pointer-events: none;  
   opacity: 0.6;
   cursor: not-allowed;
 }
-
-
 body.no-auth #d-join,
 body.no-auth #d-review {
   opacity: 0.6;
