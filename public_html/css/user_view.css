@@ -30,18 +30,135 @@ a {
   color: inherit;
 }
 
+/* ===== NAVBAR ===== */
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #2b2d42;
+  padding: 15px 40px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.navbar-logo a {
+  font-size: 24px;
+  font-weight: 700;
+  color: #edf2f4;
+  text-decoration: none;
+}
+
+.navbar-links {
+  display: flex;
+  gap: 40px;
+  font-size: 18px;
+}
+
+.navbar-links .nav-link {
+  color: #edf2f4;
+  text-decoration: none;
+  position: relative;
+  padding-bottom: 4px;
+}
+
+.navbar-links .nav-link:hover,
+.navbar-links .nav-link.nav-link-active {
+  font-weight: 600;
+}
+
+.navbar-links .nav-link.nav-link-active::after,
+.navbar-links .nav-link:hover::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 2px;
+  background: #edf2f4;
+  border-radius: 999px;
+}
+
+.navbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+/* search bubble da direita */
+.navbar-search {
+  display: flex;
+  align-items: center;
+  background: #ffffff;
+  border-radius: 999px;
+  padding: 6px 14px;
+  min-width: 260px;
+}
+
+.navbar-search input {
+  border: none;
+  outline: none;
+  flex: 1;
+  font-size: 14px;
+  background: transparent;
+}
+
+.navbar-search .search-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 18px;
+}
+
+.navbar-avatar-wrapper {
+  display: block;
+}
+
+.navbar-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #ffffff;
+}
+
+.theme-toggle {
+  background: transparent;
+  border: none;
+  font-size: 22px;
+  cursor: pointer;
+}
+
+/* Dark mode na navbar */
+body.dark-mode .navbar {
+  background-color: #111827;
+}
+
+body.dark-mode .navbar-logo a,
+body.dark-mode .navbar .nav-link {
+  color: #f9fafb;
+}
+
+body.dark-mode .navbar-search {
+  background-color: #111;
+}
+
+body.dark-mode .navbar-search input {
+  color: #f9fafb;
+}
+
+
 /* ============================
    LAYOUT GERAL
 ============================ */
 .page-container {
+  flex-grow: 1;
   max-width: 1200px;
-  margin: 40px auto;
+  margin: 40px auto 60px;
   padding: 0 20px;
-  display: flex;
-  gap: 32px;
-  align-items: flex-start;
-  flex: 1;
+  /* já não precisamos de flex aqui porque não há sidebar */
 }
+
 
 /* ============================
    SIDEBAR
@@ -85,21 +202,18 @@ a {
   font-weight: 600;
 }
 
+/* RESET do botão da navbar — usa só o estilo original */
 .theme-toggle {
-  margin-top: 20px;
-  align-self: flex-start;
+  background: transparent !important;
   border: none;
-  border-radius: 999px;
-  padding: 8px 14px;
+  font-size: 22px;
   cursor: pointer;
-  background: #f3f4f6;
-  font-size: 18px;
-  transition: background 0.18s ease, transform 0.12s ease;
+  padding: 0;
+  margin: 0;
 }
 
 .theme-toggle:hover {
-  background: #e5e7eb;
-  transform: translateY(-1px);
+  transform: scale(1.1);
 }
 
 /* ============================
@@ -457,3 +571,23 @@ body.dark-mode .footer {
   transform: scale(1.03);
 }
 
+
+
+
+
+
+.signin-chip {
+  padding: 8px 20px;
+  background: #b22222;
+  color: white;
+  border-radius: 30px;
+  font-weight: 600;
+  font-size: 15px;
+  text-decoration: none;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.signin-chip:hover {
+  background: #ff4c4c;
+  transform: scale(1.05);
+}
