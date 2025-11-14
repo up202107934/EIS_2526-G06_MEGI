@@ -193,12 +193,13 @@ if (addItemBtn && modal) {
     const rating = document.getElementById("itemRating").value.trim();
     const price = document.getElementById("itemPrice").value.trim();
     const weight = document.getElementById("itemWeight").value.trim();
+    const category = document.getElementById("itemCategory").value.trim();
     const date = document.getElementById("itemDate").value;
 
-    if (!name || !desc || !rating || !price || !weight || !date) {
-      alert("Please fill in all fields.");
-      return;
-    }
+    if (!name || !desc || !rating || !price || !weight || !category || !date) {
+  alert("Please fill in all fields.");
+  return;
+}
 
     const ratingNum = Number(rating);
     if (ratingNum < 1 || ratingNum > 10) {
@@ -229,6 +230,7 @@ if (addItemBtn && modal) {
     newCard.dataset.rating = ratingNum;
     newCard.dataset.price = priceNum;
     newCard.dataset.weight = weightNum;
+    newCard.dataset.category = category;
     newCard.dataset.__index = itemsContainer.children.length;
 
     newCard.innerHTML = `
@@ -242,6 +244,7 @@ if (addItemBtn && modal) {
           <span>⭐ ${ratingNum}/10</span>
           <span>💰 ${priceNum}€</span>
           <span>⚖️ ${weightNum}g</span>
+          <span>🏷️ ${category}</span> 
           <span class="like-container">
             <button class="like-btn" type="button">♡</button>
             <span class="like-count">0</span>
@@ -254,6 +257,13 @@ if (addItemBtn && modal) {
     `;
 
     itemsContainer.appendChild(newCard);
+    
+    if (categorySelect) {
+  const selected = categorySelect.value;
+  if (selected !== "all" && category !== selected) {
+    newCard.style.display = "none";
+  }
+}
 
     newCard.querySelector(".btn-details").addEventListener("click", () => {
       window.location.href = "item.html";
@@ -504,4 +514,5 @@ function notifyWishlistChanged() {
   } catch (err) {}
   updateLikesFromStorage();
 }
+
 

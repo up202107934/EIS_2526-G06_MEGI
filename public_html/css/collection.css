@@ -1080,3 +1080,50 @@ body.dark-mode #addItemModal .drop-zone:hover {
   color: #b22222;
   font-weight: 600;
 }
+
+/* ===== SELECT DE CATEGORIA (MODAL) ===== */
+
+.categorySelect {
+  width: 100%;
+  padding: 10px 14px;
+  font-size: 15px;
+  font-weight: 500;
+  
+  color: #2b2d42;
+  background: #f7f7f9;
+  border: 1px solid #e1e3e8;
+  border-radius: 10px;
+
+  outline: none;
+  transition: all 0.2s ease;
+  cursor: pointer;
+
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+
+  background-image: linear-gradient(45deg, transparent 50%, #666 50%),
+                    linear-gradient(135deg, #666 50%, transparent 50%),
+                    linear-gradient(to right, #e1e3e8, #e1e3e8);
+  background-position: calc(100% - 18px) calc(50% - 4px),
+                       calc(100% - 12px) calc(50% - 4px),
+                       calc(100% - 40px) 50%;
+  background-size: 6px 6px, 6px 6px, 1px 60%;
+  background-repeat: no-repeat;
+}
+
+.categorySelect:hover {
+  border-color: #c4c7cf;
+}
+
+.categorySelect:focus {
+  border-color: #b22222;      /* vermelho bonito igual aos teus chips */
+  box-shadow: 0 0 0 3px rgba(178, 34, 34, 0.2);
+  background-color: #fff;
+}
+
+/* estilo das opções internas */
+.categorySelect option {
+  font-weight: 500;
+  padding: 8px;
+}

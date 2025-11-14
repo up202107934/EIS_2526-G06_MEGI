@@ -65,7 +65,7 @@
     </div>
   </div>
 
-<<<<<<< HEAD
+
   <!-- LADO DIREITO: SORT + CATEGORY -->
   <div class="toolbar-right">
     <label class="field">
@@ -75,19 +75,12 @@
         <option value="ratingDesc">Rating (High → Low)</option>
         <option value="priceAsc">Price (Low → High)</option>
         <option value="priceDesc">Price (High → Low)</option>
+        <option value="weightAsc">Weight (Low → High)</option>
+        <option value="weightDesc">Weight (High → Low)</option>
       </select>
     </label>
-=======
 
-  <div class="sort-wrap">
-    <label for="sortSelect">Sort by:</label>
-    <select id="sortSelect">
-      <option value="default">Default</option>
-      <option value="ratingDesc">Rating (High → Low)</option>
-      <option value="priceAsc">Price (Low → High)</option>
-      <option value="priceDesc">Price (High → Low)</option>
-    </select>
->>>>>>> c802036cb7c9ada2e0c3bc83cb37c2e9f134990c
+
 
     <label class="field">
       <span>Category</span>
@@ -100,20 +93,11 @@
     </label>
   </div>
 </div>
-<<<<<<< HEAD
   
 <section class="collection-items grid-view">
-   
+  <!-- aqui vão aparecer os cards -->
 </section>
-     
-<!-- Botão Add Item -->
-=======
 
-    
-
-
- <!-- Botão Add Item -->
->>>>>>> c802036cb7c9ada2e0c3bc83cb37c2e9f134990c
 <div id="addItemModal" class="modal">
   <div class="modal-content">
     <h2>Add New Item</h2>
@@ -133,6 +117,14 @@
 
       <label>Weight (g):</label>
       <input type="number" id="itemWeight" min="1" step="1" value="1">
+      
+      <label>Category:</label>
+    <select id="itemCategory">
+        <option value="">-- Select category --</option>
+        <option value="Figures">Figures</option>
+        <option value="Vehicles">Vehicles</option>
+        <option value="Droids">Droids</option>
+    </select>
 
       <label>Date of acquisition:</label>
       <input type="date" id="itemDate">
