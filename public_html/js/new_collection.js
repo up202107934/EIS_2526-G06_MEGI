@@ -516,3 +516,66 @@ function notifyWishlistChanged() {
 }
 
 
+
+
+
+// =========================
+// PESQUISA LOCAL (Search bar)
+// =========================
+
+document.addEventListener("DOMContentLoaded", () => {
+  const searchInput = document.getElementById("q");           // campo da navbar
+  const btnSearch   = document.getElementById("btn-search");  // botão 🔎
+
+  if (!searchInput || !btnSearch) return;
+
+  // todos os cards de items
+  const getItemCards = () =>
+    document.querySelectorAll(".collection-items .item-card");
+
+  // mostrar todos
+  const showAll = () =>
+    getItemCards().forEach(c => c.classList.remove("hidden"));
+
+  // aplicar filtro
+  const runFilter = () => {
+    const q = searchInput.value.trim().toLowerCase();
+    if (!q) { showAll(); return; }
+
+    let found = false;
+
+    getItemCards().forEach(card => {
+      const title =
+        (card.querySelector("h3")?.textContent || "")
+        .trim().toLowerCase();
+
+      const match = title.includes(q);
+      card.classList.toggle("hidden", !match);
+
+      if (match) found = true;
+    });
+
+    if (!found) {
+      alert("No items found in this collection 😔");
+    }
+  };
+
+  // clique na lupa
+  btnSearch.addEventListener("click", e => {
+    e.preventDefault();
+    runFilter();
+  });
+
+  // Enter dentro do input
+  searchInput.addEventListener("keydown", e => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      runFilter();
+    }
+  });
+
+  // limpar filtro ao apagar texto
+  searchInput.addEventListener("input", () => {
+    if (searchInput.value.trim() === "") showAll();
+  });
+});

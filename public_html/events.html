@@ -37,9 +37,15 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/html.html to edit this
       <button id="btn-search" class="search-btn" aria-label="Search">🔎</button>
     </div>
 
-    <a href="user.html" title="Profile">
-      <img class="navbar-avatar" src="img/user.jpg" alt="User" />
-    </a>
+    <div class="navbar-avatar-wrapper">
+  <img class="navbar-avatar" src="img/user.jpg" alt="User" id="profileBtn">
+  
+  <div class="profile-dropdown" id="profileDropdown">
+    <a href="user.html">👤 Ver Perfil</a>
+    <a href="home_withoutlogin.html">🚪 Log Out</a>
+  </div>
+</div>
+
 
     <button id="themeToggle" class="theme-toggle">🌙</button>
   </div>

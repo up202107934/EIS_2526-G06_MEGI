@@ -11,7 +11,7 @@
 
 <body>
 
-  <!-- ===== NAVBAR (igual à do user.html) ===== -->
+  <!-- ===== NAVBAR  ===== -->
   <header class="navbar">
     <div class="navbar-logo">
       <a href="home.html">MyCollections</a>
@@ -29,10 +29,16 @@
         <button type="submit" class="search-btn" aria-label="Search">🔎</button>
       </form>
 
-      <!-- avatar leva ao teu perfil -->
-      <a href="user.html" class="navbar-avatar-wrapper">
-        <img src="img/user.jpg" alt="User avatar" class="navbar-avatar">
-      </a>
+      
+     <div class="navbar-avatar-wrapper">
+  <img class="navbar-avatar" src="img/user.jpg" alt="User" id="profileBtn">
+  
+  <div class="profile-dropdown" id="profileDropdown">
+    <a href="user.html">👤 Ver Perfil</a>
+    <a href="home_withoutlogin.html">🚪 Log Out</a>
+  </div>
+</div>
+
 
       <button id="themeToggle" class="theme-toggle" type="button">🌙</button>
     </div>
@@ -68,8 +74,7 @@
       <section class="collections-section">
         <h2>My Collections</h2>
         <div class="collections-grid">
-          <!-- aqui fica o mesmo conteúdo das collection-card
-               ou então deixas só o que é gerado em JS -->
+            
         </div>
       </section>
     </main>
@@ -125,6 +130,27 @@
         track.innerHTML += track.innerHTML;
       });
     });
+    
+    // === DROPDOWN DO PERFIL ===
+document.addEventListener("DOMContentLoaded", () => {
+  const profileBtn = document.getElementById("profileBtn");
+  const dropdown = document.getElementById("profileDropdown");
+
+  if (!profileBtn || !dropdown) return;
+
+  profileBtn.addEventListener("click", () => {
+    dropdown.style.display = dropdown.style.display === "block" ? "none" : "block";
+  });
+
+  // fecha ao clicar fora
+  document.addEventListener("click", (e) => {
+    if (!dropdown.contains(e.target) && !profileBtn.contains(e.target)) {
+      dropdown.style.display = "none";
+    }
+  });
+});
+
+    
   </script>
 
   <footer class="footer">
@@ -148,8 +174,5 @@ if (localStorage.getItem("theme") === "dark") {
 }
 </script>
 
-  
 </body>
-
-
 </html>

@@ -992,3 +992,34 @@ body.no-auth #d-join,
 body.no-auth #d-review {
   opacity: 0.6;
 }
+
+
+/* DROPDOWN PERFIL */
+.navbar-avatar-wrapper {
+  position: relative;
+}
+
+.profile-dropdown {
+  position: absolute;
+  top: 50px;
+  right: 0;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+  display: none;
+  min-width: 150px;
+  overflow: hidden;
+  z-index: 9999;
+}
+
+.profile-dropdown a {
+  display: block;
+  padding: 10px 14px;
+  color: #2b2d42;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.profile-dropdown a:hover {
+  background: #f5f5f5;
+}

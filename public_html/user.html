@@ -26,9 +26,15 @@
         <button type="submit" class="search-btn" aria-label="Search">🔎</button>
       </form>
 
-      <a href="user.html" class="navbar-avatar-wrapper">
-        <img src="img/user.jpg" alt="User avatar" class="navbar-avatar">
-      </a>
+      <div class="navbar-avatar-wrapper">
+  <img class="navbar-avatar" src="img/user.jpg" alt="User" id="profileBtn">
+  
+  <div class="profile-dropdown" id="profileDropdown">
+    <a href="user.html">👤 Ver Perfil</a>
+    <a href="home_withoutlogin.html">🚪 Log Out</a>
+  </div>
+</div>
+
 
       <button id="themeToggle" class="theme-toggle" type="button">🌙</button>
     </div>

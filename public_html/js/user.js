@@ -345,3 +345,23 @@ document.addEventListener("DOMContentLoaded", () => {
     renderAll();
   });
 });
+
+
+// === DROPDOWN DO PERFIL ===
+document.addEventListener("DOMContentLoaded", () => {
+  const profileBtn = document.getElementById("profileBtn");
+  const dropdown = document.getElementById("profileDropdown");
+
+  if (!profileBtn || !dropdown) return;
+
+  profileBtn.addEventListener("click", () => {
+    dropdown.style.display = dropdown.style.display === "block" ? "none" : "block";
+  });
+
+  // fecha ao clicar fora
+  document.addEventListener("click", (e) => {
+    if (!dropdown.contains(e.target) && !profileBtn.contains(e.target)) {
+      dropdown.style.display = "none";
+    }
+  });
+});

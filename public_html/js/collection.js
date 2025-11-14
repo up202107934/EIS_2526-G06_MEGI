@@ -688,3 +688,4 @@ window.addEventListener("load", () => {
       ? past.map(renderEventCard).join("")
       : `<p class="events-empty">No past events for this collection.</p>`;
 });
+
