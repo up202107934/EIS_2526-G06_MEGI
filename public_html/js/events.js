@@ -64,14 +64,14 @@ const state = {
       id: 2,
       name: 'Coin Fair Lisboa',
       date: '2025-11-25T10:00',
-      description: 'Feira de moedas e notas raras.',
+      description: 'Rare coins and banknotes fair.',
       images: ['coin1.jpg','coin2.jpg','coin3.jpg','coin4.jpg','coin5.jpg']
     },
     {
       id: 3,
       name: 'Retro Expo Porto',
       date: '2025-12-02T15:00',
-      description: 'Exposição retro com miniaturas e comics.',
+      description: 'Retro exhibition with miniatures and comics.',
       images: ['stamp1.jpg','stamp2.jpg','stamp3.jpg','stamp4.jpg','train1.jpg','collection2.jpg']
     }
   ],
@@ -193,7 +193,7 @@ function render(){
     </div>
     
     <div class="ev-like">
-        <button class="like-btn" data-id="${ev.id}" aria-pressed="${state.interested.has(ev.id)}" title="Tenho interesse">♥</button>
+        <button class="like-btn" data-id="${ev.id}" aria-pressed="${state.interested.has(ev.id)}" title="I have interest">♥</button>
         <span class="like-count" id="like-${ev.id}">${getInterestCount(ev.id)}</span>
     </div>
 
@@ -311,10 +311,10 @@ function openDetail(id){
     ? ev.collections.map(c => ({ name: c.name || filenameToLabel(c.img || ''), img: c.img }))
     : (Array.isArray(ev.images) ? ev.images.slice(0,6).map(img => ({ name: filenameToLabel(img), img })) : []);
 
-  $('#ev-col-count').textContent = `${cols.length} ${cols.length===1 ? 'coleção' : 'coleções'}`;
+  $('#ev-col-count').textContent = `${cols.length} ${cols.length===1 ? 'collection' : 'collections'}`;
   $('#ev-col-list').innerHTML = cols.length
   ? cols.map((c, i) => `
-      <article class="ev-col-item" data-col-idx="${i}" title="Ver itens desta coleção">
+      <article class="ev-col-item" data-col-idx="${i}" title="See items in this collection">
         <img src="img/${c.img}" alt="${c.name}">
         <span class="ev-col-name">${c.name}</span>
         <div class="hover-add" aria-hidden="true">
@@ -322,7 +322,7 @@ function openDetail(id){
         </div>
       </article>
     `).join('')
-  : `<p class="muted">Ainda sem coleções associadas.</p>`;
+  : `<p class="muted">No associated collections yet.</p>`;
 
     // Clique numa coleção -> ver itens dessa coleção no evento
     $('#ev-col-list').onclick = (e) => {
@@ -378,7 +378,7 @@ if (IS_GUEST) {
 } else if (isUpcoming(ev.date)) {
   // Com login, evento futuro → pode participar
   joinBtn.disabled = false;
-  joinBtn.textContent = 'Participar';
+  joinBtn.textContent = 'Participate';
   joinBtn.title = '';
   joinBtn.classList.remove('disabled');
   joinBtn.onclick = () => openJoin(ev);
@@ -386,8 +386,8 @@ if (IS_GUEST) {
   // Com login, evento passado → participação encerrada
   joinBtn.onclick = null;
   joinBtn.disabled = true;
-  joinBtn.textContent = 'Participação encerrada';
-  joinBtn.title = 'Já não é possível participar neste evento.';
+  joinBtn.textContent = 'Participation closed';
+  joinBtn.title = 'It is no longer possible to participate in this event.';
   joinBtn.classList.add('disabled');
 }
 
@@ -471,7 +471,7 @@ function openCollectionItems(ev, col){
   const grid  = $('#colItems-grid');
 
   if (!items.length){
-    grid.innerHTML = `<p class="muted">Ainda não há itens listados para esta coleção neste evento.</p>`;
+    grid.innerHTML = `<p class="muted">There are still no items listed for this collection in this event.</p>`;
   } else {
     grid.innerHTML = items.map(it => `
       <div class="mini-card">
@@ -586,7 +586,7 @@ function setupEventFormCollections(ev){
   if (oldColSearch) oldColSearch.remove();
   grid.insertAdjacentHTML('beforebegin', `
     <div class="pick-search" id="col-search-wrap">
-      <input id="col-search" placeholder="Pesquisar coleções…">
+      <input id="col-search" placeholder="Search collections…">
     </div>
   `);
   const elColSearch = $('#col-search');
@@ -671,8 +671,8 @@ function setupEventFormCollections(ev){
             <strong>${col.name}</strong>
           </div>
           <div>
-            <button type="button" class="tiny" id="btn-all">Selecionar todos</button>
-            <button type="button" class="tiny" id="btn-none">Limpar</button>
+            <button type="button" class="tiny" id="btn-all">Sellect all</button>
+            <button type="button" class="tiny" id="btn-none">Clean</button>
           </div>
         </div>
 

@@ -21,14 +21,14 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/html.html to edit this
 <header class="navbar">
   <div class="navbar-left">
   <div class="navbar-logo">
-    <a href="home.html">MyCollections</a>
+    <a href="home_withoutlogin.html">MyCollections</a>
   </div>
 </div>
 
 
   <div class="navbar-center">
     <a href="events_withoutlogin.html">Events</a>
-    <a href="team.html">Team</a>
+    <a href="team_withoutlogin.html">Team</a>
   </div>
 
   <div class="navbar-right">
@@ -110,7 +110,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/html.html to edit this
       <!-- Coleções do evento -->
       <div class="ev-collections">
         <div class="ev-col-head">
-          <h4 class="ev-col-title">Coleções no evento</h4>
+          <h4 class="ev-col-title">Collections in the event</h4>
           <span id="ev-col-count" class="ev-badge">0</span>
         </div>
 
@@ -121,8 +121,8 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/html.html to edit this
       
       
       <div class="ev-actions">
-        <button id="d-review" class="btn outline">Avaliar</button>
-        <button id="d-join" class="btn">Participar</button>
+        <button id="d-review" class="btn outline">Rate</button>
+        <button id="d-join" class="btn">Participate</button>
       </div>
     </div> <!-- aqui sim fecha a .ev-card -->
   </div>   <!-- aqui fecha o #eventDetail -->
@@ -131,21 +131,21 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/html.html to edit this
 <div id="reviewForm" class="modal" aria-hidden="true">
   <div class="modal-content">
     <span class="close" id="review-close" aria-label="Close">×</span>
-    <h2 id="rv-title">Avaliar evento</h2>
+    <h2 id="rv-title">Rate the event</h2>
 
-    <div class="rv-stars" role="radiogroup" aria-label="Classificação de 1 a 5 estrelas">
-      <button type="button" class="star" data-value="1" aria-label="1 estrela">★</button>
-      <button type="button" class="star" data-value="2" aria-label="2 estrelas">★</button>
-      <button type="button" class="star" data-value="3" aria-label="3 estrelas">★</button>
-      <button type="button" class="star" data-value="4" aria-label="4 estrelas">★</button>
-      <button type="button" class="star" data-value="5" aria-label="5 estrelas">★</button>
+    <div class="rv-stars" role="radiogroup" aria-label="Classification from 1 to 5 stars">
+      <button type="button" class="star" data-value="1" aria-label="1 star">★</button>
+      <button type="button" class="star" data-value="2" aria-label="2 star">★</button>
+      <button type="button" class="star" data-value="3" aria-label="3 star">★</button>
+      <button type="button" class="star" data-value="4" aria-label="4 star">★</button>
+      <button type="button" class="star" data-value="5" aria-label="5 star">★</button>
     </div>
 
-    <textarea id="rv-comment" rows="4" placeholder="Escreve o teu comentário (opcional)"></textarea>
+    <textarea id="rv-comment" rows="4" placeholder="Leave your comment (optional)"></textarea>
 
     <div class="modal-buttons">
-      <button id="rv-cancel">Cancelar</button>
-      <button id="rv-submit" class="btn">Submeter avaliação</button>
+      <button id="rv-cancel">Cancel</button>
+      <button id="rv-submit" class="btn">Submit rating</button>
     </div>
   </div>
 </div>
@@ -156,7 +156,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/html.html to edit this
   <div id="colItems" class="modal" aria-hidden="true">
     <div class="modal-content">
       <span class="close" id="colItems-close" aria-label="Close">×</span>
-      <h2 id="colItems-title">Itens da coleção</h2>
+      <h2 id="colItems-title">Collection Items</h2>
       <div id="colItems-grid" class="mini-grid"></div>
     </div>
   </div>
@@ -175,7 +175,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/html.html to edit this
         <input id="f-name" required />
       </label>
 
-      <label>Date & Time
+      <label>Date and Time
         <input id="f-date" type="datetime-local" required />
       </label>
 
@@ -188,8 +188,8 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/html.html to edit this
       </label>
 
       
-          <h3 class="ev-col-title" style="margin-top:14px;">Coleções & Itens</h3>
-    <p class="muted" style="margin-bottom:8px;">Escolhe as coleções deste evento e, para cada uma, os itens. Pelo menos 1 item no total.</p>
+          <h3 class="ev-col-title" style="margin-top:14px;">Collections and Items</h3>
+    <p class="muted" style="margin-bottom:8px;">Choose the collections for this event and, for each one, the items. At least one item in total.</p>
 
     <!-- Lista de coleções (com checkbox) -->
     <div id="f-col-list" class="pick-grid"></div>
@@ -208,21 +208,21 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/html.html to edit this
 <div id="joinForm" class="modal" aria-hidden="true">
   <div class="modal-content wide">
     <span class="close" id="join-close" aria-label="Close">×</span>
-    <h2 id="join-title">Participar no evento</h2>
+    <h2 id="join-title">Participate in the event</h2>
 
     <!-- wizard steps header -->
     <ol class="wizard">
-      <li class="done"   id="w-step-1">Coleções</li>
-      <li class=""       id="w-step-2">Itens</li>
-      <li class=""       id="w-step-3">Dados</li>
+      <li class="done"   id="w-step-1">Collections</li>
+      <li class=""       id="w-step-2">Items</li>
+      <li class=""       id="w-step-3">Data</li>
     </ol>
 
     <!-- STEP 1: escolher coleções -->
     <section id="join-step-1" class="join-step">
-      <p class="muted">Escolhe as coleções que vais levar.</p>
+      <p class="muted">Choose collections to take.</p>
       <div id="user-col-list" class="pick-grid"></div>
       <div class="modal-buttons">
-        <button id="join-next-1" class="btn">Continuar</button>
+        <button id="join-next-1" class="btn">Continue</button>
       </div>
     </section>
 
@@ -230,18 +230,18 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/html.html to edit this
     <section id="join-step-2" class="join-step" hidden>
       <div id="items-per-collection"></div>
       <div class="modal-buttons">
-        <button id="join-back-2">Voltar</button>
-        <button id="join-next-2" class="btn">Continuar</button>
+        <button id="join-back-2">Back</button>
+        <button id="join-next-2" class="btn">Continue</button>
       </div>
     </section>
 
     <!-- STEP 3: dados pessoais -->
     <section id="join-step-3" class="join-step" hidden>
       <div class="twocol">
-        <label>Nome
+        <label>Name
           <input id="jf-name" required>
         </label>
-        <label>Data de nascimento
+        <label>Date of Birth
           <input id="jf-dob" type="date" required>
         </label>
       </div>
@@ -249,17 +249,17 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/html.html to edit this
         <label>E-mail
           <input id="jf-email" type="email" required>
         </label>
-        <label>Telefone
+        <label>Phone Number
           <input id="jf-phone" type="tel" required>
         </label>
       </div>
-      <label>Comentário (opcional)
-        <textarea id="jf-note" rows="3" placeholder="Ex.: porque levas estas coleções…"></textarea>
+      <label>Comment (optional)
+        <textarea id="jf-note" rows="3" placeholder="E.g. why do you take that collection…"></textarea>
       </label>
 
       <div class="modal-buttons">
-        <button id="join-back-3">Voltar</button>
-        <button id="join-submit" class="btn">Confirmar participação</button>
+        <button id="join-back-3">Back</button>
+        <button id="join-submit" class="btn">Confirm participation</button>
       </div>
     </section>
   </div>
