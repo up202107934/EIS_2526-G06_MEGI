@@ -191,6 +191,12 @@ document.addEventListener("DOMContentLoaded", () => {
   // search bar
   const searchForm = document.getElementById("searchForm");
   const searchInput = document.getElementById("searchInput");
+  
+  
+  document.querySelector(".search-btn").addEventListener("click", () => {
+    searchForm.dispatchEvent(new Event("submit"));
+});
+
 
   if (searchForm && searchInput) {
     searchForm.addEventListener("submit", (e) => {
