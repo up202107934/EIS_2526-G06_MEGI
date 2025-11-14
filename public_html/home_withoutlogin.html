@@ -26,10 +26,10 @@
 
   <!-- DIREITA -->
   <div class="navbar-right">
-    <div class="navbar-search">
-      <input type="search" placeholder="Search collections..." />
-      <button class="search-btn" aria-label="Search">🔎</button>
-    </div>
+    <form id="searchForm" class="navbar-search" role="search" aria-label="Search collections">
+        <input id="searchInput" type="search" placeholder="Search collections..." aria-label="Search collections" />
+        <button type="submit" class="search-btn" aria-label="Search">🔎</button>
+    </form>
 
     <a href="login.html" class="signin-chip">Sign in</a>
 
@@ -54,100 +54,114 @@
 
 
   <!-- ===== HOME CONTENT ===== -->
-  <section class="home-section" id="collections">
-    <h2 class="home-title">Top 5 Collections</h2>
+<section class="home-section" id="collections">
+  
+  <h2 class="home-title">Top 5 Collections</h2>
 
-    <div class="collections-container">
+  <!-- 🔹 SUBTÍTULO USADO PELO JS -->
+  <p id="topSubtitle" class="top-subtitle">
+    Global featured collections that everyone can see.
+  </p>
 
-      <!-- Coleção 1 -->
-      <div class="collection-card">
-        <img src="img/collection1.jpg" alt="Star Wars Miniatures">
-        <h2>Star Wars Miniatures</h2>
-        <p>items:</p>
-        <div class="mini-carousel">
-          <div class="mini-track">
-              <div class="mini-item"><a href="item_withoutlogin.html"><img src="img/item1.jpg" alt="Darth Vader"></a><p>Darth Vader</p></div>
-            <div class="mini-item"><a href="item_withoutlogin.html"><img src="img/item2.jpg" alt="Luke Skywalker"></a><p>Luke Skywalker</p></div>
-            <div class="mini-item"><a href="item_withoutlogin.html"><img src="img/item3.jpg" alt="Yoda"></a><p>Yoda</p></div>
-            <div class="mini-item"><a href="item_withoutlogin.html"><img src="img/item4.jpg" alt="Han Solo"></a><p>Han Solo</p></div>
-            <div class="mini-item"><a href="item_withoutlogin.html"><img src="img/item5.jpg" alt="Obi-Wan"></a><p>Obi-Wan</p></div>
-          </div>
+  <!-- 🔹 CHIPS DE FILTRO (USA O JS EXISTENTE) -->
+  <div class="top-chips">
+    <button class="chip-top active" data-mode="featured">Featured</button>
+    <button class="chip-top" data-mode="recent">Recently Added</button>
+  </div>
+
+  <!-- 🔹 CONTAINER COM O ID CORRETO PARA O JS -->
+  <div class="collections-container" id="topCollectionsGrid">
+
+    <!-- Coleção 1 -->
+    <div class="collection-card">
+      <img src="img/collection1.jpg" alt="Star Wars Miniatures">
+      <h2>Star Wars Miniatures</h2>
+      <p>items:</p>
+      <div class="mini-carousel">
+        <div class="mini-track">
+          <div class="mini-item"><a href="item_withoutlogin.html"><img src="img/item1.jpg" alt="Darth Vader"></a><p>Darth Vader</p></div>
+          <div class="mini-item"><a href="item_withoutlogin.html"><img src="img/item2.jpg" alt="Luke Skywalker"></a><p>Luke Skywalker</p></div>
+          <div class="mini-item"><a href="item_withoutlogin.html"><img src="img/item3.jpg" alt="Yoda"></a><p>Yoda</p></div>
+          <div class="mini-item"><a href="item_withoutlogin.html"><img src="img/item4.jpg" alt="Han Solo"></a><p>Han Solo</p></div>
+          <div class="mini-item"><a href="item_withoutlogin.html"><img src="img/item5.jpg" alt="Obi-Wan"></a><p>Obi-Wan</p></div>
         </div>
-        <a href="collection_withoutlogin.html?id=1" class="btn">View Collection</a>
       </div>
-
-      <!-- Coleção 2 -->
-      <div class="collection-card">
-        <img src="img/collection2.jpg" alt="Comic Books">
-        <h2>Comic Books</h2>
-        <p>items:</p>
-        <div class="mini-carousel">
-          <div class="mini-track">
-              <div class="mini-item"> <a href="item_withoutlogin.html"><img src="img/spider man.jpg" alt="Spider-Man"></a><p>Spider-Man</p></div>
-            <div class="mini-item"><a href="item_withoutlogin.html"><img src="img/Batman.jpg" alt="Batman"></a><p>Batman</p></div>
-            <div class="mini-item"><a href="item_withoutlogin.html"><img src="img/Avengers4.jpg" alt="Avengers #4"></a><p>Avengers #4</p></div>
-            <div class="mini-item"><a href="item_withoutlogin.html"><img src="img/Superman75.jpg" alt="Superman #75"></a><p>Superman #75</p></div>
-            <div class="mini-item"><a href="item_withoutlogin.html"><img src="img/X-Men1.jpg" alt="X-Men #1"></a><p>X-Men #1</p></div>
-          </div>
-        </div>
-        <a href="collection_withoutlogin.html?id=2" class="btn">View Collection</a>
-      </div>
-
-      <!-- Coleção 3 -->
-      <div class="collection-card">
-        <img src="img/collection3.jpg" alt="Coins">
-        <h2>Coins</h2>
-        <p>items:</p>
-        <div class="mini-carousel">
-          <div class="mini-track">
-              <div class="mini-item"><a href="item_withoutlogin.html"><img src="img/coin1.jpg" alt="1 Euro 2020"></a><p>1 € 2020</p></div>
-              <div class="mini-item"><a href="item_withoutlogin.html"><img src="img/coin2.jpg" alt="50 Cent 1999"></a><p>50 ¢ 1999</p></div>
-            <div class="mini-item"><a href="item_withoutlogin.html"><img src="img/coin3.jpg" alt="2 Euro 2015"></a><p>2 € 2015</p></div>
-            <div class="mini-item"><a href="item_withoutlogin.html"><img src="img/coin4.jpg" alt="1 Dollar 2000"></a><p>$1 2000</p></div>
-            <div class="mini-item"><a href="item_withoutlogin.html"><img src="img/coin5.jpg" alt="10 Cent 2010"></a><p>10 ¢ 2010</p></div>
-          </div>
-        </div>
-        <a href="collection_withoutlogin.html?id=3" class="btn">View Collection</a>
-      </div>
-
-      <!-- Coleção 4 -->
-      <div class="collection-card">
-        <img src="img/collection4.jpg" alt="Stamps">
-        <h2>Stamps</h2>
-        <p>items:</p>
-        <div class="mini-carousel">
-          <div class="mini-track">
-              <div class="mini-item"><a href="item_withoutlogin.html"><img src="img/stamp1.jpg" alt="Portugal 1960"></a><p>Portugal 1960</p></div>
-            <div class="mini-item"><a href="item_withoutlogin.html"><img src="img/stamp2.jpg" alt="Brazil 1980"></a><p>Brazil 1980</p></div>
-            <div class="mini-item"><a href="item_withoutlogin.html"><img src="img/stamp3.jpg" alt="USA 1950"></a><p>USA 1950</p></div>
-            <div class="mini-item"><a href="item_withoutlogin.html"><img src="img/stamp4.jpg" alt="Germany 1975"></a><p>Germany 1975</p></div>
-            <div class="mini-item"><a href="item_withoutlogin.html"><img src="img/stamp5.jpg" alt="France 1990"></a><p>France 1990</p></div>
-          </div>
-        </div>
-        <a href="collection_withoutlogin.html?id=4" class="btn">View Collection</a>
-      </div>
-
-      <!-- Coleção 5 -->
-      <div class="collection-card">
-        <img src="img/collection5.jpg" alt="Locomotive Miniatures">
-        <h2>Locomotive Miniatures</h2>
-        <p>items:</p>
-        <div class="mini-carousel">
-          <div class="mini-track">
-              <div class="mini-item"><a href="item_withoutlogin.html"><img src="img/train1.jpg" alt="Train A"></a><p>Train A</p></div>
-              <div class="mini-item"><a href="item_withoutlogin.html"><img src="img/train2.jpg" alt="Train B"></a><p>Train B</p></div>
-            <div class="mini-item"><a href="item_withoutlogin.html"><img src="img/train3.jpg" alt="Train C"></a><p>Train C</p></div>
-            <div class="mini-item"><a href="item_withoutlogin.html"><img src="img/train4.jpg" alt="Train D"></a><p>Train D</p></div>
-            <div class="mini-item"><a href="item_withoutlogin.html"><img src="img/train5.jpg" alt="Train E"></a><p>Train E</p></div>
-          </div>
-        </div>
-        <a href="collection_withoutlogin.html?id=5" class="btn">View Collection</a>
-      </div>
-
+      <a href="collection_withoutlogin.html?id=1" class="btn">View Collection</a>
     </div>
 
+    <!-- Coleção 2 -->
+    <div class="collection-card">
+      <img src="img/collection2.jpg" alt="Comic Books">
+      <h2>Comic Books</h2>
+      <p>items:</p>
+      <div class="mini-carousel">
+        <div class="mini-track">
+          <div class="mini-item"><a href="item_withoutlogin.html"><img src="img/spider man.jpg" alt="Spider-Man"></a><p>Spider-Man</p></div>
+          <div class="mini-item"><a href="item_withoutlogin.html"><img src="img/Batman.jpg" alt="Batman"></a><p>Batman</p></div>
+          <div class="mini-item"><a href="item_withoutlogin.html"><img src="img/Avengers4.jpg" alt="Avengers #4"></a><p>Avengers #4</p></div>
+          <div class="mini-item"><a href="item_withoutlogin.html"><img src="img/Superman75.jpg" alt="Superman #75"></a><p>Superman #75</p></div>
+          <div class="mini-item"><a href="item_withoutlogin.html"><img src="img/X-Men1.jpg" alt="X-Men #1"></a><p>X-Men #1</p></div>
+        </div>
+      </div>
+      <a href="collection_withoutlogin.html?id=2" class="btn">View Collection</a>
+    </div>
 
-  </section>
+    <!-- Coleção 3 -->
+    <div class="collection-card">
+      <img src="img/collection3.jpg" alt="Coins">
+      <h2>Coins</h2>
+      <p>items:</p>
+      <div class="mini-carousel">
+        <div class="mini-track">
+          <div class="mini-item"><a href="item_withoutlogin.html"><img src="img/coin1.jpg" alt="1 Euro 2020"></a><p>1 € 2020</p></div>
+          <div class="mini-item"><a href="item_withoutlogin.html"><img src="img/coin2.jpg" alt="50 Cent 1999"></a><p>50 ¢ 1999</p></div>
+          <div class="mini-item"><a href="item_withoutlogin.html"><img src="img/coin3.jpg" alt="2 Euro 2015"></a><p>2 € 2015</p></div>
+          <div class="mini-item"><a href="item_withoutlogin.html"><img src="img/coin4.jpg" alt="1 Dollar 2000"></a><p>$1 2000</p></div>
+          <div class="mini-item"><a href="item_withoutlogin.html"><img src="img/coin5.jpg" alt="10 Cent 2010"></a><p>10 ¢ 2010</p></div>
+        </div>
+      </div>
+      <a href="collection_withoutlogin.html?id=3" class="btn">View Collection</a>
+    </div>
+
+    <!-- Coleção 4 -->
+    <div class="collection-card">
+      <img src="img/collection4.jpg" alt="Stamps">
+      <h2>Stamps</h2>
+      <p>items:</p>
+      <div class="mini-carousel">
+        <div class="mini-track">
+          <div class="mini-item"><a href="item_withoutlogin.html"><img src="img/stamp1.jpg" alt="Portugal 1960"></a><p>Portugal 1960</p></div>
+          <div class="mini-item"><a href="item_withoutlogin.html"><img src="img/stamp2.jpg" alt="Brazil 1980"></a><p>Brazil 1980</p></div>
+          <div class="mini-item"><a href="item_withoutlogin.html"><img src="img/stamp3.jpg" alt="USA 1950"></a><p>USA 1950</p></div>
+          <div class="mini-item"><a href="item_withoutlogin.html"><img src="img/stamp4.jpg" alt="Germany 1975"></a><p>Germany 1975</p></div>
+          <div class="mini-item"><a href="item_withoutlogin.html"><img src="img/stamp5.jpg" alt="France 1990"></a><p>France 1990</p></div>
+        </div>
+      </div>
+      <a href="collection_withoutlogin.html?id=4" class="btn">View Collection</a>
+    </div>
+
+    <!-- Coleção 5 -->
+    <div class="collection-card">
+      <img src="img/collection5.jpg" alt="Locomotive Miniatures">
+      <h2>Locomotive Miniatures</h2>
+      <p>items:</p>
+      <div class="mini-carousel">
+        <div class="mini-track">
+          <div class="mini-item"><a href="item_withoutlogin.html"><img src="img/train1.jpg" alt="Train A"></a><p>Train A</p></div>
+          <div class="mini-item"><a href="item_withoutlogin.html"><img src="img/train2.jpg" alt="Train B"></a><p>Train B</p></div>
+          <div class="mini-item"><a href="item_withoutlogin.html"><img src="img/train3.jpg" alt="Train C"></a><p>Train C</p></div>
+          <div class="mini-item"><a href="item_withoutlogin.html"><img src="img/train4.jpg" alt="Train D"></a><p>Train D</p></div>
+          <div class="mini-item"><a href="item_withoutlogin.html"><img src="img/train5.jpg" alt="Train E"></a><p>Train E</p></div>
+        </div>
+      </div>
+      <a href="collection_withoutlogin.html?id=5" class="btn">View Collection</a>
+    </div>
+
+  </div>  
+</section>
+
+
+
 
  
 
