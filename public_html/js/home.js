@@ -1,29 +1,7 @@
-// home.js
+// home.js (Sprint 2 - com backend)
 
-const STORAGE_KEY = "collections";
-
-const safeJSON = (key, fallback) => {
-  try {
-    const raw = localStorage.getItem(key);
-    if (!raw) return fallback;
-    return JSON.parse(raw);
-  } catch (e) {
-    console.warn("Failed to parse localStorage key:", key, e);
-    return fallback;
-  }
-};
-
-const getCollections = () => safeJSON(STORAGE_KEY, []);
-const saveCollections = (arr) => {
-  try {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(arr));
-  } catch (e) {
-    console.warn("Failed to save collections:", e);
-  }
-};
-
-// filtrar categoria da colecao
-const uid = () => (crypto?.randomUUID?.() || String(Date.now() + Math.random()));
+// Já não usamos localStorage para coleções globais.
+// Vamos buscar ao backend.
 const $$ = (sel, root = document) => Array.from(root.querySelectorAll(sel));
 
 function applyCategoryFilter() {
@@ -42,18 +20,13 @@ function applyCategoryFilter() {
   });
 }
 
-
-
-
 document.addEventListener("DOMContentLoaded", () => {
-    
-  // Top collections 
+
+  // Top collections
   const topGrid      = document.getElementById("topCollectionsGrid");
   const topChips     = document.querySelectorAll(".chip-top");
   const topSubtitle  = document.getElementById("topSubtitle");
-  const originalTopHTML = topGrid ? topGrid.innerHTML : "";
 
- 
   // Dark mode
   const themeToggle = document.getElementById("themeToggle");
   if (themeToggle) {
@@ -70,8 +43,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  
-  // perfil
+  // perfil dropdown
   const avatarButton = document.getElementById("avatarButton");
   const profileDropdown = document.getElementById("profileDropdown");
   const navbarUser = document.querySelector(".navbar-user");
@@ -90,8 +62,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  
-  // scroll para a parte das colecoes
+  // scroll smooth para coleções
   const heroBtn = document.querySelector(".hero-btn");
   if (heroBtn) {
     heroBtn.addEventListener("click", function (e) {
@@ -116,8 +87,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  
-  // carrosel para os itens
+  // mini-carousels (por agora só clona os que existirem)
   function initMiniCarousels(root = document) {
     $$(".mini-track", root).forEach((track) => {
       if (!track.dataset.cloned) {
@@ -126,76 +96,81 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
   }
-  initMiniCarousels(document);
 
- 
+  // ==========================
+  // BACKEND: carregar coleções
+  // ==========================
 
-  // 5 coleções mais recentes criadas pelo utilizador
-  function getRecentTop5() {
-    const all = getCollections();          
-    if (!all.length) return [];
+  async function fetchCollections(mode = "featured") {
+    const url =
+      mode === "recent"
+        ? "controllers/collections.php?mine=1"   // quando login estiver feito
+        : "controllers/collections.php";        // global
 
-    const copy = all.slice();
-    copy.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
-    return copy.slice(0, 5);
+    const res = await fetch(url);
+    return await res.json();
   }
 
-  function renderTopCollections(mode = "featured") {
+  function collectionCardHTML(c) {
+    const img = "img/collection-placeholder.jpg"; // depois ligamos imagem real
+
+    return `
+      <div class="collection-card">
+        <img src="${img}" alt="${c.name}">
+        <h2>${c.name}</h2>
+        <span class="category-badge">${c.category_name || "Uncategorized"}</span>
+
+        <p><b>Owner:</b> ${c.owner_name || ""}</p>
+
+        <div class="mini-carousel">
+          <div class="mini-track">
+            <div class="mini-item">
+              <p>Items will load here soon…</p>
+            </div>
+          </div>
+        </div>
+
+        <a href="collection.php?id=${c.id_collection}" class="btn">View Collection</a>
+      </div>
+    `;
+  }
+
+  async function renderTopCollections(mode = "featured") {
     if (!topGrid) return;
 
-    if (mode === "featured") {
-      
-      topGrid.innerHTML = originalTopHTML;
-      initMiniCarousels(topGrid);
+    try {
+      const cols = await fetchCollections(mode);
 
       if (topSubtitle) {
-        topSubtitle.textContent = "Global featured collections that everyone can see.";
+        topSubtitle.textContent =
+          mode === "featured"
+            ? "Global featured collections from the whole site."
+            : "Your last 5 created collections (only from your account).";
       }
-      return;
-    }
 
-    const recent = getRecentTop5();
-    if (topSubtitle) {
-      topSubtitle.textContent = "Your last 5 created collections (only from your account).";
-    }
+      if (!cols || !cols.length) {
+        topGrid.innerHTML = `
+          <p style="text-align:center; color:#777; padding:20px;">
+            No collections found.
+          </p>`;
+        return;
+      }
 
-    if (!recent.length) {
+      topGrid.innerHTML = cols
+        .slice(0, 5)
+        .map(collectionCardHTML)
+        .join("");
+
+      initMiniCarousels(topGrid);
+      applyCategoryFilter();
+
+    } catch (err) {
+      console.error(err);
       topGrid.innerHTML = `
-        <p style="text-align:center; color:#777; padding:20px;">
-          You don't have any collections yet. Create one using the button below 👇
+        <p style="text-align:center; color:#c00; padding:20px;">
+          Error loading collections from server.
         </p>`;
-      return;
     }
-
-    topGrid.innerHTML = recent.map(c => {
-        const img        = c.img || "img/collection-placeholder.jpg";
-        const itemCount  = Array.isArray(c.items) ? c.items.length : 0;
-        const safeId     = encodeURIComponent(c.id || c.name);
-
-        const pageLink = mode === "recent" ? "new_collection.html" : "collection.html";
-
-        return `
-          <div class="collection-card">
-            <img src="${img}" alt="${c.name}">
-            <h2>${c.name}</h2>
-            <span class="category-badge">${c.category || "Uncategorized"}</span>
-            <p>${itemCount ? `${itemCount} items` : "No items yet"}</p>
-
-            <div class="mini-carousel">
-              <div class="mini-track">
-                <div class="mini-item">
-                  <p>${itemCount ? "Some items from this collection" : "Start adding items to this collection"}</p>
-                </div>
-              </div>
-            </div>
-
-            <a href="${pageLink}?id=${safeId}" class="btn">View Collection</a>
-          </div>
-        `;
-      }).join("");
-
-
-    initMiniCarousels(topGrid);
   }
 
   topChips.forEach(chip => {
@@ -205,31 +180,22 @@ document.addEventListener("DOMContentLoaded", () => {
 
       const mode = chip.dataset.mode || "featured";
       renderTopCollections(mode);
-
-      applyCategoryFilter(); 
     });
   });
 
-
+  // primeira renderização
   renderTopCollections("featured");
 
   const catFilter = document.getElementById("categoryFilter");
+  catFilter?.addEventListener("change", applyCategoryFilter);
 
-  catFilter?.addEventListener("change", () => {
-  applyCategoryFilter();
-    });
-
-
-
-  // search bar
+  // search bar (funciona agora sobre cards reais)
   const searchForm = document.getElementById("searchForm");
   const searchInput = document.getElementById("searchInput");
-  
-  
+
   document.querySelector(".search-btn").addEventListener("click", () => {
     searchForm.dispatchEvent(new Event("submit"));
-});
-
+  });
 
   if (searchForm && searchInput) {
     searchForm.addEventListener("submit", (e) => {
@@ -270,7 +236,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // criar colecao
+  // Modal criar coleção (UI ainda local)
   const openBtn   = document.getElementById("openModal");
   const modal     = document.getElementById("createCollectionModal");
   const cancelBtn = document.getElementById("cancelCollection");
@@ -332,47 +298,17 @@ document.addEventListener("DOMContentLoaded", () => {
     reader.readAsDataURL(file);
   });
 
-  
+  // Por agora o Save não vai para backend.
+  // Na próxima etapa ligamos ao POST /controllers/collections.php
   saveBtn?.addEventListener("click", () => {
-    if (!nameInput) return;
-
-    const name = nameInput.value.trim();
-    const desc = (descInput?.value || "").trim();
-    const categorySelect = document.getElementById("collectionCategory");
-    const category = categorySelect ? categorySelect.value : "";
-
+    const name = nameInput?.value.trim();
     if (!name) {
       alert("Please enter a collection name!");
-      nameInput.focus();
+      nameInput?.focus();
       return;
     }
 
-    const imgSrc =
-      preview && preview.style.display !== "none" && preview.src
-        ? preview.src
-        : "img/collection-placeholder.jpg";
-
-    const all = getCollections();
-    all.push({
-      id: uid(),
-      name,
-      desc,
-      category,
-      img: imgSrc,
-      items: [],
-      createdAt: Date.now(),
-      ownedByUser: true 
-});
-    
-    saveCollections(all);
-
-    nameInput.value = "";
-    if (descInput) descInput.value = "";
-    if (fileInput) fileInput.value = "";
-    if (preview) preview.style.display = "none";
-    if (dropZone) dropZone.style.display = "flex";
     closeModal();
-
-    window.location.href = "user.html#minhas-colecoes";
+    window.location.href = "user.php#minhas-colecoes";
   });
 });
