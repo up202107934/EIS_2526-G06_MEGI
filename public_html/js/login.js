@@ -41,7 +41,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const data = await res.json();
 
       if (!data.ok) {
-        alert("Credenciais inválidas.");
+        alert("Invalid Credentials.");
         return;
       }
 

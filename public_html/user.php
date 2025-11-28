@@ -1,146 +1,177 @@
 <?php
-
 require_once __DIR__ . "/partials/bootstrap.php";
+require_once __DIR__ . "/dal/CollectionDAL.php";
+require_once __DIR__ . "/dal/UserDAL.php";
 
+// 1. Segurança
 if (!isset($_SESSION["id_user"])) {
     header("Location: login.php");
     exit;
 }
 
-$collections = CollectionDAL::getByUser($_SESSION["id_user"]);
-$user = UserDAL::getById($_SESSION["id_user"]);
-
+// 2. Buscar dados
+$userId = $_SESSION["id_user"];
+$collections = CollectionDAL::getByUser($userId);
+$user = UserDAL::getById($userId);
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>User Profile | My Collections</title>
-    <link rel="stylesheet" href="css/user.css" />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/user.css" />
 </head>
 <body>
 
-  <!-- ===== barra de navegacao ===== -->
-  <header class="navbar">
+  <nav class="navbar">
+    
     <div class="navbar-logo">
       <a href="home.php">MyCollections</a>
     </div>
 
-    <nav class="navbar-links">
+    <div class="navbar-links">
+      <a href="home.php" class="nav-link">Home</a>
       <a href="events.php" class="nav-link">Events</a>
-      <a href="user.php#myCollectionsSection" class="nav-link">My Collections</a>
-      <a href="team.php" class="nav-link">Team</a>
-    </nav>
+      <a href="user.php" class="nav-link nav-link-active">My Collections</a>
+    </div>
 
     <div class="navbar-actions">
-      
+        
+        <a href="controllers/auth.php?logout=1" class="nav-link" style="font-size: 14px; color: #ff6b6b;">Logout</a>
 
-      <div class="navbar-avatar-wrapper">
-  <img class="navbar-avatar" src="img/user.jpg" alt="User" id="profileBtn">
-  
-  <div class="profile-dropdown" id="profileDropdown">
-    <a href="user.php">👤 Ver Perfil</a>
-    <a href="api/logout.php">🚪 Log Out</a>
-  </div>
-</div>
-
-
-      <button id="themeToggle" class="theme-toggle" type="button">🌙</button>
-    </div>
-  </header>
-
-  <!-- criar nova coleção -->
-  <!-- criar nova coleção -->
-<div id="createCollectionModal" class="modal">
-  <div class="modal-content">
-
-  <form action="create_collection.php" method="POST">
-
-      <h2>Create New Collection</h2>
-
-      <label>Name:</label>
-      <input type="text" name="nome" required>
-
-      <label>Description:</label>
-      <input type="text" name="descricao">
-
-      <div class="modal-buttons">
-        <button type="submit">💾 Save</button>
-        <button type="button" id="cancelCollection">❌ Cancel</button>
-      </div>
-
-  </form>
-
-</div>
-</div>
-
-  <div class="page-container">
- 
-
-    <!--  -->
-    <main class="main-content">
-      <div class="profile-header">
-        <div class="profile-photo">
-          <img src="img/user.jpg" alt="User Photo" id="profileImage">
-          <div class="edit-icon" id="editPhotoBtn">✎</div>
-        </div>
-        <div>
-          <h1 id="displayName"><?= htmlspecialchars($user["username"]) ?></h1>
-          <p id="displayEmail"><?= htmlspecialchars($user["email"]) ?></p>
-
-        </div>
-      </div>
-
-      <form id="userForm" class="form-container">
-        <div class="form-row">
-          
-        </div>
-
-        <div class="form-row">
-          <div class="form-group">
-            <label for="email">Email</label>
-            <input type="email" id="email" value="<?= htmlspecialchars($user['email']) ?>">
-          </div>
-          
-        </div>
-
-        <button type="submit" class="btn-save">Save Changes</button>
-        <span class="status" id="statusMsg">✔ Changes saved!</span>
-      </form>
-
-      <!-- Wishlist  -->
-      <section class="wishlist-section">
-        <h2>My Wishlist ❤️</h2>
-        <div id="wishlist-container" class="wishlist-grid"></div>
-      </section>
-
-      <!-- My Collections -->
-      <section class="collections-section" id="minhas-colecoes">
-        <h2 id="myCollectionsSection">My Collections</h2>
-        <div class="collections-grid" id="userCollections">
-            <?php foreach ($collections as $c): ?>
-            <div class="collection-card">
-                <h3><?= htmlspecialchars($c["nome"]) ?></h3>
-                <p><?= htmlspecialchars($c["descricao"]) ?></p>
-                <small>Created: <?= $c["created_at"] ?></small>
+        <div class="navbar-avatar-wrapper">
+            <div class="navbar-avatar" style="background-color: #B22222; color: white; display: flex; align-items: center; justify-content: center; font-weight: bold;">
+                <?= strtoupper(substr($user['username'], 0, 1)) ?>
             </div>
-            <?php endforeach; ?>
         </div>
-        <button class="btn-add" id="openModal">+ Create New Collection</button>
+
+    </div>
+  </nav>
+  <div class="page-container">
+    <main class="main-content">
+      
+      <div class="profile-header">
+        
+        <div class="profile-photo">
+            <?php if (!empty($user['profile_img'])): ?>
+                <img src="<?= htmlspecialchars($user['profile_img']) ?>" alt="User Profile" 
+                     style="width:100%; height:100%; object-fit:cover; border-radius:50%;">
+            <?php else: ?>
+                <?= strtoupper(substr($user['username'], 0, 1)) ?>
+            <?php endif; ?>
+
+            <div class="edit-icon" id="editPhotoBtn">📷</div>
+        </div>
+        
+        <div class="profile-info">
+            <h1 id="displayName"><?= htmlspecialchars($user["username"]) ?></h1>
+            <p id="displayEmail"><?= htmlspecialchars($user["email"]) ?></p>
+            
+            <div style="margin-top:10px; color: #555;">
+                <strong><?= count($collections) ?></strong> Collections Created
+            </div>
+        </div>
+      </div>
+
+      <section class="collections-section" id="minhas-colecoes">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+            <h2>My Collections</h2>
+            <button class="btn-add" id="openModal">+ Create New</button>
+        </div>
+
+        <?php if (empty($collections)): ?>
+            <p style="text-align:center; color:#777; margin-top: 40px;">You haven't created any collections yet.</p>
+        <?php else: ?>
+            
+            <div class="collections-grid">
+                <?php foreach ($collections as $c): ?>
+                    <?php 
+                        $img = !empty($c['cover_img']) ? $c['cover_img'] : "img/collection-placeholder.jpg";
+                        $rate = $c['rate'] ?? 0;
+                        $catName = $c['category_name'] ?? 'General';
+                    ?>
+                    
+                    <div class="collection-card">
+                        <div style="position:relative;">
+                            <img src="<?= htmlspecialchars($img) ?>" alt="Cover">
+                            <span class="rate-badge">⭐ <?= $rate ?></span>
+                        </div>
+
+                        <h3><?= htmlspecialchars($c["name"]) ?></h3>
+                        <span class="category-badge"><?= htmlspecialchars($catName) ?></span>
+                        
+                        <?php if (!empty($c['description'])): ?>
+                            <p><?= htmlspecialchars(substr($c['description'], 0, 50)) ?>...</p>
+                        <?php endif; ?>
+                        
+                        <p style="font-size:0.8rem; margin-top: auto;">
+                            Created: <?= htmlspecialchars(substr($c["creation_date"], 0, 10)) ?>
+                        </p>
+
+                        <a href="collection.php?id=<?= $c['id_collection'] ?>" class="btn" style="display:block; text-align:center; background:#3498db; color:white; padding:8px; text-decoration:none; border-radius:4px; margin-top:10px;">Manage</a>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+        <?php endif; ?>
       </section>
+
     </main>
   </div>
 
-  <!-- Change Photo -->
-  <div id="photoModal" class="modal">
+  <div id="createCollectionModal" class="modal">
     <div class="modal-content">
-      <span class="close" id="closeModal">&times;</span>
-      <h3>Change Profile Picture</h3>
-      <input type="file" id="photoInput" accept="image/*">
+      <h2>Create New Collection</h2>
+
+      <label for="collectionName">Name:</label>
+      <input type="text" id="collectionName" placeholder="Enter collection name" required>
+
+      <label for="collectionDescription">Description:</label>
+      <input type="text" id="collectionDescription" placeholder="Enter description">
+
+      <label for="collectionCategory">Category:</label>
+      <select id="collectionCategory" required>
+        <option value="">-- Select Category --</option>
+        <option value="Miniatures">Miniatures</option>
+        <option value="Card Games">Card Games</option>
+        <option value="Coins">Coins</option>
+        <option value="Books">Books</option>
+      </select>
+
+      <label>Cover Image:</label>
+      <div id="dropZoneCollection" class="drop-zone">
+        <p>Click to select an image</p>
+        <input type="file" id="collectionImage" accept="image/*" hidden>
+      </div>
+      <img id="collectionPreview" src="" alt="Preview" style="display:none; max-width:100%; margin-top:10px; border-radius:8px;">
+
+      <div class="modal-buttons">
+        <button id="saveCollection" class="btn" style="background:#2ecc71; color:white;">💾 Save</button>
+        <button id="cancelCollection" class="btn" style="background:#e74c3c; color:white;">❌ Cancel</button>
+      </div>
     </div>
   </div>
 
+   <div id="photoModal" class="modal">
+    <div class="modal-content" style="max-width: 350px; text-align: center;">
+      <h3>Change Profile Photo</h3>
+      
+      <div style="width: 150px; height: 150px; margin: 10px auto; border-radius: 50%; overflow: hidden; background: #eee; border: 3px solid #B22222;">
+         <img id="newPhotoPreview" src="" alt="" style="width: 100%; height: 100%; object-fit: cover; display: none;">
+         <span id="newPhotoPlaceholder" style="line-height: 150px; color: #999;">Preview</span>
+      </div>
+
+      <input type="file" id="photoInput" accept="image/*" style="margin-top: 15px;">
+
+      <div class="modal-buttons" style="justify-content: center; gap: 10px; margin-top: 20px;">
+        <button id="savePhotoBtn" class="btn" style="background:#2ecc71; color:white;">💾 Save Photo</button>
+        <button id="cancelPhotoBtn" class="btn" style="background:#e74c3c; color:white;">❌ Cancel</button>
+      </div>
+    </div>
+  </div>
+    
   <script src="js/user.js"></script>
 
   <footer class="footer">
@@ -148,5 +179,4 @@ $user = UserDAL::getById($_SESSION["id_user"]);
   </footer>
 
 </body>
-
 </html>

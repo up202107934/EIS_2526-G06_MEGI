@@ -3,73 +3,57 @@ require_once __DIR__ . "/../config/db.php";
 
 class CollectionDAL {
 
-    // Buscar todas as coleções
+    // 1. Buscar todas (Global Home)
     public static function getAll() {
         $db = DB::conn();
-        $sql = "
-            SELECT 
-                c.id,
-                c.nome,
-                c.descricao,
-                c.created_at,
-                c.user_id,
-                u.username AS owner_name
-            FROM collections c
-            JOIN users u ON u.id = c.user_id
-            ORDER BY c.id DESC
-        ";
-        $res = $db->query($sql);
-        if (!$res) return [];
-        return $res->fetch_all(MYSQLI_ASSOC);
+        // JOIN para ir buscar o nome do utilizador e da categoria
+        // Ajusta 'collection_categories' se a tua tabela tiver outro nome
+        $sql = "SELECT c.*, u.username as owner_name, cat.name as category_name 
+                FROM collections c
+                JOIN users u ON c.id_user = u.id_user
+                LEFT JOIN collection_categories cat ON c.id_collection_category = cat.id_collection_category
+                ORDER BY c.rate DESC, c.creation_date DESC";
+        
+        $result = $db->query($sql);
+        if (!$result) return [];
+        return $result->fetch_all(MYSQLI_ASSOC);
     }
 
-    // Buscar uma coleção por ID
-    public static function getById($id) {
+    // 2. Buscar por Utilizador (My Recent)
+    public static function getByUser($id_user) {
         $db = DB::conn();
-        $stmt = $db->prepare("
-            SELECT 
-                c.id,
-                c.nome,
-                c.descricao,
-                c.created_at,
-                c.user_id,
-                u.username AS owner_name
-            FROM collections c
-            JOIN users u ON u.id = c.user_id
-            WHERE c.id = ?
-        ");
-        $stmt->bind_param("i", $id);
-        $stmt->execute();
-        return $stmt->get_result()->fetch_assoc();
-    }
-
-    // Buscar coleções de um user
-    public static function getByUser($user_id) {
-        $db = DB::conn();
-        $stmt = $db->prepare("
-            SELECT 
-                c.id,
-                c.nome,
-                c.descricao,
-                c.created_at
-            FROM collections c
-            WHERE c.user_id = ?
-            ORDER BY c.created_at DESC
-        ");
-        $stmt->bind_param("i", $user_id);
+        $sql = "SELECT c.*, u.username as owner_name, cat.name as category_name 
+                FROM collections c
+                JOIN users u ON c.id_user = u.id_user
+                LEFT JOIN collection_categories cat ON c.id_collection_category = cat.id_collection_category
+                WHERE c.id_user = ?
+                ORDER BY c.creation_date DESC";
+        
+        $stmt = $db->prepare($sql);
+        $stmt->bind_param("i", $id_user);
         $stmt->execute();
         return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
     }
 
-    // Criar coleção
-    public static function create($user_id, $nome, $descricao) {
+// Criar nova coleção (Agora com descrição e imagem)
+    public static function create($id_user, $id_category, $name, $description, $cover_img, $creation_date) {
         $db = DB::conn();
-        $stmt = $db->prepare("
-            INSERT INTO collections (user_id, nome, descricao)
-            VALUES (?, ?, ?)
-        ");
-        $stmt->bind_param("iss", $user_id, $nome, $descricao);
-        $stmt->execute();
-        return $db->insert_id;
+        
+        $sql = "INSERT INTO collections (id_user, id_collection_category, name, description, cover_img, creation_date) 
+                VALUES (?, ?, ?, ?, ?, ?)";
+        
+        $stmt = $db->prepare($sql);
+        
+        if (!$stmt) {
+            die("Erro SQL Create: " . $db->error);
+        }
+
+        // iissss = int, int, string, string, string, string
+        $stmt->bind_param("iissss", $id_user, $id_category, $name, $description, $cover_img, $creation_date);
+        
+        if ($stmt->execute()) {
+            return $db->insert_id;
+        }
+        return false;
     }
 }

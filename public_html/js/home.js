@@ -1,7 +1,5 @@
 // home.js (Sprint 2 - com backend)
 
-// Já não usamos localStorage para coleções globais.
-// Vamos buscar ao backend.
 const $$ = (sel, root = document) => Array.from(root.querySelectorAll(sel));
 
 function applyCategoryFilter() {
@@ -112,15 +110,27 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function collectionCardHTML(c) {
-    const img = "img/collection-placeholder.jpg"; // depois ligamos imagem real
+    const img = c.cover_img ? c.cover_img : "img/collection-placeholder.jpg";
+
+    // --- LINHA EM FALTA ADICIONADA AQUI ---
+    // Se o rate vier null da BD, assumimos 0
+    const rate = c.rate !== null ? c.rate : 0; 
 
     return `
       <div class="collection-card">
-        <img src="${img}" alt="${c.name}">
+        <div style="position:relative;">
+            <img src="${img}" alt="${c.name}" style="object-fit: cover; height: 200px; width: 100%;">
+            <span style="position:absolute; top:10px; right:10px; background:rgba(0,0,0,0.7); color:#ffd700; padding:4px 8px; border-radius:4px; font-weight:bold;">
+             ⭐ ${rate}
+           </span>
+        </div>
+        
         <h2>${c.name}</h2>
         <span class="category-badge">${c.category_name || "Uncategorized"}</span>
 
         <p><b>Owner:</b> ${c.owner_name || ""}</p>
+        
+        ${c.description ? `<p style="font-size:0.9em; color:#666;">${c.description.substring(0, 50)}...</p>` : ''}
 
         <div class="mini-carousel">
           <div class="mini-track">
@@ -298,45 +308,64 @@ document.addEventListener("DOMContentLoaded", () => {
     reader.readAsDataURL(file);
   });
 
-  saveBtn?.addEventListener("click", () => {
-  const name = nameInput?.value.trim();
-  const categorySelect = document.getElementById("collectionCategory");
-  const categoryName = categorySelect ? categorySelect.value : "";
+saveBtn?.addEventListener("click", () => {
+    const name = nameInput?.value.trim();
+    const description = descInput?.value.trim() || ""; // Novo campo
+    const categorySelect = document.getElementById("collectionCategory");
+    const categoryName = categorySelect ? categorySelect.value : "";
+    const file = fileInput?.files?.[0]; // O ficheiro de imagem
 
-  if (!name) {
-    alert("Please enter a collection name!");
-    nameInput?.focus();
-    return;
-  }
-
-  // Tens de mapear o nome da categoria da UI para o ID da BD.
-  // Faz um map simples (ajusta aos teus nomes reais):
-  const categoryMap = {
-    "Miniatures": 1,
-    "Card Games": 2,
-    "Coins": 3,
-    "Books": 4
-  };
-
-  const payload = {
-    name: name,
-    id_collection_category: categoryMap[categoryName] || 1,
-    creation_date: new Date().toISOString().slice(0,10)
-  };
-
-  fetch("controllers/collections.php", {
-    method: "POST",
-    headers: {"Content-Type":"application/json"},
-    body: JSON.stringify(payload)
-  })
-  .then(r => r.json())
-  .then(resp => {
-    if (!resp.ok) {
-      alert("You must be logged in to create collections.");
+    if (!name) {
+      alert("Please enter a collection name!");
+      nameInput?.focus();
       return;
     }
-    closeModal();
-    renderTopCollections("featured"); // recarrega a Home
+
+    const categoryMap = {
+      "Miniatures": 1,
+      "Card Games": 2,
+      "Coins": 3,
+      "Books": 4
+    };
+
+    // --- MUDANÇA AQUI: Usar FormData em vez de JSON ---
+    const formData = new FormData();
+    formData.append("name", name);
+    formData.append("description", description);
+    formData.append("id_collection_category", categoryMap[categoryName] || 1);
+    formData.append("creation_date", new Date().toISOString().slice(0,10));
+    
+    // Só anexa a imagem se o utilizador tiver escolhido uma
+    if (file) {
+      formData.append("cover_img", file);
+    }
+
+    fetch("controllers/collections.php", {
+      method: "POST",
+      body: formData 
+      
+    })
+    .then(r => r.json())
+    .then(resp => {
+      if (!resp.ok) {
+        alert("Error: " + (resp.error || "Failed to create collection"));
+        return;
+      }
+      closeModal();
+      // Limpar formulário
+      nameInput.value = "";
+      descInput.value = "";
+      fileInput.value = "";
+      if(preview) preview.style.display = 'none';
+      if(dropZone) dropZone.style.display = 'flex';
+      
+      renderTopCollections("featured");
+      alert("Collection created successfully! 📸");
+    })
+    .catch(err => {
+        console.error(err);
+        alert("Server error.");
+    });
   });
-});
+
 });
