@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 28-Nov-2025 às 18:52
+-- Tempo de geração: 28-Nov-2025 às 21:37
 -- Versão do servidor: 10.4.32-MariaDB
 -- versão do PHP: 8.0.30
 
@@ -34,6 +34,13 @@ CREATE TABLE `collections` (
   `descricao` text DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+--
+-- Extraindo dados da tabela `collections`
+--
+
+INSERT INTO `collections` (`id`, `user_id`, `nome`, `descricao`, `created_at`) VALUES
+(1, 2, 'disney', 'bonecos', '2025-11-28 20:21:49');
 
 -- --------------------------------------------------------
 
@@ -423,7 +430,7 @@ ALTER TABLE `wishlist_items`
 -- AUTO_INCREMENT de tabela `collections`
 --
 ALTER TABLE `collections`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT de tabela `collection_categories`

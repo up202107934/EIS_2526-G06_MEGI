@@ -1,5 +1,15 @@
 <?php
+
 require_once __DIR__ . "/partials/bootstrap.php";
+
+if (!isset($_SESSION["id_user"])) {
+    header("Location: login.php");
+    exit;
+}
+
+$collections = CollectionDAL::getByUser($_SESSION["id_user"]);
+$user = UserDAL::getById($_SESSION["id_user"]);
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -31,7 +41,7 @@ require_once __DIR__ . "/partials/bootstrap.php";
   
   <div class="profile-dropdown" id="profileDropdown">
     <a href="user.php">👤 Ver Perfil</a>
-    <a href="home_withoutlogin.html">🚪 Log Out</a>
+    <a href="api/logout.php">🚪 Log Out</a>
   </div>
 </div>
 
@@ -44,46 +54,26 @@ require_once __DIR__ . "/partials/bootstrap.php";
   <!-- criar nova coleção -->
 <div id="createCollectionModal" class="modal">
   <div class="modal-content">
-    <h2>Create New Collection</h2>
 
-    <label for="collectionName">Name:</label>
-    <input type="text" id="collectionName" placeholder="Enter collection name" required>
+  <form action="create_collection.php" method="POST">
 
-    <label for="collectionDescription">Description:</label>
-    <input type="text" id="collectionDescription" placeholder="Enter collection description">
+      <h2>Create New Collection</h2>
 
-    <div class="form-row-2col">
-  <div class="form-group">
-    <label for="collectionCategory">Category:</label>
-    <select id="collectionCategory">
-      <option value="Miniatures">Miniatures</option>
-      <option value="Coins">Coins</option>
-      <option value="Books">Books</option>
-      <option value="Card Games">Card Games</option>
-      <option value="Figures">Figures</option>
-      <option value="Other">Other</option>
-    </select>
-  </div>
+      <label>Name:</label>
+      <input type="text" name="nome" required>
 
-  <div class="form-group">
-    <label for="collectionImage">Image:</label>
-    <div id="dropZoneCollection" class="drop-zone">
-      <p>Drag & drop an image here, or click to select</p>
-      <input type="file" id="collectionImage" accept="image/*" hidden>
-    </div>
-  </div>
+      <label>Description:</label>
+      <input type="text" name="descricao">
+
+      <div class="modal-buttons">
+        <button type="submit">💾 Save</button>
+        <button type="button" id="cancelCollection">❌ Cancel</button>
+      </div>
+
+  </form>
+
 </div>
-
-    <img id="collectionPreview" src="" alt="Preview"
-         style="display:none; max-width:100%; margin-top:10px; border-radius:8px;">
-
-    <div class="modal-buttons">
-      <button id="saveCollection">💾 Save</button>
-      <button id="cancelCollection">❌ Cancel</button>
-    </div>
-  </div>
 </div>
-
 
   <div class="page-container">
  
@@ -96,32 +86,23 @@ require_once __DIR__ . "/partials/bootstrap.php";
           <div class="edit-icon" id="editPhotoBtn">✎</div>
         </div>
         <div>
-          <h1 id="displayName">Joana Ferreira</h1>
-          <p id="displayEmail">up202106097@up.pt</p>
+          <h1 id="displayName"><?= htmlspecialchars($user["username"]) ?></h1>
+          <p id="displayEmail"><?= htmlspecialchars($user["email"]) ?></p>
+
         </div>
       </div>
 
       <form id="userForm" class="form-container">
         <div class="form-row">
-          <div class="form-group">
-            <label for="firstName">First Name</label>
-            <input type="text" id="firstName" value="Joana" required>
-          </div>
-          <div class="form-group">
-            <label for="lastName">Last Name</label>
-            <input type="text" id="lastName" value="Ferreira" required>
-          </div>
+          
         </div>
 
         <div class="form-row">
           <div class="form-group">
             <label for="email">Email</label>
-            <input type="email" id="email" value="up202106097@up.pt" required>
+            <input type="email" id="email" value="<?= htmlspecialchars($user['email']) ?>">
           </div>
-          <div class="form-group">
-            <label for="birth">Date of Birth</label>
-            <input type="date" id="birth" value="2002-03-14">
-          </div>
+          
         </div>
 
         <button type="submit" class="btn-save">Save Changes</button>
@@ -138,7 +119,13 @@ require_once __DIR__ . "/partials/bootstrap.php";
       <section class="collections-section" id="minhas-colecoes">
         <h2 id="myCollectionsSection">My Collections</h2>
         <div class="collections-grid" id="userCollections">
-
+            <?php foreach ($collections as $c): ?>
+            <div class="collection-card">
+                <h3><?= htmlspecialchars($c["nome"]) ?></h3>
+                <p><?= htmlspecialchars($c["descricao"]) ?></p>
+                <small>Created: <?= $c["created_at"] ?></small>
+            </div>
+            <?php endforeach; ?>
         </div>
         <button class="btn-add" id="openModal">+ Create New Collection</button>
       </section>

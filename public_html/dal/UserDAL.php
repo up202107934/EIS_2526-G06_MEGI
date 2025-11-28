@@ -33,5 +33,14 @@ class UserDAL {
 
         return $stmt->execute();
     }
+    
+    public static function getById($id_user) {
+    $db = DB::conn();
+    $stmt = $db->prepare("SELECT * FROM users WHERE id=?");
+    $stmt->bind_param("i", $id_user);
+    $stmt->execute();
+    return $stmt->get_result()->fetch_assoc();
+}
+
 
 }
