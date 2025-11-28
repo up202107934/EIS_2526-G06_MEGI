@@ -141,7 +141,7 @@ body.dark-mode .navbar a {
 body.dark-mode h1, body.dark-mode h2, body.dark-mode h3 {
     color: #FFD700 !important;
     text-shadow: 2px 2px 6px rgba(255, 215, 0, 0.3);
-} «
+} 
 body.dark-mode main, body.dark-mode section, body.dark-mode .team-container, body.dark-mode .team-section, body.dark-mode .content {
     background-color: #121212 !important;
     color: #f1f1f1 !important;
