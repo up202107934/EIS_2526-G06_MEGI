@@ -93,25 +93,50 @@ function showSuccess(input) {
   });
 
   // submeter as informacoes
-form.addEventListener('submit', (e) => {
-  e.preventDefault(); 
+form.addEventListener("submit", async (e) => {
+  e.preventDefault();
 
-  const strength = Number(password.dataset.strength) || 0;
+  const usernameVal = username.value.trim();
+  const emailVal = email.value.trim();
+  const passwordVal = password.value;
+  const confirmVal = confirmPassword.value;
 
-  
-  if (confirmPassword.value !== password.value) {
-    showError(confirmPassword, 'Passwords do not match');
-    alert('Passwords do not match. Please check again.');
+  if (confirmVal !== passwordVal) {
+    alert("Passwords do not match!");
     return;
   }
 
+  const strength = Number(password.dataset.strength);
   if (strength < 3) {
-    alert('Please use a stronger password before continuing.');
+    alert("Please choose a stronger password.");
     return;
   }
 
-  showSuccess(confirmPassword);
-  alert('Account created successfully!');
-  window.location.href = "user.html";
-}); 
-});
+  try {
+    const res = await fetch("controllers/auth.php?register=1", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        username: usernameVal,
+        email: emailVal,
+        password: passwordVal,
+      }),
+    });
+
+    const data = await res.json();
+
+    if (!data.ok) {
+      alert("Registration failed: " + (data.error || "Unknown error"));
+      return;
+    }
+
+    alert("Account created successfully!");
+    window.location.href = "login.php";
+
+    } catch (err) {
+    console.error(err);
+    alert("Server error during registration.");
+  }
+}); // <-- fecha a callback do submit
+
+}); // <-- fecha o DOMContentLoaded

@@ -1,6 +1,7 @@
 <?php
 require_once __DIR__ . "/partials/bootstrap.php";
 $isLoggedIn = isLoggedIn(); 
+
 ?>
 
 <!DOCTYPE html>
@@ -57,7 +58,7 @@ $isLoggedIn = isLoggedIn();
 
         <div class="profile-dropdown" id="profileDropdown">
           <a href="user.php">👤 Ver Perfil</a>
-          <a href="logout.php">🚪 Log Out</a>
+          <a href="api/logout.php">🚪 Log Out</a>
         </div>
       </div>
     <?php else: ?>

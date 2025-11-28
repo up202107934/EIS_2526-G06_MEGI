@@ -11,7 +11,7 @@
     <h1>My Collections</h1>
     <h2>Login</h2>
 
-    <form id="login-form" action="home.php" method="get">
+    <form id="login-form">
       <label for="username">Username or Email</label>
       <input type="text" id="username" name="username" required />
 

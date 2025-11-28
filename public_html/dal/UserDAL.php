@@ -22,19 +22,16 @@ class UserDAL {
     public static function create($data) {
         $db = DB::conn();
 
-        $name = $data["name"] ?? "";
-        $dob  = $data["date_of_birth"] ?? null;
-        $email = $data["email"] ?? "";
-        $username = $data["username"] ?? "";
-        $pass = $data["password"] ?? "";
+        $username = $data["username"];
+        $email = $data["email"]; // tens que adicionar a coluna email primeiro
+        $pass = $data["password"];
 
         $hash = password_hash($pass, PASSWORD_DEFAULT);
 
-        $stmt = $db->prepare("
-            INSERT INTO users (name, date_of_birth, email, date_of_joining, username, password_hash)
-            VALUES (?, ?, ?, CURDATE(), ?, ?)
-        ");
-        $stmt->bind_param("sssss", $name, $dob, $email, $username, $hash);
+        $stmt = $db->prepare("INSERT INTO users (username,password,email) VALUES (?, ?, ?)");
+        $stmt->bind_param("sss", $username,$hash,$email);
+
         return $stmt->execute();
     }
+
 }

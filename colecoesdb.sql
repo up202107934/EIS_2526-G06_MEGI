@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 28-Nov-2025 às 12:15
+-- Tempo de geração: 28-Nov-2025 às 18:52
 -- Versão do servidor: 10.4.32-MariaDB
 -- versão do PHP: 8.0.30
 
@@ -28,21 +28,12 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `collections` (
-  `id_collection` int(11) NOT NULL,
-  `id_user` int(11) NOT NULL,
-  `id_collection_category` int(11) NOT NULL,
-  `name` varchar(120) NOT NULL,
-  `creation_date` date DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Extraindo dados da tabela `collections`
---
-
-INSERT INTO `collections` (`id_collection`, `id_user`, `id_collection_category`, `name`, `creation_date`) VALUES
-(4, 1, 1, 'Star Wars Figures', '2024-05-02'),
-(5, 1, 2, 'Pokémon Cards', '2023-10-15'),
-(6, 2, 3, 'Marvel Comics', '2022-07-20');
+  `id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `nome` varchar(100) NOT NULL,
+  `descricao` text DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 -- --------------------------------------------------------
 
@@ -226,23 +217,19 @@ INSERT INTO `item_categories` (`id_item_category`, `name`) VALUES
 --
 
 CREATE TABLE `users` (
-  `id_user` int(11) NOT NULL,
-  `name` varchar(100) NOT NULL,
-  `date_of_birth` date DEFAULT NULL,
-  `email` varchar(150) NOT NULL,
-  `date_of_joining` date DEFAULT NULL,
-  `username` varchar(80) NOT NULL,
-  `password_hash` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `id` int(11) NOT NULL,
+  `username` varchar(50) NOT NULL,
+  `password` varchar(255) NOT NULL,
+  `email` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
 -- Extraindo dados da tabela `users`
 --
 
-INSERT INTO `users` (`id_user`, `name`, `date_of_birth`, `email`, `date_of_joining`, `username`, `password_hash`) VALUES
-(1, 'Joana Rocha', '2002-04-10', 'joana@test.com', '2025-11-27', 'joana', '$2y$10$teste_hash_1'),
-(2, 'Carlos Silva', '2001-01-21', 'carlos@test.com', '2025-11-27', 'carlos', '$2y$10$teste_hash_2'),
-(5, 'Utilizador Teste', '2000-01-01', 'teste2@teste.com', '2025-11-28', 'teste2', '$2y$10$YptqvQqhYCtFw9B5LLuaSO/yjXAtLiU..4SkdOwyER.0NLXzOIo2C');
+INSERT INTO `users` (`id`, `username`, `password`, `email`) VALUES
+(1, 'João', '$2y$10$2neO22Lh2CBDfNLXdtEgfuZPuRCb79OHNt6SsAtJYxQkljLWns7AO', ''),
+(2, 'teste', '$2y$10$8i35IqZfpOyIM9ftcCz7zO1Knh0Vq2duxePBe0U7a/DW55aubUIWe', 'teste@gmail.com');
 
 -- --------------------------------------------------------
 
@@ -331,9 +318,8 @@ INSERT INTO `wishlist_items` (`id_wishlist`, `id_item`, `added_at`) VALUES
 -- Índices para tabela `collections`
 --
 ALTER TABLE `collections`
-  ADD PRIMARY KEY (`id_collection`),
-  ADD KEY `id_user` (`id_user`),
-  ADD KEY `id_collection_category` (`id_collection_category`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `user_id` (`user_id`);
 
 --
 -- Índices para tabela `collection_categories`
@@ -397,9 +383,9 @@ ALTER TABLE `item_categories`
 -- Índices para tabela `users`
 --
 ALTER TABLE `users`
-  ADD PRIMARY KEY (`id_user`),
-  ADD UNIQUE KEY `email` (`email`),
-  ADD UNIQUE KEY `username` (`username`);
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `username` (`username`),
+  ADD UNIQUE KEY `email` (`email`);
 
 --
 -- Índices para tabela `user_events_interest`
@@ -437,7 +423,7 @@ ALTER TABLE `wishlist_items`
 -- AUTO_INCREMENT de tabela `collections`
 --
 ALTER TABLE `collections`
-  MODIFY `id_collection` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de tabela `collection_categories`
@@ -452,40 +438,10 @@ ALTER TABLE `collection_event_reviews`
   MODIFY `id_review` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
--- AUTO_INCREMENT de tabela `events`
---
-ALTER TABLE `events`
-  MODIFY `id_event` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
-
---
--- AUTO_INCREMENT de tabela `event_items`
---
-ALTER TABLE `event_items`
-  MODIFY `id_event_item` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT de tabela `items`
---
-ALTER TABLE `items`
-  MODIFY `id_item` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
-
---
--- AUTO_INCREMENT de tabela `item_categories`
---
-ALTER TABLE `item_categories`
-  MODIFY `id_item_category` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
-
---
 -- AUTO_INCREMENT de tabela `users`
 --
 ALTER TABLE `users`
-  MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
-
---
--- AUTO_INCREMENT de tabela `wishlists`
---
-ALTER TABLE `wishlists`
-  MODIFY `id_wishlist` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- Restrições para despejos de tabelas
@@ -495,70 +451,7 @@ ALTER TABLE `wishlists`
 -- Limitadores para a tabela `collections`
 --
 ALTER TABLE `collections`
-  ADD CONSTRAINT `collections_ibfk_1` FOREIGN KEY (`id_user`) REFERENCES `users` (`id_user`) ON DELETE CASCADE,
-  ADD CONSTRAINT `collections_ibfk_2` FOREIGN KEY (`id_collection_category`) REFERENCES `collection_categories` (`id_collection_category`);
-
---
--- Limitadores para a tabela `collection_event_reviews`
---
-ALTER TABLE `collection_event_reviews`
-  ADD CONSTRAINT `collection_event_reviews_ibfk_1` FOREIGN KEY (`id_user`) REFERENCES `users` (`id_user`) ON DELETE CASCADE,
-  ADD CONSTRAINT `collection_event_reviews_ibfk_2` FOREIGN KEY (`id_event`) REFERENCES `events` (`id_event`) ON DELETE CASCADE,
-  ADD CONSTRAINT `collection_event_reviews_ibfk_3` FOREIGN KEY (`id_collection`) REFERENCES `collections` (`id_collection`) ON DELETE CASCADE;
-
---
--- Limitadores para a tabela `collection_items`
---
-ALTER TABLE `collection_items`
-  ADD CONSTRAINT `collection_items_ibfk_1` FOREIGN KEY (`id_collection`) REFERENCES `collections` (`id_collection`) ON DELETE CASCADE,
-  ADD CONSTRAINT `collection_items_ibfk_2` FOREIGN KEY (`id_item`) REFERENCES `items` (`id_item`) ON DELETE CASCADE;
-
---
--- Limitadores para a tabela `event_collections`
---
-ALTER TABLE `event_collections`
-  ADD CONSTRAINT `event_collections_ibfk_1` FOREIGN KEY (`id_event`) REFERENCES `events` (`id_event`) ON DELETE CASCADE,
-  ADD CONSTRAINT `event_collections_ibfk_2` FOREIGN KEY (`id_collection`) REFERENCES `collections` (`id_collection`) ON DELETE CASCADE;
-
---
--- Limitadores para a tabela `event_items`
---
-ALTER TABLE `event_items`
-  ADD CONSTRAINT `fk_event_items_event` FOREIGN KEY (`id_event`) REFERENCES `events` (`id_event`) ON DELETE CASCADE,
-  ADD CONSTRAINT `fk_event_items_item` FOREIGN KEY (`id_item`) REFERENCES `items` (`id_item`) ON DELETE CASCADE;
-
---
--- Limitadores para a tabela `items`
---
-ALTER TABLE `items`
-  ADD CONSTRAINT `items_ibfk_1` FOREIGN KEY (`id_item_category`) REFERENCES `item_categories` (`id_item_category`);
-
---
--- Limitadores para a tabela `user_events_interest`
---
-ALTER TABLE `user_events_interest`
-  ADD CONSTRAINT `user_events_interest_ibfk_1` FOREIGN KEY (`id_user`) REFERENCES `users` (`id_user`) ON DELETE CASCADE,
-  ADD CONSTRAINT `user_events_interest_ibfk_2` FOREIGN KEY (`id_event`) REFERENCES `events` (`id_event`) ON DELETE CASCADE;
-
---
--- Limitadores para a tabela `user_events_went`
---
-ALTER TABLE `user_events_went`
-  ADD CONSTRAINT `user_events_went_ibfk_1` FOREIGN KEY (`id_user`) REFERENCES `users` (`id_user`) ON DELETE CASCADE,
-  ADD CONSTRAINT `user_events_went_ibfk_2` FOREIGN KEY (`id_event`) REFERENCES `events` (`id_event`) ON DELETE CASCADE;
-
---
--- Limitadores para a tabela `wishlists`
---
-ALTER TABLE `wishlists`
-  ADD CONSTRAINT `wishlists_ibfk_1` FOREIGN KEY (`id_user`) REFERENCES `users` (`id_user`) ON DELETE CASCADE;
-
---
--- Limitadores para a tabela `wishlist_items`
---
-ALTER TABLE `wishlist_items`
-  ADD CONSTRAINT `wishlist_items_ibfk_1` FOREIGN KEY (`id_wishlist`) REFERENCES `wishlists` (`id_wishlist`) ON DELETE CASCADE,
-  ADD CONSTRAINT `wishlist_items_ibfk_2` FOREIGN KEY (`id_item`) REFERENCES `items` (`id_item`) ON DELETE CASCADE;
+  ADD CONSTRAINT `collections_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

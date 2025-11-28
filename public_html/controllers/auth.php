@@ -18,14 +18,14 @@ if ($method === "POST" && isset($_GET["login"])) {
     $password = $data["password"] ?? "";
 
     $user = UserDAL::getByUsername($username);
-    if (!$user || !password_verify($password, $user["password_hash"])) {
+    if (!$user || !password_verify($password, $user["password"])) {
         http_response_code(401);
         echo json_encode(["ok"=>false, "error"=>"invalid credentials"]);
         exit;
     }
 
-    $_SESSION["id_user"] = $user["id_user"];
-    echo json_encode(["ok"=>true, "id_user"=>$user["id_user"], "username"=>$user["username"]]);
+    $_SESSION["id_user"] = $user["id"];
+    echo json_encode(["ok"=>true, "id_user"=>$user["id"], "username"=>$user["username"]]);
     exit;
 }
 
