@@ -14,13 +14,13 @@
   
   <header class="navbar">
     <div class="navbar-logo">
-      <a href="home.html">MyCollections</a>
+      <a href="home.php">MyCollections</a>
     </div>
 
     <nav class="navbar-links">
-      <a href="events.html" class="nav-link">Events</a>
-      <a href="user.html#myCollectionsSection" class="nav-link">My Collections</a>
-      <a href="team.html" class="nav-link">Team</a>
+      <a href="events.php" class="nav-link">Events</a>
+      <a href="user.php#myCollectionsSection" class="nav-link">My Collections</a>
+      <a href="team.php" class="nav-link">Team</a>
     </nav>
 
     <div class="navbar-actions">
@@ -31,7 +31,7 @@
   <img class="navbar-avatar" src="img/user.jpg" alt="User" id="profileBtn">
   
   <div class="profile-dropdown" id="profileDropdown">
-    <a href="user.html">👤 Ver Perfil</a>
+    <a href="user.php">👤 Ver Perfil</a>
     <a href="home_withoutlogin.html">🚪 Log Out</a>
   </div>
 </div>
@@ -88,7 +88,7 @@
 
     const collectionPage = isPublic
       ? "collection_withoutlogin.html"
-      : "collection.html";
+      : "collection.php";
 
     if (typeof users !== "undefined") {
       const user = users.find(u => u.id === userId) || users[0];

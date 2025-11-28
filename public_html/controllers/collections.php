@@ -1,50 +1,63 @@
 <?php
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
+
+session_start();
+echo json_encode($_SESSION);
+exit;
 
 require_once __DIR__ . "/../dal/CollectionDAL.php";
-require_once __DIR__ . "/../partials/bootstrap.php";
-
 header("Content-Type: application/json; charset=utf-8");
 
-$method = $_SERVER["REQUEST_METHOD"];
+// -------- GET --------
+if ($_SERVER["REQUEST_METHOD"] === "GET") {
 
-if ($method === "GET") {
+    // MODO MINHAS COLEÇÕES (para events, user page, etc.)
+    if (isset($_GET["mine"]) && $_GET["mine"] == "1") {
 
-    // Ex.: GET /controllers/collections.php?id=3
-    if (isset($_GET["id"])) {
-        $id = (int)$_GET["id"];
-        echo json_encode(CollectionDAL::getById($id));
+        if (!isset($_SESSION["id_user"])) {
+            http_response_code(401);
+            echo json_encode(["error" => "not logged in"]);
+            exit;
+        }
+
+        $id_user = (int)$_SESSION["id_user"];
+        echo json_encode(CollectionDAL::getByUser($id_user));
         exit;
     }
 
-    // Ex.: GET /controllers/collections.php?mine=1
-    if (isset($_GET["mine"]) && $isLoggedIn) {
-        echo json_encode(CollectionDAL::getByUser($currentUserId));
-        exit;
-    }
-
-    // Ex.: GET /controllers/collections.php
+    // MODO GLOBAL (para HOME)
     echo json_encode(CollectionDAL::getAll());
     exit;
 }
 
-if ($method === "POST") {
+// -------- POST (criar coleção) --------
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
-    if (!$isLoggedIn) {
+    if (!isset($_SESSION["id_user"])) {
         http_response_code(401);
-        echo json_encode(["error" => "not logged in"]);
+        echo json_encode(["ok"=>false, "error"=>"not logged in"]);
         exit;
     }
 
     $data = json_decode(file_get_contents("php://input"), true);
 
-    $ok = CollectionDAL::create($data, $currentUserId);
+    if (!$data || !isset($data["name"], $data["id_collection_category"], $data["creation_date"])) {
+        http_response_code(400);
+        echo json_encode(["ok"=>false, "error"=>"missing fields"]);
+        exit;
+    }
 
-    echo json_encode(["ok" => $ok]);
+    $id_user = (int)$_SESSION["id_user"];
+
+    $newId = CollectionDAL::create(
+        $id_user,
+        (int)$data["id_collection_category"],
+        $data["name"],
+        $data["creation_date"]
+    );
+
+    echo json_encode(["ok"=>true, "id_collection"=>$newId]);
     exit;
 }
 
 http_response_code(405);
-echo json_encode(["error" => "method not allowed"]);
+echo json_encode(["error"=>"method not allowed"]);

@@ -217,6 +217,7 @@ btnNew?.addEventListener("click", (e) => {
   console.log("Abrir modal New Event");
   eventForm.classList.add("show");
   eventForm.setAttribute("aria-hidden", "false");
+  loadUserCollectionsForEventForm();
   
   // reset + load
   fItemsWrap.innerHTML = "";
@@ -249,6 +250,33 @@ eventForm?.addEventListener("click", (ev) => {
 // -----------------------
 // 5.1) NEW EVENT - carregar coleções + selecionar itens
 // -----------------------
+async function loadUserCollectionsForEventForm() {
+  const list = document.getElementById("f-col-list");
+  if (!list) return;
+
+  list.innerHTML = "<p class='muted'>A carregar coleções...</p>";
+
+  const res = await fetch("controllers/collections.php?mine=1");
+  if (res.status === 401) {
+    list.innerHTML = "<p class='muted'>Precisas de login para escolher coleções.</p>";
+    return;
+  }
+
+  const cols = await res.json();
+
+  if (!cols.length) {
+    list.innerHTML = "<p class='muted'>Não tens coleções.</p>";
+    return;
+  }
+
+  list.innerHTML = cols.map(c => `
+    <label class="pick-card">
+      <input type="checkbox" value="${c.id_collection}">
+      <span>${c.name}</span>
+      <small class="muted">${c.category_name}</small>
+    </label>
+  `).join("");
+}
 
 // Sets globais (usados no SAVE)
 const selectedCollections = new Set();

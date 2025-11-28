@@ -52,32 +52,35 @@ class CollectionDAL {
 
     // Buscar coleções de um user logado
     public static function getByUser($id_user) {
-        $db = DB::conn();
-        $stmt = $db->prepare("
-            SELECT * 
-            FROM collections
-            WHERE id_user = ?
-            ORDER BY id_collection DESC
-        ");
-        $stmt->bind_param("i", $id_user);
-        $stmt->execute();
-        return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
-    }
+    $db = DB::conn();
+    $stmt = $db->prepare("
+        SELECT 
+            c.*,
+            u.name AS owner_name,
+            cc.name AS category_name
+        FROM collections c
+        JOIN users u ON u.id_user = c.id_user
+        JOIN collection_categories cc ON cc.id_collection_category = c.id_collection_category
+        WHERE c.id_user = ?
+        ORDER BY c.creation_date DESC
+    ");
+    $stmt->bind_param("i", $id_user);
+    $stmt->execute();
+    return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+}
 
-    // Criar coleção (para new_collection.php)
-    public static function create($data, $id_user) {
+    // Criar coleção (para POST)
+    public static function create($id_user, $id_category, $name, $creation_date) {
         $db = DB::conn();
         $stmt = $db->prepare("
             INSERT INTO collections
                 (id_user, id_collection_category, name, creation_date)
             VALUES (?, ?, ?, ?)
         ");
-
-        $id_category   = $data["id_collection_category"] ?? null;
-        $name          = $data["name"] ?? "";
-        $creation_date = $data["creation_date"] ?? null;
-
         $stmt->bind_param("iiss", $id_user, $id_category, $name, $creation_date);
-        return $stmt->execute();
+        $stmt->execute();
+
+        return $db->insert_id; // devolve id criado
     }
+
 }

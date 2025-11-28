@@ -11,13 +11,13 @@
   <!-- navbar -->
   <header class="navbar">
     <div class="navbar-left">
-      <div class="navbar-logo"><a href="home.html">MyCollections</a></div>
+      <div class="navbar-logo"><a href="home.php">MyCollections</a></div>
     </div>
 
     <nav class="navbar-center" aria-label="Primary">
-      <a href="events.html">Events</a>
-      <a href="user.html#myCollectionsSection">My Collections</a>
-      <a href="team.html">Team</a>
+      <a href="events.php">Events</a>
+      <a href="user.php#myCollectionsSection">My Collections</a>
+      <a href="team.php">Team</a>
     </nav>
 
     <div class="navbar-right">
@@ -26,7 +26,7 @@
   <img class="navbar-avatar" src="img/user.jpg" alt="User" id="profileBtn">
   
   <div class="profile-dropdown" id="profileDropdown">
-    <a href="user.html">👤 Ver Perfil</a>
+    <a href="user.php">👤 Ver Perfil</a>
     <a href="home_withoutlogin.html">🚪 Log Out</a>
   </div>
 </div>

@@ -18,13 +18,13 @@
   <!-- barra de navegaçao -->
   <header class="navbar">
     <div class="navbar-left">
-      <div class="navbar-logo"><a href="home.html">MyCollections</a></div>
+      <div class="navbar-logo"><a href="home.php">MyCollections</a></div>
     </div>
 
     <nav class="navbar-center" aria-label="Primary">
-      <a href="events.html">Events</a>
-      <a href="user.html#myCollectionsSection" class="active">My Collections</a>
-      <a href="team.html" class="active">Team</a>
+      <a href="events.php">Events</a>
+      <a href="user.php#myCollectionsSection" class="active">My Collections</a>
+      <a href="team.php" class="active">Team</a>
     </nav>
       
 
@@ -34,7 +34,7 @@
   <img class="navbar-avatar" src="img/user.jpg" alt="User" id="profileBtn">
   
   <div class="profile-dropdown" id="profileDropdown">
-    <a href="user.html">👤 Ver Perfil</a>
+    <a href="user.php">👤 Ver Perfil</a>
     <a href="home_withoutlogin.html">🚪 Log Out</a>
   </div>
 </div>
@@ -86,7 +86,7 @@
       <button id="btn-delete" class="btn">Delete</button>
     </div>
 
-    <a href="collection.html" class="back-btn">← Back to Collection</a>
+    <a href="collection.php" class="back-btn">← Back to Collection</a>
   </main>
 
   <!-- editar item -->

@@ -13,13 +13,13 @@
 
 <header class="navbar">
   <div class="navbar-logo">
-    <a href="home.html">MyCollections</a>
+    <a href="home.php">MyCollections</a>
   </div>
 
   <nav class="navbar-links">
-    <a href="events.html">Events</a>
-    <a href="user.html#myCollectionsSection">My Collections</a>
-    <a href="team.html">Team</a>
+    <a href="events.php">Events</a>
+    <a href="user.php#myCollectionsSection">My Collections</a>
+    <a href="team.php">Team</a>
   </nav>
 
   <div class="navbar-actions">
@@ -30,7 +30,7 @@
       </button>
     </div>
 
-    <a href="user.html" title="Profile">
+    <a href="user.php" title="Profile">
       <img class="navbar-avatar" src="img/user.jpg" alt="User" />
     </a>
 
