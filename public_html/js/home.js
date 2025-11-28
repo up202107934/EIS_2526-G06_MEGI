@@ -298,17 +298,45 @@ document.addEventListener("DOMContentLoaded", () => {
     reader.readAsDataURL(file);
   });
 
-  // Por agora o Save não vai para backend.
-  // Na próxima etapa ligamos ao POST /controllers/collections.php
   saveBtn?.addEventListener("click", () => {
-    const name = nameInput?.value.trim();
-    if (!name) {
-      alert("Please enter a collection name!");
-      nameInput?.focus();
+  const name = nameInput?.value.trim();
+  const categorySelect = document.getElementById("collectionCategory");
+  const categoryName = categorySelect ? categorySelect.value : "";
+
+  if (!name) {
+    alert("Please enter a collection name!");
+    nameInput?.focus();
+    return;
+  }
+
+  // Tens de mapear o nome da categoria da UI para o ID da BD.
+  // Faz um map simples (ajusta aos teus nomes reais):
+  const categoryMap = {
+    "Miniatures": 1,
+    "Card Games": 2,
+    "Coins": 3,
+    "Books": 4
+  };
+
+  const payload = {
+    name: name,
+    id_collection_category: categoryMap[categoryName] || 1,
+    creation_date: new Date().toISOString().slice(0,10)
+  };
+
+  fetch("controllers/collections.php", {
+    method: "POST",
+    headers: {"Content-Type":"application/json"},
+    body: JSON.stringify(payload)
+  })
+  .then(r => r.json())
+  .then(resp => {
+    if (!resp.ok) {
+      alert("You must be logged in to create collections.");
       return;
     }
-
     closeModal();
-    window.location.href = "user.php#minhas-colecoes";
+    renderTopCollections("featured"); // recarrega a Home
   });
+});
 });

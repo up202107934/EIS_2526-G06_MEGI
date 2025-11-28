@@ -20,14 +20,14 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/html.html to edit this
 <header class="navbar">
   <!-- Esquerda -->
   <div class="navbar-left">
-    <div class="navbar-logo"><a href="home.html">MyCollections</a></div>
+    <div class="navbar-logo"><a href="home.php">MyCollections</a></div>
   </div>
 
 
   <nav class="navbar-center" aria-label="Primary">
-    <a id="nav-events" href="events.html">Events</a>
-    <a id="nav-mycollections" href="user.html#myCollectionsSection">My Collections</a>
-    <a id="nav-team" href="Team.html">Team</a>
+    <a id="nav-events" href="events.php">Events</a>
+    <a id="nav-mycollections" href="user.php#myCollectionsSection">My Collections</a>
+    <a id="nav-team" href="Team.php">Team</a>
   </nav>
 
  
@@ -41,8 +41,8 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/html.html to edit this
   <img class="navbar-avatar" src="img/user.jpg" alt="User" id="profileBtn">
   
   <div class="profile-dropdown" id="profileDropdown">
-    <a href="user.html">👤 Ver Perfil</a>
-    <a href="home_withoutlogin.html">🚪 Log Out</a>
+    <a href="user.php">👤 Ver Perfil</a>
+    <a href="home.php">🚪 Log Out</a>
   </div>
 </div>
 

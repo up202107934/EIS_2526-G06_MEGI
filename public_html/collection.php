@@ -147,48 +147,12 @@
   <div class="collection-events-columns">
     <div>
       <h3>Upcoming</h3>
-      <div class="events-list">
-        <article class="event-card">
-          <h4>Star Wars Day – Lisbon</h4>
-          <p class="event-meta">
-            <span>📅 04 May 2025 · 18:00</span>
-            <span>📍 Lisbon, Portugal</span>
-          </p>
-          <p class="event-desc">
-            Special Star Wars meetup with miniatures exhibition and trading.
-          </p>
-          <a href="events.html#eventDetail" class="event-link">View event</a>
-        </article>
-
-        <article class="event-card">
-          <h4>Collectors Expo – Porto</h4>
-          <p class="event-meta">
-            <span>📅 12 Dec 2025 · 15:00</span>
-            <span>📍 Porto, Portugal</span>
-          </p>
-          <p class="event-desc">
-            Large convention featuring Star Wars figures, comics and retro games.
-          </p>
-          <a href="events.html#eventDetail" class="event-link">View event</a>
-        </article>
-      </div>
+      <div class="events-list"id="upcomingEventsList"></div>
     </div>
 
     <div>
       <h3>Past</h3>
-      <div class="events-list">
-        <article class="event-card">
-          <h4>May the 4th Celebration</h4>
-          <p class="event-meta">
-            <span>📅 04 May 2024 · 19:00</span>
-            <span>📍 Online event</span>
-          </p>
-          <p class="event-desc">
-            Online showcase of iconic Star Wars miniatures from this collection.
-          </p>
-          <a href="events.html#eventDetail" class="event-link">View event</a>
-        </article>
-      </div>
+      <div class="events-list"id="pastEventsList"></div>
     </div>
   </div>
 </section>
@@ -260,6 +224,53 @@ fetch(`controllers/items.php?collection=${idCollection}`)
   })
   .catch(err => console.error(err));
 </script>
+<script>
+const params = new URLSearchParams(window.location.search);
+const idCollection = params.get("id");
+
+fetch(`controllers/events.php?collection=${idCollection}`)
+  .then(r => r.json())
+  .then(events => {
+    const upcomingList = document.getElementById("upcomingEventsList");
+    const pastList = document.getElementById("pastEventsList");
+
+    upcomingList.innerHTML = "";
+    pastList.innerHTML = "";
+
+    const today = new Date();
+
+    if (!events.length) {
+      upcomingList.innerHTML = "<p>No events for this collection yet.</p>";
+      return;
+    }
+
+    events.forEach(e => {
+      const d = new Date(e.event_date);
+
+      const card = `
+        <article class="event-card">
+          <h4>${e.name}</h4>
+          <p class="event-meta">
+            <span>📅 ${e.event_date}</span>
+            <span>📍 ${e.location ?? ""}</span>
+          </p>
+          <a href="events.php?id=${e.id_event}" class="event-link">View event</a>
+        </article>
+      `;
+
+      if (d >= today) upcomingList.innerHTML += card;
+      else pastList.innerHTML += card;
+    });
+
+    if (!upcomingList.innerHTML.trim()) {
+      upcomingList.innerHTML = "<p>No upcoming events.</p>";
+    }
+    if (!pastList.innerHTML.trim()) {
+      pastList.innerHTML = "<p>No past events.</p>";
+    }
+  });
+</script>
+
 
 
 <footer class="footer">
