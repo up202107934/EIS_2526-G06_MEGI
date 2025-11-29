@@ -135,11 +135,7 @@ $isLoggedIn = isLoggedIn();
 
     <label for="collectionCategory">Category:</label>
     <select id="collectionCategory" required>
-      <option value="">-- Select Category --</option>
-      <option value="Miniatures">Miniatures</option>
-      <option value="Card Games">Card Games</option>
-      <option value="Coins">Coins</option>
-      <option value="Books">Books</option>
+        <option value="">Loading categories...</option>
     </select>
 
     <label for="collectionImage">Image:</label>
