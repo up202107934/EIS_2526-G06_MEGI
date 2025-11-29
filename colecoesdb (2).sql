@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 29-Nov-2025 às 15:31
+-- Tempo de geração: 29-Nov-2025 às 23:21
 -- Versão do servidor: 10.4.32-MariaDB
 -- versão do PHP: 8.0.30
 
@@ -53,7 +53,10 @@ INSERT INTO `collections` (`id_collection`, `id_user`, `id_collection_category`,
 (11, 6, 2, 'test user', 'a', 'img/covers/col_692a26b704562.png', '2025-11-28', 0),
 (17, 6, 1, 'ss', 's', 'img/covers/col_692aecf64e6ac.jfif', '2025-11-29', 0),
 (19, 6, 1, 'l', 'l', 'img/covers/col_692aedc8e14d8.jfif', '2025-11-29', 0),
-(20, 6, 1, 'a', 'a', 'img/covers/col_692aee95982cb.jfif', '2025-11-29', 0);
+(20, 6, 1, 'a', 'a', 'img/covers/col_692aee95982cb.jfif', '2025-11-29', 0),
+(23, 6, 17, 'harry potter', 's', 'img/covers/col_692b14875ee90.jfif', '2025-11-29', 0),
+(24, 6, 1, 'BARBIE', 'BONECAS', 'img/covers/col_692b2504c2d4b.jfif', '2025-11-29', 0),
+(25, 6, 2, 'aaa', 'bbb', 'img/covers/col_692b2dd6a3c9a.jfif', '2025-11-29', 0);
 
 -- --------------------------------------------------------
 
@@ -142,7 +145,16 @@ CREATE TABLE `events` (
 INSERT INTO `events` (`id_event`, `name`, `location`, `event_date`, `description`) VALUES
 (3, 'Comic Con Porto', 'Porto', '2025-03-15', NULL),
 (4, 'Retro Collectors Fair', 'Lisboa', '2025-04-12', NULL),
-(5, 'test', 'test', '2025-11-28', 'test');
+(5, 'test', 'test', '2025-11-28', 'test'),
+(6, 'event test', 'porto', '2025-11-04', 'aaa'),
+(7, 'evento de harry potter', 'porto', '2025-11-08', 'evento de bonecos de harry potter'),
+(8, 'a', 'porto', '2025-11-15', 'a'),
+(9, 'event test', 'porto', '2025-11-29', 'aaaa'),
+(10, 'event test', 'porto', '2025-11-29', 'aaaa'),
+(11, 'event test', 'porto', '2025-11-29', 'aaaa'),
+(12, 'a', 'a', '2025-10-29', 'a'),
+(13, 'A', 'A', '2025-11-08', 'A'),
+(14, 'LAURINDINHA', 'PORTO', '2025-11-08', 'B');
 
 -- --------------------------------------------------------
 
@@ -162,7 +174,10 @@ CREATE TABLE `event_collections` (
 INSERT INTO `event_collections` (`id_event`, `id_collection`) VALUES
 (3, 4),
 (3, 6),
-(4, 5);
+(4, 5),
+(13, 19),
+(14, 17),
+(14, 23);
 
 -- --------------------------------------------------------
 
@@ -171,7 +186,6 @@ INSERT INTO `event_collections` (`id_event`, `id_collection`) VALUES
 --
 
 CREATE TABLE `event_items` (
-  `id_event_item` int(11) NOT NULL,
   `id_event` int(11) NOT NULL,
   `id_item` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -389,9 +403,8 @@ ALTER TABLE `event_collections`
 -- Índices para tabela `event_items`
 --
 ALTER TABLE `event_items`
-  ADD PRIMARY KEY (`id_event_item`),
-  ADD UNIQUE KEY `id_event` (`id_event`,`id_item`),
-  ADD KEY `fk_event_items_item` (`id_item`);
+  ADD PRIMARY KEY (`id_event`,`id_item`),
+  ADD KEY `fk_event_items_event` (`id_item`);
 
 --
 -- Índices para tabela `items`
@@ -451,7 +464,7 @@ ALTER TABLE `wishlist_items`
 -- AUTO_INCREMENT de tabela `collections`
 --
 ALTER TABLE `collections`
-  MODIFY `id_collection` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `id_collection` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- AUTO_INCREMENT de tabela `collection_categories`
@@ -469,13 +482,7 @@ ALTER TABLE `collection_event_reviews`
 -- AUTO_INCREMENT de tabela `events`
 --
 ALTER TABLE `events`
-  MODIFY `id_event` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
-
---
--- AUTO_INCREMENT de tabela `event_items`
---
-ALTER TABLE `event_items`
-  MODIFY `id_event_item` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_event` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT de tabela `items`
@@ -538,7 +545,7 @@ ALTER TABLE `event_collections`
 -- Limitadores para a tabela `event_items`
 --
 ALTER TABLE `event_items`
-  ADD CONSTRAINT `fk_event_items_event` FOREIGN KEY (`id_event`) REFERENCES `events` (`id_event`) ON DELETE CASCADE,
+  ADD CONSTRAINT `fk_event_items_event` FOREIGN KEY (`id_item`) REFERENCES `items` (`id_item`) ON DELETE CASCADE,
   ADD CONSTRAINT `fk_event_items_item` FOREIGN KEY (`id_item`) REFERENCES `items` (`id_item`) ON DELETE CASCADE;
 
 --

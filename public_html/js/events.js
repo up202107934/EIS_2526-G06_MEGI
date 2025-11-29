@@ -217,7 +217,6 @@ btnNew?.addEventListener("click", (e) => {
   console.log("Abrir modal New Event");
   eventForm.classList.add("show");
   eventForm.setAttribute("aria-hidden", "false");
-  loadUserCollectionsForEventForm();
   
   // reset + load
   fItemsWrap.innerHTML = "";
@@ -292,7 +291,6 @@ async function loadCollectionsForForm() {
   fColList.innerHTML = "<p class='muted'>A carregar coleções…</p>";
 
   try {
-    // se já tens login e endpoint mine=1, usa mine=1
     const cols = await fetch("controllers/collections.php?mine=1")
       .then(r => r.json());
 
@@ -312,6 +310,9 @@ async function loadCollectionsForForm() {
     // listeners de seleção
     fColList.querySelectorAll(".pick-card").forEach(card => {
       card.addEventListener("click", async (e) => {
+        // se o clique foi diretamente no input, não faz nada aqui
+        if (e.target.tagName === "INPUT") return;
+
         e.preventDefault();
 
         const idCol = card.dataset.id;
@@ -343,51 +344,85 @@ async function loadCollectionsForForm() {
 async function loadItemsForCollection(idCol) {
   if (!fItemsWrap) return;
 
-  const items = await fetch(`controllers/items.php?collection=${idCol}`)
-    .then(r => r.json());
+  try {
+    const items = await fetch(`controllers/items.php?collection=${idCol}`)
+      .then(r => r.json());
 
-  const block = document.createElement("div");
-  block.className = "items-block";
-  block.dataset.col = idCol;
+    // se já existir bloco desta coleção, remove para recriar
+    const existing = fItemsWrap.querySelector(`.items-block[data-col="${idCol}"]`);
+    if (existing) existing.remove();
 
-  if (!items.length) {
-    block.innerHTML = `
-      <div class="items-head">
-        <strong>Coleção ${idCol}</strong>
-      </div>
-      <p class="muted">Esta coleção não tem itens.</p>
-    `;
-    fItemsWrap.appendChild(block);
-    return;
-  }
+    const block = document.createElement("div");
+    block.className = "items-block";
+    block.dataset.col = idCol;
 
-  block.innerHTML = `
-    <div class="items-head">
-      <strong>Itens da coleção ${idCol}</strong>
-    </div>
-    <div class="mini-grid">
-      ${items.map(i => `
-        <label class="mini-card">
-          <input type="checkbox" data-item="${i.id_item}" />
-          <img src="img/item-placeholder.jpg" alt="">
-          <span>${i.name}</span>
-        </label>
-      `).join("")}
-    </div>
-  `;
+    if (!items.length) {
+      block.innerHTML = `
+        <div class="items-head">
+          <strong>Coleção ${idCol}</strong>
+          <button class="remove-col" data-col="${idCol}"
+                  style="float:right; background:none; border:none; font-size:18px; cursor:pointer;">
+            ❌
+          </button>
+        </div>
+        <p class="muted">Esta coleção não tem itens.</p>
+      `;
+      fItemsWrap.appendChild(block);
+    } else {
+      block.innerHTML = `
+        <div class="items-head">
+          <strong>Itens da coleção ${idCol}</strong>
+          <button class="remove-col" data-col="${idCol}" 
+                  style="float:right; background:none; border:none; font-size:18px; cursor:pointer;">
+            ❌
+          </button>
+        </div>
+        <div class="mini-grid">
+          ${items.map(i => `
+            <label class="mini-card">
+              <input type="checkbox" data-item="${i.id_item}" />
+              <img src="img/item-placeholder.jpg" alt="">
+              <span>${i.name}</span>
+            </label>
+          `).join("")}
+        </div>
+      `;
+      fItemsWrap.appendChild(block);
 
-  fItemsWrap.appendChild(block);
+      // listeners nos itens
+      block.querySelectorAll("input[type=checkbox]").forEach(cb => {
+        cb.addEventListener("change", () => {
+          const idItem = cb.dataset.item;
+          const key = `${idCol}:${idItem}`; // chave única por coleção
 
-  // listeners nos itens
-  block.querySelectorAll("input[type=checkbox]").forEach(cb => {
-    cb.addEventListener("change", () => {
-      const idItem = cb.dataset.item;
-      const key = `${idCol}:${idItem}`; // chave única por coleção
+          if (cb.checked) selectedItems.add(key);
+          else selectedItems.delete(key);
+        });
+      });
+    }
 
-      if (cb.checked) selectedItems.add(key);
-      else selectedItems.delete(key);
+    // evento da cruz (remover coleção)
+    const removeBtn = block.querySelector(".remove-col");
+    removeBtn.addEventListener("click", () => {
+      // 1. remover a seleção da coleção
+      selectedCollections.delete(idCol);
+
+      // 2. remover os itens desta coleção
+      selectedItems.forEach(it => {
+        if (String(it).startsWith(idCol + ":")) selectedItems.delete(it);
+      });
+
+      // 3. remover bloco
+      block.remove();
+
+      // 4. desmarcar checkbox
+      const chk = document.querySelector(`.pick-card[data-id="${idCol}"] input`);
+      if (chk) chk.checked = false;
     });
-  });
+
+  } catch (err) {
+    console.error(err);
+  }
 }
 
 // remover bloco de itens quando coleção é desmarcada
@@ -425,17 +460,22 @@ fSave?.addEventListener("click", async (e) => {
 
   try {
     const r = await fetch("controllers/events.php", {
-      method: "POST",
-      headers: {"Content-Type":"application/json"},
-      body: JSON.stringify(payload)
-    });
+  method: "POST",
+  headers: {"Content-Type":"application/json"},
+  body: JSON.stringify(payload)
+});
 
-    const resp = await r.json();
+const text = await r.text();
+console.log("RAW RESPONSE:", text);
 
-    if (!resp.ok) {
-      alert("Erro ao criar evento: " + (resp.error || ""));
-      return;
-    }
+let resp;
+try {
+    resp = JSON.parse(text);
+} catch (e) {
+    console.error("JSON PARSE ERROR:", e);
+    return;
+}
+
 
     alert("Evento criado com sucesso!");
     eventForm.classList.remove("show");
@@ -451,6 +491,4 @@ fSave?.addEventListener("click", async (e) => {
   }
 });
 
-
-
-});
+}); 
