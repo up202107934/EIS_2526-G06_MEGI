@@ -140,7 +140,36 @@ $user = UserDAL::getById($userId);
       </div>
     </div>
   </div>
+  
     
+  <div id="createCollectionModal" class="modal">
+  <div class="modal-content">
+    <h2>Create New Collection</h2>
+
+    <label for="collectionName">Name:</label>
+    <input type="text" id="collectionName" placeholder="Enter collection name" required>
+
+    <label for="collectionDescription">Description:</label>
+    <input type="text" id="collectionDescription" placeholder="Enter collection description">
+
+    <label for="collectionCategory">Category:</label>
+    <select id="collectionCategory" required>
+        <option value="">Loading categories...</option>
+    </select>
+
+    <label for="collectionImage">Image:</label>
+    <div id="dropZoneCollection" class="drop-zone">
+      <p>Drag & drop an image here, or click to select</p>
+      <input type="file" id="collectionImage" accept="image/*" hidden>
+    </div>
+    <img id="collectionPreview" src="" alt="Preview" style="display:none; max-width:100%; margin-top:10px; border-radius:8px;">
+
+    <div class="modal-buttons">
+      <button id="saveCollection">💾 Save</button>
+      <button id="cancelCollection">❌ Cancel</button>
+    </div>
+  </div>
+</div>
   <script src="js/user.js"></script>
 
   <footer class="footer">

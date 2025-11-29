@@ -1,146 +1,131 @@
-/* 
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/javascript.js to edit this template
- */
+/* js/register.js - COMPLETO */
 
 document.addEventListener('DOMContentLoaded', () => {
 
-  // password
+  // ==================================================
+  // 1. LÓGICA DO OLHO (MOSTRAR/ESCONDER PASSWORD)
+  // ==================================================
   document.querySelectorAll('.toggle-password').forEach(btn => {
     btn.addEventListener('click', () => {
+      // Vai buscar o ID do input alvo (ex: "password" ou "confirm-password")
       const targetId = btn.dataset.target;
       const input = document.getElementById(targetId);
-      const isPassword = input.type === 'password';
-      input.type = isPassword ? 'text' : 'password';
-      btn.textContent = isPassword ? '🙈' : '👁️';
+      
+      if (input) {
+        const isPassword = input.type === 'password';
+        // Troca o tipo do input
+        input.type = isPassword ? 'text' : 'password';
+        // Troca o ícone
+        btn.textContent = isPassword ? '🙈' : '👁️';
+      }
     });
   });
 
-  
-  const form = document.getElementById('register-form');
-  const username = document.getElementById('username');
-  const email = document.getElementById('email');
+  // ==================================================
+  // 2. FORÇA DA PASSWORD (BARRA COLORIDA)
+  // ==================================================
   const password = document.getElementById('password');
-  const confirmPassword = document.getElementById('confirm-password');
   const strengthBar = document.getElementById('strength-bar');
 
-  function showError(input, message) {
-  const small = input.closest('.form-group').querySelector('small');
-  small.textContent = message;
-  small.style.color = 'red';
-  input.style.borderColor = 'red';
-}
+  if (password && strengthBar) {
+      password.addEventListener('input', () => {
+        const val = password.value;
+        let strength = 0;
 
-function showSuccess(input) {
-  const small = input.closest('.form-group').querySelector('small');
-  small.textContent = '✔';
-  small.style.color = 'green';
-  input.style.borderColor = 'green';
-}
+        if (val.length >= 8) strength += 1;
+        if (/[A-Z]/.test(val)) strength += 1;
+        if (/[0-9]/.test(val)) strength += 1;
+        if (/[!@#$%^&*(),.?":{}|<>]/.test(val)) strength += 1;
 
-
-  function checkEmail(input) {
-    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return re.test(input.value.trim());
+        // Atualiza a barra visualmente
+        switch (strength) {
+          case 0:
+          case 1:
+            strengthBar.style.width = '25%';
+            strengthBar.style.backgroundColor = 'red';
+            break;
+          case 2:
+            strengthBar.style.width = '50%';
+            strengthBar.style.backgroundColor = 'orange';
+            break;
+          case 3:
+            strengthBar.style.width = '75%';
+            strengthBar.style.backgroundColor = 'yellowgreen';
+            break;
+          case 4:
+            strengthBar.style.width = '100%';
+            strengthBar.style.backgroundColor = 'green';
+            break;
+        }
+        // Guarda o valor num atributo para usarmos no submit
+        password.dataset.strength = strength;
+      });
   }
 
-  username.addEventListener('input', () => {
-    if(username.value.trim().length < 4) showError(username, 'Username must be at least 4 characters');
-    else showSuccess(username);
-  });
+  // ==================================================
+  // 3. ENVIO DO FORMULÁRIO (REGISTO)
+  // ==================================================
+  const form = document.getElementById('register-form');
 
-  email.addEventListener('input', () => {
-    if(!checkEmail(email)) showError(email, 'Invalid email format');
-    else showSuccess(email);
-  });
+  if (form) {
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
 
-  confirmPassword.addEventListener('input', () => {
-    if(confirmPassword.value !== password.value) showError(confirmPassword, 'Passwords do not match');
-    else showSuccess(confirmPassword);
-  });
+      // Buscar elementos
+      const nameInput = document.getElementById('name');
+      const dobInput = document.getElementById('date_of_birth');
+      const usernameInput = document.getElementById('username');
+      const emailInput = document.getElementById('email');
+      const passwordInput = document.getElementById('password');
+      const confirmInput = document.getElementById('confirm-password');
+      const fileInput = document.getElementById('profile_img');
 
-  // força da password
-  password.addEventListener('input', () => {
-    const val = password.value;
-    let strength = 0;
+      // 3.1 - Validar Passwords Iguais
+      if (confirmInput.value !== passwordInput.value) {
+        alert("Passwords do not match!");
+        return;
+      }
 
-    if (val.length >= 8) strength += 1;
-    if (/[A-Z]/.test(val)) strength += 1;
-    if (/[0-9]/.test(val)) strength += 1;
-    if (/[!@#$%^&*(),.?":{}|<>]/.test(val)) strength += 1;
+      // 3.2 - Validar Força (Opcional, se quiseres forçar)
+      // const strength = Number(passwordInput.dataset.strength || 0);
+      // if (strength < 2) { alert("Password too weak!"); return; }
 
-    switch (strength) {
-      case 0:
-      case 1:
-        strengthBar.style.width = '25%';
-        strengthBar.style.backgroundColor = 'red';
-        break;
-      case 2:
-        strengthBar.style.width = '50%';
-        strengthBar.style.backgroundColor = 'orange';
-        break;
-      case 3:
-        strengthBar.style.width = '75%';
-        strengthBar.style.backgroundColor = 'yellowgreen';
-        break;
-      case 4:
-        strengthBar.style.width = '100%';
-        strengthBar.style.backgroundColor = 'green';
-        break;
-    }
+      // 3.3 - Criar FormData com TODOS os campos
+      const formData = new FormData();
+      formData.append("name", nameInput.value.trim());
+      formData.append("date_of_birth", dobInput.value);
+      formData.append("username", usernameInput.value.trim());
+      formData.append("email", emailInput.value.trim());
+      formData.append("password", passwordInput.value);
 
-    password.dataset.strength = strength;
-  });
+      // Adicionar imagem APENAS se o user escolheu uma
+      if (fileInput && fileInput.files[0]) {
+        formData.append("profile_img", fileInput.files[0]);
+      }
 
-  // submeter as informacoes
-form.addEventListener("submit", async (e) => {
-  e.preventDefault();
-
-  const usernameVal = username.value.trim();
-  const emailVal = email.value.trim();
-  const passwordVal = password.value;
-  const confirmVal = confirmPassword.value;
-
-  if (confirmVal !== passwordVal) {
-    alert("Passwords do not match!");
-    return;
-  }
-
-  const strength = Number(password.dataset.strength);
-  if (strength < 3) {
-    alert("Please choose a stronger password.");
-    return;
-  }
-
-  try {
-    const formData = new FormData();
-        formData.append("register", "1");
-        formData.append("username", usernameVal);
-        formData.append("email", emailVal);
-        formData.append("password", passwordVal);
-
-        const res = await fetch("controllers/auth.php", {
+      try {
+        // Enviar para o servidor
+        const res = await fetch("controllers/auth.php?register=1", {
           method: "POST",
           body: formData
         });
 
-     
+        // Tentar ler a resposta como JSON
+        const data = await res.json(); // <-- Se der erro aqui, é porque o PHP enviou HTML de erro
 
+        if (!data.ok) {
+          alert("Registration failed: " + (data.error || "Unknown error"));
+          return;
+        }
 
-    const data = await res.json();
+        alert("Account created successfully! 🚀");
+        window.location.href = "login.php";
 
-    if (!data.ok) {
-      alert("Registration failed: " + (data.error || "Unknown error"));
-      return;
-    }
-
-    alert("Account created successfully!");
-    window.location.href = "login.php";
-
-    } catch (err) {
-    console.error(err);
-    alert("Server error during registration.");
+      } catch (err) {
+        console.error("Erro no registo:", err);
+        alert("Server error. Check console for details.");
+      }
+    });
   }
-}); // <-- fecha a callback do submit
 
-}); // <-- fecha o DOMContentLoaded
+});
