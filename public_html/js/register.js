@@ -113,15 +113,19 @@ form.addEventListener("submit", async (e) => {
   }
 
   try {
-    const res = await fetch("controllers/auth.php?register=1", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        username: usernameVal,
-        email: emailVal,
-        password: passwordVal,
-      }),
-    });
+    const formData = new FormData();
+        formData.append("register", "1");
+        formData.append("username", usernameVal);
+        formData.append("email", emailVal);
+        formData.append("password", passwordVal);
+
+        const res = await fetch("controllers/auth.php", {
+          method: "POST",
+          body: formData
+        });
+
+     
+
 
     const data = await res.json();
 

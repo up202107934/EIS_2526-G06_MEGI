@@ -1,5 +1,6 @@
 
 document.addEventListener("DOMContentLoaded", () => {
+console.log("INICIOU JS");
 
   // ==========================================
   // 1. DADOS DE TEXTO DO PERFIL (Visual)
@@ -145,8 +146,20 @@ document.addEventListener("DOMContentLoaded", () => {
   const colPreview    = document.getElementById("collectionPreview");
 
   // Abrir/Fechar Modal de Coleção
-  const openColModal = (e) => { e?.preventDefault(); colModal?.classList.add("show"); };
-  const closeColModal = () => { colModal?.classList.remove("show"); };
+  const openColModal = (e) => { 
+    e?.preventDefault(); 
+    if (colModal) {
+      colModal.classList.add("show");
+      colModal.classList.add("show");
+    }
+  };
+
+    const closeColModal = () => { 
+      if (colModal) {
+        colModal.classList.remove("show");
+        colModal.classList.remove("show");
+      }
+    };
 
   openColBtn?.addEventListener("click", openColModal);
   cancelColBtn?.addEventListener("click", closeColModal);
@@ -170,7 +183,6 @@ document.addEventListener("DOMContentLoaded", () => {
   saveColBtn?.addEventListener("click", () => {
     const name = nameInput?.value.trim();
     const description = descInput?.value.trim() || "";
-    const categoryName = catInput ? catInput.value : "";
     const file = colFileInput?.files?.[0];
 
     if (!name) {
@@ -178,13 +190,12 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-   const categoryId = catInput ? catInput.value : "";
-    formData.append("id_collection_category", categoryId);
+   const formData = new FormData();
+    formData.append("id_collection_category", catInput.value);
 
       
     formData.append("name", name);
     formData.append("description", description);
-    formData.append("id_collection_category", categoryMap[categoryName] || 1);
     formData.append("creation_date", new Date().toISOString().slice(0,10));
     
     if (file) {

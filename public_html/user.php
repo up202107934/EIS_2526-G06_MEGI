@@ -3,6 +3,7 @@ require_once __DIR__ . "/partials/bootstrap.php";
 require_once __DIR__ . "/dal/CollectionDAL.php";
 require_once __DIR__ . "/dal/UserDAL.php";
 
+
 // 1. Segurança
 if (!isset($_SESSION["id_user"])) {
     header("Location: login.php");
@@ -121,41 +122,7 @@ $user = UserDAL::getById($userId);
     </main>
   </div>
 
-  <div id="createCollectionModal" class="modal">
-    <div class="modal-content">
-      <h2>Create New Collection</h2>
-
-      <label for="collectionName">Name:</label>
-      <input type="text" id="collectionName" placeholder="Enter collection name" required>
-
-      <label for="collectionDescription">Description:</label>
-      <input type="text" id="collectionDescription" placeholder="Enter description">
-
-      <label for="collectionCategory">Category:</label>
-      <select id="collectionCategory" required>
-        <option value="">-- Select Category --</option>
-        <?php
-            $cats = CollectionDAL::getCategories();
-            foreach ($cats as $c) {
-                echo "<option value='{$c['id_collection_category']}'>{$c['name']}</option>";
-            }
-        ?>
-    </select>
-
-      <label>Cover Image:</label>
-      <div id="dropZoneCollection" class="drop-zone">
-        <p>Click to select an image</p>
-        <input type="file" id="collectionImage" accept="image/*" hidden>
-      </div>
-      <img id="collectionPreview" src="" alt="Preview" style="display:none; max-width:100%; margin-top:10px; border-radius:8px;">
-
-      <div class="modal-buttons">
-        <button id="saveCollection" class="btn" style="background:#2ecc71; color:white;">💾 Save</button>
-        <button id="cancelCollection" class="btn" style="background:#e74c3c; color:white;">❌ Cancel</button>
-      </div>
-    </div>
-  </div>
-
+  
    <div id="photoModal" class="modal">
     <div class="modal-content" style="max-width: 350px; text-align: center;">
       <h3>Change Profile Photo</h3>

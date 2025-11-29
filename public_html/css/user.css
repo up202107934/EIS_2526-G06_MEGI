@@ -353,7 +353,7 @@ input:focus {
 
 /* modal */
 .modal {
-  display: none;
+  display: none !important;
   position: fixed;
   inset: 0;
   background: rgba(0,0,0,0.5);
