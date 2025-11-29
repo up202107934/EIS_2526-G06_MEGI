@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 29-Nov-2025 às 00:12
+-- Tempo de geração: 29-Nov-2025 às 15:31
 -- Versão do servidor: 10.4.32-MariaDB
 -- versão do PHP: 8.0.30
 
@@ -50,7 +50,10 @@ INSERT INTO `collections` (`id_collection`, `id_user`, `id_collection_category`,
 (8, 6, 3, 'aa', 'aaa', 'img/covers/col_692a1ec8a1f44.jpg', '2025-11-28', 27),
 (9, 6, 3, '+ um test', 'aa', 'img/covers/col_692a1f30d9639.jpg', '2025-11-28', 88),
 (10, 6, 1, 'test rate', 'a', NULL, '2025-11-28', 0),
-(11, 6, 2, 'test user', 'a', 'img/covers/col_692a26b704562.png', '2025-11-28', 0);
+(11, 6, 2, 'test user', 'a', 'img/covers/col_692a26b704562.png', '2025-11-28', 0),
+(17, 6, 1, 'ss', 's', 'img/covers/col_692aecf64e6ac.jfif', '2025-11-29', 0),
+(19, 6, 1, 'l', 'l', 'img/covers/col_692aedc8e14d8.jfif', '2025-11-29', 0),
+(20, 6, 1, 'a', 'a', 'img/covers/col_692aee95982cb.jfif', '2025-11-29', 0);
 
 -- --------------------------------------------------------
 
@@ -68,8 +71,9 @@ CREATE TABLE `collection_categories` (
 --
 
 INSERT INTO `collection_categories` (`id_collection_category`, `name`) VALUES
-(1, 'Action Figures'),
+(17, 'Books'),
 (3, 'Comics'),
+(1, 'Miniatures'),
 (2, 'Trading Cards');
 
 -- --------------------------------------------------------
@@ -447,13 +451,13 @@ ALTER TABLE `wishlist_items`
 -- AUTO_INCREMENT de tabela `collections`
 --
 ALTER TABLE `collections`
-  MODIFY `id_collection` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id_collection` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT de tabela `collection_categories`
 --
 ALTER TABLE `collection_categories`
-  MODIFY `id_collection_category` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id_collection_category` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT de tabela `collection_event_reviews`

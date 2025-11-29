@@ -134,11 +134,13 @@ $user = UserDAL::getById($userId);
       <label for="collectionCategory">Category:</label>
       <select id="collectionCategory" required>
         <option value="">-- Select Category --</option>
-        <option value="Miniatures">Miniatures</option>
-        <option value="Card Games">Card Games</option>
-        <option value="Coins">Coins</option>
-        <option value="Books">Books</option>
-      </select>
+        <?php
+            $cats = CollectionDAL::getCategories();
+            foreach ($cats as $c) {
+                echo "<option value='{$c['id_collection_category']}'>{$c['name']}</option>";
+            }
+        ?>
+    </select>
 
       <label>Cover Image:</label>
       <div id="dropZoneCollection" class="drop-zone">

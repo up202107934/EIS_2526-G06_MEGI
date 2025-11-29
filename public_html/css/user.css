@@ -362,9 +362,7 @@ input:focus {
   z-index: 1000;
 }
 
-.modal.show {
-  display: flex !important;
-}
+
 
 .modal-content {
   background: #fff;
@@ -795,4 +793,12 @@ html { scroll-behavior: smooth; }
     border-radius: 6px;
     font-weight: bold;
     z-index: 10;
+}
+
+/* ===== FIX DEFINITIVO DO MODAL ===== */
+#createCollectionModal.show {
+    display: flex !important;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
 }

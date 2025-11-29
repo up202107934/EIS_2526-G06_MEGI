@@ -178,9 +178,10 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    const categoryMap = { "Miniatures": 1, "Card Games": 2, "Coins": 3, "Books": 4 };
+   const categoryId = catInput ? catInput.value : "";
+    formData.append("id_collection_category", categoryId);
 
-    const formData = new FormData();
+      
     formData.append("name", name);
     formData.append("description", description);
     formData.append("id_collection_category", categoryMap[categoryName] || 1);
