@@ -1,7 +1,8 @@
 <?php
 require_once __DIR__ . "/partials/bootstrap.php";
-$isLoggedIn = isLoggedIn(); 
-
+// A navbar já trata de buscar o utilizador, aqui só precisamos saber se está logado
+// para controlar os filtros e o modal
+$isLoggedIn = isLoggedIn();
 ?>
 
 <!DOCTYPE html>
@@ -15,61 +16,7 @@ $isLoggedIn = isLoggedIn();
 
 <body>
 
-<header class="navbar">
-  <!-- LADO ESQUERDO: LOGO -->
-  <div class="navbar-logo">
-    <a href="home.php">MyCollections</a>
-  </div>
-
-  <!-- NAV CENTRAL -->
-  <nav class="navbar-center">
-    <a href="events.php">Events</a>
-
-    <?php if ($isLoggedIn): ?>
-      <!-- Só aparece para login -->
-      <a href="user.php#myCollectionsSection">My Collections</a>
-    <?php endif; ?>
-
-    <a href="team.php">Team</a>
-  </nav>
-
-  <!-- LADO DIREITO -->
-  <div class="navbar-right">
-    <form class="navbar-search" id="searchForm" action="#" method="GET">
-      <input
-        type="text"
-        id="searchInput"
-        name="q"
-        placeholder="Search collections..."
-        required
-      />
-      <button type="button" class="search-btn">🔎</button>
-    </form>
-
-    <?php if ($isLoggedIn): ?>
-      <!-- Avatar + dropdown só para login -->
-      <div class="navbar-user">
-        <img
-          src="img/user.jpg"
-          alt="User"
-          class="navbar-avatar"
-          id="avatarButton"
-        />
-
-        <div class="profile-dropdown" id="profileDropdown">
-          <a href="user.php">👤 Ver Perfil</a>
-          <a href="api/logout.php">🚪 Log Out</a>
-        </div>
-      </div>
-    <?php else: ?>
-      <!-- Botão Sign in só para visitante -->
-      <a href="login.php" class="signin-chip">Sign in</a>
-    <?php endif; ?>
-
-    <button id="themeToggle" class="theme-toggle">🌙</button>
-  </div>
-</header>
-
+<?php require_once __DIR__ . "/partials/navbar.php"; ?>
 
 <section class="hero">
   <img src="img/hero-bg.jpg" alt="Hero Background" class="hero-bg">
@@ -92,7 +39,6 @@ $isLoggedIn = isLoggedIn();
       <button class="chip-top active" data-mode="featured">Featured (global)</button>
 
       <?php if ($isLoggedIn): ?>
-        <!-- “My recent” só faz sentido para login -->
         <button class="chip-top" data-mode="recent">My recent</button>
       <?php endif; ?>
 
@@ -109,11 +55,9 @@ $isLoggedIn = isLoggedIn();
   <div id="topCollectionsGrid" class="collections-container"></div>
 
   <?php if ($isLoggedIn): ?>
-    <!-- Botões privados -->
     <a href="user.php#minhas-colecoes" class="btn my-collections-btn">My Collections</a>
     <button class="btn-add" id="openModal">+ Create New Collection</button>
   <?php else: ?>
-    <!-- Mensagem simples para visitante -->
     <p style="margin-top:12px;">
       Sign in to create and manage your own collections.
     </p>
@@ -122,7 +66,6 @@ $isLoggedIn = isLoggedIn();
 
 
 <?php if ($isLoggedIn): ?>
-<!-- Modal para criar colecao (só para login) -->
 <div id="createCollectionModal" class="modal">
   <div class="modal-content">
     <h2>Create New Collection</h2>
@@ -161,9 +104,7 @@ $isLoggedIn = isLoggedIn();
   <p>© 2025 MyCollections | All rights reserved.</p>
 </footer>
 
-
 <script>
-  // flag para o JS saber o estado de login
   window.IS_LOGGED_IN = <?= $isLoggedIn ? "true" : "false" ?>;
 </script>
 <script src="js/home.js"></script>

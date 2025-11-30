@@ -5,44 +5,19 @@ require_once __DIR__ . "/partials/bootstrap.php";
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Our Team | MyCollections</title>
   <link rel="stylesheet" href="css/style.css" />
+  
+  <script src="js/navbar.js"></script>
 </head>
 
 <body>
-  <!-- navbar -->
-  <header class="navbar">
-    <div class="navbar-left">
-      <div class="navbar-logo"><a href="home.php">MyCollections</a></div>
-    </div>
+  <?php require_once __DIR__ . "/partials/navbar.php"; ?>
 
-    <nav class="navbar-center" aria-label="Primary">
-      <a href="events.php">Events</a>
-      <a href="user.php#myCollectionsSection">My Collections</a>
-      <a href="team.php">Team</a>
-    </nav>
-
-    <div class="navbar-right">
-      
-      <div class="navbar-avatar-wrapper">
-  <img class="navbar-avatar" src="img/user.jpg" alt="User" id="profileBtn">
-  
-  <div class="profile-dropdown" id="profileDropdown">
-    <a href="user.php">👤 Ver Perfil</a>
-    <a href="home_withoutlogin.html">🚪 Log Out</a>
-  </div>
-</div>
-
-      <button id="themeToggle" class="theme-toggle">🌙</button>
-    </div>
-  </header>
-
-  
-  <!-- team -->
+<!-- team -->
   <section class="team-deck-section">
-    <h1 class="deck-title">Meet Our Team</h1>
-    
+    <h1 class="deck-title">Meet Our Team</h1>  
+
     <div class="deck-container">
       <div class="deck-slide" data-index="0">
         <img src="img/joana.jpg" alt="Joana Ferreira">
@@ -76,7 +51,6 @@ require_once __DIR__ . "/partials/bootstrap.php";
         <p>Master in Industrial Engineering and Management</p>
       </div>
     </div>
-
     <div class="deck-dots"></div>
   </section>
 
@@ -85,7 +59,6 @@ require_once __DIR__ . "/partials/bootstrap.php";
     const dotsContainer = document.querySelector('.deck-dots');
     let currentIndex = 0;
 
-    
     slides.forEach((_, idx) => {
       const dot = document.createElement('span');
       dot.classList.add('dot');
@@ -106,27 +79,20 @@ require_once __DIR__ . "/partials/bootstrap.php";
         else if (idx === (currentIndex + 1) % slides.length) slide.classList.add('next');
         else slide.classList.add('hidden');
       });
-
       dots.forEach((dot, idx) => {
         dot.classList.toggle('active-dot', idx === currentIndex);
       });
     }
 
-    
     updateDeck();
-
-   
     setInterval(() => {
       currentIndex = (currentIndex + 1) % slides.length;
       updateDeck();
     }, 3000);
   </script>
   
-  <script src="js/team.js"></script>
-  
-<footer class="footer">
-  <p>© 2025 MyCollections | All rights reserved.</p>
-</footer>
-  
+  <footer class="footer">
+    <p>© 2025 MyCollections | All rights reserved.</p>
+  </footer>
 </body>
 </html>

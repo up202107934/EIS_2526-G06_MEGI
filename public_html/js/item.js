@@ -1,73 +1,75 @@
-/* 
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/javascript.js to edit this template
- */
+// js/item.js
 
 (() => {
   const $ = (id) => document.getElementById(id);
-
   const bodyLock = (on) => document.body.style.overflow = on ? 'hidden' : '';
 
   const editModal = $('editModal');
   const deleteModal = $('deleteModal');
 
   const open = (m) => {
+    if(!m) return;
     m.classList.add('show');
     m.setAttribute('aria-hidden', 'false');
     bodyLock(true);
   };
 
   const close = (m) => {
+    if(!m) return;
     m.classList.remove('show');
     m.setAttribute('aria-hidden', 'true');
     bodyLock(false);
   };
 
-  
+  // Botões de Abrir
   $('btn-edit')?.addEventListener('click', () => open(editModal));
   $('btn-delete')?.addEventListener('click', () => open(deleteModal));
 
-  
+  // Botões de Fechar
   $('edit-close')?.addEventListener('click', () => close(editModal));
   $('edit-cancel')?.addEventListener('click', () => close(editModal));
   $('delete-close')?.addEventListener('click', () => close(deleteModal));
   $('delete-cancel')?.addEventListener('click', () => close(deleteModal));
 
-  
+  // Fechar ao clicar fora
   [editModal, deleteModal].forEach(modal => {
-    modal.addEventListener('click', (e) => {
+    modal?.addEventListener('click', (e) => {
       if (e.target === modal) close(modal);
     });
   });
 
-  
+  // Fechar com ESC
   window.addEventListener('keydown', (e) => {
     if (e.key !== 'Escape') return;
-    if (editModal.classList.contains('show')) close(editModal);
-    if (deleteModal.classList.contains('show')) close(deleteModal);
+    if (editModal?.classList.contains('show')) close(editModal);
+    if (deleteModal?.classList.contains('show')) close(deleteModal);
   });
 
-  // Save 
+  // Save Placeholder
   $('edit-save')?.addEventListener('click', () => {
     // Placeholder: aqui ligas o backend depois
     close(editModal);
   });
 
-  // Delete 
+  // Delete Confirm
   $('delete-confirm')?.addEventListener('click', () => {
-    window.location.href = 'collection.html';
+    window.location.href = 'collection.php'; // Ajustei para .php
   });
 })();
 
+
+// ==========================================
+// LIKE BUTTON LOGIC
+// ==========================================
 document.addEventListener("DOMContentLoaded", () => {
-  
   const likeBtn = document.getElementById("likeBtn");
   const likeCount = document.getElementById("likeCount");
+  const itemNameElem = document.getElementById("itemName");
 
+  if (!likeBtn || !likeCount || !itemNameElem) return;
 
-  const itemId = document.getElementById("itemName").textContent.trim();
+  const itemId = itemNameElem.textContent.trim();
 
-  
   const savedLikes = localStorage.getItem("likes_" + itemId);
   const savedState = localStorage.getItem("liked_" + itemId);
 
@@ -99,68 +101,5 @@ document.addEventListener("DOMContentLoaded", () => {
 
     likeCount.textContent = count;
     localStorage.setItem("likes_" + itemId, count);
-  });
-
-});
-
-
-document.addEventListener("DOMContentLoaded", () => {
-  const themeToggle = document.getElementById("themeToggle");
-  if (!themeToggle) return;
-
-  const currentTheme = localStorage.getItem("theme");
-
-  
-  if (currentTheme === "dark") {
-    document.body.classList.add("dark-mode");
-    themeToggle.textContent = "☀️";
-  }
-
-  
-  themeToggle.addEventListener("click", () => {
-    document.body.classList.toggle("dark-mode");
-
-    const isDark = document.body.classList.contains("dark-mode");
-    themeToggle.textContent = isDark ? "☀️" : "🌙";
-
-    localStorage.setItem("theme", isDark ? "dark" : "light");
-  });
-});
-
-
-const avatarButton = document.getElementById('avatarButton');
-const profileDropdown = document.getElementById('profileDropdown');
-
-if (avatarButton && profileDropdown) {
-
-  avatarButton.addEventListener('click', (e) => {
-    e.stopPropagation();
-    profileDropdown.classList.toggle('show');
-  });
-
-  window.addEventListener('click', () => {
-    if (profileDropdown.classList.contains('show')) {
-      profileDropdown.classList.remove('show');
-    }
-  });
-}
-
-
-
-document.addEventListener("DOMContentLoaded", () => {
-  const profileBtn = document.getElementById("profileBtn");
-  const dropdown = document.getElementById("profileDropdown");
-
-  if (!profileBtn || !dropdown) return;
-
-  profileBtn.addEventListener("click", () => {
-    dropdown.style.display = dropdown.style.display === "block" ? "none" : "block";
-  });
-
- 
-  document.addEventListener("click", (e) => {
-    if (!dropdown.contains(e.target) && !profileBtn.contains(e.target)) {
-      dropdown.style.display = "none";
-    }
   });
 });

@@ -2,32 +2,24 @@ document.addEventListener("DOMContentLoaded", () => {
     console.log("INICIOU JS - User Page");
 
     // ==========================================
-    // 0. CARREGAR CATEGORIAS (Faltava isto!)
+    // 0. CARREGAR CATEGORIAS
     // ==========================================
-    // Esta função vai ao controllers/categories.php buscar a lista
     async function loadCategories() {
         const select = document.getElementById("collectionCategory");
-        
-        // Se o modal não existir na página, não faz nada
         if (!select) return; 
 
         try {
-            // Faz o pedido ao ficheiro PHP que criaste
             const res = await fetch("controllers/categories.php"); 
-            
             if (!res.ok) throw new Error("Erro ao comunicar com o servidor");
             
-            // Converte a resposta (JSON) em objetos JavaScript
             const categories = await res.json();
             
-            // Limpa o texto "Loading..." e mete a opção padrão
             select.innerHTML = '<option value="">-- Select Category --</option>';
 
-            // Cria uma opção <option> para cada categoria vinda da BD
             categories.forEach(cat => {
                 const option = document.createElement("option");
-                option.value = cat.id_collection_category; // O ID que vai para a BD
-                option.textContent = cat.name;             // O Nome que aparece ao utilizador
+                option.value = cat.id_collection_category; 
+                option.textContent = cat.name;             
                 select.appendChild(option);
             });
             console.log("Categorias carregadas com sucesso!");
@@ -38,9 +30,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-    // !!! IMPORTANTE: Chamar a função assim que a página carrega !!!
     loadCategories();
-
 
     // ==========================================
     // 1. DADOS DE TEXTO DO PERFIL (Visual)
@@ -48,27 +38,22 @@ document.addEventListener("DOMContentLoaded", () => {
     const form          = document.getElementById('userForm');
     const statusMsg     = document.getElementById('statusMsg');
     const displayName   = document.getElementById('displayName');
-    const displayEmail  = document.getElementById('displayEmail');
 
-    /* Guardar dados de texto (Por agora é apenas visual/simulação) */
+    /* Guardar dados de texto */
     form?.addEventListener('submit', e => {
         e.preventDefault();
         const first = document.getElementById('firstName')?.value.trim();
         const last  = document.getElementById('lastName')?.value.trim();
-        // const email = document.getElementById('email')?.value.trim(); // Não usado no display por enquanto
 
         if(first && last) {
-            // Atualiza o nome na página
             if(displayName) displayName.textContent = `${first} ${last}`;
         }
 
-        // Simulação visual de sucesso
         if(statusMsg) {
             statusMsg.style.display = "inline";
             setTimeout(() => statusMsg.style.display = "none", 2000);
         }
     });
-
 
     // ==========================================
     // 2. FOTO DE PERFIL (BACKEND UPLOAD)
@@ -103,7 +88,7 @@ document.addEventListener("DOMContentLoaded", () => {
     cancelPhotoBtn?.addEventListener('click', closePhotoModal);
     window.addEventListener('click', e => { if (e.target === photoModal) closePhotoModal(); });
 
-    // Preview da imagem selecionada
+    // Preview
     photoInput?.addEventListener('change', () => {
         const file = photoInput.files?.[0];
         if (file) {
@@ -119,7 +104,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
-    // GRAVAR FOTO NO SERVIDOR
+    // Gravar Foto
     savePhotoBtn?.addEventListener('click', () => {
         const file = photoInput?.files?.[0];
         if (!file) {
@@ -149,28 +134,8 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 
-
     // ==========================================
-    // 3. DARK MODE
-    // ==========================================
-    const themeToggle = document.getElementById("themeToggle");
-    if (themeToggle) {
-        const currentTheme = localStorage.getItem("theme");
-        if (currentTheme === "dark") {
-            document.body.classList.add("dark-mode");
-            themeToggle.textContent = "☀️";
-        }
-        themeToggle.addEventListener("click", () => {
-            document.body.classList.toggle("dark-mode");
-            const isDark = document.body.classList.contains("dark-mode");
-            themeToggle.textContent = isDark ? "☀️" : "🌙";
-            localStorage.setItem("theme", isDark ? "dark" : "light");
-        });
-    }
-
-
-    // ==========================================
-    // 4. CRIAR NOVA COLEÇÃO (BACKEND)
+    // 3. CRIAR NOVA COLEÇÃO (BACKEND)
     // ==========================================
     const openColBtn    = document.getElementById("openModal");
     const colModal      = document.getElementById("createCollectionModal");
@@ -180,7 +145,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // Inputs
     const nameInput     = document.getElementById("collectionName");
     const descInput     = document.getElementById("collectionDescription");
-    const catInput      = document.getElementById("collectionCategory"); // <--- Este agora será preenchido pelo loadCategories()
+    const catInput      = document.getElementById("collectionCategory"); 
     const colFileInput  = document.getElementById("collectionImage");
     const colDropZone   = document.getElementById("dropZoneCollection");
     const colPreview    = document.getElementById("collectionPreview");
@@ -190,7 +155,6 @@ document.addEventListener("DOMContentLoaded", () => {
         e?.preventDefault(); 
         if (colModal) {
             colModal.classList.add("show");
-            // Se usares display flex no css para .show, nao precisas disto, mas mal não faz
             colModal.style.display = "flex"; 
         }
     };
@@ -220,7 +184,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
-    // GRAVAR NOVA COLEÇÃO
+    // Gravar Nova Coleção
     saveColBtn?.addEventListener("click", () => {
         const name = nameInput?.value.trim();
         const description = descInput?.value.trim() || "";
@@ -231,7 +195,6 @@ document.addEventListener("DOMContentLoaded", () => {
             alert("Please enter a collection name!");
             return;
         }
-
         if (!categoryId) {
             alert("Please select a category!");
             return;
@@ -258,7 +221,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 return;
             }
             alert("Collection created! 📸");
-            window.location.reload(); // Recarrega para mostrar a nova coleção
+            window.location.reload(); 
         })
         .catch(err => {
             console.error(err);

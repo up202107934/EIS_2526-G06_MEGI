@@ -3,14 +3,14 @@ require_once __DIR__ . "/partials/bootstrap.php";
 require_once __DIR__ . "/dal/CollectionDAL.php";
 require_once __DIR__ . "/dal/UserDAL.php";
 
-
 // 1. Segurança
 if (!isset($_SESSION["id_user"])) {
     header("Location: login.php");
     exit;
 }
 
-// 2. Buscar dados
+// 2. Buscar dados para o CONTEÚDO DA PÁGINA (Perfil e Coleções)
+// Nota: A navbar vai buscar os seus próprios dados separadamente no partial
 $userId = $_SESSION["id_user"];
 $collections = CollectionDAL::getByUser($userId);
 $user = UserDAL::getById($userId);
@@ -20,37 +20,16 @@ $user = UserDAL::getById($userId);
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>User Profile | My Collections</title>
+  <title>User Profile | MyCollections</title>
   <link rel="stylesheet" href="css/style.css" />
   <link rel="stylesheet" href="css/user.css" />
+
+  <script src="js/navbar.js"></script>
 </head>
 <body>
 
-  <nav class="navbar">
-    
-    <div class="navbar-logo">
-      <a href="home.php">MyCollections</a>
-    </div>
+  <?php require_once __DIR__ . "/partials/navbar.php"; ?>
 
-    <div class="navbar-links">
-      <a href="home.php" class="nav-link">Home</a>
-      <a href="events.php" class="nav-link">Events</a>
-      <a href="user.php" class="nav-link nav-link-active">My Collections</a>
-    </div>
-
-    <div class="navbar-actions">
-        
-        <a href="controllers/auth.php?logout=1" class="nav-link" style="font-size: 14px; color: #ff6b6b;">Logout</a>
-
-        <div class="navbar-avatar-wrapper">
-            <div class="navbar-avatar" style="background-color: #B22222; color: white; display: flex; align-items: center; justify-content: center; font-weight: bold;">
-                <?= strtoupper(substr($user['username'], 0, 1)) ?>
-            </div>
-        </div>
-
-    </div>
-  </nav>
   <div class="page-container">
     <main class="main-content">
       
@@ -61,7 +40,9 @@ $user = UserDAL::getById($userId);
                 <img src="<?= htmlspecialchars($user['profile_img']) ?>" alt="User Profile" 
                      style="width:100%; height:100%; object-fit:cover; border-radius:50%;">
             <?php else: ?>
-                <?= strtoupper(substr($user['username'], 0, 1)) ?>
+                <div style="width:100%; height:100%; background-color:#B22222; color:white; display:flex; align-items:center; justify-content:center; font-size:3rem; font-weight:bold;">
+                    <?= strtoupper(substr($user['username'], 0, 1)) ?>
+                </div>
             <?php endif; ?>
 
             <div class="edit-icon" id="editPhotoBtn">📷</div>
@@ -123,7 +104,7 @@ $user = UserDAL::getById($userId);
   </div>
 
   
-   <div id="photoModal" class="modal">
+  <div id="photoModal" class="modal">
     <div class="modal-content" style="max-width: 350px; text-align: center;">
       <h3>Change Profile Photo</h3>
       
@@ -141,7 +122,6 @@ $user = UserDAL::getById($userId);
     </div>
   </div>
   
-    
   <div id="createCollectionModal" class="modal">
   <div class="modal-content">
     <h2>Create New Collection</h2>
@@ -170,6 +150,7 @@ $user = UserDAL::getById($userId);
     </div>
   </div>
 </div>
+
   <script src="js/user.js"></script>
 
   <footer class="footer">

@@ -977,3 +977,46 @@ body.dark-mode .profile-dropdown a:hover {
   color: white;
   border: 1px solid #666;
 }
+
+/* =========================================
+   AVATAR NA NAVBAR (IMAGEM E LETRA)
+   ========================================= */
+
+/* Estilo para quando é apenas a LETRA */
+.navbar-avatar-letter {
+    width: 40px;
+    height: 40px;
+    background-color: #B22222; /* Vermelho escuro (podes mudar a cor) */
+    color: white;
+    border-radius: 50%; /* Torna o quadrado num círculo */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 1.2rem;
+    cursor: pointer;
+    user-select: none;
+    border: 2px solid transparent;
+    transition: all 0.2s ease;
+}
+
+.navbar-avatar-letter:hover {
+    transform: scale(1.05);
+    border-color: #ffd700; /* Borda dourada ao passar o rato */
+}
+
+/* Garante que a IMAGEM tem o mesmo tamanho da letra */
+.navbar-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover; /* Garante que a imagem não fica esticada */
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: all 0.2s ease;
+}
+
+.navbar-avatar:hover {
+    border-color: #ffd700;
+}
+

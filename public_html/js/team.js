@@ -1,45 +1,58 @@
-/* 
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/javascript.js to edit this template
- */
-
-// dark mode
-document.addEventListener("DOMContentLoaded", () => {
-  const themeToggle = document.getElementById("themeToggle");
-  if (!themeToggle) return; // segurança
-
-  const currentTheme = localStorage.getItem("theme");
-
-  if (currentTheme === "dark") {
-    document.body.classList.add("dark-mode");
-    themeToggle.textContent = "☀️";
-  }
-
-  themeToggle.addEventListener("click", () => {
-    document.body.classList.toggle("dark-mode");
-    const isDark = document.body.classList.contains("dark-mode");
-    themeToggle.textContent = isDark ? "☀️" : "🌙";
-    localStorage.setItem("theme", isDark ? "dark" : "light");
-  });
-});
-
+// js/team.js
 
 document.addEventListener("DOMContentLoaded", () => {
-  const profileBtn = document.getElementById("profileBtn");
-  const dropdown = document.getElementById("profileDropdown");
+    
+    // ==========================================
+    // LOGICA DO CARROSSEL (Deck Slide)
+    // ==========================================
+    const slides = document.querySelectorAll('.deck-slide');
+    const dotsContainer = document.querySelector('.deck-dots');
+    
+    // Se não houver slides, sai da função para não dar erro
+    if (!slides.length || !dotsContainer) return;
 
-  if (!profileBtn || !dropdown) return;
+    let currentIndex = 0;
 
-  profileBtn.addEventListener("click", () => {
-    dropdown.style.display = dropdown.style.display === "block" ? "none" : "block";
-  });
+    // Criar os pontinhos (dots)
+    slides.forEach((_, idx) => {
+      const dot = document.createElement('span');
+      dot.classList.add('dot');
+      dot.addEventListener('click', () => {
+        currentIndex = idx;
+        updateDeck();
+      });
+      dotsContainer.appendChild(dot);
+    });
 
-  
-  document.addEventListener("click", (e) => {
-    if (!dropdown.contains(e.target) && !profileBtn.contains(e.target)) {
-      dropdown.style.display = "none";
+    const dots = document.querySelectorAll('.dot');
+
+    function updateDeck() {
+      slides.forEach((slide, idx) => {
+        slide.className = 'deck-slide'; // Reseta as classes
+        
+        if (idx === currentIndex) {
+            slide.classList.add('active');
+        } else if (idx === (currentIndex - 1 + slides.length) % slides.length) {
+            slide.classList.add('prev');
+        } else if (idx === (currentIndex + 1) % slides.length) {
+            slide.classList.add('next');
+        } else {
+            slide.classList.add('hidden');
+        }
+      });
+
+      dots.forEach((dot, idx) => {
+        dot.classList.toggle('active-dot', idx === currentIndex);
+      });
     }
-  });
+
+    // Iniciar
+    updateDeck();
+
+    // Rotação automática a cada 3 segundos
+    setInterval(() => {
+      currentIndex = (currentIndex + 1) % slides.length;
+      updateDeck();
+    }, 3000);
+
 });
-
-

@@ -1,4 +1,4 @@
-// home.js (Corrigido para evitar erros de null)
+// home.js (Limpo para funcionar com navbar.js)
 
 const $$ = (sel, root = document) => Array.from(root.querySelectorAll(sel));
 
@@ -6,10 +6,8 @@ const $$ = (sel, root = document) => Array.from(root.querySelectorAll(sel));
 // 1. CARREGAR CATEGORIAS DA BD
 // ======================================================
 async function loadCategories() {
-  // Tenta encontrar o select
   const select = document.getElementById("collectionCategory");
   
-  // SEGURANÇA: Se o select não existir (user não logado), pára aqui.
   if (!select) {
       console.log("Menu de categorias não encontrado. (Utilizador não logado?)");
       return; 
@@ -17,28 +15,23 @@ async function loadCategories() {
 
   try {
     const res = await fetch("controllers/categories.php");
-    
     if (!res.ok) throw new Error("Erro na resposta do servidor");
 
-    // Recebe o texto e converte para JSON
     const categories = await res.json();
 
-    // Limpar o select e meter a opção default
     select.innerHTML = '<option value="">-- Select Category --</option>';
 
-    // Adicionar cada categoria vinda da BD
     categories.forEach(cat => {
       const option = document.createElement("option");
       option.value = cat.id_collection_category; 
-      option.textContent = cat.name;             
+      option.textContent = cat.name;              
       select.appendChild(option);
     });
     
-    console.log("Categorias carregadas com sucesso!"); // Debug
+    console.log("Categorias carregadas com sucesso!");
 
   } catch (err) {
     console.error("Erro ao carregar categorias:", err);
-    // Só tenta escrever no HTML se o select existir
     if(select) select.innerHTML = '<option value="">Error loading categories</option>';
   }
 }
@@ -64,42 +57,13 @@ document.addEventListener("DOMContentLoaded", () => {
   // === CHAMAR A FUNÇÃO PARA PREENCHER O SELECT ===
   loadCategories(); 
 
-  // --- O RESTO DO TEU CÓDIGO ---
-
   // Top collections vars
-  const topGrid      = document.getElementById("topCollectionsGrid");
-  const topChips     = document.querySelectorAll(".chip-top");
-  const topSubtitle  = document.getElementById("topSubtitle");
+  const topGrid       = document.getElementById("topCollectionsGrid");
+  const topChips      = document.querySelectorAll(".chip-top");
+  const topSubtitle   = document.getElementById("topSubtitle");
 
-  // Dark mode
-  const themeToggle = document.getElementById("themeToggle");
-  if (themeToggle) {
-    const currentTheme = localStorage.getItem("theme");
-    if (currentTheme === "dark") {
-      document.body.classList.add("dark-mode");
-      themeToggle.textContent = "☀️";
-    }
-    themeToggle.addEventListener("click", () => {
-      document.body.classList.toggle("dark-mode");
-      const isDark = document.body.classList.contains("dark-mode");
-      themeToggle.textContent = isDark ? "☀️" : "🌙";
-      localStorage.setItem("theme", isDark ? "dark" : "light");
-    });
-  }
-
-  // Perfil dropdown
-  const avatarButton = document.getElementById("avatarButton");
-  const profileDropdown = document.getElementById("profileDropdown");
-  
-  if (avatarButton && profileDropdown) {
-    avatarButton.addEventListener("click", (e) => {
-      e.stopPropagation();
-      profileDropdown.classList.toggle("show");
-    });
-    window.addEventListener("click", () => {
-      profileDropdown.classList.remove("show");
-    });
-  }
+  // --- REMOVIDO: DARK MODE (Agora está no navbar.js) ---
+  // --- REMOVIDO: PERFIL DROPDOWN (Agora está no navbar.js) ---
 
   // Scroll smooth
   const heroBtn = document.querySelector(".hero-btn");
