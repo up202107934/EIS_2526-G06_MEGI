@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 30-Nov-2025 às 11:33
+-- Tempo de geração: 30-Nov-2025 às 20:02
 -- Versão do servidor: 10.4.32-MariaDB
 -- versão do PHP: 8.0.30
 
@@ -100,6 +100,23 @@ CREATE TABLE `collection_event_reviews` (
   `review_date` datetime DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Extraindo dados da tabela `collection_event_reviews`
+--
+
+INSERT INTO `collection_event_reviews` (`id_review`, `id_user`, `id_event`, `id_collection`, `rate`, `comment`, `review_date`) VALUES
+(3, 3, 16, 35, 5, 'Adorei mostrar as minhas miniaturas Star Wars.', '2024-03-15 00:00:00'),
+(4, 1, 16, 29, 4, 'Os meus Funkos fizeram sucesso!', '2024-03-16 00:00:00'),
+(5, 1, 17, 28, 5, 'As minhas figuras tiveram muita atenção.', '2024-05-30 00:00:00'),
+(6, 3, 17, 35, 4, 'Boa organização, evento agradável.', '2024-05-30 00:00:00'),
+(7, 2, 18, 32, 5, 'Comic clássico sempre puxa público!', '2024-07-20 00:00:00'),
+(8, 4, 18, 38, 5, 'Foi ótimo partilhar as minhas edições favoritas.', '2024-07-20 00:00:00'),
+(9, 4, 18, 36, 4, 'Boa experiência para fãs de DC.', '2024-07-21 00:00:00'),
+(10, 4, 19, 37, 4, 'Interessante para colecionadores de livros.', '2024-08-03 00:00:00'),
+(11, 3, 19, 34, 3, 'Evento pequeno, mas divertido.', '2024-08-03 00:00:00'),
+(12, 1, 20, 29, 5, 'Os Funkos atraíram muita gente.', '2024-09-22 00:00:00'),
+(13, 1, 20, 28, 4, 'Bom ambiente, boa exposição.', '2024-09-22 00:00:00');
+
 -- --------------------------------------------------------
 
 --
@@ -124,6 +141,8 @@ INSERT INTO `collection_items` (`id_collection`, `id_item`, `quantity`) VALUES
 (29, 9, 1),
 (30, 13, 1),
 (31, 14, 1),
+(32, 16, 1),
+(32, 17, 1),
 (34, 11, 1),
 (36, 12, 1),
 (36, 15, 1),
@@ -150,19 +169,15 @@ CREATE TABLE `events` (
 --
 
 INSERT INTO `events` (`id_event`, `name`, `location`, `event_date`, `description`) VALUES
-(3, 'Comic Con Porto', 'Porto', '2025-03-15', NULL),
-(4, 'Retro Collectors Fair', 'Lisboa', '2025-04-12', NULL),
-(5, 'test', 'test', '2025-11-28', 'test'),
-(6, 'event test', 'porto', '2025-11-04', 'aaa'),
-(7, 'evento de harry potter', 'porto', '2025-11-08', 'evento de bonecos de harry potter'),
-(8, 'a', 'porto', '2025-11-15', 'a'),
-(9, 'event test', 'porto', '2025-11-29', 'aaaa'),
-(10, 'event test', 'porto', '2025-11-29', 'aaaa'),
-(11, 'event test', 'porto', '2025-11-29', 'aaaa'),
-(12, 'a', 'a', '2025-10-29', 'a'),
-(13, 'A', 'A', '2025-11-08', 'A'),
-(14, 'LAURINDINHA', 'PORTO', '2025-11-08', 'B'),
-(15, 'testing', 'trdttt', '2025-10-30', 'test');
+(16, 'Retro Collectors Expo', 'Lisboa', '2024-03-12', 'Evento anual dedicado a colecionadores de miniaturas retro.'),
+(17, 'Miniature Cars Fair', 'Porto', '2024-05-28', 'Feira com exposição e troca de carros em miniatura.'),
+(18, 'Comic Classics Meetup', 'Coimbra', '2024-07-19', 'Encontro de fãs e colecionadores de comics clássicos.'),
+(19, 'Numismatic Summer Show', 'Braga', '2024-08-02', 'Exposição de moedas raras e antiguidades numismáticas.'),
+(20, 'Vintage Toys Exhibition', 'Faro', '2024-09-21', 'Mostra de brinquedos vintage e peças de coleção.'),
+(21, 'Autumn Collections Gala', 'Lisboa', '2026-02-10', 'Gala especial com apresentação de novas coleções.'),
+(22, 'International Collectors Meeting', 'Porto', '2026-01-01', 'Reunião internacional de colecionadores de várias áreas.'),
+(23, 'Star Wars Miniatures Fest', 'Aveiro', '2026-02-03', 'Festival dedicado exclusivamente à temática Star Wars e miniaturas.'),
+(24, 'event test', 'porto', '2025-11-08', 'testeeee');
 
 -- --------------------------------------------------------
 
@@ -175,6 +190,32 @@ CREATE TABLE `event_collections` (
   `id_collection` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Extraindo dados da tabela `event_collections`
+--
+
+INSERT INTO `event_collections` (`id_event`, `id_collection`) VALUES
+(16, 29),
+(16, 35),
+(17, 28),
+(17, 35),
+(18, 32),
+(18, 36),
+(18, 38),
+(19, 34),
+(19, 37),
+(20, 28),
+(20, 29),
+(21, 27),
+(21, 30),
+(21, 33),
+(22, 27),
+(22, 30),
+(22, 31),
+(22, 35),
+(23, 35),
+(24, 32);
+
 -- --------------------------------------------------------
 
 --
@@ -185,6 +226,31 @@ CREATE TABLE `event_items` (
   `id_event` int(11) NOT NULL,
   `id_item` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Extraindo dados da tabela `event_items`
+--
+
+INSERT INTO `event_items` (`id_event`, `id_item`) VALUES
+(16, 8),
+(16, 9),
+(17, 6),
+(17, 7),
+(18, 12),
+(18, 13),
+(18, 15),
+(19, 11),
+(20, 6),
+(20, 8),
+(21, 10),
+(21, 13),
+(22, 10),
+(22, 13),
+(22, 14),
+(23, 12),
+(23, 13),
+(23, 15),
+(24, 16);
 
 -- --------------------------------------------------------
 
@@ -227,7 +293,9 @@ INSERT INTO `items` (`id_item`, `id_item_category`, `name`, `img`, `importance`,
 (12, 3, 'Batman: The Killing Joke', NULL, 9, 0.30, 22.00, '2022-11-15', 'Classic', '26x17 cm', 1988, 'Deluxe Edition', 'Near Mint', 'DC', 'Paper', 'Standard', 'DC-KJ-DELUXE-1988', 'owned'),
 (13, 3, 'Amazing Spider-Man #300', NULL, 10, 0.28, 85.00, '2021-07-09', 'Key Issue', '26x17 cm', 1988, '#300', 'Good', 'Marvel', 'Paper', 'Standard', 'MV-ASM-300-1988', 'owned'),
 (14, 5, 'One Piece Vol. 1', NULL, 8, 0.22, 9.99, '2023-02-01', 'Common', '19x13 cm', 2001, '1ª edição PT', 'Good', 'One Piece', 'Paper', 'Standard', 'OP-PT-VOL1-2001', 'owned'),
-(15, 8, 'Watchmen', NULL, 10, 0.90, 25.00, '2020-12-28', 'Collector', '28x18 cm', 1987, 'Graphic Novel', 'Like New', 'DC', 'Paper', 'Hardcover', 'DC-WM-HC-1987', 'owned');
+(15, 8, 'Watchmen', NULL, 10, 0.90, 25.00, '2020-12-28', 'Collector', '28x18 cm', 1987, 'Graphic Novel', 'Like New', 'DC', 'Paper', 'Hardcover', 'DC-WM-HC-1987', 'owned'),
+(16, 1, 'a', 'uploads/items/item_692c8b4c31a70.jfif', 10, 0.00, 12.00, '2025-10-31', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(17, 2, 'aa', 'uploads/items/item_692c8f6d398ac.jfif', 1, 10.00, 10.00, '2025-12-04', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -292,6 +360,18 @@ CREATE TABLE `user_events_interest` (
   `liked` tinyint(1) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Extraindo dados da tabela `user_events_interest`
+--
+
+INSERT INTO `user_events_interest` (`id_user`, `id_event`, `liked`) VALUES
+(1, 21, 1),
+(2, 21, 1),
+(3, 22, 1),
+(3, 23, 1),
+(4, 22, 1),
+(4, 23, 1);
+
 -- --------------------------------------------------------
 
 --
@@ -302,6 +382,28 @@ CREATE TABLE `user_events_went` (
   `id_user` int(11) NOT NULL,
   `id_event` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Extraindo dados da tabela `user_events_went`
+--
+
+INSERT INTO `user_events_went` (`id_user`, `id_event`) VALUES
+(1, 16),
+(1, 17),
+(1, 20),
+(1, 22),
+(2, 16),
+(2, 18),
+(2, 20),
+(3, 17),
+(3, 19),
+(3, 21),
+(3, 22),
+(3, 23),
+(4, 18),
+(4, 19),
+(4, 21),
+(4, 23);
 
 -- --------------------------------------------------------
 
@@ -314,6 +416,16 @@ CREATE TABLE `wishlists` (
   `id_user` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Extraindo dados da tabela `wishlists`
+--
+
+INSERT INTO `wishlists` (`id_wishlist`, `id_user`) VALUES
+(3, 1),
+(4, 2),
+(5, 3),
+(6, 4);
+
 -- --------------------------------------------------------
 
 --
@@ -325,6 +437,28 @@ CREATE TABLE `wishlist_items` (
   `id_item` int(11) NOT NULL,
   `added_at` datetime DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Extraindo dados da tabela `wishlist_items`
+--
+
+INSERT INTO `wishlist_items` (`id_wishlist`, `id_item`, `added_at`) VALUES
+(3, 12, '2025-01-12 00:00:00'),
+(3, 13, '2025-03-08 00:00:00'),
+(3, 14, '2025-04-11 00:00:00'),
+(3, 15, '2025-06-20 00:00:00'),
+(4, 6, '2025-02-15 00:00:00'),
+(4, 11, '2025-04-03 00:00:00'),
+(4, 12, '2025-05-27 00:00:00'),
+(4, 15, '2025-07-09 00:00:00'),
+(5, 7, '2024-12-01 00:00:00'),
+(5, 10, '2025-02-22 00:00:00'),
+(5, 12, '2025-05-05 00:00:00'),
+(5, 14, '2025-06-18 00:00:00'),
+(6, 6, '2025-01-18 00:00:00'),
+(6, 8, '2025-03-14 00:00:00'),
+(6, 10, '2025-04-29 00:00:00'),
+(6, 11, '2025-07-01 00:00:00');
 
 --
 -- Índices para tabelas despejadas
@@ -451,19 +585,19 @@ ALTER TABLE `collection_categories`
 -- AUTO_INCREMENT de tabela `collection_event_reviews`
 --
 ALTER TABLE `collection_event_reviews`
-  MODIFY `id_review` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_review` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT de tabela `events`
 --
 ALTER TABLE `events`
-  MODIFY `id_event` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id_event` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- AUTO_INCREMENT de tabela `items`
 --
 ALTER TABLE `items`
-  MODIFY `id_item` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id_item` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT de tabela `item_categories`
@@ -481,7 +615,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT de tabela `wishlists`
 --
 ALTER TABLE `wishlists`
-  MODIFY `id_wishlist` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_wishlist` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- Restrições para despejos de tabelas

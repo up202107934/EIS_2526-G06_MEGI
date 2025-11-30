@@ -8,18 +8,17 @@ class ItemDAL {
     // -------------------------------------------------
     public static function getByCollection($id_collection) {
         $db = DB::conn();
-
         $stmt = $db->prepare("
-            SELECT i.id_item, i.name, i.importance, i.price, i.weight
-            FROM collection_items ci
-            JOIN items i ON i.id_item = ci.id_item
+            SELECT i.*, i.id_item_category
+            FROM items i
+            JOIN collection_items ci ON ci.id_item = i.id_item
             WHERE ci.id_collection = ?
         ");
         $stmt->bind_param("i", $id_collection);
         $stmt->execute();
-
         return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
     }
+
 
     // -------------------------------------------------
     // 2) Buscar 1 item individualmente
@@ -32,5 +31,36 @@ class ItemDAL {
         $stmt->execute();
 
         return $stmt->get_result()->fetch_assoc();
+    }
+
+    // -------------------------------------------------
+    // 3) Criar item (INSERT)
+    // -------------------------------------------------
+    public static function create($data) {
+        $db = DB::conn();
+
+        $stmt = $db->prepare("
+            INSERT INTO items
+                (id_item_category, name, img, importance, weight, price, acquisition_date, franchise)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+        ");
+
+        $stmt->bind_param(
+            "isssddss",
+            $data["id_item_category"],
+            $data["name"],
+            $data["img"],
+            $data["importance"],
+            $data["weight"],
+            $data["price"],
+            $data["acquisition_date"],
+            $data["franchise"]
+        );
+
+        if (!$stmt->execute()) {
+            return false;
+        }
+
+        return $db->insert_id;
     }
 }

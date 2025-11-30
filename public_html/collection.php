@@ -1,11 +1,14 @@
 <?php
 require_once __DIR__ . "/partials/bootstrap.php";
+require_once __DIR__ . "/dal/ItemCategoryDAL.php";
+
+$categories = ItemCategoryDAL::getAll();
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Star Wars Miniatures Collection</title>
+  <title>Collection</title>
   <link rel="stylesheet" href="css/style.css"> 
   <link rel="stylesheet" href="css/collection.css">
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&display=swap" rel="stylesheet">
@@ -50,41 +53,65 @@ require_once __DIR__ . "/partials/bootstrap.php";
     </label>
 
     <label class="field">
-      <span>Category</span>
-      <select id="categoryFilter">
-        <option value="all">All Categories</option>
-        <option value="Figures">Figures</option>
-        <option value="Vehicles">Vehicles</option>
-        <option value="Droids">Droids</option>
-      </select>
+    <span>Category</span>
+        <select id="categoryFilter">
+            <option value="all">All Categories</option>
+
+            <?php foreach ($categories as $cat): ?>
+                <option value="<?= $cat['id_item_category'] ?>">
+                    <?= htmlspecialchars($cat['name']) ?>
+                </option>
+            <?php endforeach; ?>
+
+        </select>
     </label>
+
   </div>
 </div>
 
-<section class="collection-items grid-view" id="itemsContainer">
-</section>
+<section class="collection-items grid-view" id="itemsContainer"></section>
+
+<button class="add-item-btn">➕ Add Item</button>
 
 <div id="addItemModal" class="modal">
   <div class="modal-content">
     <h2>Add New Item</h2>
+
     <form id="addItemForm">
       <label>Name:</label>
-      <input type="text" id="itemName" placeholder="Enter item name" required>
+      <input type="text" id="itemName" required>
+
       <label>Description:</label>
-      <input type="text" id="itemDesc" placeholder="Short description" required>
+      <input type="text" id="itemDesc" required>
+
       <label>Importance (1–10):</label>
-      <input type="number" id="itemRating" min="1" max="10" value="1" required>
+      <input type="number" id="itemRating" min="1" max="10" required>
+
       <label>Price (€):</label>
-      <input type="number" id="itemPrice" min="0" step="0.01" value="0" required>
+      <input type="number" id="itemPrice" min="0" step="0.01" required>
+
       <label>Weight (g):</label>
-      <input type="number" id="itemWeight" min="0" step="1" value="0" required>
+      <input type="number" id="itemWeight" min="0" step="1" required>
+
       <label>Date of acquisition:</label>
       <input type="date" id="itemDate" required>
+      
+      <label>Category:</label>
+        <select id="itemCategory">
+            <option value="">-- Select category --</option>
+            <?php foreach ($categories as $cat): ?>
+                <option value="<?= $cat['id_item_category'] ?>">
+                    <?= htmlspecialchars($cat['name']) ?>
+                </option>
+            <?php endforeach; ?>
+        </select>
+
       <label for="itemImage">Image:</label>
       <div id="dropZone" class="drop-zone">
         <p>Drag & drop an image here, or click to select</p>
         <input type="file" id="itemImage" accept="image/*" hidden>
       </div>
+
       <div class="modal-buttons">
         <button type="submit" id="saveItem">💾 Save</button>
         <button type="button" id="cancelItem">❌ Cancel</button>
@@ -93,7 +120,7 @@ require_once __DIR__ . "/partials/bootstrap.php";
   </div>
 </div>
 
-<button class="add-item-btn">➕ Add Item</button>
+
 
 <section class="collection-events">
   <h2>Events with this collection</h2>
@@ -109,83 +136,33 @@ require_once __DIR__ . "/partials/bootstrap.php";
   </div>
 </section>
 
-<script src="js/data.js"></script>
 <script src="js/collection.js"></script>
 
 <script>
-const params = new URLSearchParams(window.location.search);
-const idCollection = params.get("id");
+// Carregar título da coleção
+const idCollection = new URLSearchParams(window.location.search).get("id");
 
-// 1) carregar dados da coleção
 fetch(`controllers/collections.php?id=${idCollection}`)
   .then(r => r.json())
   .then(c => {
     document.getElementById("collectionName").textContent = c.name;
-  })
-  .catch(err => console.error(err));
-
-// 2) carregar itens da coleção
-fetch(`controllers/items.php?collection=${idCollection}`)
-  .then(r => r.json())
-  .then(items => {
-    const cont = document.getElementById("itemsContainer");
-    cont.innerHTML = "";
-    if (!items.length) {
-      cont.innerHTML = "<p>No items in this collection yet.</p>";
-      return;
-    }
-    items.forEach(it => {
-      cont.innerHTML += `
-        <div class="item-card"
-             data-rating="${it.importance ?? 0}"
-             data-price="${it.price ?? 0}"
-             data-weight="${it.weight ?? 0}"
-             data-category="${it.category_name ?? ''}">
-          <img src="img/item-placeholder.jpg" alt="${it.name}">
-          <div class="item-details">
-            <div class="item-text">
-              <h3>${it.name}</h3>
-              <p>${it.franchise ?? ""}</p>
-            </div>
-            <div class="item-info">
-              <span>⭐ ${it.importance ?? "-"}/10</span>
-              <span>💰 ${it.price ?? "-"}€</span>
-              <span>⚖️ ${it.weight ?? "-"}g</span>
-              <span>🏷️ ${it.category_name ?? ""}</span>
-              <span class="like-container">
-                <button class="like-btn" type="button" aria-label="Like item">♡</button>
-                <span class="like-count">0</span>
-              </span>
-            </div>
-          </div>
-          <div class="item-actions">
-            <a href="item.php?id=${it.id_item}" class="btn-details">View Details</a>
-          </div>
-        </div>
-      `;
-    });
-  })
-  .catch(err => console.error(err));
+  });
 </script>
 
 <script>
-// Carregar Eventos
+// Carregar Eventos associados
 fetch(`controllers/events.php?collection=${idCollection}`)
   .then(r => r.json())
   .then(events => {
     const upcomingList = document.getElementById("upcomingEventsList");
     const pastList = document.getElementById("pastEventsList");
-    upcomingList.innerHTML = "";
-    pastList.innerHTML = "";
     const today = new Date();
 
-    if (!events.length) {
-      upcomingList.innerHTML = "<p>No events for this collection yet.</p>";
-      return;
-    }
     events.forEach(e => {
-      const d = new Date(e.event_date);
-      const card = `
+      const isFuture = new Date(e.event_date) >= today;
+      const list = isFuture ? upcomingList : pastList;
+
+      list.innerHTML += `
         <article class="event-card">
           <h4>${e.name}</h4>
           <p class="event-meta">
@@ -195,12 +172,7 @@ fetch(`controllers/events.php?collection=${idCollection}`)
           <a href="events.php?id=${e.id_event}" class="event-link">View event</a>
         </article>
       `;
-      if (d >= today) upcomingList.innerHTML += card;
-      else pastList.innerHTML += card;
     });
-
-    if (!upcomingList.innerHTML.trim()) upcomingList.innerHTML = "<p>No upcoming events.</p>";
-    if (!pastList.innerHTML.trim()) pastList.innerHTML = "<p>No past events.</p>";
   });
 </script>
 
