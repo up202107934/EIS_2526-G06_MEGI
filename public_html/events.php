@@ -79,10 +79,39 @@ require_once __DIR__ . "/partials/bootstrap.php";
       </div>
       <div class="ev-actions">
         <button id="d-review" class="btn outline">Rate</button>
-        <button id="d-join" class="btn">Participate</button>
+        <button id="d-join" class="btn">Interested</button>
+        <button id="d-participate" class="btn outline">Participate</button>
       </div>
     </div> 
 </div>
+    
+    <!-- PARTICIPATE MODAL -->
+<div id="participateModal" class="modal" aria-hidden="true">
+  <div class="modal-content">
+
+    <h2>Select Collection & Items</h2>
+
+    <!-- 1) Selecionar coleção -->
+    <label>Your Collections</label>
+    <div id="p-collections" class="collection-list">
+      <!-- JS INSERE AQUI -->
+    </div>
+
+    <!-- 2) Itens da coleção escolhida -->
+    <label>Items to take</label>
+    <div id="p-items" class="items-list">
+      <!-- JS INSERE AQUI -->
+    </div>
+
+    <div class="modal-actions">
+      <button id="p-cancel" class="btn outline">Cancel</button>
+      <button id="p-confirm" class="btn primary">Confirm</button>
+    </div>
+
+  </div>
+</div>
+
+
 
 <div id="eventForm" class="modal" aria-hidden="true">
     <div class="modal-content">

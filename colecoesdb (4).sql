@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 30-Nov-2025 às 20:02
+-- Tempo de geração: 30-Nov-2025 às 23:05
 -- Versão do servidor: 10.4.32-MariaDB
 -- versão do PHP: 8.0.30
 
@@ -366,7 +366,7 @@ CREATE TABLE `user_events_interest` (
 
 INSERT INTO `user_events_interest` (`id_user`, `id_event`, `liked`) VALUES
 (1, 21, 1),
-(2, 21, 1),
+(2, 22, 1),
 (3, 22, 1),
 (3, 23, 1),
 (4, 22, 1),
@@ -404,6 +404,31 @@ INSERT INTO `user_events_went` (`id_user`, `id_event`) VALUES
 (4, 19),
 (4, 21),
 (4, 23);
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `user_event_items`
+--
+
+CREATE TABLE `user_event_items` (
+  `id` int(11) NOT NULL,
+  `id_participation` int(11) NOT NULL,
+  `id_item` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `user_event_participation`
+--
+
+CREATE TABLE `user_event_participation` (
+  `id_participation` int(11) NOT NULL,
+  `id_user` int(11) NOT NULL,
+  `id_event` int(11) NOT NULL,
+  `id_collection` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -550,6 +575,18 @@ ALTER TABLE `user_events_interest`
 ALTER TABLE `user_events_went`
   ADD PRIMARY KEY (`id_user`,`id_event`),
   ADD KEY `id_event` (`id_event`);
+
+--
+-- Índices para tabela `user_event_items`
+--
+ALTER TABLE `user_event_items`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Índices para tabela `user_event_participation`
+--
+ALTER TABLE `user_event_participation`
+  ADD PRIMARY KEY (`id_participation`);
 
 --
 -- Índices para tabela `wishlists`

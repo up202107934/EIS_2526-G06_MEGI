@@ -2,6 +2,15 @@
 
 document.addEventListener("DOMContentLoaded", () => {
   const eventsContainer = document.getElementById("events");
+  const joinBtn = document.getElementById("d-join");
+  
+  // PARTICIPATE BUTTON + MODAL
+    const participateBtn = document.getElementById("d-participate");
+    const participateModal = document.getElementById("participateModal");
+    const pCollections = document.getElementById("p-collections");
+    const pItems = document.getElementById("p-items");
+    const pCancel = document.getElementById("p-cancel");
+    const pConfirm = document.getElementById("p-confirm");
 
   const btnGrid = document.getElementById("btn-grid");
   const btnList = document.getElementById("btn-list");
@@ -149,7 +158,10 @@ console.log("eventForm:", eventForm);
   // -----------------------
   // 3) Abrir detalhe do evento
   // -----------------------
-  function openDetail(idEvent) {
+  // -----------------------
+// 3) Abrir detalhe do evento
+// -----------------------
+function openDetail(idEvent) {
     const ev = allEvents.find(x => String(x.id_event) === String(idEvent));
     if (!ev) return;
 
@@ -157,43 +169,129 @@ console.log("eventForm:", eventForm);
     evDate.textContent = ev.event_date;
     evDesc.textContent = ev.description ?? "";
 
-    fetch(`controllers/event_collections.php?event=${idEvent}`)
-      .then(r => r.json())
-      .then(cols => {
-        evColList.innerHTML = "";
-        evColCount.textContent = cols.length;
+    // guardar IDs
+    joinBtn.dataset.id = idEvent;
+    participateBtn.dataset.id = idEvent;
 
-        if (!cols.length) {
-          evColList.innerHTML = "<p>Sem coleções neste evento.</p>";
-          return;
-        }
+    // evento passou?
+    const isPast = new Date(ev.event_date) < new Date();
 
-        cols.forEach(c => {
-          evColList.innerHTML += `
-            <div class="ev-col-item">
-              <span class="ev-col-name">${c.name}</span>
-              <a href="collection.php?id=${c.id_collection}" class="btn outline">View</a>
-            </div>
-          `;
+    // bloqueios
+    participateBtn.disabled = isPast;
+
+    if (isPast) {
+        joinBtn.disabled = true;
+        joinBtn.textContent = "Event ended";
+    } else {
+        joinBtn.disabled = false;
+        joinBtn.textContent = "Interested";
+    }
+
+    // verificar interesse
+    fetch(`controllers/check_interest.php?event=${idEvent}`)
+        .then(r => r.json())
+        .then(res => {
+            if (res.interested) {
+                joinBtn.classList.add("active");
+                joinBtn.textContent = "Interested ✓";
+            } else {
+                joinBtn.classList.remove("active");
+                joinBtn.textContent = "Interested";
+            }
         });
-      })
-      .catch(() => {
-        evColList.innerHTML = "<p>Erro ao carregar coleções do evento.</p>";
-      });
+
+    // coleções
+    fetch(`controllers/event_collections.php?event=${idEvent}`)
+        .then(r => r.json())
+        .then(cols => {
+            evColList.innerHTML = "";
+            evColCount.textContent = cols.length;
+
+            if (!cols.length) {
+                evColList.innerHTML = "<p>Sem coleções neste evento.</p>";
+                return;
+            }
+
+            cols.forEach(c => {
+                evColList.innerHTML += `
+                    <div class="ev-col-item">
+                        <span class="ev-col-name">${c.name}</span>
+                        <a href="collection.php?id=${c.id_collection}" class="btn outline">View</a>
+                    </div>
+                `;
+            });
+        })
+        .catch(() => {
+            evColList.innerHTML = "<p>Erro ao carregar coleções do evento.</p>";
+        });
 
     detailModal.classList.add("show");
     detailModal.setAttribute("aria-hidden", "false");
-  }
+}
 
-  evCloseBtn?.addEventListener("click", closeDetail);
-  detailModal?.addEventListener("click", (e) => {
-    if (e.target === detailModal) closeDetail();
-  });
 
-  function closeDetail() {
+// Fechar modal
+function closeDetail() {
     detailModal.classList.remove("show");
     detailModal.setAttribute("aria-hidden", "true");
-  }
+}
+
+evCloseBtn?.addEventListener("click", closeDetail);
+detailModal?.addEventListener("click", (e) => {
+    if (e.target === detailModal) closeDetail();
+});
+
+// -------------------------
+// PARTICIPATE – abrir modal
+// -------------------------
+participateBtn?.addEventListener("click", () => {
+    participateModal.classList.add("show");
+    participateModal.setAttribute("aria-hidden", "false");
+
+    // limpar anteriores
+    pCollections.innerHTML = "<p class='muted'>Loading...</p>";
+    pItems.innerHTML = "";
+
+    // carregar coleções do user
+    loadUserCollectionsForParticipate();
+});
+// fechar modal
+pCancel?.addEventListener("click", () => {
+    participateModal.classList.remove("show");
+    participateModal.setAttribute("aria-hidden", "true");
+});
+
+participateModal?.addEventListener("click", (e) => {
+    if (e.target === participateModal) {
+        participateModal.classList.remove("show");
+        participateModal.setAttribute("aria-hidden", "true");
+    }
+});
+
+
+// Interessado (toggle)
+joinBtn?.addEventListener("click", async () => {
+    const idEvent = joinBtn.dataset.id;
+
+        const r = await fetch("controllers/event_Interested.php", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id_event: idEvent })
+    });
+
+    const resp = await r.json();
+
+    if (resp.success) {
+        if (resp.interested) {
+            joinBtn.classList.add("active");
+            joinBtn.textContent = "Interested ✓";
+        } else {
+            joinBtn.classList.remove("active");
+            joinBtn.textContent = "Interested";
+        }
+    }
+});
+
 
   // -----------------------
   // 4) listeners filtros
@@ -283,6 +381,61 @@ const selectedItems = new Set();
 
 const fColList   = document.getElementById("f-col-list");
 const fItemsWrap = document.getElementById("f-items-wrap");
+
+// ----------------------------------------
+// Carregar coleções do user no modal Participate
+// ----------------------------------------
+async function loadUserCollectionsForParticipate() {
+
+    const res = await fetch("controllers/collections.php?mine=1");
+    const cols = await res.json();
+
+    if (!cols.length) {
+        pCollections.innerHTML = "<p class='muted'>Não tens coleções.</p>";
+        return;
+    }
+
+    pCollections.innerHTML = cols.map(c => `
+        <label class="pick-card" data-col="${c.id_collection}">
+            <input type="radio" name="pickCollection">
+            <span>${c.name}</span>
+        </label>
+    `).join("");
+
+    // listener para carregar itens quando escolhe coleção
+    pCollections.querySelectorAll(".pick-card").forEach(card => {
+        card.addEventListener("click", () => {
+            const idCol = card.dataset.col;
+            loadItemsForParticipate(idCol);
+        });
+    });
+}
+// ----------------------------------------
+// Carregar itens pertencentes à coleção escolhida
+// ----------------------------------------
+async function loadItemsForParticipate(idCol) {
+    pItems.innerHTML = "<p class='muted'>Loading...</p>";
+
+    const res = await fetch(`controllers/items.php?collection=${idCol}`);
+    const items = await res.json();
+
+    if (!items.length) {
+        pItems.innerHTML = "<p class='muted'>Esta coleção não tem itens.</p>";
+        return;
+    }
+
+    pItems.innerHTML = items.map(i => `
+        <label class="mini-card">
+            <input type="checkbox" value="${i.id_item}">
+            <span>${i.name}</span>
+        </label>
+    `).join("");
+}
+
+
+
+
+
 
 // carregar coleções do utilizador (ou todas, dependendo do teu endpoint)
 async function loadCollectionsForForm() {
