@@ -1,8 +1,27 @@
 <?php
 require_once __DIR__ . "/partials/bootstrap.php";
 require_once __DIR__ . "/dal/ItemCategoryDAL.php";
+require_once __DIR__ . "/dal/CollectionDAL.php"; 
 
 $categories = ItemCategoryDAL::getAll();
+
+// --- LÓGICA DE VERIFICAÇÃO DE DONO ---
+$isOwner = false; // Começamos por assumir que não é o dono
+
+if (isset($_GET['id'])) {
+    $collectionId = (int)$_GET['id'];
+    
+    // dados da coleção
+    $collection = CollectionDAL::getById($collectionId);
+
+    // Verificar se:
+    // 1. A coleção existe
+    // 2. O utilizador está logado (existe id_user na sessão)
+    // 3. O ID do utilizador na sessão é igual ao id_user da coleção
+    if ($collection && isset($_SESSION['id_user']) && $collection['id_user'] == $_SESSION['id_user']) {
+        $isOwner = true;
+    }
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -71,7 +90,18 @@ $categories = ItemCategoryDAL::getAll();
 
 <section class="collection-items grid-view" id="itemsContainer"></section>
 
-<button class="add-item-btn">➕ Add Item</button>
+<?php if ($isOwner): ?>
+    <button class="add-item-btn">➕ Add Item</button>
+<?php endif; ?>
+
+<?php if ($isOwner): ?>
+<div id="addItemModal" class="modal">
+  <div class="modal-content">
+    <form id="addItemForm">
+       </form>
+  </div>
+</div>
+<?php endif; ?>
 
 <div id="addItemModal" class="modal">
   <div class="modal-content">

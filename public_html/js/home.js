@@ -37,14 +37,17 @@ async function loadCategories() {
 }
 
 function applyCategoryFilter() {
-  const selected = document.getElementById("categoryFilter")?.value || "all";
+  // 1. Obter o ID selecionado no dropdown
+  const selectedId = document.getElementById("categoryFilter")?.value || "all";
   const cards = document.querySelectorAll(".collection-card");
 
   cards.forEach(card => {
-    const badge = card.querySelector(".category-badge");
-    const cardCategory = badge ? badge.textContent.trim() : "";
+    // 2. Obter o ID da categoria que guardámos no atributo do cartão
+    const cardCatId = card.dataset.categoryId;
 
-    if (selected === "all" || cardCategory === selected) {
+    // 3. Comparar ID com ID
+    // Se for "all" ou se os IDs coincidirem, mostra.
+    if (selectedId === "all" || cardCatId === selectedId) {
       card.style.display = "flex";
     } else {
       card.style.display = "none";
@@ -104,7 +107,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const rate = c.rate !== null ? c.rate : 0; 
 
     return `
-      <div class="collection-card">
+      <div class="collection-card" data-category-id="${c.id_collection_category}">
         <div style="position:relative;">
             <img src="${img}" alt="${c.name}" style="object-fit: cover; height: 200px; width: 100%; border-radius: 15px 15px 0 0;">
             <span style="position:absolute; top:10px; right:10px; background:rgba(0,0,0,0.7); color:#ffd700; padding:4px 8px; border-radius:4px; font-weight:bold;">

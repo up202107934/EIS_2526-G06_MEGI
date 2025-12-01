@@ -1,7 +1,10 @@
 <?php
 require_once __DIR__ . "/partials/bootstrap.php";
-// A navbar já trata de buscar o utilizador, aqui só precisamos saber se está logado
-// para controlar os filtros e o modal
+require_once __DIR__ . "/dal/CollectionCategoryDAL.php";
+
+// Tenta buscar as categorias
+$collCategories = CollectionCategoryDAL::getAll(); 
+
 $isLoggedIn = isLoggedIn();
 ?>
 
@@ -44,11 +47,13 @@ $isLoggedIn = isLoggedIn();
 
       <select id="categoryFilter" class="category-filter">
         <option value="all">All categories</option>
-        <option value="Miniatures">Miniatures</option>
-        <option value="Card Games">Card Games</option>
-        <option value="Coins">Coins</option>
-        <option value="Books">Books</option>
-      </select>
+
+        <?php foreach ($collCategories as $cat): ?>
+            <option value="<?= $cat['id_collection_category'] ?>">
+                <?= htmlspecialchars($cat['name']) ?>
+            </option>
+        <?php endforeach; ?>
+       </select>
     </div>
   </div>
 
@@ -77,9 +82,16 @@ $isLoggedIn = isLoggedIn();
     <input type="text" id="collectionDescription" placeholder="Enter collection description">
 
     <label for="collectionCategory">Category:</label>
-    <select id="collectionCategory" required>
-        <option value="">Loading categories...</option>
-    </select>
+
+        <select id="collectionCategory" required>
+            <option value="">Select a category...</option>
+
+            <?php foreach ($collCategories as $cat): ?>
+                <option value="<?= $cat['id_collection_category'] ?>">
+                    <?= htmlspecialchars($cat['name']) ?>
+                </option>
+            <?php endforeach; ?>
+        </select>
 
     <label for="collectionImage">Image:</label>
     <div id="dropZoneCollection" class="drop-zone">
@@ -103,6 +115,7 @@ $isLoggedIn = isLoggedIn();
 <footer class="footer">
   <p>© 2025 MyCollections | All rights reserved.</p>
 </footer>
+<script src="js/navbar.js"></script> 
 
 <script>
   window.IS_LOGGED_IN = <?= $isLoggedIn ? "true" : "false" ?>;

@@ -40,7 +40,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     data-price="${it.price}"
                     data-weight="${it.weight}">
 
-                    <img src="${it.img || 'img/item-placeholder.jpg'}" alt="${it.name}">
+                    <img src="${it.img ? 'img/' + it.img : 'img/item-placeholder.jpg'}" alt="${it.name}">
 
                     <div class="item-details">
                         <h3>${it.name}</h3>
