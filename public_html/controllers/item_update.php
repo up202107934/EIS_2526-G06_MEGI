@@ -1,4 +1,6 @@
 <?php
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
 require_once __DIR__ . "/../partials/bootstrap.php";
 require_once __DIR__ . "/../dal/ItemDAL.php";
 
@@ -11,7 +13,7 @@ if ($_SERVER["REQUEST_METHOD"] !== "POST" || !isLoggedIn()) {
 
 $id = $_POST['id_item'];
 $name = $_POST['name'];
-// $desc = $_POST['description']; // REMOVIDO: A tabela não tem esta coluna
+$desc = $_POST['description']; 
 $rating = $_POST['importance'];
 $price = $_POST['price'];
 $weight = $_POST['weight'];
@@ -37,11 +39,11 @@ if (isset($_FILES['image']) && $_FILES['image']['error'] === UPLOAD_ERR_OK) {
     }
 }
 
-// CORRIGIDO: Removemos a variável $desc da chamada
+
 $res = ItemDAL::update(
     $id, 
     $name, 
-    // $desc, (removido)
+    $desc,
     $rating, 
     $price, 
     $weight, 

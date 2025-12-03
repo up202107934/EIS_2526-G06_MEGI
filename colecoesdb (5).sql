@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 30-Nov-2025 às 23:05
+-- Tempo de geração: 03-Dez-2025 às 13:42
 -- Versão do servidor: 10.4.32-MariaDB
 -- versão do PHP: 8.0.30
 
@@ -276,26 +276,27 @@ CREATE TABLE `items` (
   `material` varchar(80) DEFAULT NULL,
   `scale` varchar(40) DEFAULT NULL,
   `serial_no` varchar(80) DEFAULT NULL,
-  `status` varchar(40) DEFAULT NULL
+  `status` varchar(40) DEFAULT NULL,
+  `description` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Extraindo dados da tabela `items`
 --
 
-INSERT INTO `items` (`id_item`, `id_item_category`, `name`, `img`, `importance`, `weight`, `price`, `acquisition_date`, `rarity`, `dimensions`, `year_of_release`, `edition_number`, `condition`, `franchise`, `material`, `scale`, `serial_no`, `status`) VALUES
-(6, 1, 'Goku Super Saiyan Figure 18cm', NULL, 9, 0.45, 25.00, '2022-08-05', 'Common', '18x8x6 cm', 2019, 'Standard Release', 'Good', 'Dragon Ball', 'PVC', '1/10', 'DB-GOKU-SSJ-18', 'owned'),
-(7, 1, 'Sailor Moon Figure 20cm', NULL, 8, 0.50, 40.00, '2023-03-12', 'Limited', '20x9x7 cm', 2020, 'Anniversary Edition', 'Like New', 'Sailor Moon', 'PVC', '1/8', 'SM-ANNIV-20', 'owned'),
-(8, 6, 'Funko Pop! Naruto Uzumaki (No. 71)', NULL, 7, 0.18, 13.50, '2023-09-21', 'Common', '9x6x6 cm', 2018, 'No. 71', 'Like New', 'Naruto', 'Vinyl', 'Funko', 'FK-NARUTO-071', 'owned'),
-(9, 6, 'Funko Pop! Gojo Satoru (No. 1163)', NULL, 9, 0.19, 16.99, '2024-02-11', 'Exclusive', '9x6x6 cm', 2023, 'No. 1163 Special', 'New', 'Jujutsu Kaisen', 'Vinyl', 'Funko', 'FK-GOJO-1163', 'owned'),
-(10, 7, 'Charizard VMAX', NULL, 10, 0.01, 110.00, '2021-01-03', 'Ultra Rare', '8.8x6.3 cm', 2020, 'Sword & Shield', 'Near Mint', 'Pokémon', 'Cardstock', 'Standard', 'PK-VMAX-CHAR-2020', 'owned'),
-(11, 7, 'Blue-Eyes White Dragon', NULL, 9, 0.01, 35.00, '2020-06-18', 'Secret Rare', '8.6x5.9 cm', 2002, 'LOB-001', 'Good', 'Yu-Gi-Oh', 'Cardstock', 'Standard', 'YGO-LOB-001-BEWD', 'owned'),
-(12, 3, 'Batman: The Killing Joke', NULL, 9, 0.30, 22.00, '2022-11-15', 'Classic', '26x17 cm', 1988, 'Deluxe Edition', 'Near Mint', 'DC', 'Paper', 'Standard', 'DC-KJ-DELUXE-1988', 'owned'),
-(13, 3, 'Amazing Spider-Man #300', NULL, 10, 0.28, 85.00, '2021-07-09', 'Key Issue', '26x17 cm', 1988, '#300', 'Good', 'Marvel', 'Paper', 'Standard', 'MV-ASM-300-1988', 'owned'),
-(14, 5, 'One Piece Vol. 1', NULL, 8, 0.22, 9.99, '2023-02-01', 'Common', '19x13 cm', 2001, '1ª edição PT', 'Good', 'One Piece', 'Paper', 'Standard', 'OP-PT-VOL1-2001', 'owned'),
-(15, 8, 'Watchmen', NULL, 10, 0.90, 25.00, '2020-12-28', 'Collector', '28x18 cm', 1987, 'Graphic Novel', 'Like New', 'DC', 'Paper', 'Hardcover', 'DC-WM-HC-1987', 'owned'),
-(16, 1, 'a', 'uploads/items/item_692c8b4c31a70.jfif', 10, 0.00, 12.00, '2025-10-31', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-(17, 2, 'aa', 'uploads/items/item_692c8f6d398ac.jfif', 1, 10.00, 10.00, '2025-12-04', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `items` (`id_item`, `id_item_category`, `name`, `img`, `importance`, `weight`, `price`, `acquisition_date`, `rarity`, `dimensions`, `year_of_release`, `edition_number`, `condition`, `franchise`, `material`, `scale`, `serial_no`, `status`, `description`) VALUES
+(6, 1, 'Goku Super Saiyan Figure 18cm', NULL, 9, 0.45, 25.00, '2022-08-05', 'Common', '18x8x6 cm', 2019, 'Standard Release', 'Good', 'Dragon Ball', 'PVC', '1/10', 'DB-GOKU-SSJ-18', 'owned', NULL),
+(7, 1, 'Sailor Moon Figure 20cm', NULL, 8, 0.50, 40.00, '2023-03-12', 'Limited', '20x9x7 cm', 2020, 'Anniversary Edition', 'Like New', 'Sailor Moon', 'PVC', '1/8', 'SM-ANNIV-20', 'owned', NULL),
+(8, 6, 'Funko Pop! Naruto Uzumaki (No. 71)', NULL, 7, 0.18, 13.50, '2023-09-21', 'Common', '9x6x6 cm', 2018, 'No. 71', 'Like New', 'Naruto', 'Vinyl', 'Funko', 'FK-NARUTO-071', 'owned', NULL),
+(9, 6, 'Funko Pop! Gojo Satoru (No. 1163)', NULL, 9, 0.19, 16.99, '2024-02-11', 'Exclusive', '9x6x6 cm', 2023, 'No. 1163 Special', 'New', 'Jujutsu Kaisen', 'Vinyl', 'Funko', 'FK-GOJO-1163', 'owned', NULL),
+(10, 7, 'Charizard VMAX', NULL, 10, 0.01, 110.00, '2021-01-03', 'Ultra Rare', '8.8x6.3 cm', 2020, 'Sword & Shield', 'Near Mint', 'Pokémon', 'Cardstock', 'Standard', 'PK-VMAX-CHAR-2020', 'owned', NULL),
+(11, 7, 'Blue-Eyes White Dragon', NULL, 9, 0.01, 35.00, '2020-06-18', 'Secret Rare', '8.6x5.9 cm', 2002, 'LOB-001', 'Good', 'Yu-Gi-Oh', 'Cardstock', 'Standard', 'YGO-LOB-001-BEWD', 'owned', NULL),
+(12, 3, 'Batman: The Killing Joke', NULL, 9, 0.30, 22.00, '2022-11-15', 'Classic', '26x17 cm', 1988, 'Deluxe Edition', 'Near Mint', 'DC', 'Paper', 'Standard', 'DC-KJ-DELUXE-1988', 'owned', NULL),
+(13, 3, 'Amazing Spider-Man #300', NULL, 10, 1.00, 85.00, '2021-07-09', 'Key Issue', '26x17 cm', 1988, '#300', 'Good', 'Marvel', 'Paper', 'Standard', 'MV-ASM-300-1988', 'owned', 'item do spider man'),
+(14, 5, 'One Piece Vol. 1', NULL, 8, 0.22, 9.99, '2023-02-01', 'Common', '19x13 cm', 2001, '1ª edição PT', 'Good', 'One Piece', 'Paper', 'Standard', 'OP-PT-VOL1-2001', 'owned', NULL),
+(15, 8, 'Watchmen', NULL, 10, 0.90, 25.00, '2020-12-28', 'Collector', '28x18 cm', 1987, 'Graphic Novel', 'Like New', 'DC', 'Paper', 'Hardcover', 'DC-WM-HC-1987', 'owned', NULL),
+(16, 1, 'a', 'uploads/items/item_692c8b4c31a70.jfif', 10, 0.00, 12.00, '2025-10-31', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(17, 2, 'aa', 'uploads/items/item_692c8f6d398ac.jfif', 1, 10.00, 10.00, '2025-12-04', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 

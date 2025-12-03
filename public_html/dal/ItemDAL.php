@@ -38,47 +38,97 @@ class ItemDAL {
     // 3. Criar item (Mantido o teu original, ajusta se necessário)
     public static function create($data) {
         $db = DB::conn();
-        $sql = "INSERT INTO items (id_item_category, name, img, importance, weight, price, acquisition_date, franchise) 
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        $sql = "INSERT INTO items 
+                (id_item_category, name, description, img, importance, weight, price, acquisition_date, franchise)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
                 
         $stmt = $db->prepare($sql);
-        // Note: Removi 'description' daqui também se não existir na tabela
-        $stmt->bind_param("isssddss", 
-            $data["id_item_category"], $data["name"], $data["img"], 
-            $data["importance"], $data["weight"], $data["price"], $data["acquisition_date"], $data["franchise"]
-        );
+        $stmt->bind_param("isssddsss", 
+                $data["id_item_category"],
+                $data["name"],
+                $data["description"],
+                $data["img"],
+                $data["importance"],
+                $data["weight"],
+                $data["price"],
+                $data["acquisition_date"],
+                $data["franchise"]
+            );
+
 
         if ($stmt->execute()) return $db->insert_id;
         return false;
     }
 
     // 4. ATUALIZAR ITEM (CORRIGIDO: Sem Description)
-    public static function update($id, $name, $rating, $price, $weight, $date, $franchise, $img = null) {
-        $db = DB::conn();
+    public static function update($id, $name, $description, $rating, $price, $weight, $date, $franchise, $img = null) {
+    $db = DB::conn();
 
-        if ($img) {
-            // Com imagem nova
-            // REMOVIDO: description=?
-            $sql = "UPDATE items SET name=?, importance=?, price=?, weight=?, acquisition_date=?, franchise=?, img=? WHERE id_item=?";
-            $stmt = $db->prepare($sql);
-            
-            if (!$stmt) die("Erro SQL Update: " . $db->error);
+    if ($img) {
+        // Atualizar COM nova imagem
+        $sql = "UPDATE items 
+                SET name = ?, 
+                    description = ?, 
+                    importance = ?, 
+                    price = ?, 
+                    weight = ?, 
+                    acquisition_date = ?, 
+                    franchise = ?, 
+                    img = ?
+                WHERE id_item = ?";
+        $stmt = $db->prepare($sql);
 
-            // siddssi (sem a string da description)
-            $stmt->bind_param("siddsssi", $name, $rating, $price, $weight, $date, $franchise, $img, $id);
-        } else {
-            // Sem imagem nova
-            // REMOVIDO: description=?
-            $sql = "UPDATE items SET name=?, importance=?, price=?, weight=?, acquisition_date=?, franchise=? WHERE id_item=?";
-            $stmt = $db->prepare($sql);
-
-            if (!$stmt) die("Erro SQL Update: " . $db->error);
-
-            // siddsi (sem a string da description)
-            $stmt->bind_param("siddssi", $name, $rating, $price, $weight, $date, $franchise, $id);
+        if (!$stmt) {
+            die("Erro SQL (prepare com imagem): " . $db->error);
         }
-        return $stmt->execute();
+
+        $stmt->bind_param(
+            "ssiddsssi",
+            $name,         // s
+            $description,  // s
+            $rating,       // i
+            $price,        // d
+            $weight,       // d
+            $date,         // s
+            $franchise,    // s
+            $img,          // s
+            $id            // i
+        );
+    } else {
+        // Atualizar SEM nova imagem
+        $sql = "UPDATE items 
+                SET name = ?, 
+                    description = ?, 
+                    importance = ?, 
+                    price = ?, 
+                    weight = ?, 
+                    acquisition_date = ?, 
+                    franchise = ?
+                WHERE id_item = ?";
+        $stmt = $db->prepare($sql);
+
+        if (!$stmt) {
+            die("Erro SQL (prepare sem imagem): " . $db->error);
+        }
+
+        $stmt->bind_param(
+            "ssiddssi",
+            $name,         // s
+            $description,  // s
+            $rating,       // i
+            $price,        // d
+            $weight,       // d
+            $date,         // s
+            $franchise,    // s
+            $id            // i
+        );
     }
+
+    return $stmt->execute();
+}
+
+
 
     // 5. APAGAR ITEM
     public static function delete($id_item) {
