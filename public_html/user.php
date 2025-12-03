@@ -2,6 +2,7 @@
 require_once __DIR__ . "/partials/bootstrap.php";
 require_once __DIR__ . "/dal/CollectionDAL.php";
 require_once __DIR__ . "/dal/UserDAL.php";
+require_once __DIR__ . "/dal/EventDAL.php"; 
 
 // 1. Segurança
 if (!isset($_SESSION["id_user"])) {
@@ -104,6 +105,59 @@ $user = UserDAL::getById($userId);
         <?php endif; ?>
       </section>
 
+        <?php
+require_once __DIR__ . "/dal/EventDAL.php";
+$interestedEvents = EventDAL::getInterestedByUser($userId);
+$participatingEvents = EventDAL::getParticipationByUser($userId);
+?>
+
+<!-- ========================== -->
+<!-- INTERESTED EVENTS SECTION -->
+<!-- ========================== -->
+<section class="events-section">
+    <h2>⭐ Events I'm Interested In</h2>
+
+    <?php if (empty($interestedEvents)): ?>
+        <p style="color:#777;">You haven't marked interest in any event yet.</p>
+    <?php else: ?>
+        <div class="events-grid">
+            <?php foreach ($interestedEvents as $ev): ?>
+                <div class="event-card">
+                    <h3><?= htmlspecialchars($ev["name"]) ?></h3>
+                    <p><strong>Date:</strong> <?= htmlspecialchars($ev["event_date"]) ?></p>
+                    <p><strong>Location:</strong> <?= htmlspecialchars($ev["location"]) ?></p>
+                    <a href="events.php?id=<?= $ev['id_event'] ?>" class="btn">View Event</a>
+                </div>
+            <?php endforeach; ?>
+        </div>
+    <?php endif; ?>
+</section>
+
+<!-- ========================== -->
+<!-- EVENT PARTICIPATION -->
+<!-- ========================== -->
+<section class="events-section">
+    <h2>🎫 Events I'm Participating In</h2>
+
+    <?php if (empty($participatingEvents)): ?>
+        <p style="color:#777;">You are not participating in any event yet.</p>
+    <?php else: ?>
+        <div class="events-grid">
+            <?php foreach ($participatingEvents as $ev): ?>
+                <div class="event-card">
+                    <h3><?= htmlspecialchars($ev["name"]) ?></h3>
+                    <p><strong>Date:</strong> <?= htmlspecialchars($ev["event_date"]) ?></p>
+                    <p><strong>Location:</strong> <?= htmlspecialchars($ev["location"]) ?></p>
+                    <p><strong>Collection:</strong> <?= $ev['id_collection'] ?></p>
+                    <a href="events.php?id=<?= $ev['id_event'] ?>" class="btn">View Event</a>
+                </div>
+            <?php endforeach; ?>
+        </div>
+    <?php endif; ?>
+</section>
+
+        
+        
     </main>
   </div>
 

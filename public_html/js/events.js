@@ -1,17 +1,16 @@
-// events.js (Sprint 2 - backend + grid/list a funcionar)
-console.log("FICHEIRO EVENTS.JS FOI CARREGADO!");
-
 document.addEventListener("DOMContentLoaded", () => {
   const eventsContainer = document.getElementById("events");
-  const joinBtn = document.getElementById("d-join");
-
 // PARTICIPATE / JOIN modal — ajustar para os ids que existem no HTML
-const participateBtn = document.getElementById("d-join");          // o botão "Participate" no detalhe
-const participateModal = document.getElementById("joinForm");     // o modal de participação
-const pCollections = document.getElementById("user-col-list");    // lista de coleções no join modal
-const pItems = document.getElementById("items-per-collection");   // itens por coleção no join modal
-const pCancel = document.getElementById("join-close");            // botão fechar no join modal
-const pConfirm = document.getElementById("join-submit");          // botão confirmar participação
+const joinBtn        = document.getElementById("d-join");        // botão Interested
+const participateBtn = document.getElementById("d-participate"); // botão Participate
+
+const participateModal = document.getElementById("participateModal");
+const pCollections     = document.getElementById("p-collections");
+const pItems           = document.getElementById("p-items");
+const pCancel          = document.getElementById("p-cancel");
+const pConfirm         = document.getElementById("p-confirm");
+
+console.log("pConfirm =", pConfirm);
 
    
   const btnGrid = document.getElementById("btn-grid");
@@ -367,6 +366,73 @@ participateModal?.addEventListener("click", (e) => {
         participateModal.setAttribute("aria-hidden", "true");
     }
 });
+
+pConfirm?.addEventListener("click", async () => {
+  console.log("CLICK NO CONFIRM!");
+
+  const idEvent = participateBtn?.dataset.id; // foi guardado em openDetail()
+
+  if (!idEvent) {
+    alert("Erro: nenhum evento selecionado.");
+    return;
+  }
+
+  // coleção escolhida
+  const selectedRadio = pCollections.querySelector(
+    '.pick-card input[type="radio"]:checked'
+  );
+  if (!selectedRadio) {
+    alert("Escolhe uma coleção primeiro.");
+    return;
+  }
+  const idCollection = selectedRadio.closest(".pick-card").dataset.col;
+
+  // itens escolhidos
+  const items = Array.from(
+    pItems.querySelectorAll('input[type="checkbox"]:checked')
+  ).map(cb => cb.value);
+
+  const payload = {
+    id_event: idEvent,
+    id_collection: idCollection,
+    items: items
+  };
+
+  try {
+    const r = await fetch("controllers/event_participate.php", {
+      method: "POST",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify(payload)
+    });
+
+    const text = await r.text();
+    console.log("RAW PARTICIPATE RESPONSE:", text);
+
+    let resp;
+    try {
+      resp = JSON.parse(text);
+    } catch (e) {
+      console.error("JSON PARSE ERROR (participate):", e);
+      alert("Erro ao processar resposta do servidor.");
+      return;
+    }
+
+    if (resp.ok) {
+      alert("Participação guardada com sucesso!");
+      participateModal.classList.remove("show");
+      participateModal.setAttribute("aria-hidden", "true");
+    } else {
+      alert("Erro ao guardar participação: " + (resp.err || "desconhecido"));
+    }
+  } catch (err) {
+    console.error(err);
+    alert("Erro de rede ao guardar participação.");
+  }
+});
+
+
+
+
 
 
 // Interessado (toggle)

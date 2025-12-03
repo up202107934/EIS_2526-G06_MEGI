@@ -802,3 +802,31 @@ html { scroll-behavior: smooth; }
     align-items: center;
     z-index: 2000;
 }
+
+/*parte dos eventos interested e que quer participar*/
+.events-section {
+  margin-top: 40px;      
+  padding-top: 15px;
+  margin-bottom: 40px;   
+}
+.events-section h2 {
+  margin-bottom: 15px;     
+}
+
+.events-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 15px;
+  margin-bottom: 30px;      
+}
+
+.event-card {
+  background: #fff;
+  padding: 12px 16px;
+  border-radius: 8px;
+}
+
+.events-section + .events-section {
+  margin-top: 50px;
+}
+

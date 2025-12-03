@@ -24,7 +24,7 @@ class EventDAL {
         return $stmt->get_result()->fetch_assoc();
     }
 
-    // EVENTOS DE UMA COLEÇÃO (se precisares)
+    // EVENTOS DE UMA COLEÇÃO
     public static function getByCollection($id_collection) {
         $db = DB::conn();
         $stmt = $db->prepare("
@@ -61,12 +61,9 @@ class EventDAL {
         return ["ok" => true, "id_event" => $stmt->insert_id];
     }
 
-    // ----------------------------------------------
     // ADICIONAR COLEÇÕES AO EVENTO
-    // ----------------------------------------------
     public static function addCollectionsToEvent($id_event, $collections) {
         $db = DB::conn();
-
         $stmt = $db->prepare("
             INSERT INTO event_collections (id_event, id_collection)
             VALUES (?, ?)
@@ -78,12 +75,9 @@ class EventDAL {
         }
     }
 
-    // ----------------------------------------------
     // ADICIONAR ITENS AO EVENTO
-    // ----------------------------------------------
     public static function addItemsToEvent($id_event, $items) {
         $db = DB::conn();
-
         $stmt = $db->prepare("
             INSERT INTO event_items (id_event, id_item)
             VALUES (?, ?)
@@ -94,4 +88,39 @@ class EventDAL {
             $stmt->execute();
         }
     }
+
+    // =======================================
+    // 👉 NOVO: EVENTOS INTERESSADOS PELO USER
+    // =======================================
+    public static function getInterestedByUser($id_user) {
+        $db = DB::conn();
+        $stmt = $db->prepare("
+            SELECT e.*
+            FROM user_events_interest uei
+            JOIN events e ON e.id_event = uei.id_event
+            WHERE uei.id_user = ?
+            ORDER BY e.event_date ASC
+        ");
+        $stmt->bind_param("i", $id_user);
+        $stmt->execute();
+        return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+    }
+
+    // =======================================
+    // 👉 NOVO: EVENTOS QUE O USER VAI PARTICIPAR
+    // =======================================
+    public static function getParticipationByUser($id_user) {
+        $db = DB::conn();
+        $stmt = $db->prepare("
+            SELECT e.*, uep.id_collection
+            FROM user_event_participation uep
+            JOIN events e ON e.id_event = uep.id_event
+            WHERE uep.id_user = ?
+            ORDER BY e.event_date ASC
+        ");
+        $stmt->bind_param("i", $id_user);
+        $stmt->execute();
+        return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+    }
+
 }
