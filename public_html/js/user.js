@@ -228,5 +228,45 @@ document.addEventListener("DOMContentLoaded", () => {
             alert("Server error.");
         });
     });
+    
+    // ==========================================
+    // 4. APAGAR COLEÇÃO
+    // ==========================================
+    // Usamos delegação de eventos para apanhar botões novos ou existentes
+    document.querySelector('.collections-grid')?.addEventListener('click', (e) => {
+        
+        // Verifica se clicou no botão de delete (ou no ícone dentro dele)
+        const btn = e.target.closest('.delete-collection-btn');
+        
+        if (btn) {
+            const id = btn.dataset.id;
+            
+            if (confirm("Are you sure you want to delete this collection? This cannot be undone! ⚠️")) {
+                
+                fetch("controllers/collection_delete.php", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ id_collection: id })
+                })
+                .then(r => r.json())
+                .then(resp => {
+                    if (resp.ok) {
+                        // Remove o cartão do ecrã suavemente
+                        const card = btn.closest('.collection-card');
+                        card.style.opacity = "0";
+                        setTimeout(() => card.remove(), 300);
+                        // Opcional: reload para atualizar contadores
+                        // window.location.reload(); 
+                    } else {
+                        alert("Error: " + (resp.error || "Failed to delete"));
+                    }
+                })
+                .catch(err => {
+                    console.error(err);
+                    alert("Server error");
+                });
+            }
+        }
+    });
 
 });

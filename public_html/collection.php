@@ -6,18 +6,12 @@ require_once __DIR__ . "/dal/CollectionDAL.php";
 $categories = ItemCategoryDAL::getAll();
 
 // --- LÓGICA DE VERIFICAÇÃO DE DONO ---
-$isOwner = false; // Começamos por assumir que não é o dono
+$isOwner = false; 
 
 if (isset($_GET['id'])) {
     $collectionId = (int)$_GET['id'];
-    
-    // dados da coleção
     $collection = CollectionDAL::getById($collectionId);
 
-    // Verificar se:
-    // 1. A coleção existe
-    // 2. O utilizador está logado (existe id_user na sessão)
-    // 3. O ID do utilizador na sessão é igual ao id_user da coleção
     if ($collection && isset($_SESSION['id_user']) && $collection['id_user'] == $_SESSION['id_user']) {
         $isOwner = true;
     }
@@ -27,10 +21,12 @@ if (isset($_GET['id'])) {
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Collection</title>
+  <title>Collection | MyCollections</title>
   <link rel="stylesheet" href="css/style.css"> 
   <link rel="stylesheet" href="css/collection.css">
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&display=swap" rel="stylesheet">
+  
+  <script src="js/navbar.js"></script> 
 </head>
 
 <body>
@@ -75,16 +71,13 @@ if (isset($_GET['id'])) {
     <span>Category</span>
         <select id="categoryFilter">
             <option value="all">All Categories</option>
-
             <?php foreach ($categories as $cat): ?>
                 <option value="<?= $cat['id_item_category'] ?>">
                     <?= htmlspecialchars($cat['name']) ?>
                 </option>
             <?php endforeach; ?>
-
         </select>
     </label>
-
   </div>
 </div>
 
@@ -97,37 +90,39 @@ if (isset($_GET['id'])) {
 <?php if ($isOwner): ?>
 <div id="addItemModal" class="modal">
   <div class="modal-content">
-    <form id="addItemForm">
-       </form>
-  </div>
-</div>
-<?php endif; ?>
-
-<div id="addItemModal" class="modal">
-  <div class="modal-content">
     <h2>Add New Item</h2>
 
     <form id="addItemForm">
       <label>Name:</label>
-      <input type="text" id="itemName" required>
+      <input type="text" id="itemName" placeholder="Item Name" required>
 
       <label>Description:</label>
-      <input type="text" id="itemDesc" required>
+      <input type="text" id="itemDesc" placeholder="Short description" required>
 
-      <label>Importance (1–10):</label>
-      <input type="number" id="itemRating" min="1" max="10" required>
+      <div style="display:flex; gap:10px;">
+          <div style="flex:1;">
+              <label>Importance (1–10):</label>
+              <input type="number" id="itemRating" min="1" max="10" value="5" required>
+          </div>
+          <div style="flex:1;">
+              <label>Price (€):</label>
+              <input type="number" id="itemPrice" min="0" step="0.01" value="0" required>
+          </div>
+      </div>
 
-      <label>Price (€):</label>
-      <input type="number" id="itemPrice" min="0" step="0.01" required>
-
-      <label>Weight (g):</label>
-      <input type="number" id="itemWeight" min="0" step="1" required>
-
-      <label>Date of acquisition:</label>
-      <input type="date" id="itemDate" required>
+      <div style="display:flex; gap:10px;">
+          <div style="flex:1;">
+              <label>Weight (g):</label>
+              <input type="number" id="itemWeight" min="0" step="1" value="0" required>
+          </div>
+          <div style="flex:1;">
+              <label>Date of acquisition:</label>
+              <input type="date" id="itemDate" required>
+          </div>
+      </div>
       
       <label>Category:</label>
-        <select id="itemCategory">
+        <select id="itemCategory" style="width:100%; padding:10px; border-radius:8px; border:1px solid #ccc; margin-bottom:10px;">
             <option value="">-- Select category --</option>
             <?php foreach ($categories as $cat): ?>
                 <option value="<?= $cat['id_item_category'] ?>">
@@ -149,7 +144,7 @@ if (isset($_GET['id'])) {
     </form>
   </div>
 </div>
-
+<?php endif; ?>
 
 
 <section class="collection-events">
@@ -172,38 +167,46 @@ if (isset($_GET['id'])) {
 // Carregar título da coleção
 const idCollection = new URLSearchParams(window.location.search).get("id");
 
-fetch(`controllers/collections.php?id=${idCollection}`)
-  .then(r => r.json())
-  .then(c => {
-    document.getElementById("collectionName").textContent = c.name;
-  });
-</script>
+if(idCollection) {
+    fetch(`controllers/collections.php?id=${idCollection}`)
+      .then(r => r.json())
+      .then(c => {
+        const title = document.getElementById("collectionName");
+        if(title && c.name) title.textContent = c.name;
+      })
+      .catch(e => console.error("Erro loading title", e));
 
-<script>
-// Carregar Eventos associados
-fetch(`controllers/events.php?collection=${idCollection}`)
-  .then(r => r.json())
-  .then(events => {
-    const upcomingList = document.getElementById("upcomingEventsList");
-    const pastList = document.getElementById("pastEventsList");
-    const today = new Date();
+    // Carregar Eventos
+    fetch(`controllers/events.php?collection=${idCollection}`)
+      .then(r => r.json())
+      .then(events => {
+        const upcomingList = document.getElementById("upcomingEventsList");
+        const pastList = document.getElementById("pastEventsList");
+        const today = new Date();
 
-    events.forEach(e => {
-      const isFuture = new Date(e.event_date) >= today;
-      const list = isFuture ? upcomingList : pastList;
+        if(events && events.length > 0) {
+            events.forEach(e => {
+              const isFuture = new Date(e.event_date) >= today;
+              const list = isFuture ? upcomingList : pastList;
 
-      list.innerHTML += `
-        <article class="event-card">
-          <h4>${e.name}</h4>
-          <p class="event-meta">
-            <span>📅 ${e.event_date}</span>
-            <span>📍 ${e.location ?? ""}</span>
-          </p>
-          <a href="events.php?id=${e.id_event}" class="event-link">View event</a>
-        </article>
-      `;
-    });
-  });
+              list.innerHTML += `
+                <article class="event-card">
+                  <h4>${e.name}</h4>
+                  <p class="event-meta">
+                    <span>📅 ${e.event_date}</span>
+                    <span>📍 ${e.location ?? ""}</span>
+                  </p>
+                  <a href="events.php?id=${e.id_event}" class="event-link">View event</a>
+                </article>
+              `;
+            });
+        } else {
+            if(upcomingList) upcomingList.innerHTML = "<p>No upcoming events.</p>";
+            if(pastList) pastList.innerHTML = "<p>No past events.</p>";
+        }
+      })
+      .catch(e => console.error("Erro loading events", e));
+}
 </script>
 
 <footer class="footer">

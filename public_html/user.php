@@ -93,7 +93,11 @@ $user = UserDAL::getById($userId);
                             Created: <?= htmlspecialchars(substr($c["creation_date"], 0, 10)) ?>
                         </p>
 
-                        <a href="collection.php?id=<?= $c['id_collection'] ?>" class="btn" style="display:block; text-align:center; background:#3498db; color:white; padding:8px; text-decoration:none; border-radius:4px; margin-top:10px;">Manage</a>
+                        <div style="display:flex; gap:10px; margin-top:10px;">
+                            <a href="collection.php?id=<?= $c['id_collection'] ?>" class="btn" style="flex:1; text-align:center; background:#3498db; color:white; padding:8px; text-decoration:none; border-radius:4px;">Manage</a>
+    
+                            <button class="btn delete-collection-btn" data-id="<?= $c['id_collection'] ?>" style="background:#e74c3c; color:white; border:none; padding:8px 12px; border-radius:4px; cursor:pointer;" title="Delete Collection">🗑️</button>
+                        </div>
                     </div>
                 <?php endforeach; ?>
             </div>

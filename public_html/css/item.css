@@ -445,3 +445,50 @@ body.dark-mode .profile-dropdown a {
 body.dark-mode .profile-dropdown a:hover {
   background: #1f2933;
 }
+
+
+/* Etiqueta da Coleção (Estilo "Chip") */
+.item-collection-tag {
+    margin-bottom: 10px; /* Espaço até ao título */
+    display: flex;
+    align-items: center;
+}
+
+.item-collection-tag a {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    font-weight: 600;
+    text-decoration: none;
+    color: #555;
+    background-color: #f3f4f6; /* Fundo cinza suave */
+    padding: 6px 12px;
+    border-radius: 20px; /* Borda redonda */
+    transition: all 0.2s ease;
+    border: 1px solid transparent;
+}
+
+.item-collection-tag a:hover {
+    background-color: #e5e7eb;
+    color: #111;
+    transform: translateY(-1px); /* Ligeiro efeito de "salto" */
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.item-collection-tag .icon {
+    font-size: 14px;
+}
+
+/* Dark Mode */
+body.dark-mode .item-collection-tag a {
+    background-color: #2a2a2a;
+    color: #ccc;
+    border-color: #444;
+}
+
+body.dark-mode .item-collection-tag a:hover {
+    background-color: #333;
+    color: #FFD700; /* Dourado no hover */
+    border-color: #FFD700;
+}

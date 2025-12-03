@@ -7,7 +7,6 @@ class CollectionDAL {
     public static function getAll() {
         $db = DB::conn();
         // JOIN para ir buscar o nome do utilizador e da categoria
-        // Ajusta 'collection_categories' se a tua tabela tiver outro nome
         $sql = "SELECT c.*, u.username as owner_name, cat.name as category_name 
                 FROM collections c
                 JOIN users u ON c.id_user = u.id_user
@@ -35,7 +34,7 @@ class CollectionDAL {
         return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
     }
     
-    // 4. Buscar UMA coleção pelo ID (Para verificar o dono)
+    // 3. Buscar UMA coleção pelo ID (Para verificar o dono)
     public static function getById($id_collection) {
         $db = DB::conn();
         $sql = "SELECT * FROM collections WHERE id_collection = ?";
@@ -48,7 +47,7 @@ class CollectionDAL {
         return $result->fetch_assoc(); // Retorna apenas 1 linha ou null
     }
 
-// Criar nova coleção (Agora com descrição e imagem)
+    // 4. Criar nova coleção
     public static function create($id_user, $id_category, $name, $description, $cover_img, $creation_date) {
         $db = DB::conn();
         
@@ -67,6 +66,30 @@ class CollectionDAL {
         if ($stmt->execute()) {
             return $db->insert_id;
         }
+        return false;
+    }
+
+    // ==========================================================
+    // 5. APAGAR COLEÇÃO (NOVO MÉTODO)
+    // ==========================================================
+    public static function delete($id_collection) {
+        $db = DB::conn();
+        
+        // Prepara o comando DELETE
+        $sql = "DELETE FROM collections WHERE id_collection = ?";
+        $stmt = $db->prepare($sql);
+        
+        if (!$stmt) {
+            return false; // Erro na preparação
+        }
+
+        $stmt->bind_param("i", $id_collection);
+
+        // Executa e retorna true se funcionou
+        if ($stmt->execute()) {
+            return true;
+        }
+        
         return false;
     }
 }
