@@ -1,17 +1,19 @@
 // events.js (Sprint 2 - backend + grid/list a funcionar)
+console.log("FICHEIRO EVENTS.JS FOI CARREGADO!");
 
 document.addEventListener("DOMContentLoaded", () => {
   const eventsContainer = document.getElementById("events");
   const joinBtn = document.getElementById("d-join");
-  
-  // PARTICIPATE BUTTON + MODAL
-    const participateBtn = document.getElementById("d-participate");
-    const participateModal = document.getElementById("participateModal");
-    const pCollections = document.getElementById("p-collections");
-    const pItems = document.getElementById("p-items");
-    const pCancel = document.getElementById("p-cancel");
-    const pConfirm = document.getElementById("p-confirm");
 
+// PARTICIPATE / JOIN modal — ajustar para os ids que existem no HTML
+const participateBtn = document.getElementById("d-join");          // o botão "Participate" no detalhe
+const participateModal = document.getElementById("joinForm");     // o modal de participação
+const pCollections = document.getElementById("user-col-list");    // lista de coleções no join modal
+const pItems = document.getElementById("items-per-collection");   // itens por coleção no join modal
+const pCancel = document.getElementById("join-close");            // botão fechar no join modal
+const pConfirm = document.getElementById("join-submit");          // botão confirmar participação
+
+   
   const btnGrid = document.getElementById("btn-grid");
   const btnList = document.getElementById("btn-list");
   const btnNew = document.getElementById("btn-new");
@@ -60,63 +62,161 @@ console.log("eventForm:", eventForm);
   // -----------------------
   // 1) Carregar eventos da BD
   // -----------------------
-  fetch("controllers/events.php")
-    .then(r => r.json())
-    .then(events => {
-      allEvents = events || [];
+ // --- FETCH com debug e fallback ---
+fetch("controllers/events.php")
+  .then(async r => {
+    if (!r.ok) {
+      console.error("FETCH ERROR events.php:", r.status, r.statusText);
+      const txt = await r.text().catch(()=>"[no body]");
+      console.error("Resposta (raw):", txt);
+      throw new Error("Erro ao pedir events.php");
+    }
+    // tentar parse seguro
+    const text = await r.text();
+    try {
+      const data = JSON.parse(text);
+      console.log("EVENTS LOADED:", data);
+      allEvents = Array.isArray(data) ? data : [];
       renderEvents();
-    })
-    .catch(err => {
-      console.error(err);
-      eventsContainer.innerHTML = "<p>Erro a carregar eventos.</p>";
-    });
-
-  // -----------------------
-  // 2) Render com filtros + sort + search
-  // -----------------------
-  function renderEvents() {
-    let events = [...allEvents];
-
-    const now = new Date();
-    const status = statusSelect?.value || "";
-
-    if (status === "upcoming") {
-      events = events.filter(e => new Date(e.event_date) >= now);
-    } else if (status === "past") {
-      events = events.filter(e => new Date(e.event_date) < now);
+    } catch (e) {
+      console.error("JSON PARSE ERROR from controllers/events.php:", e, "RAW:", text);
+      allEvents = [];
+      renderEvents();
     }
+  })
+  .catch(err => {
+    console.error("Erro no fetch events:", err);
+    eventsContainer.innerHTML = "<p>Erro a carregar eventos.</p>";
+  });
 
-    const q = (searchInput?.value || "").trim().toLowerCase();
-    if (q) {
-      events = events.filter(e =>
-        (e.name || "").toLowerCase().includes(q)
-      );
-    }
+/* DEBOUNCE helper */
+function debounce(fn, wait = 200) {
+  let t;
+  return (...args) => {
+    clearTimeout(t);
+    t = setTimeout(() => fn(...args), wait);
+  };
+}
 
-    const sort = sortSelect?.value || "date_asc";
-    events.sort((a, b) => {
-      if (sort === "date_asc") return new Date(a.event_date) - new Date(b.event_date);
-      if (sort === "date_desc") return new Date(b.event_date) - new Date(a.event_date);
-      if (sort === "name_asc") return (a.name || "").localeCompare(b.name || "");
-      if (sort === "name_desc") return (b.name || "").localeCompare(a.name || "");
-      return 0;
+/* highlight helper (opcional) */
+function highlight(text = "", q = "") {
+  if (!q) return text;
+  const safeQ = q.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  return text.replace(new RegExp(`(${safeQ})`, "ig"), "<mark>$1</mark>");
+}
+
+/* RENDER melhorado e robusto */
+function renderEvents() {
+  let events = Array.isArray(allEvents) ? [...allEvents] : [];
+
+  const now = new Date();
+  const status = statusSelect?.value || "";
+
+  if (status === "upcoming") {
+    events = events.filter(e => {
+      const d = new Date(e.event_date || e.date || e.datetime || "");
+      return !isNaN(d) && d >= now;
     });
-
-    eventsContainer.innerHTML = "";
-    if (!events.length) {
-      eventsContainer.innerHTML = "<p>Sem eventos para mostrar.</p>";
-      return;
-    }
-
-    events.forEach(e => {
-      eventsContainer.innerHTML += eventCardHTML(e);
-    });
-
-    // ligar clique para abrir detalhe
-    eventsContainer.querySelectorAll(".event-card").forEach(card => {
-      card.addEventListener("click", () => openDetail(card.dataset.id));
+  } else if (status === "past") {
+    events = events.filter(e => {
+      const d = new Date(e.event_date || e.date || e.datetime || "");
+      return !isNaN(d) && d < now;
     });
   }
+
+  const qRaw = (searchInput?.value || "").trim();
+  const q = qRaw.toLowerCase();
+
+  if (q) {
+    events = events.filter(e => {
+      const name = (e.name ?? e.event_name ?? e.title ?? "").toString().toLowerCase();
+      const desc = (e.description ?? e.desc ?? "").toString().toLowerCase();
+      const loc  = (e.location ?? e.city ?? "").toString().toLowerCase();
+      return name.includes(q) || desc.includes(q) || loc.includes(q);
+    });
+  }
+
+  const sort = sortSelect?.value || "date_asc";
+  events.sort((a, b) => {
+    const da = new Date(a.event_date ?? a.date ?? "");
+    const db = new Date(b.event_date ?? b.date ?? "");
+    const an = (a.name ?? a.event_name ?? a.title ?? "").toString();
+    const bn = (b.name ?? b.event_name ?? b.title ?? "").toString();
+    if (sort === "date_asc") return (isNaN(da) ? 0 : da) - (isNaN(db) ? 0 : db);
+    if (sort === "date_desc") return (isNaN(db) ? 0 : db) - (isNaN(da) ? 0 : da);
+    if (sort === "name_asc") return an.localeCompare(bn);
+    if (sort === "name_desc") return bn.localeCompare(an);
+    return 0;
+  });
+
+  eventsContainer.innerHTML = "";
+  if (!events.length) {
+    eventsContainer.innerHTML = "<p>Sem eventos para mostrar.</p>";
+    return;
+  }
+
+  events.forEach(e => {
+    const titleRaw = e.name ?? e.event_name ?? e.title ?? "Sem nome";
+    const titleHtml = q ? highlight(titleRaw, qRaw) : titleRaw;
+    const d = new Date(e.event_date ?? e.date ?? "");
+    const isUpcoming = !isNaN(d) ? d >= new Date() : true;
+
+    const imgMain = "img/event-placeholder.jpg";
+    const thumb1 = "img/event-thumb1.jpg";
+    const thumb2 = "img/event-thumb2.jpg";
+    const thumb3 = "img/event-thumb3.jpg";
+
+    // usa id_event ou id
+    const idEv = e.id_event ?? e.id ?? e.eventId ?? "";
+
+    eventsContainer.innerHTML += `
+      <article class="collection-card event-card ${isUpcoming ? "upcoming" : "past"}"
+               data-id="${idEv}">
+        <div class="ev-gallery">
+          <img class="ev-main" src="${imgMain}" alt="${titleRaw}">
+          <div class="ev-strip">
+            <img class="ev-thumb" src="${thumb1}" alt="">
+            <img class="ev-thumb" src="${thumb2}" alt="">
+            <img class="ev-thumb" src="${thumb3}" alt="">
+          </div>
+        </div>
+        <div class="ev-meta">
+          <h2 class="ev-title">${titleHtml}</h2>
+          <p class="ev-date">📅 ${e.event_date ?? e.date ?? ""}</p>
+          <p class="muted">📍 ${e.location ?? ""}</p>
+        </div>
+        <div class="ev-actions">
+          <a href="#" class="btn outline details-btn">Details</a>
+        </div>
+      </article>
+    `;
+  });
+
+  // ligar clique para abrir detalhe - usa event delegation para evitar problemas
+  eventsContainer.querySelectorAll(".event-card").forEach(card => {
+    card.addEventListener("click", (ev) => {
+      // se clicou na action button (Details) queremos também abrir detalhe,
+      // mas prevenimos propagation se for outro elemento
+      openDetail(card.dataset.id);
+    });
+  });
+}
+
+/* listeners de pesquisa */
+const debouncedRender = debounce(renderEvents, 160);
+searchBtn?.addEventListener("click", (e) => {
+  e.preventDefault();
+  renderEvents();
+});
+searchInput?.addEventListener("keyup", (e) => {
+  if (e.key === "Enter") renderEvents();
+  else if (e.key === "Escape") {
+    searchInput.value = "";
+    renderEvents();
+  } else {
+    debouncedRender();
+  }
+});
 
   // HTML do card compatível com o TEU CSS (grid e list)
   function eventCardHTML(e) {
@@ -170,8 +270,8 @@ function openDetail(idEvent) {
     evDesc.textContent = ev.description ?? "";
 
     // guardar IDs
-    joinBtn.dataset.id = idEvent;
-    participateBtn.dataset.id = idEvent;
+    if (joinBtn) joinBtn.dataset.id = idEvent;
+    if (participateBtn) participateBtn.dataset.id = idEvent;
 
     // evento passou?
     const isPast = new Date(ev.event_date) < new Date();
