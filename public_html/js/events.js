@@ -201,21 +201,30 @@ function renderEvents() {
   });
 }
 
-/* listeners de pesquisa */
+/* listeners de pesquisa  */
 const debouncedRender = debounce(renderEvents, 160);
+
+// botão de pesquisa: prevenir submit e chamar render
 searchBtn?.addEventListener("click", (e) => {
   e.preventDefault();
   renderEvents();
 });
+
+// pesquisa em tempo real: usa input (mais fiável que keyup) com debounce
+searchInput?.addEventListener("input", () => {
+  debouncedRender();
+});
+
+// teclas específicas: Enter confirma, Escape limpa
 searchInput?.addEventListener("keyup", (e) => {
-  if (e.key === "Enter") renderEvents();
-  else if (e.key === "Escape") {
+  if (e.key === "Enter") {
+    renderEvents();
+  } else if (e.key === "Escape") {
     searchInput.value = "";
     renderEvents();
-  } else {
-    debouncedRender();
   }
 });
+
 
   // HTML do card compatível com o TEU CSS (grid e list)
   function eventCardHTML(e) {
@@ -465,10 +474,25 @@ joinBtn?.addEventListener("click", async () => {
   sortSelect?.addEventListener("change", renderEvents);
   statusSelect?.addEventListener("change", renderEvents);
 
-  searchBtn?.addEventListener("click", renderEvents);
-  searchInput?.addEventListener("keyup", (e) => {
-    if (e.key === "Enter") renderEvents();
-  });
+  // botão de pesquisa: prevenir submit e chamar render
+searchBtn?.addEventListener("click", (e) => {
+  e.preventDefault();
+  renderEvents();
+});
+
+// pesquisa em tempo real com debounce; Enter confirma, Esc limpa
+searchInput?.addEventListener("keyup", (e) => {
+  if (e.key === "Enter") {
+    renderEvents();
+  } else if (e.key === "Escape") {
+    searchInput.value = "";
+    renderEvents();
+  } else {
+    // usa o debounce já definido: debouncedRender
+    debouncedRender();
+  }
+});
+    
   
 // -----------------------
 // 5) NEW EVENT - abrir/fechar modal
