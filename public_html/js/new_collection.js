@@ -1,19 +1,14 @@
-/* ============================================================
-   SORTING (rating/price)
-   ============================================================ */
+
 
 const itemsContainer = document.querySelector(".collection-items");
 const sortSelect = document.getElementById("sortSelect");
 
-// só corre sorting se existir container
 if (itemsContainer) {
-  // guardar ordem original
   const originalOrder = [...itemsContainer.children].map((el, idx) => {
     el.dataset.__index = idx;
     return el;
   });
 
-  // aplica ordenação guardada
   const savedSort = localStorage.getItem("collectionSort") || "default";
   if (sortSelect) sortSelect.value = savedSort;
   applySort(savedSort);
@@ -60,9 +55,7 @@ if (itemsContainer) {
   }
 }
 
-/* ============================================================
-   CATEGORY FILTER
-   ============================================================ */
+/* filtrar por categoria*/
 
 const categorySelect = document.getElementById("categoryFilter");
 
@@ -83,9 +76,7 @@ if (categorySelect) {
   });
 }
 
-/* ============================================================
-   VIEW TOGGLE (Grid / List)
-   ============================================================ */
+/* Grid/list */
 
 const viewButtons = document.querySelectorAll(".btn-view");
 
@@ -116,9 +107,7 @@ if (itemsContainer) {
   }
 }
 
-/* ============================================================
-   ADD ITEM MODAL + UPLOAD + CRIAÇÃO DE CARDS
-   ============================================================ */
+/* adicionar item*/
 
 const addItemBtn = document.querySelector(".add-item-btn");
 const modal = document.getElementById("addItemModal");
@@ -137,7 +126,6 @@ if (addItemBtn && modal) {
     modal.style.display = "none";
   });
 
-  /* ==== Upload da imagem ==== */
 
   dropZone.addEventListener("click", () => fileInput.click());
 
@@ -181,7 +169,6 @@ if (addItemBtn && modal) {
     }
   });
 
-  /* ==== Guardar Item ==== */
 
   const form = document.getElementById("addItemForm");
 
@@ -276,9 +263,7 @@ if (addItemBtn && modal) {
   });
 }
 
-/* ============================================================
-   DARK MODE
-   ============================================================ */
+/* dark mode */
 
 document.addEventListener("DOMContentLoaded", () => {
   const themeToggle = document.getElementById("themeToggle");
@@ -298,9 +283,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
-/* ============================================================
-   AVATAR DROPDOWN
-   ============================================================ */
+/* perfil opcoes de log out e ver perfil */
 
 const avatarButton = document.getElementById("avatarButton");
 const profileDropdown = document.getElementById("profileDropdown");
@@ -316,9 +299,7 @@ if (avatarButton && profileDropdown) {
   });
 }
 
-/* ============================================================
-   MOSTRAR AUTOR DA COLEÇÃO (data.js)
-   ============================================================ */
+/* mostrar autor da colecao */
 
 window.addEventListener("load", () => {
   const params = new URLSearchParams(window.location.search);
@@ -343,9 +324,8 @@ window.addEventListener("load", () => {
   if (header) header.after(infoContainer);
 });
 
-/* ============================================================
-   WISHLIST (LOCAL + GLOBAL)
-   ============================================================ */
+
+/*wishlist*/
 
 document.addEventListener("DOMContentLoaded", () => {
   const params = new URLSearchParams(window.location.search);
@@ -445,9 +425,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
-/* ============================================================
-   SYNC WISHLIST
-   ============================================================ */
+/* ligacao com a wishlist*/
 
 function uidFor(collectionIdOrName, name, img) {
   return encodeURIComponent(`${collectionIdOrName}||${name}||${img}`);
@@ -519,25 +497,21 @@ function notifyWishlistChanged() {
 
 
 
-// =========================
-// PESQUISA LOCAL (Search bar)
-// =========================
+// Search ba
+
 
 document.addEventListener("DOMContentLoaded", () => {
-  const searchInput = document.getElementById("q");           // campo da navbar
-  const btnSearch   = document.getElementById("btn-search");  // botão 🔎
+  const searchInput = document.getElementById("q");           
+  const btnSearch   = document.getElementById("btn-search");  
 
   if (!searchInput || !btnSearch) return;
 
-  // todos os cards de items
   const getItemCards = () =>
     document.querySelectorAll(".collection-items .item-card");
 
-  // mostrar todos
   const showAll = () =>
     getItemCards().forEach(c => c.classList.remove("hidden"));
 
-  // aplicar filtro
   const runFilter = () => {
     const q = searchInput.value.trim().toLowerCase();
     if (!q) { showAll(); return; }
@@ -560,13 +534,11 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   };
 
-  // clique na lupa
   btnSearch.addEventListener("click", e => {
     e.preventDefault();
     runFilter();
   });
 
-  // Enter dentro do input
   searchInput.addEventListener("keydown", e => {
     if (e.key === "Enter") {
       e.preventDefault();
@@ -574,7 +546,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // limpar filtro ao apagar texto
   searchInput.addEventListener("input", () => {
     if (searchInput.value.trim() === "") showAll();
   });

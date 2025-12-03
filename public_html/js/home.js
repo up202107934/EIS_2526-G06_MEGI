@@ -1,103 +1,86 @@
-// home.js
+// home.js (Limpo para funcionar com navbar.js)
 
-const STORAGE_KEY = "collections";
-
-const safeJSON = (key, fallback) => {
-  try {
-    const raw = localStorage.getItem(key);
-    if (!raw) return fallback;
-    return JSON.parse(raw);
-  } catch (e) {
-    console.warn("Failed to parse localStorage key:", key, e);
-    return fallback;
-  }
-};
-
-const getCollections = () => safeJSON(STORAGE_KEY, []);
-const saveCollections = (arr) => {
-  try {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(arr));
-  } catch (e) {
-    console.warn("Failed to save collections:", e);
-  }
-};
-
-const uid = () => (crypto?.randomUUID?.() || String(Date.now() + Math.random()));
 const $$ = (sel, root = document) => Array.from(root.querySelectorAll(sel));
 
-document.addEventListener("DOMContentLoaded", () => {
+// ======================================================
+// 1. CARREGAR CATEGORIAS DA BD
+// ======================================================
+async function loadCategories() {
+  const select = document.getElementById("collectionCategory");
+  
+  if (!select) {
+      console.log("Menu de categorias não encontrado. (Utilizador não logado?)");
+      return; 
+  }
+
+  try {
+    const res = await fetch("controllers/categories.php");
+    if (!res.ok) throw new Error("Erro na resposta do servidor");
+
+    const categories = await res.json();
+
+    select.innerHTML = '<option value="">-- Select Category --</option>';
+
+    categories.forEach(cat => {
+      const option = document.createElement("option");
+      option.value = cat.id_collection_category; 
+      option.textContent = cat.name;              
+      select.appendChild(option);
+    });
     
-  // Top collections elementos para filtrar
-  const topGrid      = document.getElementById("topCollectionsGrid");
-  const topChips     = document.querySelectorAll(".chip-top");
-  const topSubtitle  = document.getElementById("topSubtitle");
-  const originalTopHTML = topGrid ? topGrid.innerHTML : "";
+    console.log("Categorias carregadas com sucesso!");
 
- 
-  // Dark mode
-  const themeToggle = document.getElementById("themeToggle");
-  if (themeToggle) {
-    const currentTheme = localStorage.getItem("theme");
-    if (currentTheme === "dark") {
-      document.body.classList.add("dark-mode");
-      themeToggle.textContent = "☀️";
+  } catch (err) {
+    console.error("Erro ao carregar categorias:", err);
+    if(select) select.innerHTML = '<option value="">Error loading categories</option>';
+  }
+}
+
+function applyCategoryFilter() {
+  // 1. Obter o ID selecionado no dropdown
+  const selectedId = document.getElementById("categoryFilter")?.value || "all";
+  const cards = document.querySelectorAll(".collection-card");
+
+  cards.forEach(card => {
+    // 2. Obter o ID da categoria que guardámos no atributo do cartão
+    const cardCatId = card.dataset.categoryId;
+
+    // 3. Comparar ID com ID
+    // Se for "all" ou se os IDs coincidirem, mostra.
+    if (selectedId === "all" || cardCatId === selectedId) {
+      card.style.display = "flex";
+    } else {
+      card.style.display = "none";
     }
-    themeToggle.addEventListener("click", () => {
-      document.body.classList.toggle("dark-mode");
-      const isDark = document.body.classList.contains("dark-mode");
-      themeToggle.textContent = isDark ? "☀️" : "🌙";
-      localStorage.setItem("theme", isDark ? "dark" : "light");
-    });
-  }
+  });
+}
 
-  
-  // perfil
-  const avatarButton = document.getElementById("avatarButton");
-  const profileDropdown = document.getElementById("profileDropdown");
-  const navbarUser = document.querySelector(".navbar-user");
+document.addEventListener("DOMContentLoaded", () => {
 
-  if (avatarButton && profileDropdown) {
-    avatarButton.addEventListener("click", (e) => {
-      e.stopPropagation();
-      profileDropdown.classList.toggle("show");
-    });
+  // === CHAMAR A FUNÇÃO PARA PREENCHER O SELECT ===
+  loadCategories(); 
 
-    profileDropdown.addEventListener("click", (e) => e.stopPropagation());
-    navbarUser?.addEventListener("click", (e) => e.stopPropagation());
+  // Top collections vars
+  const topGrid       = document.getElementById("topCollectionsGrid");
+  const topChips      = document.querySelectorAll(".chip-top");
+  const topSubtitle   = document.getElementById("topSubtitle");
 
-    document.addEventListener("click", () => {
-      profileDropdown.classList.remove("show");
-    });
-  }
+  // --- REMOVIDO: DARK MODE (Agora está no navbar.js) ---
+  // --- REMOVIDO: PERFIL DROPDOWN (Agora está no navbar.js) ---
 
-  
-  // scroll para a parte das colecoes
+  // Scroll smooth
   const heroBtn = document.querySelector(".hero-btn");
   if (heroBtn) {
     heroBtn.addEventListener("click", function (e) {
       e.preventDefault();
       const target = document.querySelector("#collections");
-      if (!target) return;
-
-      const startY = window.scrollY;
-      const targetY = target.getBoundingClientRect().top + window.scrollY;
-      const diff = targetY - startY;
-      const duration = 1200;
-      let start;
-
-      function smoothScroll(ts) {
-        if (!start) start = ts;
-        const t = ts - start;
-        const p = Math.min(t / duration, 1);
-        window.scrollTo(0, startY + diff * p);
-        if (t < duration) requestAnimationFrame(smoothScroll);
+      if (target) {
+        target.scrollIntoView({ behavior: 'smooth' });
       }
-      requestAnimationFrame(smoothScroll);
     });
   }
 
-  
-  // carrosel para os itens
+  // Mini-carousels
   function initMiniCarousels(root = document) {
     $$(".mini-track", root).forEach((track) => {
       if (!track.dataset.cloned) {
@@ -106,75 +89,77 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
   }
-  initMiniCarousels(document);
 
- 
+  // ==========================
+  // BACKEND: carregar coleções
+  // ==========================
+  async function fetchCollections(mode = "featured") {
+    const url = mode === "recent"
+        ? "controllers/collections.php?mine=1"
+        : "controllers/collections.php";
 
-  // 5 coleções mais recentes criadas pelo utilizador
-  function getRecentTop5() {
-    const all = getCollections();          
-    if (!all.length) return [];
-
-    const copy = all.slice();
-    copy.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
-    return copy.slice(0, 5);
+    const res = await fetch(url);
+    return await res.json();
   }
 
-  function renderTopCollections(mode = "featured") {
+  function collectionCardHTML(c) {
+    const img = c.cover_img ? c.cover_img : "img/collection-placeholder.jpg";
+    const rate = c.rate !== null ? c.rate : 0; 
+
+    return `
+      <div class="collection-card" data-category-id="${c.id_collection_category}">
+        <div style="position:relative;">
+            <img src="${img}" alt="${c.name}" style="object-fit: cover; height: 200px; width: 100%; border-radius: 15px 15px 0 0;">
+            <span style="position:absolute; top:10px; right:10px; background:rgba(0,0,0,0.7); color:#ffd700; padding:4px 8px; border-radius:4px; font-weight:bold;">
+              ⭐ ${rate}
+            </span>
+        </div>
+        
+        <h2>${c.name}</h2>
+        <span class="category-badge" style="background:#eee; padding:2px 8px; border-radius:10px; font-size:12px;">
+            ${c.category_name || "General"}
+        </span>
+
+        <p style="margin:5px 0;"><b>Owner:</b> ${c.owner_name || "Unknown"}</p>
+        
+        ${c.description ? `<p style="font-size:0.9em; color:#666;">${c.description.substring(0, 50)}...</p>` : ''}
+
+        <div class="mini-carousel">
+          <div class="mini-track">
+            <div class="mini-item"><p style="font-size:10px;">Items loading...</p></div>
+          </div>
+        </div>
+
+        <a href="collection.php?id=${c.id_collection}" class="btn">View Collection</a>
+      </div>
+    `;
+  }
+
+  async function renderTopCollections(mode = "featured") {
     if (!topGrid) return;
 
-    if (mode === "featured") {
-      // volta ao HTML original (top 5 globais)
-      topGrid.innerHTML = originalTopHTML;
-      initMiniCarousels(topGrid);
+    try {
+      const cols = await fetchCollections(mode);
 
       if (topSubtitle) {
-        topSubtitle.textContent = "Global featured collections that everyone can see.";
+        topSubtitle.textContent = mode === "featured"
+            ? "Global featured collections from the whole site."
+            : "Your last 5 created collections.";
       }
-      return;
+
+      if (!cols || !cols.length) {
+        topGrid.innerHTML = `<p style="text-align:center; color:#777; padding:20px;">No collections found.</p>`;
+        return;
+      }
+
+      topGrid.innerHTML = cols.slice(0, 5).map(collectionCardHTML).join("");
+      initMiniCarousels(topGrid);
+      applyCategoryFilter();
+
+    } catch (err) {
+      console.error(err);
+      topGrid.innerHTML = `<p style="text-align:center; color:#c00; padding:20px;">Error loading collections.</p>`;
     }
-
-    const recent = getRecentTop5();
-    if (topSubtitle) {
-      topSubtitle.textContent = "Your last 5 created collections (only from your account).";
-    }
-
-    if (!recent.length) {
-      topGrid.innerHTML = `
-        <p style="text-align:center; color:#777; padding:20px;">
-          You don't have any collections yet. Create one using the button below 👇
-        </p>`;
-      return;
-    }
-
-    topGrid.innerHTML = recent.map(c => {
-        const img        = c.img || "img/collection-placeholder.jpg";
-        const itemCount  = Array.isArray(c.items) ? c.items.length : 0;
-        const safeId     = encodeURIComponent(c.id || c.name);
-
-        const pageLink = mode === "recent" ? "new_collection.html" : "collection.html";
-
-        return `
-          <div class="collection-card">
-            <img src="${img}" alt="${c.name}">
-            <h2>${c.name}</h2>
-            <p>${itemCount ? `${itemCount} items` : "No items yet"}</p>
-
-            <div class="mini-carousel">
-              <div class="mini-track">
-                <div class="mini-item">
-                  <p>${itemCount ? "Some items from this collection" : "Start adding items to this collection"}</p>
-                </div>
-              </div>
-            </div>
-
-            <a href="${pageLink}?id=${safeId}" class="btn">View Collection</a>
-          </div>
-        `;
-      }).join("");
-
-
-    initMiniCarousels(topGrid);
   }
 
   topChips.forEach(chip => {
@@ -188,19 +173,27 @@ document.addEventListener("DOMContentLoaded", () => {
 
   renderTopCollections("featured");
 
-  // search bar
+  const catFilter = document.getElementById("categoryFilter");
+  catFilter?.addEventListener("change", applyCategoryFilter);
+
+  // Search Bar
   const searchForm = document.getElementById("searchForm");
   const searchInput = document.getElementById("searchInput");
+<<<<<<< HEAD
   
+=======
+  const searchBtn = document.querySelector(".search-btn");
+
+  if(searchBtn) {
+      searchBtn.addEventListener("click", () => searchForm.dispatchEvent(new Event("submit")));
+  }
+>>>>>>> 44b9ca5fa6f5efb47b6b5c363d24c34eeedcf346
 
   if (searchForm && searchInput) {
     searchForm.addEventListener("submit", (e) => {
       e.preventDefault();
       const query = searchInput.value.trim().toLowerCase();
-
-      const cards = topGrid
-        ? topGrid.querySelectorAll(".collection-card")
-        : document.querySelectorAll(".collection-card");
+      const cards = topGrid ? topGrid.querySelectorAll(".collection-card") : [];
 
       if (!cards.length) return;
 
@@ -211,9 +204,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       let found = false;
       cards.forEach((card) => {
-        const title = (card.querySelector("h2")?.textContent || "")
-          .trim()
-          .toLowerCase();
+        const title = (card.querySelector("h2")?.textContent || "").toLowerCase();
         const match = title.includes(query);
         card.style.display = match ? "flex" : "none";
         if (match) found = true;
@@ -224,19 +215,22 @@ document.addEventListener("DOMContentLoaded", () => {
 
     searchInput.addEventListener("input", function () {
       if (this.value.trim() === "") {
-        const cards = topGrid
-          ? topGrid.querySelectorAll(".collection-card")
-          : document.querySelectorAll(".collection-card");
+        const cards = topGrid ? topGrid.querySelectorAll(".collection-card") : [];
         cards.forEach((card) => (card.style.display = "flex"));
       }
     });
   }
 
-  // criar colecao
+  // ==========================================================
+  // MODAL CRIAR COLEÇÃO
+  // ==========================================================
   const openBtn   = document.getElementById("openModal");
+  const openBtn2  = document.getElementById("openModalHome");
   const modal     = document.getElementById("createCollectionModal");
   const cancelBtn = document.getElementById("cancelCollection");
   const saveBtn   = document.getElementById("saveCollection");
+  
+  // Elementos do Formulário
   const dropZone  = document.getElementById("dropZoneCollection");
   const fileInput = document.getElementById("collectionImage");
   const preview   = document.getElementById("collectionPreview");
@@ -245,13 +239,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const openModal = (e) => {
     e?.preventDefault?.();
-    modal?.classList.add("show");
+    if(modal) modal.classList.add("show");
   };
   const closeModal = () => {
-    modal?.classList.remove("show");
+    if(modal) modal.classList.remove("show");
   };
 
   openBtn?.addEventListener("click", openModal);
+  openBtn2?.addEventListener("click", openModal);
+  
   cancelBtn?.addEventListener("click", closeModal);
   modal?.addEventListener("click", (e) => {
     if (e.target === modal) closeModal();
@@ -294,44 +290,73 @@ document.addEventListener("DOMContentLoaded", () => {
     reader.readAsDataURL(file);
   });
 
-  // guardar coleção- guarda e depois leva para a parte do user
+  // ===============================================
+  // LÓGICA DE SALVAR
+  // ===============================================
   saveBtn?.addEventListener("click", () => {
-    if (!nameInput) return;
+    const name = nameInput?.value.trim();
+    const description = descInput?.value.trim() || "";
+    
+    // Obter Select
+    const categorySelect = document.getElementById("collectionCategory");
+    
+    // Se não existir select (ex: user não logado a tentar hackear), sai
+    if (!categorySelect) return;
 
-    const name = nameInput.value.trim();
-    const desc = (descInput?.value || "").trim();
+    const categoryId = categorySelect.value;
+    const file = fileInput?.files?.[0];
 
+    // Validações
     if (!name) {
       alert("Please enter a collection name!");
-      nameInput.focus();
+      nameInput?.focus();
       return;
     }
-
-    const imgSrc =
-      preview && preview.style.display !== "none" && preview.src
-        ? preview.src
-        : "img/collection-placeholder.jpg";
-
-    const all = getCollections();
-    all.push({
-      id: uid(),
-      name,
-      desc,
-      img: imgSrc,
-      items: [],
-      createdAt: Date.now(),
-      ownedByUser: true 
-});
     
-    saveCollections(all);
+    if (!categoryId) {
+        alert("Please select a category!");
+        categorySelect?.focus();
+        return;
+    }
 
-    nameInput.value = "";
-    if (descInput) descInput.value = "";
-    if (fileInput) fileInput.value = "";
-    if (preview) preview.style.display = "none";
-    if (dropZone) dropZone.style.display = "flex";
-    closeModal();
+    const formData = new FormData();
+    formData.append("name", name);
+    formData.append("description", description);
+    formData.append("id_collection_category", categoryId); 
+    formData.append("creation_date", new Date().toISOString().slice(0,10));
+    
+    if (file) {
+      formData.append("cover_img", file);
+    }
 
-    window.location.href = "user.html#minhas-colecoes";
+    fetch("controllers/collections.php", {
+      method: "POST",
+      body: formData 
+    })
+    .then(r => r.json())
+    .then(resp => {
+      if (!resp.ok) {
+        alert("Error: " + (resp.error || "Failed to create collection"));
+        return;
+      }
+      closeModal();
+      
+      // Reset form
+      nameInput.value = "";
+      descInput.value = "";
+      fileInput.value = "";
+      if (categorySelect) categorySelect.value = ""; 
+      
+      if(preview) preview.style.display = 'none';
+      if(dropZone) dropZone.style.display = 'flex';
+      
+      renderTopCollections("recent"); 
+      alert("Collection created successfully! 📸");
+    })
+    .catch(err => {
+        console.error(err);
+        alert("Server error.");
+    });
   });
+
 });

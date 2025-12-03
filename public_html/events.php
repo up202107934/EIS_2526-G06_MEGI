@@ -1,0 +1,141 @@
+<?php
+require_once __DIR__ . "/partials/bootstrap.php";
+?>
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="utf-8" />
+  <title>Events | MyCollections</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/events.css" />
+  
+  <script src="js/navbar.js"></script>
+  <script defer src="js/events.js"></script>
+</head>
+<body>
+
+<?php require_once __DIR__ . "/partials/navbar.php"; ?>
+
+<main>
+    <h1 class="events-title">EVENTS</h1>
+
+   <section class="events-toolbar pro">
+     <div class="toolbar-left">
+       <div class="view-toggle" role="group" aria-label="View toggle">
+         <button id="btn-grid" class="chip chip-toggle" aria-pressed="true" title="Grid view">
+           <span class="icon-grid" aria-hidden="true"></span>
+           <span>Grid</span>
+         </button>
+         <button id="btn-list" class="chip chip-toggle" aria-pressed="false" title="List view">
+           <span class="icon-list" aria-hidden="true"></span>
+           <span>List</span>
+         </button>
+       </div>
+     </div>
+
+     <div class="toolbar-center">
+       <label class="field">
+         <span>Sort</span>
+         <select id="sort">
+           <option value="date_asc">Date (↑)</option>
+           <option value="date_desc">Date (↓)</option>
+           <option value="name_asc">Name (A→Z)</option>
+           <option value="name_desc">Name (Z→A)</option>
+         </select>
+       </label>
+
+       <label class="field">
+         <span>Status</span>
+         <select id="status">
+           <option value="">All</option>
+           <option value="upcoming">Upcoming</option>
+           <option value="past">Past</option>
+         </select>
+       </label>
+     </div>
+
+     <div class="toolbar-right">
+       <button id="btn-new" class="btn primary">+ New Event</button>
+     </div>
+   </section>
+
+   <section id="events" class="collections-container"></section>
+</main>
+
+<div id="eventDetail" class="ev-modal" aria-hidden="true">
+    <div class="ev-card" role="dialog" aria-modal="true" aria-labelledby="ev-name">
+      <button class="ev-close" id="ev-close" aria-label="Close">✕</button>
+      <h3 id="ev-name" class="ev-title">Event name</h3>
+      <p id="ev-date" class="ev-subtitle">Date</p>
+      <p id="ev-desc" class="ev-desc">Description</p>
+      <div class="ev-collections">
+        <div class="ev-col-head">
+          <h4 class="ev-col-title">Collections in the event</h4>
+          <span id="ev-col-count" class="ev-badge">0</span>
+        </div>
+        <div id="ev-col-list" class="ev-col-list" aria-live="polite"></div>
+      </div>
+      <div class="ev-actions">
+        <button id="d-review" class="btn outline">Rate</button>
+        <button id="d-join" class="btn">Interested</button>
+        <button id="d-participate" class="btn outline">Participate</button>
+      </div>
+    </div> 
+</div>
+    
+    <!-- PARTICIPATE MODAL -->
+<div id="participateModal" class="modal" aria-hidden="true">
+  <div class="modal-content">
+
+    <h2>Select Collection & Items</h2>
+
+    <!-- 1) Selecionar coleção -->
+    <label>Your Collections</label>
+    <div id="p-collections" class="collection-list">
+      <!-- JS INSERE AQUI -->
+    </div>
+
+    <!-- 2) Itens da coleção escolhida -->
+    <label>Items to take</label>
+    <div id="p-items" class="items-list">
+      <!-- JS INSERE AQUI -->
+    </div>
+
+    <div class="modal-actions">
+      <button id="p-cancel" class="btn outline">Cancel</button>
+      <button id="p-confirm" class="btn primary">Confirm</button>
+    </div>
+
+  </div>
+</div>
+
+
+
+<div id="eventForm" class="modal" aria-hidden="true">
+    <div class="modal-content">
+      <span class="close" id="form-close" aria-label="Close">×</span>
+      <h2 id="f-title">New Event</h2>
+      <label>Name <input id="f-name" required /></label>
+      <label>Date <input id="f-date" type="datetime-local" required /></label>
+      <label>Description <textarea id="f-desc" rows="4"></textarea></label>
+      <label>Location <input id="f-loc"></label>
+      
+      <h3 class="ev-col-title" style="margin-top:14px;">Collections</h3>
+      <div id="f-col-list" class="pick-grid"></div>
+      <div id="f-items-wrap" style="margin-top:10px;"></div>
+
+      <div class="modal-buttons">
+        <button id="f-cancel">Cancel</button>
+        <button id="f-save" class="btn">Save</button>
+      </div>
+    </div>
+</div>
+
+<footer class="footer">
+  <p>© 2025 MyCollections | All rights reserved.</p>
+</footer>
+
+</body>
+</html>

@@ -13,7 +13,7 @@ body {
 } 
 /* ===== TEAM PAGE ===== */
 body {
-    flex-direction: column; /* <-- FORÇA o empilhamento vertical */
+    flex-direction: column; 
     min-height: 100vh;
 } 
 
@@ -116,7 +116,7 @@ body {
     .deck-title {
         font-size: 34px;
     }
-} /* ===== RESET ===== */
+} 
 * {
     margin: 0;
     padding: 0;
@@ -127,25 +127,25 @@ body {
     background-color: #f8f9fa;
     color: #2b2d42;
     line-height: 1.6;
-} /* ===== DARK MODE FOR TEAM PAGE ===== */
+} 
 body.dark-mode {
     background-color: #0f0f0f !important;
     color: #f1f1f1 !important;
-} /* Navbar */
+} 
 body.dark-mode .navbar {
     background-color: #1a1a1a !important;
 }
 body.dark-mode .navbar a {
     color: #FFD700 !important;
-} /* Título principal */
+} 
 body.dark-mode h1, body.dark-mode h2, body.dark-mode h3 {
     color: #FFD700 !important;
     text-shadow: 2px 2px 6px rgba(255, 215, 0, 0.3);
-} /* Seções e containers */
+} 
 body.dark-mode main, body.dark-mode section, body.dark-mode .team-container, body.dark-mode .team-section, body.dark-mode .content {
     background-color: #121212 !important;
     color: #f1f1f1 !important;
-} /* Cards de cada membro */
+} 
 body.dark-mode .team-member {
     background-color: #1e1e1e !important;
     color: #f1f1f1 !important;
@@ -160,13 +160,13 @@ body.dark-mode .team-member p {
 }
 body.dark-mode .team-member img {
     border: 2px solid #FFD700 !important;
-} /* Links */
+} 
 body.dark-mode a {
     color: #FFD700 !important;
 }
 body.dark-mode a:hover {
     color: #FF4C4C !important;
-} /* Scrollbar personalizada */
+}
 body.dark-mode::-webkit-scrollbar {
     width: 10px;
 }
@@ -176,7 +176,7 @@ body.dark-mode::-webkit-scrollbar-thumb {
 }
 body.dark-mode::-webkit-scrollbar-thumb:hover {
     background-color: #666;
-} /* ===== HERO SECTION ===== */
+} 
 .hero {
     position: relative;
     text-align: center;
@@ -227,11 +227,11 @@ body.dark-mode::-webkit-scrollbar-thumb:hover {
     transform: scale(1.05);
 } 
 
-/* ===== NAVBAR – comum a HOME + EVENTS ===== */
+/*  NAVBAR  */
 
 .navbar {
   display: grid;
-  grid-template-columns: auto minmax(0, 1fr) auto; /* esquerda | centro (search) | direita */
+  grid-template-columns: auto minmax(0, 1fr) auto; 
   align-items: center;
   background-color: #2b2d42;
   padding: 15px 40px;
@@ -247,7 +247,7 @@ body.dark-mode::-webkit-scrollbar-thumb:hover {
   gap: 10px;
 }
 
-/* zona direita: avatar / links / o que quiseres */
+
 .navbar-right {
   display: flex;
   align-items: center;
@@ -263,7 +263,7 @@ body.dark-mode::-webkit-scrollbar-thumb:hover {
   text-decoration: none;
 }
 
-/* barra de pesquisa (pill) ao centro */
+/* barra de pesquisa  */
 .navbar-search {
   display: flex;
   align-items: center;
@@ -294,7 +294,7 @@ body.dark-mode::-webkit-scrollbar-thumb:hover {
   cursor: pointer;
 }
 
-/* avatar + dark-mode */
+
 .navbar-avatar {
   width: 40px;
   height: 40px;
@@ -321,7 +321,7 @@ body.dark-mode::-webkit-scrollbar-thumb:hover {
   color: #FFD700;
 }
 
-/* RESPONSIVO NAVBAR */
+
 @media (max-width: 900px) {
   .navbar {
     padding: 10px 20px;
@@ -348,22 +348,22 @@ body.dark-mode::-webkit-scrollbar-thumb:hover {
   }
   
 }
-/* Centro da navbar: links "Events" e "My Collections" */
+
 .navbar-center {
   justify-self: center;
   display: flex;
-  gap: 40px;          /* espaço entre os links */
+  gap: 40px;          
 }
-/* Links da navbar (centro) */
+
 .navbar-center a {
-  color: #edf2f4;         /* branco da navbar */
+  color: #edf2f4;         
   text-decoration: none;
   font-weight: 600;
   font-size: 18px;
 }
 
 .navbar-center a:visited {
-  color: #edf2f4;         /* evita ficar roxo quando já foi clicado */
+  color: #edf2f4;         
 }
 
 .navbar-center a:hover {
@@ -372,7 +372,7 @@ body.dark-mode::-webkit-scrollbar-thumb:hover {
 
 
 
-/* Dark mode navbar */
+
 body.dark-mode .navbar {
   background-color: #111 !important;
 }
@@ -383,23 +383,23 @@ body.dark-mode .navbar-logo a {
 
 
 
-/* ===== DARK MODE ===== */
+
 body.dark-mode {
-    background-color: #0f0f0f; /* fundo principal */
+    background-color: #0f0f0f; 
     color: #f1f1f1;
-} /* Navbar */
+} 
 body.dark-mode .navbar {
     background-color: #111;
-} /* Fundo das seções principais */
+} 
 body.dark-mode .home-section {
-    background-color: #121212; /* escuro suave */
-} /* Cartões */
+    background-color: #121212; 
+} 
 body.dark-mode .collection-card {
     background-color: #1e1e1e;
     color: #f4f4f4;
     box-shadow: 0 6px 20px rgba(255,255,255,0.05);
     border: 1px solid #333;
-} /* Botões */
+} 
 body.dark-mode .btn-view, body.dark-mode .btn-add, body.dark-mode .btn-create, body.dark-mode a.btn, body.dark-mode .create-collection, body.dark-mode .my-collections-btn {
     background: linear-gradient(135deg, #b22222, #ff4c4c);
     color: #fff;
@@ -408,13 +408,13 @@ body.dark-mode .btn-view, body.dark-mode .btn-add, body.dark-mode .btn-create, b
 body.dark-mode .btn-view:hover, body.dark-mode .btn-add:hover, body.dark-mode .btn-create:hover, body.dark-mode a.btn:hover, body.dark-mode .create-collection:hover, body.dark-mode .my-collections-btn:hover {
     background: linear-gradient(135deg, #ff4c4c, #b22222);
     transform: scale(1.05);
-} /* Títulos e texto */
+} 
 body.dark-mode a, body.dark-mode h1, body.dark-mode h2, body.dark-mode h3 {
     color: #FFD700;
 }
 body.dark-mode .collection-card p {
     color: #ccc;
-} /* Footer */
+} 
 body.dark-mode .footer {
     background-color: #111;
     color: #ccc;
@@ -434,12 +434,13 @@ body.dark-mode .footer {
     margin-bottom: 50px;
     text-transform: uppercase;
     letter-spacing: 1.5px;
-} /* ===== COLLECTION CARDS ===== */
+} 
 .collections-container {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
     gap: 30px;
+    margin-top: 40px;
 }
 .collection-card {
     background: #fff;
@@ -488,7 +489,7 @@ body.dark-mode .footer {
 .collection-card a.btn:hover {
     background-color: #d90429;
     transform: scale(1.05);
-} /* ===== CREATE NEW COLLECTION BUTTON ===== */
+} 
 .create-collection {
     margin-top: 50px;
     font-size: 18px;
@@ -505,7 +506,7 @@ body.dark-mode .footer {
     transform: translateY(-3px) scale(1.05);
     box-shadow: 0 12px 25px rgba(0, 0, 0, 0.3);
     background: linear-gradient(135deg, #d90429, #ef233c);
-} /* ===== MY COLLECTIONS BUTTON ===== */
+}
 .my-collections-btn,
 .btn-add {
     margin-top: 50px;
@@ -518,7 +519,7 @@ body.dark-mode .footer {
     display: inline-block;
     box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
     transition: all 0.3s ease;
-    cursor: pointer; /* maozinha nos dois */
+    cursor: pointer; 
 }
 
 .my-collections-btn:hover,
@@ -543,7 +544,7 @@ body.dark-mode .footer {
     background-color: #45a049;
 }
 
-/* === UNIFICAR MODAL DA HOME COM O DO USER === */
+
 
 .modal {
   display: none;
@@ -569,7 +570,7 @@ body.dark-mode .footer {
   position: relative;
 }
 
-/* Título igual ao user */
+
 .modal-content h2,
 .modal-content h3 {
   color: #B22222;
@@ -577,7 +578,7 @@ body.dark-mode .footer {
   font-weight: 700;
 }
 
-/* Inputs iguais */
+
 .modal-content input,
 .modal-content textarea {
   width: 100%;
@@ -590,7 +591,7 @@ body.dark-mode .footer {
   box-sizing: border-box;
 }
 
-/* Dropzone igual */
+
 .drop-zone {
   border: 2px dashed #B22222;
   border-radius: 10px;
@@ -626,7 +627,7 @@ body.dark-mode .footer {
   font-size: 14px;
 }
 
-/* Save vermelho, Cancel cinzento – igual user */
+
 #saveCollection {
   background-color: #B22222;
   color: #fff;
@@ -643,7 +644,7 @@ body.dark-mode .footer {
   background-color: #bbb;
 }
 
-/* Ícone de fechar (se usares <span class="close">) */
+
 .close {
   position: absolute;
   right: 15px;
@@ -658,7 +659,7 @@ body.dark-mode .footer {
 
 
 
-/* ===== MINI CAROUSEL ===== */
+
 .mini-carousel {
     width: 100%;
     overflow: hidden;
@@ -705,7 +706,7 @@ body.dark-mode .footer {
 } /* Pausa ao passar o rato */
 .mini-carousel:hover .mini-track {
     animation-play-state: paused;
-} /* ===== FOOTER ===== */
+} 
 .footer {
     background-color: #2b2d42;
     color: #edf2f4;
@@ -714,9 +715,9 @@ body.dark-mode .footer {
     font-size: 14px;
     margin-top: 60px;
 } 
- /* ===== Base para modais genéricos (form de criar/editar evento) - Esta parte é do events ===== */
+ 
 .modal {
-    display: none !important; /* escondido por defeito */
+    display: none !important; 
     position: fixed;
     inset: 0;
     z-index: 1000;
@@ -725,7 +726,7 @@ body.dark-mode .footer {
     align-items: center;
     padding: 20px;
 }
-.modal.show { /* o JS só adiciona esta classe quando for para abrir */
+.modal.show { 
     display: flex !important;
 }
 .modal-content {
@@ -780,41 +781,41 @@ body.dark-mode .footer {
 }
 .close:hover {
     color: #B22222;
-} /* ===== Base para modais genéricos (form de criar/editar evento) - parte do events termina aqui ===== / / ===== DROPDOWN DO PERFIL ===== / / 1. O 'container' que segura o menu */
+} 
 .navbar-user {
-    position: relative; /* Obrigatório para o menu flutuar */
-} /* 2. O cursor do avatar */
+    position: relative; 
+} 
 .navbar-avatar {
-    cursor: pointer; /* Mãozinha ao passar por cima */
+    cursor: pointer; 
     transition: all 0.2s ease;
 }
 .navbar-avatar:hover {
-    opacity: 0.8; /* Efeito subtil */
-} /* 3. O menu dropdown (escondido por defeito) */
+    opacity: 0.8; 
+} 
 .profile-dropdown {
-    display: none; /* Começa escondido */
+    display: none; 
     position: absolute;
-    top: 55px; /* Posição abaixo do avatar (ajusta se for preciso) */
-    right: 0; /* Alinhado à direita */
+    top: 55px; 
+    right: 0; 
     background-color: #fff;
     min-width: 160px;
     box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
     border-radius: 8px;
-    z-index: 101; /* Garante que fica por cima de tudo */
-} /* 4. Os links dentro do menu */
+    z-index: 101; 
+} 
 .profile-dropdown a {
-    color: #333; /* Cor do texto */
+    color: #333;
     padding: 12px 16px;
     text-decoration: none;
     display: block;
     font-size: 14px;
-} /* 5. O efeito hover nos links */
+} 
 .profile-dropdown a:hover {
     background-color: #f1f1f1;
-} /* 6. A classe que o JS vai adicionar para mostrar o menu */
+} 
 .profile-dropdown.show {
     display: block;
-} /* 7. Estilos para o Dark Mode (importante!) */
+} 
 body.dark-mode .profile-dropdown {
     background-color: #1b1b1b;
     border: 1px solid #333;
@@ -830,7 +831,7 @@ body.dark-mode .profile-dropdown a:hover {
   flex-grow: 1;
 }
 
-/* ===== HOME – TOP 5 COLLECTIONS ===== */
+
 
 .home-top-header {
   max-width: 1200px;
@@ -849,7 +850,7 @@ body.dark-mode .profile-dropdown a:hover {
   color: #2b2d42;
 }
 
-/* Filtros (chips) */
+
 .home-top-filters {
   display: inline-flex;
   gap: 8px;
@@ -878,7 +879,7 @@ body.dark-mode .profile-dropdown a:hover {
   border-color: #B22222;
 }
 
-/* Em ecrãs pequenos, título e chips em coluna */
+
 @media (max-width: 700px) {
   .home-top-header {
     flex-direction: column;
@@ -898,9 +899,9 @@ body.dark-mode .profile-dropdown a:hover {
 
 
 
-/* Botão Sign in – igual em todas as páginas */
+
 .signin-chip {
-  background: #d62828;        /* vermelho como nos events */
+  background: #d62828;        
   color: #ffffff;
   padding: 10px 26px;
   border-radius: 999px;
@@ -912,7 +913,7 @@ body.dark-mode .profile-dropdown a:hover {
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  white-space: nowrap;        /* NÃO deixa o "Sign in" partir em duas linhas */
+  white-space: nowrap;        
   box-shadow: 0 4px 12px rgba(0,0,0,0.15);
   transition: background 0.15s ease, transform 0.15s ease, box-shadow 0.15s ease;
 }
@@ -923,4 +924,99 @@ body.dark-mode .profile-dropdown a:hover {
   box-shadow: 0 6px 16px rgba(0,0,0,0.18);
 }
 
+/*tudo o que é filtrar por categoria*/
+
+.modal-content select {
+    width: 100%;
+    padding: 12px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-sizing: border-box;
+    margin-bottom: 15px;
+    background-color: #fff;
+    appearance: none;
+    outline: none;
+    transition: border 0.2s ease;
+}
+
+.modal-content select:focus {
+    border-color: #b30000;
+}
+
+.modal-content select {
+    background-image: url("data:image/svg+xml;utf8,<svg fill='black' height='24' width='24' viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/></svg>");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    background-size: 18px;
+    padding-right: 40px; 
+}
+
+.category-badge {
+  display: inline-block;
+  background-color: white;
+  color: #9c0808;
+  padding: 4px 10px;
+  font-size: 14px;
+  border-radius: 6px;
+  margin-bottom: 8px;
+}
+
+.category-filter {
+  padding: 8px 12px;
+  font-size: 15px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  background: white;
+  cursor: pointer;
+  margin-left: 10px;
+}
+
+.dark-mode .category-filter {
+  background: #333;
+  color: white;
+  border: 1px solid #666;
+}
+
+/* =========================================
+   AVATAR NA NAVBAR (IMAGEM E LETRA)
+   ========================================= */
+
+/* Estilo para quando é apenas a LETRA */
+.navbar-avatar-letter {
+    width: 40px;
+    height: 40px;
+    background-color: #B22222; /* Vermelho escuro (podes mudar a cor) */
+    color: white;
+    border-radius: 50%; /* Torna o quadrado num círculo */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 1.2rem;
+    cursor: pointer;
+    user-select: none;
+    border: 2px solid transparent;
+    transition: all 0.2s ease;
+}
+
+.navbar-avatar-letter:hover {
+    transform: scale(1.05);
+    border-color: #ffd700; /* Borda dourada ao passar o rato */
+}
+
+/* Garante que a IMAGEM tem o mesmo tamanho da letra */
+.navbar-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover; /* Garante que a imagem não fica esticada */
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: all 0.2s ease;
+}
+
+.navbar-avatar:hover {
+    border-color: #ffd700;
+}
 

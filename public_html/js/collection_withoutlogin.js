@@ -3,17 +3,15 @@
  */
 
 
-  // ----- SORTING (rating/price) -----
+  
   const itemsContainer = document.querySelector('.collection-items');
   const sortSelect = document.getElementById('sortSelect');
 
-  // guardar ordem original para "Default"
   const originalOrder = [...itemsContainer.children].map((el, idx) => {
     el.dataset.__index = idx;  // índice estável
     return el;
   });
 
-  // aplica ordenação guardada (ou default)
   const savedSort = localStorage.getItem('collectionSort') || 'default';
   if (sortSelect) sortSelect.value = savedSort;
   applySort(savedSort);
@@ -38,7 +36,7 @@
         case 'priceDesc':
           sorted.sort(byNum(el => Number(el.dataset.price) || 0, -1));
           break;
-        default: // ordem original
+        default: 
           sorted.sort(byNum(el => Number(el.dataset.__index), +1));
           break;
         case 'ratingAsc':
@@ -63,7 +61,7 @@
   }
 
 
-/* === CATEGORY FILTER === */
+/* filtrar por categoria */
 const categorySelect = document.getElementById("categoryFilter");
 
 if (categorySelect) {
@@ -84,11 +82,10 @@ if (categorySelect) {
 
 
 
-// ----- VIEW TOGGLE (Grid / List) -----
+// Grid / List
 const viewButtons = document.querySelectorAll('.btn-view');
 const itemsSection = document.querySelector('.collection-items');
 
-// guardar a vista escolhida no localStorage
 const savedView = localStorage.getItem('collectionView') || 'grid';
 applyView(savedView);
 
@@ -110,7 +107,6 @@ function applyView(view) {
     itemsSection.classList.add('grid-view');
   }
 
-  // atualizar aparência dos botões
   viewButtons.forEach(b => {
     b.setAttribute('aria-pressed', b.dataset.view === view);
   });
@@ -119,20 +115,19 @@ function applyView(view) {
 
 
 
-// === DARK MODE TOGGLE ===
+// dark mode
 document.addEventListener("DOMContentLoaded", () => {
   const themeToggle = document.getElementById("themeToggle");
-  if (!themeToggle) return; // segurança
+  if (!themeToggle) return; 
 
   const currentTheme = localStorage.getItem("theme");
 
-  // aplica o tema guardado
+ 
   if (currentTheme === "dark") {
     document.body.classList.add("dark-mode");
     themeToggle.textContent = "☀️";
   }
 
-  // alterna entre claro/escuro
   themeToggle.addEventListener("click", () => {
     document.body.classList.toggle("dark-mode");
     const isScura = document.body.classList.contains("dark-mode");
@@ -145,25 +140,19 @@ const avatarButton = document.getElementById('avatarButton');
   const profileDropdown = document.getElementById('profileDropdown');
 
   if (avatarButton && profileDropdown) {
-    // 1. Ao clicar no avatar, mostra/esconde o menu
     avatarButton.addEventListener('click', (e) => {
-      // Impede que o clique "borbulhe" para a janela e feche o menu
       e.stopPropagation(); 
       profileDropdown.classList.toggle('show');
     });
 
-    // 2. Ouve por cliques em qualquer lado na página
     window.addEventListener('click', (e) => {
-      // Se o menu estiver aberto E o clique foi FORA do menu...
       if (profileDropdown.classList.contains('show')) {
         profileDropdown.classList.remove('show');
       }
     });
   }
 
-// --- Mostrar autor da coleção (versão sem login) ---
 window.addEventListener("load", () => {
-  // espera até TUDO (incluindo data.js) estar carregado
   const params = new URLSearchParams(window.location.search);
   const collectionId = Number(params.get("id"));
 
@@ -172,7 +161,6 @@ window.addEventListener("load", () => {
     return;
   }
 
-  // confirma se as variáveis globais existem
   if (typeof collections === "undefined" || typeof users === "undefined") {
     console.error("data.js ainda não carregado ou com erro.");
     return;
@@ -186,7 +174,6 @@ window.addEventListener("load", () => {
 
   const user = users.find((u) => u.id === collection.userId);
 
-  // cria o card com as MESMAS classes de CSS da versão com login
   const infoContainer = document.createElement("div");
   infoContainer.className = "collection-info";
   infoContainer.innerHTML = `
@@ -207,7 +194,6 @@ window.addEventListener("load", () => {
     </div>
   `;
 
-  // tenta inserir o card mesmo antes do título da coleção
   const title = document.querySelector(".collection-title");
   if (title && title.parentElement) {
     title.parentElement.insertBefore(infoContainer, title);
@@ -223,23 +209,19 @@ window.addEventListener("load", () => {
 
 
 
-/* ===== ADD TO WISHLIST (USANDO collectionId PARA UID) ===== */
+/* adicionar a wishlist */
 document.addEventListener("DOMContentLoaded", () => {
-  // tenta obter collectionId do URL (ex: collection.html?id=5)
   const params = new URLSearchParams(window.location.search);
-  const collectionIdRaw = params.get("id"); // pode ser null
+  const collectionIdRaw = params.get("id"); 
   const collectionId = collectionIdRaw ? collectionIdRaw.toString() : null;
 
   const collectionTitleEl = document.querySelector(".collection-title");
   const collectionName = collectionTitleEl ? collectionTitleEl.textContent.trim() : "default";
 
-  // key local por coleção (usa id se existir)
   const keySuffix = collectionId ? `${collectionId}` : collectionName.replace(/\s+/g, "_");
   const wishlistKey = `wishlist_col_${keySuffix}`;
 
-  // helpers
   function uidFor(collectionIdOrName, name, img) {
-    // usa collectionId quando disponível para garantir unicidade
     return encodeURIComponent(`${collectionIdOrName}||${name}||${img}`);
   }
   function load(key){ return JSON.parse(localStorage.getItem(key) || "[]"); }
@@ -248,9 +230,7 @@ document.addEventListener("DOMContentLoaded", () => {
   let wishlist = load(wishlistKey);
   let globalList = load("wishlist");
 
-  // Remove event handlers duplicates: ensure no other 'like-btn' listeners
-  // (não pode remover listeners que não foram guardados, mas evitamos dupes usando só UM listener abaixo)
-  // Pinta corações/contadores conforme wishlist local (usa UID com collectionId)
+ 
   document.querySelectorAll(".item-card").forEach(card => {
     const name = card.querySelector("h3").textContent;
     const img = card.querySelector("img").src;
@@ -268,7 +248,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // único listener delegador (um só, evita 'pisões')
   const container = document.querySelector(".collection-items");
   container.addEventListener("click", (ev) => {
     if (!ev.target.classList.contains("like-btn")) return;
@@ -307,7 +286,7 @@ document.addEventListener("DOMContentLoaded", () => {
       countSpan.textContent = "0";
       console.log("Removed local & global:", itemObj.uid);
     } else {
-      // adicionar
+      
       wishlist.push(itemObj);
       if (idxGlobal < 0) globalList.push(itemObj);
       button.textContent = "♥";
@@ -323,13 +302,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 
-/* ======= Collection — sync likes / wishlist ======= */
-// helper UID (mesma versão que vamos usar no user.js)
+/* ligacao likes e wishlist */
 function uidFor(collectionIdOrName, name, img) {
   return encodeURIComponent(`${collectionIdOrName}||${name}||${img}`);
 }
 
-// tenta obter collectionId do URL
 const colParams = new URLSearchParams(window.location.search);
 const COL_ID_RAW = colParams.get("id");
 const COLLECTION_ID = COL_ID_RAW ? COL_ID_RAW.toString() : null;
@@ -339,10 +316,8 @@ const COLLECTION_NAME_FOR_KEY = document.querySelector(".collection-title")
 const collectionKeySuffix = COLLECTION_ID ? `${COLLECTION_ID}` : COLLECTION_NAME_FOR_KEY.replace(/\s+/g, "_");
 const COLLECTION_WISHLIST_KEY = `wishlist_col_${collectionKeySuffix}`;
 
-// função que actualiza botões & contadores na página de coleção com base no localStorage
 function updateLikesFromStorage() {
   const localWishlist = JSON.parse(localStorage.getItem(COLLECTION_WISHLIST_KEY) || "[]");
-  // itera todos os cards na página
   document.querySelectorAll(".item-card").forEach(card => {
     const name = card.querySelector("h3") ? card.querySelector("h3").textContent : "";
     const img = card.querySelector("img") ? card.querySelector("img").src : "";
@@ -354,7 +329,6 @@ function updateLikesFromStorage() {
 
     const found = localWishlist.find(i => i.uid === uid);
     if (found) {
-      // marcado
       if (btn) {
         btn.classList.add("liked");
         btn.textContent = "♥";
@@ -362,7 +336,6 @@ function updateLikesFromStorage() {
       }
       if (countSpan) countSpan.textContent = String(found.likes || 1);
     } else {
-      // desmarcado
       if (btn) {
         btn.classList.remove("liked");
         btn.textContent = "♡";
@@ -373,12 +346,10 @@ function updateLikesFromStorage() {
   });
 }
 
-// chama ao carregar a página
 document.addEventListener("DOMContentLoaded", () => {
   updateLikesFromStorage();
 });
 
-// ouve mudanças no localStorage (outras tabs) e actualiza
 window.addEventListener("storage", (e) => {
   if (!e.key) return;
   if (e.key === "wishlist" || e.key === "wishlist_update") {
@@ -387,16 +358,14 @@ window.addEventListener("storage", (e) => {
 });
 
 
-// também pode ser útil quando outra parte do código grava e não dispara storage (mesma tab) -> fornece função para chamar
 function notifyWishlistChanged() {
-  // grava timestamp apenas para disparar storage em outras tabs e também actualiza aqui
   try {
     localStorage.setItem("wishlist_update", String(Date.now()));
   } catch (err) { /* ignore */ }
   updateLikesFromStorage();
 }
 
-// ====== Events where this collection appears ======
+// eventos em que a colecao aparece
 (function () {
   if (typeof events === "undefined") return;
 
@@ -457,25 +426,20 @@ function notifyWishlistChanged() {
 
 
 
-// =========================
-// PESQUISA LOCAL (Search bar)
-// =========================
+// Search Bar
 
 document.addEventListener("DOMContentLoaded", () => {
-  const searchInput = document.getElementById("q");           // campo da navbar
-  const btnSearch   = document.getElementById("btn-search");  // botão 🔎
+  const searchInput = document.getElementById("q");           
+  const btnSearch   = document.getElementById("btn-search");  
 
   if (!searchInput || !btnSearch) return;
 
-  // todos os cards de items
   const getItemCards = () =>
     document.querySelectorAll(".collection-items .item-card");
 
-  // mostrar todos
   const showAll = () =>
     getItemCards().forEach(c => c.classList.remove("hidden"));
 
-  // aplicar filtro
   const runFilter = () => {
     const q = searchInput.value.trim().toLowerCase();
     if (!q) { showAll(); return; }
@@ -498,13 +462,11 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   };
 
-  // clique na lupa
   btnSearch.addEventListener("click", e => {
     e.preventDefault();
     runFilter();
   });
 
-  // Enter dentro do input
   searchInput.addEventListener("keydown", e => {
     if (e.key === "Enter") {
       e.preventDefault();
@@ -512,7 +474,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // limpar filtro ao apagar texto
   searchInput.addEventListener("input", () => {
     if (searchInput.value.trim() === "") showAll();
   });
