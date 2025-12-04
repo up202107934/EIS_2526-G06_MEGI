@@ -1,4 +1,4 @@
-// home.js (Limpo para funcionar com navbar.js)
+// home.js (Atualizado para filtro no Servidor)
 
 const $$ = (sel, root = document) => Array.from(root.querySelectorAll(sel));
 
@@ -6,67 +6,57 @@ const $$ = (sel, root = document) => Array.from(root.querySelectorAll(sel));
 // 1. CARREGAR CATEGORIAS DA BD
 // ======================================================
 async function loadCategories() {
-  const select = document.getElementById("collectionCategory");
+  const select = document.getElementById("collectionCategory"); // Select do Modal
+  const filterSelect = document.getElementById("categoryFilter"); // Select do Filtro Top 5
   
-  if (!select) {
-      console.log("Menu de categorias não encontrado. (Utilizador não logado?)");
-      return; 
-  }
-
   try {
     const res = await fetch("controllers/categories.php");
     if (!res.ok) throw new Error("Erro na resposta do servidor");
 
     const categories = await res.json();
 
-    select.innerHTML = '<option value="">-- Select Category --</option>';
+    // Preencher Select do MODAL (se existir)
+    if (select) {
+        select.innerHTML = '<option value="">-- Select Category --</option>';
+        categories.forEach(cat => {
+            const option = document.createElement("option");
+            option.value = cat.id_collection_category; 
+            option.textContent = cat.name;             
+            select.appendChild(option);
+        });
+    }
 
-    categories.forEach(cat => {
-      const option = document.createElement("option");
-      option.value = cat.id_collection_category; 
-      option.textContent = cat.name;              
-      select.appendChild(option);
-    });
+    // Preencher Select do FILTRO (Home Page)
+    if (filterSelect) {
+        // Guardar valor atual caso já tenha sido selecionado
+        const currentVal = filterSelect.value;
+        filterSelect.innerHTML = '<option value="all">All categories</option>';
+        categories.forEach(cat => {
+            const option = document.createElement("option");
+            option.value = cat.id_collection_category; 
+            option.textContent = cat.name;             
+            filterSelect.appendChild(option);
+        });
+        filterSelect.value = currentVal; // Repor valor
+    }
     
     console.log("Categorias carregadas com sucesso!");
 
   } catch (err) {
     console.error("Erro ao carregar categorias:", err);
-    if(select) select.innerHTML = '<option value="">Error loading categories</option>';
   }
-}
-
-function applyCategoryFilter() {
-  // 1. Obter o ID selecionado no dropdown
-  const selectedId = document.getElementById("categoryFilter")?.value || "all";
-  const cards = document.querySelectorAll(".collection-card");
-
-  cards.forEach(card => {
-    // 2. Obter o ID da categoria que guardámos no atributo do cartão
-    const cardCatId = card.dataset.categoryId;
-
-    // 3. Comparar ID com ID
-    // Se for "all" ou se os IDs coincidirem, mostra.
-    if (selectedId === "all" || cardCatId === selectedId) {
-      card.style.display = "flex";
-    } else {
-      card.style.display = "none";
-    }
-  });
 }
 
 document.addEventListener("DOMContentLoaded", () => {
 
-  // === CHAMAR A FUNÇÃO PARA PREENCHER O SELECT ===
+  // Carregar categorias
   loadCategories(); 
 
-  // Top collections vars
-  const topGrid       = document.getElementById("topCollectionsGrid");
-  const topChips      = document.querySelectorAll(".chip-top");
-  const topSubtitle   = document.getElementById("topSubtitle");
-
-  // --- REMOVIDO: DARK MODE (Agora está no navbar.js) ---
-  // --- REMOVIDO: PERFIL DROPDOWN (Agora está no navbar.js) ---
+  // Vars
+  const topGrid      = document.getElementById("topCollectionsGrid");
+  const topChips     = document.querySelectorAll(".chip-top");
+  const topSubtitle  = document.getElementById("topSubtitle");
+  const catFilter    = document.getElementById("categoryFilter");
 
   // Scroll smooth
   const heroBtn = document.querySelector(".hero-btn");
@@ -90,15 +80,28 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // ==========================
-  // BACKEND: carregar coleções
-  // ==========================
-  async function fetchCollections(mode = "featured") {
-    const url = mode === "recent"
-        ? "controllers/collections.php?mine=1"
-        : "controllers/collections.php";
+  // ========================================================
+  // BACKEND: carregar coleções (AGORA COM FILTRO NO URL)
+  // ========================================================
+  async function fetchCollections(mode = "featured", categoryId = "all") {
+    
+    // Construir URL base
+    let url = "controllers/collections.php";
 
-    const res = await fetch(url);
+    // Adicionar parâmetros
+    const params = new URLSearchParams();
+
+    if (mode === "recent") {
+        params.append("mine", "1");
+    }
+    
+    // Só enviamos categoria se não for "all" e se não estivermos nas "minhas recentes"
+    // (A não ser que queiras filtrar as tuas recentes também, o backend teria de estar preparado)
+    if (categoryId !== "all" && mode !== "recent") {
+        params.append("cat", categoryId);
+    }
+
+    const res = await fetch(`${url}?${params.toString()}`);
     return await res.json();
   }
 
@@ -107,7 +110,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const rate = c.rate !== null ? c.rate : 0; 
 
     return `
-      <div class="collection-card" data-category-id="${c.id_collection_category}">
+      <div class="collection-card">
         <div style="position:relative;">
             <img src="${img}" alt="${c.name}" style="object-fit: cover; height: 200px; width: 100%; border-radius: 15px 15px 0 0;">
             <span style="position:absolute; top:10px; right:10px; background:rgba(0,0,0,0.7); color:#ffd700; padding:4px 8px; border-radius:4px; font-weight:bold;">
@@ -135,26 +138,41 @@ document.addEventListener("DOMContentLoaded", () => {
     `;
   }
 
-  async function renderTopCollections(mode = "featured") {
+  // Função principal de Renderização
+  async function renderTopCollections() {
     if (!topGrid) return;
 
-    try {
-      const cols = await fetchCollections(mode);
+    // 1. Descobrir Modo (Featured vs Recent)
+    const activeChip = document.querySelector(".chip-top.active");
+    const mode = activeChip ? activeChip.dataset.mode : "featured";
 
+    // 2. Descobrir Categoria Selecionada
+    const catId = catFilter ? catFilter.value : "all";
+
+    try {
+      // 3. Pedir dados ao servidor
+      const cols = await fetchCollections(mode, catId);
+
+      // Atualizar subtítulo
       if (topSubtitle) {
-        topSubtitle.textContent = mode === "featured"
-            ? "Global featured collections from the whole site."
-            : "Your last 5 created collections.";
+        if (mode === "featured") {
+            topSubtitle.textContent = catId === "all" 
+                ? "Global featured collections from the whole site." 
+                : "Top rated collections in this category.";
+        } else {
+            topSubtitle.textContent = "Your last created collections.";
+        }
       }
 
       if (!cols || !cols.length) {
-        topGrid.innerHTML = `<p style="text-align:center; color:#777; padding:20px;">No collections found.</p>`;
+        topGrid.innerHTML = `<p style="text-align:center; color:#777; padding:20px; width:100%;">No collections found for this filter.</p>`;
         return;
       }
 
+      // 4. Desenhar HTML
+      // (O limite de 5 já vem do SQL, mas o slice garante segurança)
       topGrid.innerHTML = cols.slice(0, 5).map(collectionCardHTML).join("");
       initMiniCarousels(topGrid);
-      applyCategoryFilter();
 
     } catch (err) {
       console.error(err);
@@ -162,74 +180,40 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
+  // --- EVENT LISTENERS ---
+
+  // 1. Click nos Chips (Featured / Recent)
   topChips.forEach(chip => {
     chip.addEventListener("click", () => {
       topChips.forEach(c => c.classList.remove("active"));
       chip.classList.add("active");
-      const mode = chip.dataset.mode || "featured";
-      renderTopCollections(mode);
+      
+      // Se mudar para "Recent", podemos resetar o filtro ou mantê-lo. 
+      // Para já, mantemos a lógica simples: recarrega tudo.
+      renderTopCollections();
     });
   });
 
-  renderTopCollections("featured");
-
-  const catFilter = document.getElementById("categoryFilter");
-  catFilter?.addEventListener("change", applyCategoryFilter);
-
-  // Search Bar
-  const searchForm = document.getElementById("searchForm");
-  const searchInput = document.getElementById("searchInput");
-
-  
-  const searchBtn = document.querySelector(".search-btn");
-
-  if(searchBtn) {
-      searchBtn.addEventListener("click", () => searchForm.dispatchEvent(new Event("submit")));
-  }
-
-
-  if (searchForm && searchInput) {
-    searchForm.addEventListener("submit", (e) => {
-      e.preventDefault();
-      const query = searchInput.value.trim().toLowerCase();
-      const cards = topGrid ? topGrid.querySelectorAll(".collection-card") : [];
-
-      if (!cards.length) return;
-
-      if (query === "") {
-        cards.forEach((card) => (card.style.display = "flex"));
-        return;
-      }
-
-      let found = false;
-      cards.forEach((card) => {
-        const title = (card.querySelector("h2")?.textContent || "").toLowerCase();
-        const match = title.includes(query);
-        card.style.display = match ? "flex" : "none";
-        if (match) found = true;
+  // 2. Mudança no Select de Categoria
+  if (catFilter) {
+      catFilter.addEventListener("change", () => {
+          renderTopCollections(); // Recarrega os dados do servidor
       });
-
-      if (!found) alert("No collections found with that name 😔");
-    });
-
-    searchInput.addEventListener("input", function () {
-      if (this.value.trim() === "") {
-        const cards = topGrid ? topGrid.querySelectorAll(".collection-card") : [];
-        cards.forEach((card) => (card.style.display = "flex"));
-      }
-    });
   }
+
+  // Render inicial
+  renderTopCollections();
+
 
   // ==========================================================
-  // MODAL CRIAR COLEÇÃO
+  // MODAL CRIAR COLEÇÃO (Mantido igual)
   // ==========================================================
   const openBtn   = document.getElementById("openModal");
-  const openBtn2  = document.getElementById("openModalHome");
+  const openBtn2  = document.getElementById("openModalHome"); // Botão no wrapper
   const modal     = document.getElementById("createCollectionModal");
   const cancelBtn = document.getElementById("cancelCollection");
   const saveBtn   = document.getElementById("saveCollection");
   
-  // Elementos do Formulário
   const dropZone  = document.getElementById("dropZoneCollection");
   const fileInput = document.getElementById("collectionImage");
   const preview   = document.getElementById("collectionPreview");
@@ -289,23 +273,16 @@ document.addEventListener("DOMContentLoaded", () => {
     reader.readAsDataURL(file);
   });
 
-  // ===============================================
-  // LÓGICA DE SALVAR
-  // ===============================================
+  // Gravar Coleção
   saveBtn?.addEventListener("click", () => {
     const name = nameInput?.value.trim();
     const description = descInput?.value.trim() || "";
-    
-    // Obter Select
     const categorySelect = document.getElementById("collectionCategory");
-    
-    // Se não existir select (ex: user não logado a tentar hackear), sai
     if (!categorySelect) return;
 
     const categoryId = categorySelect.value;
     const file = fileInput?.files?.[0];
 
-    // Validações
     if (!name) {
       alert("Please enter a collection name!");
       nameInput?.focus();
@@ -340,7 +317,6 @@ document.addEventListener("DOMContentLoaded", () => {
       }
       closeModal();
       
-      // Reset form
       nameInput.value = "";
       descInput.value = "";
       fileInput.value = "";
@@ -349,7 +325,8 @@ document.addEventListener("DOMContentLoaded", () => {
       if(preview) preview.style.display = 'none';
       if(dropZone) dropZone.style.display = 'flex';
       
-      renderTopCollections("recent"); 
+      // Atualizar lista (mantendo o modo atual)
+      renderTopCollections(); 
       alert("Collection created successfully! 📸");
     })
     .catch(err => {

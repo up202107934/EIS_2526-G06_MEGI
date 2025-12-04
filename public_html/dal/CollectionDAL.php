@@ -3,15 +3,21 @@ require_once __DIR__ . "/../config/db.php";
 
 class CollectionDAL {
 
-    // 1. Buscar todas (Global Home)
-    public static function getAll() {
+    // 1. Buscar coleções (Global Home) com Filtro de Categoria Opcional
+    public static function getAll($categoryId = null) {
         $db = DB::conn();
-        // JOIN para ir buscar o nome do utilizador e da categoria
+        
         $sql = "SELECT c.*, u.username as owner_name, cat.name as category_name 
                 FROM collections c
                 JOIN users u ON c.id_user = u.id_user
-                LEFT JOIN collection_categories cat ON c.id_collection_category = cat.id_collection_category
-                ORDER BY c.rate DESC, c.creation_date DESC";
+                LEFT JOIN collection_categories cat ON c.id_collection_category = cat.id_collection_category";
+        
+        // Se houver categoria selecionada (e não for "all"), adicionamos WHERE
+        if ($categoryId && $categoryId !== 'all') {
+            $sql .= " WHERE c.id_collection_category = " . (int)$categoryId;
+        }
+
+        $sql .= " ORDER BY c.rate DESC, c.creation_date DESC LIMIT 5"; // Garante sempre apenas 5
         
         $result = $db->query($sql);
         if (!$result) return [];

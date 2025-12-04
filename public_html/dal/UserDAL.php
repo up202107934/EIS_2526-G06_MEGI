@@ -85,6 +85,21 @@ class UserDAL {
         return $stmt->execute();
     }
     
+    // Atualizar Informações Pessoais
+    public static function updateInfo($id_user, $name, $username, $email, $dob) {
+        $db = DB::conn();
+        
+        $sql = "UPDATE users SET name=?, username=?, email=?, date_of_birth=? WHERE id_user=?";
+        $stmt = $db->prepare($sql);
+        
+        if (!$stmt) return false;
+
+        // ssssi = string, string, string, string, int
+        $stmt->bind_param("ssssi", $name, $username, $email, $dob, $id_user);
+        
+        return $stmt->execute();
+    }
+    
     // Atualizar apenas a foto de perfil (Usado no User Page)
     public static function updateProfileImage($id_user, $path) {
         $db = DB::conn();

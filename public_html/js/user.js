@@ -1,8 +1,8 @@
 document.addEventListener("DOMContentLoaded", () => {
-    console.log("INICIOU JS - User Page");
+    console.log("user.js carregado com sucesso!");
 
     // ==========================================
-    // 0. CARREGAR CATEGORIAS
+    // 0. CARREGAR CATEGORIAS (Para o modal de criar coleção)
     // ==========================================
     async function loadCategories() {
         const select = document.getElementById("collectionCategory");
@@ -19,11 +19,9 @@ document.addEventListener("DOMContentLoaded", () => {
             categories.forEach(cat => {
                 const option = document.createElement("option");
                 option.value = cat.id_collection_category; 
-                option.textContent = cat.name;             
+                option.textContent = cat.name;              
                 select.appendChild(option);
             });
-            console.log("Categorias carregadas com sucesso!");
-
         } catch (err) {
             console.error("Erro categorias:", err);
             select.innerHTML = '<option value="">Error loading categories</option>';
@@ -33,40 +31,79 @@ document.addEventListener("DOMContentLoaded", () => {
     loadCategories();
 
     // ==========================================
-    // 1. DADOS DE TEXTO DO PERFIL (Visual)
+    // 1. EDITAR PERFIL (Texto: Nome, Email, etc.)
     // ==========================================
-    const form          = document.getElementById('userForm');
-    const statusMsg     = document.getElementById('statusMsg');
-    const displayName   = document.getElementById('displayName');
+    const profileModal   = document.getElementById("editProfileModal");
+    const openProfileBtn = document.getElementById("openEditProfile");
+    const cancelProfile  = document.getElementById("cancelProfileBtn");
+    const profileForm    = document.getElementById("editProfileForm");
 
-    /* Guardar dados de texto */
-    form?.addEventListener('submit', e => {
+    // Debug: Verificar se os elementos foram encontrados
+    if (!openProfileBtn) console.error("ERRO: Botão 'openEditProfile' não encontrado no HTML!");
+    if (!profileModal)   console.error("ERRO: Modal 'editProfileModal' não encontrado no HTML!");
+
+    // Abrir Modal
+    openProfileBtn?.addEventListener("click", () => {
+        console.log("Abrir modal perfil...");
+        profileModal.classList.add("show");
+        profileModal.style.display = "flex";
+    });
+
+    // Fechar Modal
+    const closeProfileModal = () => {
+        if(profileModal) {
+            profileModal.classList.remove("show");
+            profileModal.style.display = "none";
+        }
+    };
+
+    cancelProfile?.addEventListener("click", closeProfileModal);
+    
+    // Fechar ao clicar fora
+    window.addEventListener("click", (e) => {
+        if (e.target === profileModal) closeProfileModal();
+    });
+
+    // Submeter Formulário de Perfil
+    profileForm?.addEventListener("submit", (e) => {
         e.preventDefault();
-        const first = document.getElementById('firstName')?.value.trim();
-        const last  = document.getElementById('lastName')?.value.trim();
 
-        if(first && last) {
-            if(displayName) displayName.textContent = `${first} ${last}`;
-        }
+        const fd = new FormData();
+        fd.append("name", document.getElementById("editFullName").value.trim());
+        fd.append("username", document.getElementById("editUsername").value.trim());
+        fd.append("email", document.getElementById("editEmail").value.trim());
+        fd.append("date_of_birth", document.getElementById("editDob").value);
 
-        if(statusMsg) {
-            statusMsg.style.display = "inline";
-            setTimeout(() => statusMsg.style.display = "none", 2000);
-        }
+        fetch("controllers/user_update_info.php", {
+            method: "POST",
+            body: fd
+        })
+        .then(r => r.json())
+        .then(resp => {
+            if (resp.ok) {
+                alert("Profile updated successfully! ✅");
+                window.location.reload(); 
+            } else {
+                alert("Error: " + (resp.error || "Failed to update"));
+            }
+        })
+        .catch(err => {
+            console.error(err);
+            alert("Server error");
+        });
     });
 
     // ==========================================
-    // 2. FOTO DE PERFIL (BACKEND UPLOAD)
+    // 2. FOTO DE PERFIL (Upload)
     // ==========================================
-    const photoModal        = document.getElementById('photoModal');
-    const editPhotoBtn      = document.getElementById('editPhotoBtn'); 
-    const cancelPhotoBtn    = document.getElementById('cancelPhotoBtn');
-    const savePhotoBtn      = document.getElementById('savePhotoBtn');
-    const photoInput        = document.getElementById('photoInput');
-    const newPhotoPreview   = document.getElementById('newPhotoPreview');
-    const newPhotoPlaceholder = document.getElementById('newPhotoPlaceholder');
+    const photoModal      = document.getElementById('photoModal');
+    const editPhotoBtn    = document.getElementById('editPhotoBtn'); 
+    const cancelPhotoBtn  = document.getElementById('cancelPhotoBtn');
+    const savePhotoBtn    = document.getElementById('savePhotoBtn');
+    const photoInput      = document.getElementById('photoInput');
+    const newPhotoPreview = document.getElementById('newPhotoPreview');
+    const newPhotoPlace   = document.getElementById('newPhotoPlaceholder');
     
-    // Abrir Modal Foto
     editPhotoBtn?.addEventListener('click', () => {
         if(photoModal) {
             photoModal.classList.add('show');
@@ -74,7 +111,6 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
-    // Fechar Modal Foto
     const closePhotoModal = () => {
         if(photoModal) {
             photoModal.classList.remove('show');
@@ -82,13 +118,12 @@ document.addEventListener("DOMContentLoaded", () => {
         }
         if(photoInput) photoInput.value = "";
         if(newPhotoPreview) newPhotoPreview.style.display = 'none';
-        if(newPhotoPlaceholder) newPhotoPlaceholder.style.display = 'block';
+        if(newPhotoPlace) newPhotoPlace.style.display = 'block';
     };
     
     cancelPhotoBtn?.addEventListener('click', closePhotoModal);
     window.addEventListener('click', e => { if (e.target === photoModal) closePhotoModal(); });
 
-    // Preview
     photoInput?.addEventListener('change', () => {
         const file = photoInput.files?.[0];
         if (file) {
@@ -98,13 +133,12 @@ document.addEventListener("DOMContentLoaded", () => {
                  newPhotoPreview.src = ev.target.result;
                  newPhotoPreview.style.display = 'block';
               }
-              if(newPhotoPlaceholder) newPhotoPlaceholder.style.display = 'none';
+              if(newPhotoPlace) newPhotoPlace.style.display = 'none';
            };
            reader.readAsDataURL(file);
         }
     });
 
-    // Gravar Foto
     savePhotoBtn?.addEventListener('click', () => {
         const file = photoInput?.files?.[0];
         if (!file) {
@@ -135,14 +169,13 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     // ==========================================
-    // 3. CRIAR NOVA COLEÇÃO (BACKEND)
+    // 3. CRIAR NOVA COLEÇÃO
     // ==========================================
     const openColBtn    = document.getElementById("openModal");
     const colModal      = document.getElementById("createCollectionModal");
     const cancelColBtn  = document.getElementById("cancelCollection");
     const saveColBtn    = document.getElementById("saveCollection");
     
-    // Inputs
     const nameInput     = document.getElementById("collectionName");
     const descInput     = document.getElementById("collectionDescription");
     const catInput      = document.getElementById("collectionCategory"); 
@@ -150,7 +183,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const colDropZone   = document.getElementById("dropZoneCollection");
     const colPreview    = document.getElementById("collectionPreview");
 
-    // Abrir/Fechar Modal de Coleção
     const openColModal = (e) => { 
         e?.preventDefault(); 
         if (colModal) {
@@ -169,7 +201,6 @@ document.addEventListener("DOMContentLoaded", () => {
     openColBtn?.addEventListener("click", openColModal);
     cancelColBtn?.addEventListener("click", closeColModal);
     
-    // Preview Imagem da Coleção
     colDropZone?.addEventListener("click", () => colFileInput?.click());
     colFileInput?.addEventListener("change", () => {
         const file = colFileInput.files?.[0];
@@ -184,21 +215,14 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
-    // Gravar Nova Coleção
     saveColBtn?.addEventListener("click", () => {
         const name = nameInput?.value.trim();
         const description = descInput?.value.trim() || "";
         const file = colFileInput?.files?.[0];
         const categoryId = catInput?.value;
 
-        if (!name) {
-            alert("Please enter a collection name!");
-            return;
-        }
-        if (!categoryId) {
-            alert("Please select a category!");
-            return;
-        }
+        if (!name) { alert("Please enter a collection name!"); return; }
+        if (!categoryId) { alert("Please select a category!"); return; }
 
         const formData = new FormData();
         formData.append("id_collection_category", categoryId);
@@ -206,9 +230,7 @@ document.addEventListener("DOMContentLoaded", () => {
         formData.append("description", description);
         formData.append("creation_date", new Date().toISOString().slice(0,10));
         
-        if (file) {
-            formData.append("cover_img", file);
-        }
+        if (file) formData.append("cover_img", file);
 
         fetch("controllers/collections.php", {
             method: "POST",
@@ -232,10 +254,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // ==========================================
     // 4. APAGAR COLEÇÃO
     // ==========================================
-    // Usamos delegação de eventos para apanhar botões novos ou existentes
     document.querySelector('.collections-grid')?.addEventListener('click', (e) => {
-        
-        // Verifica se clicou no botão de delete (ou no ícone dentro dele)
         const btn = e.target.closest('.delete-collection-btn');
         
         if (btn) {
@@ -251,12 +270,9 @@ document.addEventListener("DOMContentLoaded", () => {
                 .then(r => r.json())
                 .then(resp => {
                     if (resp.ok) {
-                        // Remove o cartão do ecrã suavemente
                         const card = btn.closest('.collection-card');
                         card.style.opacity = "0";
                         setTimeout(() => card.remove(), 300);
-                        // Opcional: reload para atualizar contadores
-                        // window.location.reload(); 
                     } else {
                         alert("Error: " + (resp.error || "Failed to delete"));
                     }

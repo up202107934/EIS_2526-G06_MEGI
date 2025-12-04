@@ -25,6 +25,8 @@ $user = UserDAL::getById($userId);
   <link rel="stylesheet" href="css/style.css" />
   <link rel="stylesheet" href="css/user.css" />
 
+
+  
   <script src="js/navbar.js"></script>
 </head>
 <body>
@@ -53,6 +55,10 @@ $user = UserDAL::getById($userId);
             <h1 id="displayName"><?= htmlspecialchars($user["username"]) ?></h1>
             <p id="displayEmail"><?= htmlspecialchars($user["email"]) ?></p>
             
+            <button id="openEditProfile" class="btn" style="margin-top:10px; padding:5px 10px; font-size:14px; background:#555; color:white;">
+                ✏️ Edit Profile
+            </button>
+
             <div style="margin-top:10px; color: #555;">
                 <strong><?= count($collections) ?></strong> Collections Created
             </div>
@@ -209,6 +215,31 @@ $participatingEvents = EventDAL::getParticipationByUser($userId);
   </div>
 </div>
 
+  <div id="editProfileModal" class="modal">
+    <div class="modal-content">
+      <h2>Edit Profile</h2>
+      <form id="editProfileForm">
+        
+        <label>Full Name:</label>
+        <input type="text" id="editFullName" value="<?= htmlspecialchars($user['name'] ?? '') ?>" required>
+
+        <label>Username:</label>
+        <input type="text" id="editUsername" value="<?= htmlspecialchars($user['username'] ?? '') ?>" required>
+
+        <label>Email:</label>
+        <input type="email" id="editEmail" value="<?= htmlspecialchars($user['email'] ?? '') ?>" required>
+
+        <label>Date of Birth:</label>
+        <input type="date" id="editDob" value="<?= htmlspecialchars($user['date_of_birth'] ?? '') ?>">
+
+        <div class="modal-buttons">
+          <button type="submit" id="saveProfileBtn" style="background:#3498db; color:white;">💾 Save Changes</button>
+          <button type="button" id="cancelProfileBtn" style="background:#ccc;">❌ Cancel</button>
+        </div>
+      </form>
+    </div>
+  </div>  
+    
   <script src="js/user.js"></script>
 
   <footer class="footer">
