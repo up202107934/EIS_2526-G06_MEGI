@@ -21,8 +21,12 @@ console.log("btnNew:", btnNew);
 console.log("eventForm:", eventForm);
   const sortSelect = document.getElementById("sort");
   const statusSelect = document.getElementById("status");
-  const searchInput = document.getElementById("q");
-  const searchBtn = document.getElementById("btn-search");
+  //const searchInput = document.getElementById("q");
+  //const searchBtn = document.getElementById("btn-search");
+  // Support both dedicated page search bar (id="q") and navbar search (id="searchInput")
+  const searchInput = document.getElementById("q") || document.getElementById("searchInput");
+  const searchBtn = document.getElementById("btn-search") || document.querySelector(".navbar-search .search-btn");
+  const searchForm = document.getElementById("searchForm");
 
   // modal detail
   const detailModal = document.getElementById("eventDetail");
@@ -203,6 +207,13 @@ function renderEvents() {
 
 /* listeners de pesquisa  */
 const debouncedRender = debounce(renderEvents, 160);
+
+// Form submit (e.g., navbar enter key) should filter without reload
+searchForm?.addEventListener("submit", (e) => {
+  e.preventDefault();
+  renderEvents();
+});
+
 
 // botão de pesquisa: prevenir submit e chamar render
 searchBtn?.addEventListener("click", (e) => {

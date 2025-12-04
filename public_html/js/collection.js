@@ -3,13 +3,26 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const collectionId = new URLSearchParams(window.location.search).get("id");
     const categoryFilter = document.getElementById("categoryFilter");
+    
+    const sortSelect = document.getElementById("sortSelect");
+    const searchForm = document.getElementById("searchForm");
+    const searchInput = document.getElementById("q") || document.getElementById("searchInput");
+    const searchBtn = document.querySelector(".navbar-search .search-btn");
+    let cachedItems = null;
 
     // =====================================================
     // 1) CARREGAR ITENS
     // =====================================================
-    async function loadCollectionItems() {
-        const r = await fetch(`controllers/items.php?collection=${collectionId}`);
-        const items = await r.json();
+    //async function loadCollectionItems() {
+    //    const r = await fetch(`controllers/items.php?collection=${collectionId}`);
+    //    const items = await r.json();
+    async function loadCollectionItems(forceReload = false) {
+        if (forceReload || !Array.isArray(cachedItems)) {
+            const r = await fetch(`controllers/items.php?collection=${collectionId}`);
+            cachedItems = await r.json();
+        }
+
+        const items = Array.isArray(cachedItems) ? [...cachedItems] : [];
 
         const cont = document.getElementById("itemsContainer");
         cont.innerHTML = "";
@@ -20,12 +33,49 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         // APLICAR FILTRO
-        let selectedCat = categoryFilter.value;
+        //let selectedCat = categoryFilter.value;
+        let selectedCat = categoryFilter?.value ?? "all";
+        const query = (searchInput?.value || "").trim().toLowerCase();
         let filteredItems = items;
 
         // Se filtro não for "all", filtrar
         if (selectedCat !== "all") {
-            filteredItems = items.filter(it => it.id_item_category == selectedCat);
+            filteredItems = filteredItems.filter(it => it.id_item_category == selectedCat);
+        }
+
+        // Se houver pesquisa, filtrar por nome/descrição
+        if (query) {
+            filteredItems = filteredItems.filter(it => {
+                const name = (it.name || "").toLowerCase();
+                const desc = (it.description || "").toLowerCase();
+                return name.includes(query) || desc.includes(query);
+            });
+        }
+
+        // Ordenar conforme o seletor
+        switch (sortSelect?.value) {
+            case "ratingDesc":
+                filteredItems.sort((a, b) => (b.importance || 0) - (a.importance || 0));
+                break;
+            case "ratingAsc":
+                filteredItems.sort((a, b) => (a.importance || 0) - (b.importance || 0));
+                break;
+            case "priceAsc":
+                filteredItems.sort((a, b) => (a.price || 0) - (b.price || 0));
+                break;
+            case "priceDesc":
+                filteredItems.sort((a, b) => (b.price || 0) - (a.price || 0));
+                break;
+            case "weightAsc":
+                filteredItems.sort((a, b) => (a.weight || 0) - (b.weight || 0));
+                break;
+            case "weightDesc":
+                filteredItems.sort((a, b) => (b.weight || 0) - (a.weight || 0));
+                break;
+            default:
+                break; // mantém ordem original do servidor
+            
+            //filteredItems = items.filter(it => it.id_item_category == selectedCat);
         }
 
         if (!filteredItems.length) {
@@ -63,7 +113,22 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     loadCollectionItems();
-    categoryFilter.addEventListener("change", loadCollectionItems);
+    //categoryFilter.addEventListener("change", loadCollectionItems);
+    categoryFilter?.addEventListener("change", () => loadCollectionItems());
+    sortSelect?.addEventListener("change", () => loadCollectionItems());
+
+    // Pesquisa via navbar (Enter ou botão)
+    searchForm?.addEventListener("submit", (e) => {
+        e.preventDefault();
+        loadCollectionItems();
+    });
+
+    searchBtn?.addEventListener("click", (e) => {
+        e.preventDefault();
+        loadCollectionItems();
+    });
+
+    searchInput?.addEventListener("input", () => loadCollectionItems());
 
 
     // =====================================================
@@ -147,7 +212,8 @@ document.addEventListener("DOMContentLoaded", () => {
         modal.style.display = "none";
         form.reset();
         dropZone.innerHTML = `<p>Drag & drop an image here, or click to select</p>`;
-        loadCollectionItems();
+        //loadCollectionItems();
+        loadCollectionItems(true);
     });
 
 });
