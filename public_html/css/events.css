@@ -1179,3 +1179,24 @@ body.no-auth #d-review {
     color: #fff;
     border-color: #B22222;
 }
+
+/* ----- Rating modal ----- */
+.rv-stars {
+  display: flex;
+  gap: 8px;
+  margin: 16px 0;
+}
+
+.rv-stars .star {
+  font-size: 28px;
+  border: none;
+  background: none;
+  cursor: pointer;
+  color: #ccc;
+  padding: 0;
+}
+
+.rv-stars .star.selected {
+  color: #f5b301;   /* amarelo */
+}
+

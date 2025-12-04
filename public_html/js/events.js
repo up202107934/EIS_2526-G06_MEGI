@@ -1,14 +1,29 @@
 document.addEventListener("DOMContentLoaded", () => {
   const eventsContainer = document.getElementById("events");
 // PARTICIPATE / JOIN modal — ajustar para os ids que existem no HTML
-const joinBtn        = document.getElementById("d-join");        // botão Interested
-const participateBtn = document.getElementById("d-participate"); // botão Participate
+    const joinBtn        = document.getElementById("d-join");        // botão Interested
+    const participateBtn = document.getElementById("d-participate"); // botão Participate
 
-const participateModal = document.getElementById("participateModal");
-const pCollections     = document.getElementById("p-collections");
-const pItems           = document.getElementById("p-items");
-const pCancel          = document.getElementById("p-cancel");
-const pConfirm         = document.getElementById("p-confirm");
+ // elementos do modal de rating
+  const reviewBtn    = document.getElementById("d-review");
+  const reviewForm   = document.getElementById("reviewForm");
+  const reviewClose  = document.getElementById("review-close");
+  const rvStars      = reviewForm ? reviewForm.querySelectorAll(".star") : [];
+  const rvComment    = document.getElementById("rv-comment");
+  const rvCancel     = document.getElementById("rv-cancel");
+  const rvSubmit     = document.getElementById("rv-submit");
+  const rvCollection = document.getElementById("rv-collection");
+
+
+  let currentRating  = 0;
+  let currentEventId = null;
+
+
+    const participateModal = document.getElementById("participateModal");
+    const pCollections     = document.getElementById("p-collections");
+    const pItems           = document.getElementById("p-items");
+    const pCancel          = document.getElementById("p-cancel");
+    const pConfirm         = document.getElementById("p-confirm");
 
 console.log("pConfirm =", pConfirm);
 
@@ -291,7 +306,8 @@ function openDetail(idEvent) {
     // guardar IDs
     if (joinBtn) joinBtn.dataset.id = idEvent;
     if (participateBtn) participateBtn.dataset.id = idEvent;
-
+    if (reviewBtn)      reviewBtn.dataset.id      = idEvent; 
+    
     // evento passou?
     const isPast = new Date(ev.event_date) < new Date();
 
@@ -304,6 +320,12 @@ function openDetail(idEvent) {
     } else {
         joinBtn.disabled = false;
         joinBtn.textContent = "Interested";
+    }
+
+     // <<< NOVO: Rate só em eventos passados
+    if (reviewBtn) {
+        reviewBtn.disabled = !isPast;
+        reviewBtn.textContent = isPast ? "Rate" : "Rate (after the event)";
     }
 
     // verificar interesse
@@ -504,43 +526,152 @@ searchInput?.addEventListener("keyup", (e) => {
   }
 });
     
-  
-// -----------------------
-// 5) NEW EVENT - abrir/fechar modal
-// -----------------------
-const fClose  = document.getElementById("form-close");
-const fCancel = document.getElementById("f-cancel");
+// -------------------------
+// RATING – abrir modal
+// -------------------------
+reviewBtn?.addEventListener("click", async () => {
+  if (reviewBtn.disabled) return;
 
-btnNew?.addEventListener("click", (e) => {
-  e.preventDefault();
-  console.log("Abrir modal New Event");
-  eventForm.classList.add("show");
-  eventForm.setAttribute("aria-hidden", "false");
-  
-  // reset + load
-  fItemsWrap.innerHTML = "";
-  selectedCollections.clear();
-  selectedItems.clear();
-  loadCollectionsForForm();
+  currentEventId = reviewBtn.dataset.id;
+  currentRating  = 0;
+
+  // reset visual das estrelas e comentário
+  rvComment.value = "";
+  rvStars.forEach(star => star.classList.remove("selected"));
+
+  // carregar coleções com que o utilizador participou neste evento
+  if (rvCollection) {
+    rvCollection.innerHTML = "<option value=''>Loading...</option>";
+
+    try {
+      const res  = await fetch(`controllers/event_rate.php?event=${currentEventId}`);
+      const text = await res.text();
+      console.log("RATE GET raw:", res.status, text);
+
+      if (res.status === 401) {
+        alert("Precisas de iniciar sessão para avaliar.");
+        return;
+      }
+
+      let cols;
+      try {
+        cols = JSON.parse(text);
+      } catch (e) {
+        console.error("JSON PARSE ERROR (rate GET):", e);
+        rvCollection.innerHTML =
+          "<option value=''>Error loading collections</option>";
+        return;
+      }
+
+      if (!Array.isArray(cols)) {
+        console.error("RATE GET object:", cols);
+        rvCollection.innerHTML =
+          "<option value=''>Error loading collections</option>";
+        return;
+      }
+
+      if (!cols.length) {
+        rvCollection.innerHTML =
+          "<option value=''>No collections for this event</option>";
+      } else {
+        rvCollection.innerHTML = cols
+          .map(c => `<option value="${c.id_collection}">${c.name}</option>`)
+          .join("");
+      }
+    } catch (err) {
+      console.error("Erro a carregar coleções:", err);
+      rvCollection.innerHTML =
+        "<option value=''>Error loading collections</option>";
+    }
+  }
+
+  reviewForm.classList.add("show");
+  reviewForm.setAttribute("aria-hidden", "false");
 });
 
-// fechar no X
-fClose?.addEventListener("click", () => {
-  eventForm.classList.remove("show");
-  eventForm.setAttribute("aria-hidden", "true");
+// clicar nas estrelas
+rvStars.forEach(star => {
+  star.addEventListener("click", () => {
+    currentRating = Number(star.dataset.value);
+
+    rvStars.forEach(s => {
+      const val = Number(s.dataset.value);
+      s.classList.toggle("selected", val <= currentRating);
+    });
+  });
 });
 
-// fechar no Cancel
-fCancel?.addEventListener("click", () => {
-  eventForm.classList.remove("show");
-  eventForm.setAttribute("aria-hidden", "true");
+// fechar modal (X, Cancel ou clique fora)
+function closeReview() {
+  reviewForm.classList.remove("show");
+  reviewForm.setAttribute("aria-hidden", "true");
+}
+
+reviewClose?.addEventListener("click", closeReview);
+rvCancel?.addEventListener("click", closeReview);
+reviewForm?.addEventListener("click", (e) => {
+  if (e.target === reviewForm) closeReview();
 });
 
-// fechar ao clicar fora da caixa
-eventForm?.addEventListener("click", (ev) => {
-  if (ev.target === eventForm) {
-    eventForm.classList.remove("show");
-    eventForm.setAttribute("aria-hidden", "true");
+// -------------------------
+// RATING – submit
+// -------------------------
+rvSubmit?.addEventListener("click", async () => {
+  if (!currentEventId) {
+    alert("Erro: nenhum evento selecionado.");
+    return;
+  }
+
+  const idCollection = rvCollection?.value || "";
+  if (!idCollection) {
+    alert("Escolhe uma coleção.");
+    return;
+  }
+
+  if (!currentRating) {
+    alert("Escolhe quantas estrelas queres dar.");
+    return;
+  }
+
+  const payload = {
+    id_event:      currentEventId,
+    id_collection: idCollection,
+    rate:          currentRating,
+    comment:       rvComment.value.trim()
+  };
+
+  try {
+    const r    = await fetch("controllers/event_rate.php", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload)
+    });
+
+    const text = await r.text();
+    console.log("RATE POST raw:", r.status, text);
+
+    let resp;
+    try {
+      resp = JSON.parse(text);
+    } catch (e) {
+      console.error("JSON PARSE ERROR (rate POST):", e);
+      alert("Erro ao processar resposta do servidor.");
+      return;
+    }
+
+    if (resp.ok) {
+      alert("Obrigado pela avaliação!");
+      if (reviewBtn) {
+        reviewBtn.textContent = "Rated ✓";
+        reviewBtn.disabled = true;
+      }
+      closeReview();
+    } else {
+      alert("Erro ao guardar avaliação: " + (resp.error || "desconhecido"));
+    }
+  } catch (err) {
+    console.error("Erro de rede ao enviar rating:", err);
+    alert("Erro de rede ao enviar avaliação.");
   }
 });
 

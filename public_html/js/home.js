@@ -179,15 +179,14 @@ document.addEventListener("DOMContentLoaded", () => {
   // Search Bar
   const searchForm = document.getElementById("searchForm");
   const searchInput = document.getElementById("searchInput");
-<<<<<<< HEAD
+
   
-=======
   const searchBtn = document.querySelector(".search-btn");
 
   if(searchBtn) {
       searchBtn.addEventListener("click", () => searchForm.dispatchEvent(new Event("submit")));
   }
->>>>>>> 44b9ca5fa6f5efb47b6b5c363d24c34eeedcf346
+
 
   if (searchForm && searchInput) {
     searchForm.addEventListener("submit", (e) => {
