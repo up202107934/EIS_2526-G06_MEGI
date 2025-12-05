@@ -133,6 +133,8 @@ $participatingEvents = EventDAL::getParticipationByUser($userId);
                     <p><strong>Date:</strong> <?= htmlspecialchars($ev["event_date"]) ?></p>
                     <p><strong>Location:</strong> <?= htmlspecialchars($ev["location"]) ?></p>
                     <a href="events.php?id=<?= $ev['id_event'] ?>" class="btn">View Event</a>
+                    
+                     <button class="remove-interest-btn" data-id="<?= $ev['id_event'] ?>">✖</button>
                 </div>
             <?php endforeach; ?>
         </div>
@@ -154,8 +156,21 @@ $participatingEvents = EventDAL::getParticipationByUser($userId);
                     <h3><?= htmlspecialchars($ev["name"]) ?></h3>
                     <p><strong>Date:</strong> <?= htmlspecialchars($ev["event_date"]) ?></p>
                     <p><strong>Location:</strong> <?= htmlspecialchars($ev["location"]) ?></p>
-                    <p><strong>Collection:</strong> <?= $ev['id_collection'] ?></p>
+                    <p><strong>Collection:</strong> <?= htmlspecialchars($ev['collection_name']) ?></p>
+
+                    <?php if (!empty($ev['items'])): ?>
+                        <p><strong>Items:</strong></p>
+                        <ul style="margin-top: -8px;">
+                            <?php foreach ($ev['items'] as $item): ?>
+                                <li><?= htmlspecialchars($item['name']) ?></li>
+                            <?php endforeach; ?>
+                        </ul>
+                    <?php endif; ?>
+
                     <a href="events.php?id=<?= $ev['id_event'] ?>" class="btn">View Event</a>
+                    
+                    <button class="remove-participation-btn" data-id="<?= $ev['id_event'] ?>">✖</button>
+
                 </div>
             <?php endforeach; ?>
         </div>

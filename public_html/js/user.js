@@ -284,5 +284,62 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         }
     });
+    
+// REMOVER EVENTO INTERESTED
+document.addEventListener("click", async (e) => {
+    const btn = e.target.closest(".remove-interest-btn");
+    if (!btn) return;
+
+    const id_event = btn.dataset.id;
+    if (!confirm("Remove this event from your Interested list?")) return;
+
+    try {
+        const res = await fetch("controllers/event_remove_interest.php", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ id_event })
+        });
+
+        const data = await res.json();
+        if (data.success) {
+            btn.closest(".event-card").remove();
+        } else {
+            alert("Error removing interest!");
+        }
+    } catch (err) {
+        console.error(err);
+        alert("Server error");
+    }
+});
+
+
+// REMOVER PARTICIPAÇÃO EM EVENTO
+document.addEventListener("click", async (e) => {
+    const btn = e.target.closest(".remove-participation-btn");
+    if (!btn) return;
+
+    const id_event = btn.dataset.id;
+    if (!confirm("Cancel participation in this event?")) return;
+
+    try {
+        const res = await fetch("controllers/event_remove_participation.php", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ id_event })
+        });
+
+        const data = await res.json();
+        if (data.success) {
+            btn.closest(".event-card").remove();
+        } else {
+            alert("Error removing participation!");
+        }
+    } catch (err) {
+        console.error(err);
+        alert("Server error");
+    }
+    });
+
+
 
 });

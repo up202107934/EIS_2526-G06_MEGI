@@ -110,17 +110,45 @@ class EventDAL {
     // 👉 NOVO: EVENTOS QUE O USER VAI PARTICIPAR
     // =======================================
     public static function getParticipationByUser($id_user) {
-        $db = DB::conn();
-        $stmt = $db->prepare("
-            SELECT e.*, uep.id_collection
-            FROM user_event_participation uep
-            JOIN events e ON e.id_event = uep.id_event
-            WHERE uep.id_user = ?
-            ORDER BY e.event_date ASC
+    $db = DB::conn();
+
+    // Buscar info principal + nome da coleção
+    $stmt = $db->prepare("
+        SELECT 
+            e.id_event,
+            e.name,
+            e.event_date,
+            e.location,
+            c.name AS collection_name,
+            uep.id_collection,
+            uep.id_participation
+        FROM user_event_participation uep
+        JOIN events e ON e.id_event = uep.id_event
+        JOIN collections c ON c.id_collection = uep.id_collection
+        WHERE uep.id_user = ?
+        ORDER BY e.event_date ASC
+    ");
+    
+    $stmt->bind_param("i", $id_user);
+    $stmt->execute();
+    $participations = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+
+    // Buscar os itens escolhidos em cada participação
+    foreach ($participations as &$p) {
+        $stmt2 = $db->prepare("
+            SELECT i.name
+            FROM user_event_items uei
+            JOIN items i ON i.id_item = uei.id_item
+            WHERE uei.id_participation = ?
         ");
-        $stmt->bind_param("i", $id_user);
-        $stmt->execute();
-        return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+
+        $stmt2->bind_param("i", $p["id_participation"]);
+        $stmt2->execute();
+
+        $p["items"] = $stmt2->get_result()->fetch_all(MYSQLI_ASSOC);
     }
+
+    return $participations;
+}
 
 }
