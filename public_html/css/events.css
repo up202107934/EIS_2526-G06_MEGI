@@ -1200,3 +1200,15 @@ body.no-auth #d-review {
   color: #f5b301;   /* amarelo */
 }
 
+/*modal de criar eventos*/
+.modal {
+  display: none;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.modal.show {
+  display: flex;
+  opacity: 1;
+  pointer-events: auto;
+}

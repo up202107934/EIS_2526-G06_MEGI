@@ -55,6 +55,23 @@ console.log("eventForm:", eventForm);
   let allEvents = [];
   let currentView = "grid"; // "grid" ou "list"
 
+// ABRIR MODAL NEW EVENT
+btnNew?.addEventListener("click", () => {
+  console.log("CLICK NO BOTÃO NEW EVENT!");
+
+  eventForm.classList.add("show");
+  eventForm.setAttribute("aria-hidden", "false");
+
+  loadCollectionsForForm(); // carregar coleções do user
+});
+//fechar
+document.getElementById("f-cancel")?.addEventListener("click", () => {
+  eventForm.classList.remove("show");
+  eventForm.setAttribute("aria-hidden", "true");
+});
+
+
+
   // -----------------------
   // GRID / LIST TOGGLE (usa list-view no container)
   // -----------------------
@@ -289,12 +306,8 @@ searchInput?.addEventListener("keyup", (e) => {
     `;
   }
 
-  // -----------------------
-  // 3) Abrir detalhe do evento
-  // -----------------------
-  // -----------------------
+  
 // 3) Abrir detalhe do evento
-// -----------------------
 function openDetail(idEvent) {
     const ev = allEvents.find(x => String(x.id_event) === String(idEvent));
     if (!ev) return;
