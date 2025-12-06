@@ -57,6 +57,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const topChips     = document.querySelectorAll(".chip-top");
   const topSubtitle  = document.getElementById("topSubtitle");
   const catFilter    = document.getElementById("categoryFilter");
+  const searchInput  = document.getElementById("searchInput");
+  const searchForm   = document.getElementById("searchForm");
 
   // Scroll smooth
   const heroBtn = document.querySelector(".hero-btn");
@@ -83,7 +85,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // ========================================================
   // BACKEND: carregar coleções (AGORA COM FILTRO NO URL)
   // ========================================================
-  async function fetchCollections(mode = "featured", categoryId = "all") {
+  async function fetchCollections(mode = "featured", categoryId = "all", query = "") {
     
     // Construir URL base
     let url = "controllers/collections.php";
@@ -99,6 +101,10 @@ document.addEventListener("DOMContentLoaded", () => {
     // (A não ser que queiras filtrar as tuas recentes também, o backend teria de estar preparado)
     if (categoryId !== "all" && mode !== "recent") {
         params.append("cat", categoryId);
+    }
+    
+    if (query) {
+        params.append("q", query);
     }
 
     const res = await fetch(`${url}?${params.toString()}`);
@@ -148,10 +154,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // 2. Descobrir Categoria Selecionada
     const catId = catFilter ? catFilter.value : "all";
+    
+    // 3. Termo de pesquisa
+    const query = searchInput ? searchInput.value.trim() : "";
 
     try {
       // 3. Pedir dados ao servidor
-      const cols = await fetchCollections(mode, catId);
+      const cols = await fetchCollections(mode, catId, query);
 
       // Atualizar subtítulo
       if (topSubtitle) {
@@ -200,6 +209,19 @@ document.addEventListener("DOMContentLoaded", () => {
           renderTopCollections(); // Recarrega os dados do servidor
       });
   }
+  
+  // 3. Pesquisa no topo (barra da navbar)
+  searchForm?.addEventListener("submit", (e) => {
+      e.preventDefault();
+      renderTopCollections();
+  });
+
+  searchInput?.addEventListener("input", () => {
+      // Só pesquisa ao apagar tudo ou quando existe texto suficiente
+      if (searchInput.value.trim() === "" || searchInput.value.trim().length >= 2) {
+          renderTopCollections();
+      }
+  });
 
   // Render inicial
   renderTopCollections();

@@ -30,7 +30,7 @@ if ($isLoggedIn) {
   <div class="navbar-right">
     <form class="navbar-search" id="searchForm" action="#" method="GET">
       <input type="text" id="searchInput" name="q" placeholder="Search..." required />
-      <button type="button" class="search-btn">🔎</button>
+      <button type="submit" class="search-btn">🔎</button>
     </form>
 
     <?php if ($isLoggedIn && $navbarUser): ?>

@@ -7,8 +7,10 @@ header("Content-Type: application/json; charset=utf-8");
 // -------- GET (Ler coleções) --------
 if ($_SERVER["REQUEST_METHOD"] === "GET") {
 
-    // Receber categoria da URL (ex: collections.php?cat=2)
-    $catFilter = $_GET["cat"] ?? null; 
+    // Receber categoria e termo de pesquisa (ex: collections.php?cat=2&q=batman)
+    $catFilter = $_GET["cat"] ?? null;
+    $searchTerm = isset($_GET["q"]) ? trim($_GET["q"]) : null;
+ 
 
     // MODO MINHAS COLEÇÕES
     if (isset($_GET["mine"]) && $_GET["mine"] == "1") {
@@ -18,12 +20,12 @@ if ($_SERVER["REQUEST_METHOD"] === "GET") {
             exit;
         }
         // Nota: O getByUser também poderia receber filtro, mas para já deixamos simples
-        echo json_encode(CollectionDAL::getByUser(currentUserId())); 
+        echo json_encode(CollectionDAL::getAll($catFilter, $searchTerm)); 
         exit;
     }
 
     // MODO GLOBAL (Passamos o filtro para o DAL)
-    echo json_encode(CollectionDAL::getAll($catFilter));
+    echo json_encode(CollectionDAL::getAll($catFilter, $searchTerm));
     exit;
 }
 

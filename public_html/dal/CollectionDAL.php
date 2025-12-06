@@ -3,23 +3,45 @@ require_once __DIR__ . "/../config/db.php";
 
 class CollectionDAL {
 
-    // 1. Buscar coleções (Global Home) com Filtro de Categoria Opcional
-    public static function getAll($categoryId = null) {
+    // 1. Buscar coleções (Global Home) com Filtro de Categoria e Pesquisa Opcionais
+    public static function getAll($categoryId = null, $searchTerm = null) {
         $db = DB::conn();
         
         $sql = "SELECT c.*, u.username as owner_name, cat.name as category_name 
                 FROM collections c
                 JOIN users u ON c.id_user = u.id_user
-                LEFT JOIN collection_categories cat ON c.id_collection_category = cat.id_collection_category";
-        
-        // Se houver categoria selecionada (e não for "all"), adicionamos WHERE
+                LEFT JOIN collection_categories cat ON c.id_collection_category = cat.id_collection_category
+                WHERE 1=1";
+
+        $types = "";
+        $params = [];
+
+        // Filtro por categoria
         if ($categoryId && $categoryId !== 'all') {
-            $sql .= " WHERE c.id_collection_category = " . (int)$categoryId;
+            $sql    .= " AND c.id_collection_category = ?";
+            $types  .= "i";
+            $params[] = (int)$categoryId;
+        }
+
+        // Pesquisa por nome da coleção
+        if ($searchTerm) {
+            $sql    .= " AND c.name LIKE ?";
+            $types  .= "s";
+            $params[] = "%" . $searchTerm . "%";
         }
 
         $sql .= " ORDER BY c.rate DESC, c.creation_date DESC LIMIT 5"; // Garante sempre apenas 5
         
-        $result = $db->query($sql);
+        $stmt = $db->prepare($sql);
+        if (!$stmt) return [];
+
+        if (!empty($types)) {
+            $stmt->bind_param($types, ...$params);
+        }
+
+        $stmt->execute();
+        $result = $stmt->get_result();
+        
         if (!$result) return [];
         return $result->fetch_all(MYSQLI_ASSOC);
     }
