@@ -989,4 +989,87 @@ try {
   }
 });
 
+  // ===== NOTIFICAÇÕES DE EVENTOS NA PÁGINA EVENTS =====
+  const eventsAlertsBox = document.getElementById("event-alerts-events");
+  const eventBell       = document.getElementById("event-bell");
+  const eventBadge      = document.getElementById("event-badge");
+
+  async function loadEventsPageAlerts() {
+    if (!eventsAlertsBox || !eventBell || !eventBadge) return;
+
+    try {
+      const res = await fetch("controllers/event_notifications.php?days=7");
+
+      if (res.status === 401) {
+        eventBell.style.display = "none";
+        eventsAlertsBox.hidden = true;
+        return;
+      }
+
+      const text = await res.text();
+      console.log("EVENTS NOTIFS RAW:", res.status, text);
+
+      let events;
+      try {
+        events = JSON.parse(text);
+      } catch (e) {
+        console.error("JSON error (events notifications):", e);
+        eventBell.style.display = "none";
+        eventsAlertsBox.hidden = true;
+        return;
+      }
+
+      if (!Array.isArray(events) || !events.length) {
+        eventBell.style.display = "none";
+        eventsAlertsBox.hidden = true;
+        return;
+      }
+
+      // badge com o nº de eventos
+      eventBadge.textContent = events.length;
+      eventBadge.hidden = false;
+
+      const listHtml = events.map(ev => {
+        const name  = ev.name || "Event";
+        const date  = ev.event_date || "";
+        const days  = typeof ev.days_left !== "undefined" ? ev.days_left : null;
+        const where = ev.location || "";
+
+        let info = date;
+        if (days !== null) {
+          if (days === 0) info = "Today";
+          else if (days === 1) info = "In 1 day";
+          else info = `In ${days} days`;
+        }
+
+        const locText = where ? ` • ${where}` : "";
+
+        return `<li><strong>${name}</strong> – ${info}${locText}</li>`;
+      }).join("");
+
+      eventsAlertsBox.innerHTML = `
+        <p><strong>Upcoming events you're participating in:</strong></p>
+        <ul class="event-alerts-list">
+          ${listHtml}
+        </ul>
+      `;
+
+      // por default, a caixa fica escondida e o sininho abre/fecha
+      eventsAlertsBox.hidden = true;
+
+      eventBell.addEventListener("click", () => {
+        const isHidden = eventsAlertsBox.hidden;
+        eventsAlertsBox.hidden = !isHidden;
+      });
+
+    } catch (err) {
+      console.error("Error loading events notifications:", err);
+      eventBell.style.display = "none";
+      eventsAlertsBox.hidden = true;
+    }
+  }
+
+  loadEventsPageAlerts();
+
+
 }); 

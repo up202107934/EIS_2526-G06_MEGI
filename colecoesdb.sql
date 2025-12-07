@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 03-Dez-2025 às 13:42
+-- Tempo de geração: 07-Dez-2025 às 01:59
 -- Versão do servidor: 10.4.32-MariaDB
 -- versão do PHP: 8.0.30
 
@@ -430,6 +430,13 @@ CREATE TABLE `user_event_participation` (
   `id_event` int(11) NOT NULL,
   `id_collection` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Extraindo dados da tabela `user_event_participation`
+--
+
+INSERT INTO `user_event_participation` (`id_participation`, `id_user`, `id_event`, `id_collection`) VALUES
+(1, 1, 21, 30);
 
 -- --------------------------------------------------------
 

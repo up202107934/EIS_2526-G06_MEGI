@@ -356,5 +356,68 @@ document.addEventListener("DOMContentLoaded", () => {
         alert("Server error.");
     });
   });
+  
+    // ===== NOTIFICAÇÕES DE EVENTOS NA HOME =====
+  const homeAlertsBox = document.getElementById("event-alerts-home");
+
+  async function loadHomeEventAlerts() {
+    if (!homeAlertsBox) return;
+
+    try {
+      const res = await fetch("controllers/event_notifications.php?days=7");
+
+      if (res.status === 401) {
+        homeAlertsBox.style.display = "none";
+        return;
+      }
+
+      const text = await res.text();
+      console.log("HOME NOTIFS RAW:", res.status, text);
+
+      let events;
+      try {
+        events = JSON.parse(text);
+      } catch (e) {
+        console.error("JSON error (home notifications):", e);
+        homeAlertsBox.style.display = "none";
+        return;
+      }
+
+      if (!Array.isArray(events) || !events.length) {
+        homeAlertsBox.style.display = "none";
+        return;
+      }
+
+      const listHtml = events.map(ev => {
+        const name  = ev.name || "Event";
+        const date  = ev.event_date || "";
+        const days  = typeof ev.days_left !== "undefined" ? ev.days_left : null;
+        const where = ev.location || "";
+
+        let info = date;
+        if (days !== null) {
+          if (days === 0) info = "Today";
+          else if (days === 1) info = "In 1 day";
+          else info = `In ${days} days`;
+        }
+
+        const locText = where ? ` • ${where}` : "";
+
+        return `<li><strong>${name}</strong> – ${info}${locText}</li>`;
+      }).join("");
+
+      homeAlertsBox.innerHTML = `
+        <p><strong>Upcoming events you're participating in:</strong></p>
+        <ul class="event-alerts-list">
+          ${listHtml}
+        </ul>
+      `;
+    } catch (err) {
+      console.error("Error loading home notifications:", err);
+      homeAlertsBox.style.display = "none";
+    }
+  }
+
+  loadHomeEventAlerts();
 
 });

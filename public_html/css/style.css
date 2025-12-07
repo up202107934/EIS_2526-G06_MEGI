@@ -1020,3 +1020,57 @@ body.dark-mode .profile-dropdown a:hover {
     border-color: #ffd700;
 }
 
+/* Caixa de alertas (usada em home e events) */
+.event-alerts {
+  max-width: 900px;
+  margin: 12px auto 20px;
+  padding: 12px 16px;
+  background: #fff7e6;
+  border: 1px solid #ffcc80;
+  border-radius: 10px;
+  font-size: 0.95rem;
+  color: #5d3b00;
+}
+
+.event-alerts p {
+  margin: 0 0 6px;
+}
+
+.event-alerts-list {
+  margin: 0;
+  padding-left: 18px;
+}
+
+.event-alerts-list li {
+  margin-bottom: 4px;
+}
+
+/* Header dos events com sininho */
+.events-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.event-bell {
+  position: relative;
+  border: none;
+  background: none;
+  font-size: 1.4rem;
+  cursor: pointer;
+}
+
+.event-badge {
+  position: absolute;
+  top: -6px;
+  right: -8px;
+  min-width: 18px;
+  padding: 0 4px;
+  border-radius: 999px;
+  background: #d32f2f;
+  color: #fff;
+  font-size: 0.7rem;
+  line-height: 18px;
+  text-align: center;
+}

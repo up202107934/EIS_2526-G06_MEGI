@@ -49,8 +49,19 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/html.html to edit this
 
 
   <main>
+      
+   <div id="event-alerts-home" class="event-alerts" aria-live="polite"></div>
+
+  <div class="events-header">
     <h1 class="events-title">EVENTS</h1>
 
+  <button id="event-bell" class="event-bell" aria-label="Upcoming events">
+    🔔
+    <span id="event-badge" class="event-badge" hidden>0</span>
+  </button>
+</div>
+
+<div id="event-alerts-events" class="event-alerts" aria-live="polite" hidden></div>
     <!-- barra -->
 <section class="events-toolbar pro">
   <div class="toolbar-left">

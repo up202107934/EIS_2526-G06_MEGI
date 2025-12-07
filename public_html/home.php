@@ -30,6 +30,8 @@ $isLoggedIn = isLoggedIn();
   </div>
 </section>
 
+  <div id="event-alerts-home" class="event-alerts" aria-live="polite"></div>
+
 
 <section class="home-section" id="collections">
   <div class="home-top-header">
