@@ -138,44 +138,44 @@ document.addEventListener("DOMContentLoaded", () => {
     // ==========================================
     // Nota: Isto guarda o like apenas no navegador da pessoa (LocalStorage).
     // Se mudares de PC, o like desaparece. Para ser permanente, precisarias de BD.
+    // Guarda o estado no localStorage do navegador (não persiste em servidor).
     const likeBtn = document.getElementById("likeBtn");
     const likeCount = document.getElementById("likeCount");
     
-    // Tenta encontrar o nome do item para usar como ID único no localStorage
-    // (Se tiveres um elemento com ID específico para o ID do item, seria melhor)
-    const itemTitle = document.querySelector(".item-title"); 
+    const itemTitle = document.querySelector(".item-title");
 
-    if (likeBtn && likeCount && itemTitle) {
-        const itemId = itemTitle.textContent.trim(); // Usa o nome como chave
-        const savedState = localStorage.getItem("liked_" + itemId);
-
-        // Recuperar estado ao carregar a página
-        if (savedState === "true") {
-            likeBtn.classList.add("liked");
-            likeBtn.textContent = "❤";
-            // Incrementa visualmente se já estava com like (simulação)
-            let current = parseInt(likeCount.textContent);
-            likeCount.textContent = current + 1; 
+    if (likeBtn) {
+        const uniqueId = likeBtn.dataset.itemId || (itemTitle ? itemTitle.textContent.trim() : "");
+        if (!uniqueId) {
+            console.warn("Like button encontrado mas sem identificador de item.");
+            return;
         }
 
-        likeBtn.addEventListener("click", () => {
-            let count = parseInt(likeCount.textContent);
+        const storageKey = "liked_" + uniqueId;
+        const savedState = localStorage.getItem(storageKey) === "true";
+        let liked = savedState;
 
-            if (likeBtn.classList.contains("liked")) {
-                // remover like
-                count = Math.max(0, count - 1);
-                likeBtn.classList.remove("liked");
-                likeBtn.textContent = "♡";
-                localStorage.setItem("liked_" + itemId, "false");
-            } else {
-                // dar like
-                count++;
-                likeBtn.classList.add("liked");
-                likeBtn.textContent = "❤";
-                localStorage.setItem("liked_" + itemId, "true");
+        const baseCount = likeCount ? parseInt(likeCount.dataset.baseCount || likeCount.textContent) || 0 : 0;
+
+        const updateLikeUI = () => {
+            likeBtn.classList.toggle("liked", liked);
+            likeBtn.setAttribute("aria-pressed", liked ? "true" : "false");
+            likeBtn.textContent = liked ? "❤" : "♡";
+
+            if (likeCount) {
+                likeCount.textContent = liked ? baseCount + 1 : baseCount;
             }
             
-            likeCount.textContent = count;
+        };
+
+        updateLikeUI();
+
+        likeBtn.addEventListener("click", () => {
+            liked = !liked;
+            localStorage.setItem(storageKey, liked ? "true" : "false");
+            updateLikeUI();
+            
+            
         });
     }
 });

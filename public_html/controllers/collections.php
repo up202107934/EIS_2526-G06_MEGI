@@ -20,7 +20,7 @@ if ($_SERVER["REQUEST_METHOD"] === "GET") {
             exit;
         }
         // Nota: O getByUser também poderia receber filtro, mas para já deixamos simples
-        echo json_encode(CollectionDAL::getAll($catFilter, $searchTerm)); 
+        echo json_encode(CollectionDAL::getByUser(currentUserId(), $searchTerm));
         exit;
     }
 

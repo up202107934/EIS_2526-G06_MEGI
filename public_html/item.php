@@ -64,7 +64,21 @@ if (isset($_SESSION['id_user']) && $_SESSION['id_user'] == $item['owner_id']) {
             </a>
         </div>
 
-        <h1 class="item-title"><?php echo htmlspecialchars($item['name']); ?></h1>
+        <div class="item-title-row">
+          <h1 class="item-title"><?php echo htmlspecialchars($item['name']); ?></h1>
+
+          <div class="like-container" aria-label="Gostar deste item">
+            <button
+              id="likeBtn"
+              class="like-btn"
+              type="button"
+              aria-pressed="false"
+              data-item-id="<?= $item['id_item'] ?>"
+              title="Adicionar aos favoritos"
+            >♡</button>
+            <span id="likeCount" class="like-count" aria-live="polite" data-base-count="0">0</span>
+          </div>
+        </div>
         
         <p class="item-category">
             Importance: <?php echo htmlspecialchars($item['importance']); ?>/10
@@ -165,11 +179,12 @@ if (isset($_SESSION['id_user']) && $_SESSION['id_user'] == $item['owner_id']) {
     </div>
   </div>
   
-  <script src="js/item.js"></script>
+  
   <?php endif; ?>
 
   <footer class="footer">
     <p>© 2025 MyCollections | All rights reserved.</p>
   </footer>
+  <script src="js/item.js"></script>
 </body>
 </html>
