@@ -343,13 +343,25 @@ document.addEventListener("DOMContentLoaded", () => {
                 meta.textContent = metaValues.join(" • ");
                 card.appendChild(meta);
             }
+            
+            const actions = document.createElement("div");
+            actions.className = "wishlist-actions";
+
+            const viewBtn = document.createElement("a");
+            viewBtn.className = "view-btn";
+            const collectionQuery = item.collection_id ? `&col=${item.collection_id}` : "";
+            viewBtn.href = `item.php?id=${item.id_item}${collectionQuery}`;
+            viewBtn.textContent = "View";
 
             const removeBtn = document.createElement("button");
             removeBtn.className = "remove-btn wishlist-remove-btn";
             removeBtn.dataset.id = item.id_item;
             removeBtn.textContent = "Remove";
 
-            card.appendChild(removeBtn);
+            actions.appendChild(viewBtn);
+            actions.appendChild(removeBtn);
+
+            card.appendChild(actions);
 
             wishlistContainer.appendChild(card);
         });

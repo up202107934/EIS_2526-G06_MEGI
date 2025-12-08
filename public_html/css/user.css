@@ -165,11 +165,43 @@ a { text-decoration: none; color: inherit; }
   margin-bottom: 10px;
 }
 
+.wishlist-actions {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 10px;
+}
+
 body.dark-mode .wishlist-item {
   background: #1b1b1b;
   color: #eee;
   box-shadow: 0 4px 10px rgba(0,0,0,0.5);
 }
+
+.wishlist-item .view-btn {
+  background: #3498db;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 6px 12px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  transition: background 0.3s ease, transform 0.2s ease;
+  display: inline-block;
+}
+
+.wishlist-item .view-btn:hover {
+  background: #2d86c4;
+  transform: scale(1.05);
+}
+
+.wishlist-item .view-btn:active {
+  background: #246da0;
+  transform: scale(0.95);
+}
+
 
 .wishlist-item .remove-btn {
   background: #ff4d4d;
