@@ -85,7 +85,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // ========================================================
   // BACKEND: carregar coleções (AGORA COM FILTRO NO URL)
   // ========================================================
-  async function fetchCollections(mode = "featured", categoryId = "all", query = "") {
+  async function fetchCollections(mode = "featured", categoryId = "all", query = "", limit = 5) {
     
     // Construir URL base
     let url = "controllers/collections.php";
@@ -107,6 +107,11 @@ document.addEventListener("DOMContentLoaded", () => {
         params.append("q", query);
     }
 
+    // Limite (0 = sem limite)
+    if (Number.isInteger(limit)) {
+        params.append("limit", String(limit));
+    }
+      
     const res = await fetch(`${url}?${params.toString()}`);
     return await res.json();
   }
@@ -160,16 +165,18 @@ document.addEventListener("DOMContentLoaded", () => {
 
     try {
       // 3. Pedir dados ao servidor
-      const cols = await fetchCollections(mode, catId, query);
+      const cols = await fetchCollections(mode, catId, query, mode === "all" ? 0 : 5);
 
       // Atualizar subtítulo
       if (topSubtitle) {
         if (mode === "featured") {
-            topSubtitle.textContent = catId === "all" 
-                ? "Global featured collections from the whole site." 
+            topSubtitle.textContent = catId === "all"
+                ? "Global featured collections from the whole site."
                 : "Top rated collections in this category.";
-        } else {
+        } else if (mode === "recent") {
             topSubtitle.textContent = "Your last created collections.";
+        } else {
+            topSubtitle.textContent = "All collections from the community.";
         }
       }
 
@@ -178,9 +185,8 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
       }
 
-      // 4. Desenhar HTML
-      // (O limite de 5 já vem do SQL, mas o slice garante segurança)
-      topGrid.innerHTML = cols.slice(0, 5).map(collectionCardHTML).join("");
+      // 4. Desenhar HTML (sem limite quando o modo é "all")
+      topGrid.innerHTML = cols.map(collectionCardHTML).join("");
       initMiniCarousels(topGrid);
 
     } catch (err) {

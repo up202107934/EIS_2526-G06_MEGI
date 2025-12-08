@@ -4,7 +4,7 @@ require_once __DIR__ . "/../config/db.php";
 class CollectionDAL {
 
     // 1. Buscar coleções (Global Home) com Filtro de Categoria e Pesquisa Opcionais
-    public static function getAll($categoryId = null, $searchTerm = null) {
+    public static function getAll($categoryId = null, $searchTerm = null, $limit = 5) {
         $db = DB::conn();
         
         $sql = "SELECT c.*, u.username as owner_name, cat.name as category_name 
@@ -30,7 +30,14 @@ class CollectionDAL {
             $params[] = "%" . $searchTerm . "%";
         }
 
-        $sql .= " ORDER BY c.rate DESC, c.creation_date DESC LIMIT 5"; // Garante sempre apenas 5
+        $sql .= " ORDER BY c.rate DESC, c.creation_date DESC";
+
+        // Limite opcional (null = sem limite)
+        if ($limit !== null) {
+            $sql    .= " LIMIT ?";
+            $types  .= "i";
+            $params[] = (int)$limit;
+        }
         
         $stmt = $db->prepare($sql);
         if (!$stmt) return [];

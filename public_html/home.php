@@ -42,6 +42,8 @@ $isLoggedIn = isLoggedIn();
 
     <div class="home-top-filters" aria-label="Top filters">
       <button class="chip-top active" data-mode="featured">Featured (global)</button>
+      
+      <button class="chip-top" data-mode="all">All collections</button>
 
       <?php if ($isLoggedIn): ?>
         <button class="chip-top" data-mode="recent">My recent</button>

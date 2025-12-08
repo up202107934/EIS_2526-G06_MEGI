@@ -10,6 +10,8 @@ if ($_SERVER["REQUEST_METHOD"] === "GET") {
     // Receber categoria e termo de pesquisa (ex: collections.php?cat=2&q=batman)
     $catFilter = $_GET["cat"] ?? null;
     $searchTerm = isset($_GET["q"]) ? trim($_GET["q"]) : null;
+    $limitParam = isset($_GET["limit"]) ? (int)$_GET["limit"] : 5;
+    $limit = ($limitParam && $limitParam > 0) ? $limitParam : null; // null = sem limite
  
 
     // MODO MINHAS COLEÇÕES
@@ -25,7 +27,7 @@ if ($_SERVER["REQUEST_METHOD"] === "GET") {
     }
 
     // MODO GLOBAL (Passamos o filtro para o DAL)
-    echo json_encode(CollectionDAL::getAll($catFilter, $searchTerm));
+    echo json_encode(CollectionDAL::getAll($catFilter, $searchTerm, $limit));
     exit;
 }
 
