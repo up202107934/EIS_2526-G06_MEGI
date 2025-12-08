@@ -97,6 +97,8 @@ document.getElementById("f-cancel")?.addEventListener("click", () => {
   // -----------------------
   // 1) Carregar eventos da BD
   // -----------------------
+  const initialEventId = new URLSearchParams(window.location.search).get("id");
+  let pendingInitialOpen = initialEventId;
  // --- FETCH com debug e fallback ---
 fetch("controllers/events.php")
   .then(async r => {
@@ -113,6 +115,15 @@ fetch("controllers/events.php")
       console.log("EVENTS LOADED:", data);
       allEvents = Array.isArray(data) ? data : [];
       renderEvents();
+      
+      // Abrir automaticamente o evento indicado no query string (ex.: events.php?id=3)
+      if (pendingInitialOpen) {
+        const exists = allEvents.some(e => String(e.id_event ?? e.id ?? "") === String(pendingInitialOpen));
+        if (exists) {
+          openDetail(pendingInitialOpen);
+          pendingInitialOpen = null;
+        }
+      }
     } catch (e) {
       console.error("JSON PARSE ERROR from controllers/events.php:", e, "RAW:", text);
       allEvents = [];
