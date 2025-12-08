@@ -134,46 +134,58 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     // ==========================================
-    // 3. LIKE BUTTON LOGIC (Mantido do teu antigo)
+    // 3. WISHLIST BUTTON (persistente em BD)
     // ==========================================
-    // Nota: Isto guarda o like apenas no navegador da pessoa (LocalStorage).
-    // Se mudares de PC, o like desaparece. Para ser permanente, precisarias de BD.
-    // Guarda o estado no localStorage do navegador (não persiste em servidor).
-    const likeBtn = document.getElementById("likeBtn");
-    const likeCount = document.getElementById("likeCount");
-    
-    const itemTitle = document.querySelector(".item-title");
+    const wishlistBtn = document.getElementById("wishlistBtn");
+    const wishlistCount = document.getElementById("wishlistCount");
 
-    if (likeBtn) {
-        const uniqueId = likeBtn.dataset.itemId || (itemTitle ? itemTitle.textContent.trim() : "");
-        if (!uniqueId) {
-            console.warn("Like button encontrado mas sem identificador de item.");
-            return;
-        }
+    if (wishlistBtn) {
+        const itemId = parseInt(wishlistBtn.dataset.itemId, 10);
+        const isLoggedIn = wishlistBtn.dataset.loggedIn === "1";
+        let inWishlist = wishlistBtn.dataset.inWishlist === "1";
+        let totalWishlists = wishlistCount ? parseInt(wishlistCount.dataset.totalWishlists, 10) || 0 : 0;
 
-        const storageKey = "liked_" + uniqueId;
-        const savedState = localStorage.getItem(storageKey) === "true";
-        let liked = savedState;
+        const updateWishlistUI = () => {
+            wishlistBtn.classList.toggle("liked", inWishlist);
+            wishlistBtn.setAttribute("aria-pressed", inWishlist ? "true" : "false");
+            wishlistBtn.textContent = inWishlist ? "❤" : "♡";
 
-        const baseCount = likeCount ? parseInt(likeCount.dataset.baseCount || likeCount.textContent) || 0 : 0;
+            if (wishlistCount) {
+                wishlistCount.textContent = totalWishlists;
+            }
+        };
+        
+        updateWishlistUI();
 
-        const updateLikeUI = () => {
-            likeBtn.classList.toggle("liked", liked);
-            likeBtn.setAttribute("aria-pressed", liked ? "true" : "false");
-            likeBtn.textContent = liked ? "❤" : "♡";
-
-            if (likeCount) {
-                likeCount.textContent = liked ? baseCount + 1 : baseCount;
+        wishlistBtn.addEventListener("click", async () => {
+            if (!isLoggedIn) {
+                alert("Please log in to manage your wishlist.");
+                return;
             }
             
-        };
+            const action = inWishlist ? "remove" : "add";
 
-        updateLikeUI();
-
-        likeBtn.addEventListener("click", () => {
-            liked = !liked;
-            localStorage.setItem(storageKey, liked ? "true" : "false");
-            updateLikeUI();
+            try {
+                const res = await fetch("controllers/item_wishlist.php", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({ id_item: itemId, action }),
+                });
+                
+                const data = await res.json();
+                if (!data.ok) {
+                    throw new Error(data.error || "wishlist_error");
+                }
+                
+                inWishlist = !!data.in_wishlist;
+                totalWishlists = data.total_wishlists ?? totalWishlists;
+                updateWishlistUI();
+            } catch (err) {
+                console.error("Erro ao atualizar wishlist:", err);
+                alert("Não foi possível atualizar a wishlist neste momento.");
+            }
             
             
         });

@@ -30,6 +30,25 @@ $isOwner = false;
 if (isset($_SESSION['id_user']) && $_SESSION['id_user'] == $item['owner_id']) {
     $isOwner = true;
 }
+// --- WISHLIST INFO ---
+$db = DB::conn();
+
+// Quantas wishlists têm este item
+$wishlistCountStmt = $db->prepare('SELECT COUNT(DISTINCT id_wishlist) AS total FROM wishlist_items WHERE id_item = ?');
+$wishlistCountStmt->bind_param('i', $id_item);
+$wishlistCountStmt->execute();
+$wishlistCountResult = $wishlistCountStmt->get_result()->fetch_assoc();
+$wishlistCount = (int) ($wishlistCountResult['total'] ?? 0);
+
+// Está na wishlist do utilizador autenticado?
+$inWishlist = false;
+if (isset($_SESSION['id_user'])) {
+    $wishlistCheckStmt = $db->prepare('SELECT wi.id_wishlist FROM wishlist_items wi JOIN wishlists w ON wi.id_wishlist = w.id_wishlist WHERE w.id_user = ? AND wi.id_item = ? LIMIT 1');
+    $wishlistCheckStmt->bind_param('ii', $_SESSION['id_user'], $id_item);
+    $wishlistCheckStmt->execute();
+    $wishlistCheckResult = $wishlistCheckStmt->get_result()->fetch_assoc();
+    $inWishlist = !empty($wishlistCheckResult);
+}
 ?>
 
 <!DOCTYPE html>
@@ -69,14 +88,21 @@ if (isset($_SESSION['id_user']) && $_SESSION['id_user'] == $item['owner_id']) {
 
           <div class="like-container" aria-label="Gostar deste item">
             <button
-              id="likeBtn"
+              id="wishlistBtn"
               class="like-btn"
               type="button"
-              aria-pressed="false"
+              aria-pressed="<?= $inWishlist ? 'true' : 'false' ?>"
               data-item-id="<?= $item['id_item'] ?>"
-              title="Adicionar aos favoritos"
-            >♡</button>
-            <span id="likeCount" class="like-count" aria-live="polite" data-base-count="0">0</span>
+              data-in-wishlist="<?= $inWishlist ? '1' : '0' ?>"
+              data-logged-in="<?= isset($_SESSION['id_user']) ? '1' : '0' ?>"
+              title="Adicionar à wishlist"
+            ><?= $inWishlist ? '❤' : '♡' ?></button>
+            <span
+              id="wishlistCount"
+              class="like-count"
+              aria-live="polite"
+              data-total-wishlists="<?= $wishlistCount ?>"
+            ><?= $wishlistCount ?></span>
           </div>
         </div>
         
