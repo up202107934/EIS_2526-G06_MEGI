@@ -111,7 +111,7 @@ $user = UserDAL::getById($userId);
         <?php endif; ?>
       </section>
 
-        <?php
+<?php       
 require_once __DIR__ . "/dal/EventDAL.php";
 $interestedEvents = EventDAL::getInterestedByUser($userId);
 $participatingEvents = EventDAL::getParticipationByUser($userId);
@@ -177,7 +177,15 @@ $participatingEvents = EventDAL::getParticipationByUser($userId);
     <?php endif; ?>
 </section>
 
-        
+<!-- ========================== -->
+<!-- WISHLIST SECTION -->
+<!-- ========================== -->
+<section class="events-section">
+    <h2>🧾 My Wishlist</h2>
+
+    <p id="wishlistEmpty" style="color:#777; display:none;">You haven't added any items to your wishlist yet.</p>
+    <div id="wishlistContainer" class="wishlist-grid"></div>
+</section>        
         
     </main>
   </div>

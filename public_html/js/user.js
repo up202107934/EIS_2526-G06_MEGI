@@ -285,6 +285,126 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
     
+    // ==========================================
+    // 5. WISHLIST (servidor)
+    // ==========================================
+    const wishlistContainer = document.getElementById("wishlistContainer");
+    const wishlistEmpty = document.getElementById("wishlistEmpty");
+
+    const renderWishlist = (items = []) => {
+        if (!wishlistContainer || !wishlistEmpty) return;
+
+        wishlistContainer.innerHTML = "";
+
+        if (!items.length) {
+            wishlistEmpty.style.display = "block";
+            return;
+        }
+
+        wishlistEmpty.style.display = "none";
+
+        items.forEach((item) => {
+            const card = document.createElement("div");
+            card.className = "wishlist-item";
+
+            const img = document.createElement("img");
+            img.src = item.img || "img/collection-placeholder.jpg";
+            img.alt = item.name || "Wishlist item";
+
+            const title = document.createElement("h3");
+            title.textContent = item.name || "Unnamed item";
+
+            card.appendChild(img);
+            card.appendChild(title);
+
+            if (item.collection_names) {
+                const collectionTag = document.createElement("p");
+                collectionTag.style.color = "#555";
+                collectionTag.style.fontSize = "0.9rem";
+                collectionTag.textContent = `Collection: ${item.collection_names}`;
+                card.appendChild(collectionTag);
+            }
+
+            if (item.description) {
+                const desc = document.createElement("p");
+                desc.style.fontSize = "0.9rem";
+                desc.textContent = item.description;
+                card.appendChild(desc);
+            }
+
+            const metaValues = [];
+            if (item.price) metaValues.push(`Price: ${item.price}`);
+            if (item.weight) metaValues.push(`Weight: ${item.weight}`);
+
+            if (metaValues.length) {
+                const meta = document.createElement("p");
+                meta.style.fontSize = "0.85rem";
+                meta.style.color = "#666";
+                meta.textContent = metaValues.join(" • ");
+                card.appendChild(meta);
+            }
+
+            const removeBtn = document.createElement("button");
+            removeBtn.className = "remove-btn wishlist-remove-btn";
+            removeBtn.dataset.id = item.id_item;
+            removeBtn.textContent = "Remove";
+
+            card.appendChild(removeBtn);
+
+            wishlistContainer.appendChild(card);
+        });
+    };
+
+    const loadWishlist = async () => {
+        if (!wishlistContainer || !wishlistEmpty) return;
+
+        try {
+            const res = await fetch("controllers/wishlist.php");
+            const data = await res.json();
+
+            if (!data.ok) throw new Error(data.error || "wishlist_fetch_error");
+
+            renderWishlist(data.items || []);
+        } catch (err) {
+            console.error("Erro ao carregar wishlist:", err);
+            wishlistContainer.innerHTML = "";
+            wishlistEmpty.textContent = "Unable to load wishlist items.";
+            wishlistEmpty.style.display = "block";
+        }
+    };
+
+    const removeWishlistItem = async (idItem) => {
+        try {
+            const res = await fetch("controllers/wishlist.php", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ id_item: idItem })
+            });
+
+            const data = await res.json();
+            if (!data.ok) throw new Error(data.error || "wishlist_remove_error");
+
+            await loadWishlist();
+        } catch (err) {
+            console.error("Erro ao remover da wishlist:", err);
+            alert("Couldn't remove this item from your wishlist.");
+        }
+    };
+
+    document.addEventListener("click", async (e) => {
+        const btn = e.target.closest(".wishlist-remove-btn");
+        if (!btn) return;
+
+        const idItem = parseInt(btn.dataset.id, 10);
+        if (!idItem) return;
+
+        const confirmed = confirm("Remove this item from your wishlist?");
+        if (!confirmed) return;
+
+        await removeWishlistItem(idItem);
+    });
+
+    loadWishlist();
 // REMOVER EVENTO INTERESTED
 document.addEventListener("click", async (e) => {
     const btn = e.target.closest(".remove-interest-btn");
