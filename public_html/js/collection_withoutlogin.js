@@ -99,13 +99,9 @@ viewButtons.forEach(btn => {
 
 function applyView(view) {
   // alternar classes
-  if (view === 'list') {
-    itemsSection.classList.remove('grid-view');
-    itemsSection.classList.add('list-view');
-  } else {
-    itemsSection.classList.remove('list-view');
-    itemsSection.classList.add('grid-view');
-  }
+  itemsSection.classList.remove('grid-view', 'list-view');
+  itemsSection.classList.add(view === 'list' ? 'list-view' : 'grid-view');
+
 
   viewButtons.forEach(b => {
     b.setAttribute('aria-pressed', b.dataset.view === view);
