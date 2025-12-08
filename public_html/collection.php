@@ -3,10 +3,12 @@ require_once __DIR__ . "/partials/bootstrap.php";
 require_once __DIR__ . "/dal/ItemCategoryDAL.php";
 require_once __DIR__ . "/dal/CollectionDAL.php"; 
 
+
 $categories = ItemCategoryDAL::getAll();
 
 // --- LÓGICA DE VERIFICAÇÃO DE DONO ---
 $isOwner = false; 
+$collectionId = isset($_GET['id']) ? (int)$_GET['id'] : null;
 
 if (isset($_GET['id'])) {
     $collectionId = (int)$_GET['id'];
@@ -160,6 +162,11 @@ if (isset($_GET['id'])) {
     </div>
   </div>
 </section>
+
+<script>
+    const IS_OWNER = <?= $isOwner ? "true" : "false" ?>;
+    const ID_COLLECTION = <?= $collectionId ?>;
+</script>
 
 <script src="js/collection.js"></script>
 

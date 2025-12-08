@@ -1,5 +1,4 @@
 <?php
-// item.php
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
 
@@ -12,6 +11,15 @@ if (!isset($_GET['id']) || empty($_GET['id'])) {
 
 $id_item = (int)$_GET['id'];
 $item = ItemDAL::getById($id_item);
+// Identificar coleção correta (se vier no URL)// Prioridade 1: URL
+if (isset($_GET['col'])) {
+    $collectionId = (int) $_GET['col'];
+}
+// Prioridade 2: coleção trazida do ItemDAL
+else {
+    $collectionId = (int) $item['id_collection'];
+}
+
 
 if (!$item) {
     die("Erro: Item não encontrado.");
@@ -96,12 +104,12 @@ if (isset($_SESSION['id_user']) && $_SESSION['id_user'] == $item['owner_id']) {
               ✏️ Edit
       </button>
 
-      <button id="btn-delete" class="btn" 
-              data-id="<?= $item['id_item'] ?>" 
-              data-col-id="<?= $item['id_collection'] ?>"
-              style="background:#e74c3c; color:white; padding: 10px 20px; border:none; border-radius:5px; cursor:pointer;">
-              🗑️ Delete
-      </button>
+    <button id="btn-delete" 
+      data-id="<?= $item['id_item'] ?>" 
+      data-col-id="<?= $collectionId ?>"
+      class="btn"> 🗑️ Delete
+</button>
+
     </div>
     <?php endif; ?>
 

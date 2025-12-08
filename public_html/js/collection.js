@@ -85,29 +85,36 @@ document.addEventListener("DOMContentLoaded", () => {
 
         filteredItems.forEach(it => {
             cont.innerHTML += `
-                <div class="item-card"
-                    data-rating="${it.importance}"
-                    data-price="${it.price}"
-                    data-weight="${it.weight}">
+            <div class="item-card"
+                data-id="${it.id_item}"
+                data-rating="${it.importance}"
+                data-price="${it.price}"
+                data-weight="${it.weight}">
 
-                    <img src="${it.img ? 'img/' + it.img : 'img/item-placeholder.jpg'}" alt="${it.name}">
+                <img src="${it.img ? it.img : 'img/item-placeholder.jpg'}" alt="${it.name}">
 
-                    <div class="item-details">
-                        <h3>${it.name}</h3>
-                        <p>${it.description ?? ''}</p>
+                <div class="item-details">
+                    <h3>${it.name}</h3>
+                    <p>${it.description ?? ''}</p>
 
-                        <div class="item-info">
-                            <span>⭐ ${it.importance}/10</span>
-                            <span>💰 ${it.price}€</span>
-                            <span>⚖️ ${it.weight}g</span>
-                        </div>
-                    </div>
-
-                    <div class="item-actions">
-                        <a href="item.php?id=${it.id_item}" class="btn-details">View Details</a>
+                    <div class="item-info">
+                        <span>⭐ ${it.importance}/10</span>
+                        <span>💰 ${it.price}€</span>
+                        <span>⚖️ ${it.weight}g</span>
                     </div>
                 </div>
-            `;
+
+                <div class="item-actions">
+                    <a href="item.php?id=${it.id_item}&col=${ID_COLLECTION}" class="btn-details">View</a>
+
+                    ${IS_OWNER ? `
+                    <button class="btn-delete-item" data-id="${it.id_item}">🗑️</button>
+                    ` : ""}
+                </div>
+            </div>
+        `;
+
+
         });
 
     }
@@ -131,9 +138,7 @@ document.addEventListener("DOMContentLoaded", () => {
     searchInput?.addEventListener("input", () => loadCollectionItems());
 
 
-    // =====================================================
     // 2) MODAL ADD ITEM
-    // =====================================================
     const addItemBtn = document.querySelector(".add-item-btn");
     const modal = document.getElementById("addItemModal");
     const cancelBtn = document.getElementById("cancelItem");
@@ -215,5 +220,59 @@ document.addEventListener("DOMContentLoaded", () => {
         //loadCollectionItems();
         loadCollectionItems(true);
     });
+    
+// 3) GRID / LIST VIEW
+const viewButtons = document.querySelectorAll(".btn-view");
+const itemsContainer = document.getElementById("itemsContainer");
+
+
+viewButtons.forEach(btn => {
+    btn.addEventListener("click", () => {
+        const view = btn.dataset.view;
+
+        viewButtons.forEach(b => b.setAttribute("aria-pressed", "false"));
+        btn.setAttribute("aria-pressed", "true");
+
+        if (view === "grid") {
+            itemsContainer.classList.add("grid-view");
+            itemsContainer.classList.remove("list-view");
+        } else {
+            itemsContainer.classList.add("list-view");
+            itemsContainer.classList.remove("grid-view");
+        }
+
+    });
+});
+
+// DELETE ITEM FROM COLLECTION
+document.addEventListener("click", async (e) => {
+    if (!e.target.classList.contains("btn-delete-item")) return;
+
+    const idItem = e.target.dataset.id;
+
+    if (!confirm("Tem a certeza que quer eliminar este item desta coleção?")) {
+        return;
+    }
+
+    const response = await fetch("controllers/item_delete.php", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+            id_item: idItem,
+            id_collection: ID_COLLECTION
+        })
+    });
+
+    const data = await response.json();
+
+    if (data.ok) {
+        alert("Item removido!");
+        loadCollectionItems(true); // atualizar sem reload
+    } else {
+        alert("Erro ao eliminar: " + (data.error || ""));
+    }
+});
+
+
 
 });

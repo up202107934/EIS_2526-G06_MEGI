@@ -19,15 +19,25 @@ document.addEventListener("DOMContentLoaded", () => {
             fetch("controllers/item_delete.php", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ id_item: id })
+                body: JSON.stringify({ 
+                    id_item: id,
+                    id_collection: colId    
+                })
             })
             .then(r => r.json())
             .then(resp => {
                 if (resp.ok) {
-                    alert("Item deleted successfully! 🗑️");
-                    // Redireciona de volta para a coleção
-                    window.location.href = "collection.php?id=" + colId;
-                } else {
+                    alert("Item removed from this collection! 🗑️");
+
+                    // Volta automaticamente para a coleção
+                    if (colId) {
+                        window.location.href = "collection.php?id=" + colId;
+                    } else {
+                        // fallback, caso falhe
+                        window.location.href = "home.php";
+                    }
+                }
+                else {
                     alert("Error deleting item: " + resp.error);
                 }
             })

@@ -15,4 +15,15 @@ class CollectionItemDAL {
 
         return $stmt->execute();
     }
+    // Remover item de uma coleção
+    public static function remove($id_collection, $id_item) {
+    $db = DB::conn();
+    $stmt = $db->prepare("
+        DELETE FROM collection_items
+        WHERE id_collection = ? AND id_item = ?
+    ");
+    $stmt->bind_param("ii", $id_collection, $id_item);
+    return $stmt->execute();
+}
+
 }

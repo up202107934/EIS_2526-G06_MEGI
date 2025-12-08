@@ -138,10 +138,7 @@ body {
 }
 
 
-
-
-/* GRID DOS ITENS*/
-.collection-items {
+.collection-items.grid-view {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 32px;
@@ -150,15 +147,17 @@ body {
   padding: 40px 20px;
   background-color: #fff;
 }
+
 @media (max-width: 1200px){
-  .collection-items { grid-template-columns: repeat(3, 1fr); }
+  .collection-items.grid-view { grid-template-columns: repeat(3, 1fr); }
 }
 @media (max-width: 900px){
-  .collection-items { grid-template-columns: repeat(2, 1fr); }
+  .collection-items.grid-view { grid-template-columns: repeat(2, 1fr); }
 }
 @media (max-width: 600px){
-  .collection-items { grid-template-columns: 1fr; }
+  .collection-items.grid-view { grid-template-columns: 1fr; }
 }
+
 
 .item-card {
   background: #fff;
@@ -1236,4 +1235,20 @@ body.dark-mode .collection-author-name:hover {
 }
 #addItemModal.show {
     display: flex !important;
+}
+
+/*delete item*/
+.btn-delete-item {
+    background: #d62828;
+    color: white;
+    border: none;
+    padding: 6px 10px;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-left: 10px;
+    font-size: 16px;
+}
+
+.btn-delete-item:hover {
+    background: #a4161a;
 }
