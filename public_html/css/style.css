@@ -7,7 +7,7 @@
 body {
     margin: 0;
     padding: 0;
-    background: #ffffff;
+    background: #ffcccc;
     font-family: Arial, sans-serif;
     overflow-x: hidden;
 } 
@@ -832,23 +832,31 @@ body.dark-mode .profile-dropdown a:hover {
 }
 
 
-
 .home-top-header {
-  max-width: 1200px;
-  margin: 40px auto 18px auto;
+  max-width: 900px;
+  margin: 60px auto 24px;
   padding: 0 20px;
 
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 16px;
+  flex-direction: column;   
+  align-items: center;      
+  text-align: center;
+  gap: 6px;
 }
 
 .home-title {
-  font-size: 26px;
+  font-size: 36px;
   font-weight: 700;
   color: #2b2d42;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
 }
+
+.home-subtitle {
+  font-size: 14px;
+  color: #6b7280;
+}
+
 
 
 .home-top-filters {
@@ -1021,19 +1029,22 @@ body.dark-mode .profile-dropdown a:hover {
 }
 
 /* Caixa de alertas (usada em home e events) */
+
 .event-alerts {
   max-width: 900px;
-  margin: 12px auto 20px;
-  padding: 12px 16px;
-  background: #fff7e6;
-  border: 1px solid #ffcc80;
-  border-radius: 10px;
+  margin: 24px auto 32px;
+  padding: 14px 18px;
+  background: #ffffff;               /* fundo branco */
+  border: 1px solid #e1e3e8;         /* borda suave cinza */
+  border-radius: 12px;
   font-size: 0.95rem;
-  color: #5d3b00;
+  color: #2b2d42;                    /* azul escuro do site */
+  box-shadow: 0 6px 18px rgba(0,0,0,0.04);
 }
 
 .event-alerts p {
   margin: 0 0 6px;
+  font-weight: 600;
 }
 
 .event-alerts-list {
@@ -1044,6 +1055,7 @@ body.dark-mode .profile-dropdown a:hover {
 .event-alerts-list li {
   margin-bottom: 4px;
 }
+
 
 /* Header dos events com sininho */
 .events-header {
@@ -1073,4 +1085,75 @@ body.dark-mode .profile-dropdown a:hover {
   font-size: 0.7rem;
   line-height: 18px;
   text-align: center;
+}
+
+
+/* ============================
+   OVERRIDES HOME & ALERTS
+   (ficam no FIM do ficheiro!)
+   ============================ */
+
+/* layout do título "Top 5 Collections" */
+.home-top-header {
+  max-width: 900px;
+  margin: 60px auto 24px;
+  padding: 0 20px;
+
+  display: flex;
+  flex-direction: column;      /* tudo em coluna */
+  align-items: center;         /* centrado */
+  text-align: center;
+  gap: 6px;
+}
+
+/* o h2 "Top 5 Collections" */
+.home-title {
+  font-size: 36px;
+  font-weight: 700;
+  color: #2b2d42;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  margin-bottom: 8px;
+}
+
+/* subtítulo pequenino por baixo */
+.home-subtitle {
+  font-size: 14px;
+  color: #6b7280;
+  margin-top: 0;
+}
+
+/* aviso de upcoming events, sem amarelo, no tema do site */
+.event-alerts {
+  max-width: 900px;
+  margin: 24px auto 32px;
+  padding: 14px 18px;
+  background: #ffffff;               /* branco */
+  border: 1px solid #e1e3e8;         /* borda suave */
+  border-radius: 12px;
+  font-size: 0.95rem;
+  color: #2b2d42;                    /* azul escuro do site */
+  box-shadow: 0 6px 18px rgba(0,0,0,0.04);
+}
+
+.event-alerts p {
+  margin: 0 0 6px;
+  font-weight: 600;
+}
+
+.event-alerts-list {
+  margin: 0;
+  padding-left: 18px;
+}
+
+.event-alerts-list li {
+  margin-bottom: 4px;
+}
+
+/* versão dark-mode do aviso (opcional) */
+body.dark-mode .event-alerts {
+  background: #111827;
+  border-color: #374151;
+  color: #e5e7eb;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.6);
 }
