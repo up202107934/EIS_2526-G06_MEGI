@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 07-Dez-2025 às 01:59
+-- Tempo de geração: 10-Dez-2025 às 22:35
 -- Versão do servidor: 10.4.32-MariaDB
 -- versão do PHP: 8.0.30
 
@@ -43,18 +43,18 @@ CREATE TABLE `collections` (
 --
 
 INSERT INTO `collections` (`id_collection`, `id_user`, `id_collection_category`, `name`, `description`, `cover_img`, `creation_date`, `rate`) VALUES
-(27, 1, 24, 'Pokémon Cards - Binder Principal', 'Coleção principal de cartas Pokémon, organizada por sets e raridade.', 'img/collections/rita_pokemon_binder.jpg', '2023-01-15', 5),
-(28, 1, 19, 'Figures Anime (1/8 e 1/10)', 'Figuras anime em PVC, maioritariamente escalas 1/8 e 1/10.', 'img/collections/rita_figures_anime.jpg', '2022-10-02', 4),
-(29, 1, 21, 'Funko Pop - Marvel & Anime', 'Funko Pops mistos entre Marvel e algumas séries anime.', 'img/collections/rita_funko.jpg', '2023-06-08', 4),
-(30, 2, 22, 'Marvel Collection', 'Coleção dedicada a Marvel, com foco em Spider-Man e X-Men.', 'img/collections/raquel_marvel.jpg', '2021-06-20', 5),
-(31, 2, 20, 'Manga Shelf', 'Mangas completos e em progresso, sobretudo shonen.', 'img/collections/raquel_manga.jpg', '2020-09-11', 4),
-(32, 2, 3, 'Comics Indies e Clássicos', 'Comics variados fora do mainstream, edições antigas e raras.', 'img/collections/raquel_comics.jpg', '2022-02-05', 4),
-(33, 3, 25, 'MTG Cards - Commander', 'Cartas favoritas e staples para Commander.', 'img/collections/pedro_mtg_commander.jpg', '2024-02-03', 4),
-(34, 3, 2, 'Trading Cards Diversas', 'Cartas não-TCG (desporto, autógrafos, edições especiais).', 'img/collections/pedro_trading.jpg', '2023-03-19', 3),
-(35, 3, 1, 'Miniatures Star Wars', 'Miniaturas e bustos Star Wars, algumas edições limitadas.', 'img/collections/pedro_miniatures_sw.jpg', '2022-05-27', 5),
-(36, 4, 23, 'DC - Batman Era', 'Coleção focada em Batman, clássicos e deluxe.', 'img/collections/joana_dc_batman.jpg', '2021-11-01', 5),
-(37, 4, 17, 'Books de Colecionismo', 'Livros sobre colecionismo, arte e guias oficiais.', 'img/collections/joana_books.jpg', '2022-07-14', 4),
-(38, 4, 3, 'Comics Favoritos', 'Seleção das minhas melhores edições e runs completas.', 'img/collections/joana_comics_favs.jpg', '2023-09-09', 5);
+(27, 1, 24, 'Pokémon Cards - Binder Principal', 'Coleção principal de cartas Pokémon, organizada por sets e raridade.', 'img/covers/rita_pokemon_binder.jpg', '2023-01-15', 5),
+(28, 1, 19, 'Figures Anime (1/8 e 1/10)', 'Figuras anime em PVC, maioritariamente escalas 1/8 e 1/10.', 'img/covers/rita_figures_anime.jpg', '2022-10-02', 4),
+(29, 1, 21, 'Funko Pop - Marvel & Anime', 'Funko Pops mistos entre Marvel e algumas séries anime.', 'img/covers/rita_funko.jpg', '2023-06-08', 4),
+(30, 2, 22, 'Marvel Collection', 'Coleção dedicada a Marvel, com foco em Spider-Man e X-Men.', 'img/covers/raquel_marvel.jpg', '2021-06-20', 5),
+(31, 2, 20, 'Manga Shelf', 'Mangas completos e em progresso, sobretudo shonen.', 'img/covers/raquel_manga.jpg', '2020-09-11', 4),
+(32, 2, 3, 'Comics Indies e Clássicos', 'Comics variados fora do mainstream, edições antigas e raras.', 'img/covers/raquel_comics.jpg', '2022-02-05', 4),
+(33, 3, 25, 'MTG Cards - Commander', 'Cartas favoritas e staples para Commander.', 'img/covers/pedro_mtg_commander.jpg', '2024-02-03', 4),
+(34, 3, 2, 'Trading Cards Diversas', 'Cartas não-TCG (desporto, autógrafos, edições especiais).', 'img/covers/pedro_trading.jpg', '2023-03-19', 3),
+(35, 3, 1, 'Miniatures Star Wars', 'Miniaturas e bustos Star Wars, algumas edições limitadas.', 'img/covers/pedro_miniatures_sw.jpg', '2022-05-27', 5),
+(36, 4, 23, 'DC - Batman Era', 'Coleção focada em Batman, clássicos e deluxe.', 'img/covers/joana_dc_batman.jpg', '2021-11-01', 5),
+(37, 4, 17, 'Books de Colecionismo', 'Livros sobre colecionismo, arte e guias oficiais.', 'img/covers/joana_books.jpg', '2022-07-14', 4),
+(38, 4, 3, 'Comics Favoritos', 'Seleção das minhas melhores edições e runs completas.', 'img/covers/joana_comics_favs.jpg', '2023-09-09', 5);
 
 -- --------------------------------------------------------
 
@@ -140,12 +140,18 @@ INSERT INTO `collection_items` (`id_collection`, `id_item`, `quantity`) VALUES
 (29, 8, 1),
 (29, 9, 1),
 (30, 13, 1),
+(31, 8, 1),
 (31, 14, 1),
-(32, 16, 1),
-(32, 17, 1),
+(32, 12, 1),
+(32, 15, 1),
+(33, 11, 1),
 (34, 11, 1),
+(35, 6, 1),
+(35, 7, 1),
 (36, 12, 1),
 (36, 15, 1),
+(37, 12, 1),
+(37, 15, 1),
 (38, 12, 1),
 (38, 13, 1),
 (38, 15, 1);
@@ -208,6 +214,7 @@ INSERT INTO `event_collections` (`id_event`, `id_collection`) VALUES
 (20, 29),
 (21, 27),
 (21, 30),
+(21, 31),
 (21, 33),
 (22, 27),
 (22, 30),
@@ -249,8 +256,7 @@ INSERT INTO `event_items` (`id_event`, `id_item`) VALUES
 (22, 14),
 (23, 12),
 (23, 13),
-(23, 15),
-(24, 16);
+(23, 15);
 
 -- --------------------------------------------------------
 
@@ -285,18 +291,16 @@ CREATE TABLE `items` (
 --
 
 INSERT INTO `items` (`id_item`, `id_item_category`, `name`, `img`, `importance`, `weight`, `price`, `acquisition_date`, `rarity`, `dimensions`, `year_of_release`, `edition_number`, `condition`, `franchise`, `material`, `scale`, `serial_no`, `status`, `description`) VALUES
-(6, 1, 'Goku Super Saiyan Figure 18cm', NULL, 9, 0.45, 25.00, '2022-08-05', 'Common', '18x8x6 cm', 2019, 'Standard Release', 'Good', 'Dragon Ball', 'PVC', '1/10', 'DB-GOKU-SSJ-18', 'owned', NULL),
-(7, 1, 'Sailor Moon Figure 20cm', NULL, 8, 0.50, 40.00, '2023-03-12', 'Limited', '20x9x7 cm', 2020, 'Anniversary Edition', 'Like New', 'Sailor Moon', 'PVC', '1/8', 'SM-ANNIV-20', 'owned', NULL),
-(8, 6, 'Funko Pop! Naruto Uzumaki (No. 71)', NULL, 7, 0.18, 13.50, '2023-09-21', 'Common', '9x6x6 cm', 2018, 'No. 71', 'Like New', 'Naruto', 'Vinyl', 'Funko', 'FK-NARUTO-071', 'owned', NULL),
-(9, 6, 'Funko Pop! Gojo Satoru (No. 1163)', NULL, 9, 0.19, 16.99, '2024-02-11', 'Exclusive', '9x6x6 cm', 2023, 'No. 1163 Special', 'New', 'Jujutsu Kaisen', 'Vinyl', 'Funko', 'FK-GOJO-1163', 'owned', NULL),
-(10, 7, 'Charizard VMAX', NULL, 10, 0.01, 110.00, '2021-01-03', 'Ultra Rare', '8.8x6.3 cm', 2020, 'Sword & Shield', 'Near Mint', 'Pokémon', 'Cardstock', 'Standard', 'PK-VMAX-CHAR-2020', 'owned', NULL),
-(11, 7, 'Blue-Eyes White Dragon', NULL, 9, 0.01, 35.00, '2020-06-18', 'Secret Rare', '8.6x5.9 cm', 2002, 'LOB-001', 'Good', 'Yu-Gi-Oh', 'Cardstock', 'Standard', 'YGO-LOB-001-BEWD', 'owned', NULL),
-(12, 3, 'Batman: The Killing Joke', NULL, 9, 0.30, 22.00, '2022-11-15', 'Classic', '26x17 cm', 1988, 'Deluxe Edition', 'Near Mint', 'DC', 'Paper', 'Standard', 'DC-KJ-DELUXE-1988', 'owned', NULL),
-(13, 3, 'Amazing Spider-Man #300', NULL, 10, 1.00, 85.00, '2021-07-09', 'Key Issue', '26x17 cm', 1988, '#300', 'Good', 'Marvel', 'Paper', 'Standard', 'MV-ASM-300-1988', 'owned', 'item do spider man'),
-(14, 5, 'One Piece Vol. 1', NULL, 8, 0.22, 9.99, '2023-02-01', 'Common', '19x13 cm', 2001, '1ª edição PT', 'Good', 'One Piece', 'Paper', 'Standard', 'OP-PT-VOL1-2001', 'owned', NULL),
-(15, 8, 'Watchmen', NULL, 10, 0.90, 25.00, '2020-12-28', 'Collector', '28x18 cm', 1987, 'Graphic Novel', 'Like New', 'DC', 'Paper', 'Hardcover', 'DC-WM-HC-1987', 'owned', NULL),
-(16, 1, 'a', 'uploads/items/item_692c8b4c31a70.jfif', 10, 0.00, 12.00, '2025-10-31', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-(17, 2, 'aa', 'uploads/items/item_692c8f6d398ac.jfif', 1, 10.00, 10.00, '2025-12-04', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+(6, 1, 'Goku Super Saiyan Figure 18cm', '/EIS_2526-G06_MEGI/public_html/uploads/items/item_goku_ssj_18cm.jpg', 9, 0.45, 25.00, '2022-08-05', 'Common', '18x8x6 cm', 2019, 'Standard Release', 'Good', 'Dragon Ball', 'PVC', '1/10', 'DB-GOKU-SSJ-18', 'owned', NULL),
+(7, 1, 'Sailor Moon Figure 20cm', '/EIS_2526-G06_MEGI/public_html/uploads/items/item_sailor_moon_20cm.jpg', 8, 0.50, 40.00, '2023-03-12', 'Limited', '20x9x7 cm', 2020, 'Anniversary Edition', 'Like New', 'Sailor Moon', 'PVC', '1/8', 'SM-ANNIV-20', 'owned', NULL),
+(8, 6, 'Funko Pop! Naruto Uzumaki (No. 71)', '/EIS_2526-G06_MEGI/public_html/uploads/items/item_funko_naruto_71.jpg', 7, 0.18, 13.50, '2023-09-21', 'Common', '9x6x6 cm', 2018, 'No. 71', 'Like New', 'Naruto', 'Vinyl', 'Funko', 'FK-NARUTO-071', 'owned', NULL),
+(9, 6, 'Funko Pop! Gojo Satoru (No. 1163)', '/EIS_2526-G06_MEGI/public_html/uploads/items/item_funko_gojo_1163.jpg', 9, 0.19, 16.99, '2024-02-11', 'Exclusive', '9x6x6 cm', 2023, 'No. 1163 Special', 'New', 'Jujutsu Kaisen', 'Vinyl', 'Funko', 'FK-GOJO-1163', 'owned', NULL),
+(10, 7, 'Charizard VMAX', '/EIS_2526-G06_MEGI/public_html/uploads/items/item_charizard_vmax.jpg', 10, 0.01, 110.00, '2021-01-03', 'Ultra Rare', '8.8x6.3 cm', 2020, 'Sword & Shield', 'Near Mint', 'Pokémon', 'Cardstock', 'Standard', 'PK-VMAX-CHAR-2020', 'owned', NULL),
+(11, 7, 'Blue-Eyes White Dragon', '/EIS_2526-G06_MEGI/public_html/uploads/items/item_blue_eyes_white_dragon.jpg', 9, 0.01, 35.00, '2020-06-18', 'Secret Rare', '8.6x5.9 cm', 2002, 'LOB-001', 'Good', 'Yu-Gi-Oh', 'Cardstock', 'Standard', 'YGO-LOB-001-BEWD', 'owned', NULL),
+(12, 3, 'Batman: The Killing Joke', '/EIS_2526-G06_MEGI/public_html/uploads/items/item_batman_killing_joke.jpg', 9, 0.30, 22.00, '2022-11-15', 'Classic', '26x17 cm', 1988, 'Deluxe Edition', 'Near Mint', 'DC', 'Paper', 'Standard', 'DC-KJ-DELUXE-1988', 'owned', NULL),
+(13, 3, 'Amazing Spider-Man #300', '/EIS_2526-G06_MEGI/public_html/uploads/items/item_spiderman_300.jpg', 10, 1.00, 85.00, '2021-07-09', 'Key Issue', '26x17 cm', 1988, '#300', 'Good', 'Marvel', 'Paper', 'Standard', 'MV-ASM-300-1988', 'owned', 'item do spider man'),
+(14, 5, 'One Piece Vol. 1', '/EIS_2526-G06_MEGI/public_html/uploads/items/item_one_piece_vol1.jpg', 8, 0.22, 9.99, '2023-02-01', 'Common', '19x13 cm', 2001, '1ª edição PT', 'Good', 'One Piece', 'Paper', 'Standard', 'OP-PT-VOL1-2001', 'owned', NULL),
+(15, 8, 'Watchmen', '/EIS_2526-G06_MEGI/public_html/uploads/items/item_watchmen.jpg', 10, 0.90, 25.00, '2020-12-28', 'Collector', '28x18 cm', 1987, 'Graphic Novel', 'Like New', 'DC', 'Paper', 'Hardcover', 'DC-WM-HC-1987', 'owned', NULL);
 
 -- --------------------------------------------------------
 
@@ -418,6 +422,13 @@ CREATE TABLE `user_event_items` (
   `id_item` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Extraindo dados da tabela `user_event_items`
+--
+
+INSERT INTO `user_event_items` (`id`, `id_participation`, `id_item`) VALUES
+(0, 0, 14);
+
 -- --------------------------------------------------------
 
 --
@@ -436,6 +447,7 @@ CREATE TABLE `user_event_participation` (
 --
 
 INSERT INTO `user_event_participation` (`id_participation`, `id_user`, `id_event`, `id_collection`) VALUES
+(0, 2, 21, 31),
 (1, 1, 21, 30);
 
 -- --------------------------------------------------------
@@ -480,10 +492,7 @@ INSERT INTO `wishlist_items` (`id_wishlist`, `id_item`, `added_at`) VALUES
 (3, 13, '2025-03-08 00:00:00'),
 (3, 14, '2025-04-11 00:00:00'),
 (3, 15, '2025-06-20 00:00:00'),
-(4, 6, '2025-02-15 00:00:00'),
 (4, 11, '2025-04-03 00:00:00'),
-(4, 12, '2025-05-27 00:00:00'),
-(4, 15, '2025-07-09 00:00:00'),
 (5, 7, '2024-12-01 00:00:00'),
 (5, 10, '2025-02-22 00:00:00'),
 (5, 12, '2025-05-05 00:00:00'),
@@ -618,7 +627,7 @@ ALTER TABLE `wishlist_items`
 -- AUTO_INCREMENT de tabela `collections`
 --
 ALTER TABLE `collections`
-  MODIFY `id_collection` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
+  MODIFY `id_collection` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
 
 --
 -- AUTO_INCREMENT de tabela `collection_categories`
@@ -642,7 +651,7 @@ ALTER TABLE `events`
 -- AUTO_INCREMENT de tabela `items`
 --
 ALTER TABLE `items`
-  MODIFY `id_item` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `id_item` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT de tabela `item_categories`
