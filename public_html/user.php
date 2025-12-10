@@ -101,10 +101,53 @@ $user = UserDAL::getById($userId);
                         </p>
 
                         <div style="display:flex; gap:10px; margin-top:10px;">
-                            <a href="collection.php?id=<?= $c['id_collection'] ?>" class="btn" style="flex:1; text-align:center; background:#3498db; color:white; padding:8px; text-decoration:none; border-radius:4px;">Manage</a>
-    
-                            <button class="btn delete-collection-btn" data-id="<?= $c['id_collection'] ?>" style="background:#e74c3c; color:white; border:none; padding:8px 12px; border-radius:4px; cursor:pointer;" title="Delete Collection">🗑️</button>
-                        </div>
+
+                <!-- MANAGE (vermelho elegante do site) -->
+                <a  href="collection.php?id=<?= $c['id_collection'] ?>" 
+                    class="btn"
+                    style="
+                        flex:1;
+                        text-align:center;
+                        padding:10px 0;
+                        border-radius:8px;
+                        background:linear-gradient(135deg,#b22222,#ff4c4c);
+                        color:#fff;
+                        font-weight:600;
+                        box-shadow:0 4px 12px rgba(0,0,0,0.15);
+                        transition:0.2s;
+                        text-decoration:none;
+                    "
+                    onmouseover="this.style.transform='translateY(-2px)'"
+                    onmouseout="this.style.transform='none'"
+                >
+                    Manage
+                </a>
+
+
+                <!-- DELETE (clean, outline vermelho) -->
+                <button  
+                    class="delete-collection-btn"
+                    data-id="<?= $c['id_collection'] ?>"
+                    title="Delete Collection"
+                    style="
+                        padding:10px 12px;
+                        border-radius:8px;
+                        cursor:pointer;
+                        background:#fff;
+                        color:#b22222;
+                        border:2px solid #f5b5b5;
+                        font-weight:700;
+                        transition:0.2s;
+                        box-shadow:0 2px 6px rgba(0,0,0,0.05);
+                    "
+                    onmouseover="this.style.background='#ffe5e5'"
+                    onmouseout="this.style.background='#fff'"
+                >
+                    🗑️
+                </button>
+
+            </div>
+
                     </div>
                 <?php endforeach; ?>
             </div>

@@ -21,7 +21,19 @@ require_once __DIR__ . "/partials/bootstrap.php";
 
 <main>
     <h1 class="events-title">EVENTS</h1>
+    
+   <?php if (isLoggedIn()): ?>
+  <!-- Barra de notificações -->
+  <div class="events-notifications">
+    <button id="notif-trigger" class="notifications-link">
+      NOTIFICATIONS
+      <span id="notif-dot" class="notif-dot" hidden></span>
+    </button>
+    </div>
+    <?php endif; ?>
 
+
+  
    <section class="events-toolbar pro">
      <div class="toolbar-left">
        <div class="view-toggle" role="group" aria-label="View toggle">
@@ -57,9 +69,17 @@ require_once __DIR__ . "/partials/bootstrap.php";
        </label>
      </div>
 
-     <div class="toolbar-right">
-       <button id="btn-new" class="btn primary">+ New Event</button>
-     </div>
+     <div class="toolbar-right" style="position:relative;">
+
+  <button id="btn-new" class="btn primary">+ New Event</button>
+
+  <!-- painel dropdown com a lista -->
+  <div id="notif-panel" class="notif-panel" hidden>
+    <h4>Upcoming events you’re participating in</h4>
+    <ul id="notif-list"></ul>
+  </div>
+</div>
+
    </section>
 
    <section id="events" class="collections-container"></section>
@@ -153,6 +173,17 @@ require_once __DIR__ . "/partials/bootstrap.php";
     <div class="modal-buttons">
       <button id="f-cancel">Cancel</button>
       <button id="f-save" class="btn">Save</button>
+    </div>
+  </div>
+</div>  
+
+ <!-- NOTIFICATIONS MODAL -->
+<div id="notifModal" class="modal" aria-hidden="true">
+  <div class="modal-content">
+    <span class="close" id="notif-close" aria-label="Close">×</span>
+    <h2>Upcoming events you're participating in</h2>
+    <div id="notif-modal-list" class="notif-modal-list">
+      <!-- JS preenche aqui -->
     </div>
   </div>
 </div>
