@@ -5,6 +5,7 @@ require_once __DIR__ . "/dal/CollectionDAL.php";
 
 
 $categories = ItemCategoryDAL::getAll();
+$isLoggedIn = isLoggedIn();
 
 // --- LÓGICA DE VERIFICAÇÃO DE DONO ---
 $isOwner = false; 
@@ -167,7 +168,7 @@ if (isset($_GET['id'])) {
 <script>
     const IS_OWNER = <?= $isOwner ? "true" : "false" ?>;
     const ID_COLLECTION = <?= $collectionId ?>;
-    
+    const IS_LOGGED_IN = <?= $isLoggedIn ? "true" : "false" ?>;
 </script>
 
 <script src="js/collection.js"></script>
@@ -195,8 +196,18 @@ if(idCollection) {
 
           const link = document.createElement("a");
           link.className = "meta-owner-link";
-          link.href = `user_view.php?id=${ownerId}&public=1`;
+          
           link.textContent = ownerName;
+          
+          if (IS_LOGGED_IN) {
+            link.href = `user_view.php?id=${ownerId}&public=1`;
+          } else {
+            link.href = "#";
+            link.addEventListener("click", (ev) => {
+              ev.preventDefault();
+              alert("Please sign in to access this profile.");
+            });
+          }
 
           meta.append(label, link);
         }

@@ -26,6 +26,7 @@ $memberSince = (!empty($user["date_of_joining"]))
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>User Profile | My Collections</title>
+  <link rel="stylesheet" href="css/style.css" />
   <link rel="stylesheet" href="css/user_view.css" />
 </head>
 
@@ -34,34 +35,7 @@ $memberSince = (!empty($user["date_of_joining"]))
 <body>
 
   
-  <header class="navbar">
-    <div class="navbar-logo">
-      <a href="home.php">MyCollections</a>
-    </div>
-
-    <nav class="navbar-links">
-      <a href="events.php" class="nav-link">Events</a>
-      <a href="user.php#myCollectionsSection" class="nav-link">My Collections</a>
-      <a href="team.php" class="nav-link">Team</a>
-    </nav>
-
-    <div class="navbar-actions">
-      
-
-      
-     <div class="navbar-avatar-wrapper">
-  <img class="navbar-avatar" src="img/user.jpg" alt="User" id="profileBtn">
-  
-  <div class="profile-dropdown" id="profileDropdown">
-    <a href="user.php">👤 Ver Perfil</a>
-    <a href="home_withoutlogin.html">🚪 Log Out</a>
-  </div>
-</div>
-
-
-      <button id="themeToggle" class="theme-toggle" type="button">🌙</button>
-    </div>
-  </header>
+  <?php require_once __DIR__ . "/partials/navbar.php"; ?>
 
   <!-- ===== CONTEÚDO DA PÁGINA ===== -->
   <div class="page-container">
@@ -120,7 +94,7 @@ $memberSince = (!empty($user["date_of_joining"]))
                   : "collection.php?id=" . $collection["id_collection"];
               ?>
               <div class="collection-card">
-                <div style="position:relative;">
+                <div class="collection-cover">
                   <img src="<?= htmlspecialchars($cover) ?>" alt="<?= htmlspecialchars($collection["name"]) ?>">
                   <span class="rate-badge">⭐ <?= htmlspecialchars($rate) ?></span>
                 </div>
@@ -148,37 +122,7 @@ $memberSince = (!empty($user["date_of_joining"]))
     <p>© 2025 MyCollections | All rights reserved.</p>
   </footer>
 
-  <script>
-   
-  const profileBtn = document.getElementById("profileBtn");
-  const dropdown = document.getElementById("profileDropdown");
-
-  if (profileBtn && dropdown) {
-    profileBtn.addEventListener("click", () => {
-      dropdown.style.display = dropdown.style.display === "block" ? "none" : "block";
-    });
-
-    document.addEventListener("click", (e) => {
-      if (!dropdown.contains(e.target) && !profileBtn.contains(e.target)) {
-        dropdown.style.display = "none";
-      }
-    });
-  }
-
-  document.getElementById("themeToggle").addEventListener("click", () => {
-      document.body.classList.toggle("dark-mode");
-      // guarda a preferência
-      if (document.body.classList.contains("dark-mode")) {
-          localStorage.setItem("theme", "dark");
-      } else {
-          localStorage.removeItem("theme");
-      }
-  });
-  
-  if (localStorage.getItem("theme") === "dark") {
-      document.body.classList.add("dark-mode");
-  }
-  </script>
+  <script src="js/navbar.js"></script>
 
 
   
