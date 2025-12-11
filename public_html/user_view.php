@@ -1,5 +1,24 @@
 <?php
 require_once __DIR__ . "/partials/bootstrap.php";
+$userId   = isset($_GET["id"]) ? (int) $_GET["id"] : null;
+$isPublic = isset($_GET["public"]) && $_GET["public"] === "1";
+
+$user = $userId ? UserDAL::getById($userId) : null;
+$collections = $user ? CollectionDAL::getByUserFull($userId) : [];
+
+if (!$user) {
+    http_response_code(404);
+}
+
+$collectionsCount = $collections ? count($collections) : 0;
+$itemsCount = 0;
+foreach ($collections as $c) {
+    $itemsCount += (int) ($c["item_count"] ?? 0);
+}
+
+$memberSince = (!empty($user["date_of_joining"]))
+    ? date("F Y", strtotime($user["date_of_joining"]))
+    : null;
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -49,21 +68,31 @@ require_once __DIR__ . "/partials/bootstrap.php";
     <main class="main-content">
       <div class="profile-header">
         <div class="profile-photo">
-          <img src="img/ImagemPerfil.jpeg" alt="User Photo">
+          <?php if (!empty($user["profile_img"])): ?>
+            <img src="<?= htmlspecialchars($user["profile_img"]) ?>" alt="User Photo">
+          <?php else: ?>
+            <div class="profile-photo-placeholder">
+              <?= $user ? strtoupper(substr($user["username"], 0, 1)) : "?" ?>
+            </div>
+          <?php endif; ?>
         </div>
 
         <div class="profile-meta">
-          <h1 id="userName">User Name</h1>
-          <p id="userEmail">user@email.com</p>
-          <p class="user-extra-line">Collector · Lisbon, Portugal · Member since 2024</p>
+          <h1 id="userName"><?= htmlspecialchars($user["name"] ?? $user["username"] ?? "User") ?></h1>
+          <?php if (!empty($user["email"])): ?>
+            <p id="userEmail"><?= htmlspecialchars($user["email"]) ?></p>
+          <?php endif; ?>
+          <p class="user-extra-line">
+            Collector <?= $memberSince ? "· Member since " . htmlspecialchars($memberSince) : "" ?>
+          </p>
 
           <div class="user-stats">
             <div class="user-stat">
-              <span id="statCollections" class="user-stat-number">1</span>
-              <span class="user-stat-label">Collections</span>
+              <span id="statCollections" class="user-stat-number"><?= $collectionsCount ?></span>
+              <span class="user-stat-label">Items</span>
             </div>
             <div class="user-stat">
-              <span id="statItems" class="user-stat-number">42</span>
+              <span id="statItems" class="user-stat-number"><?= $itemsCount ?></span>
               <span class="user-stat-label">Items</span>
             </div>
           </div>
@@ -73,109 +102,86 @@ require_once __DIR__ . "/partials/bootstrap.php";
       <!-- My Collections -->
       <section class="collections-section">
         <h2>My Collections</h2>
-        <div class="collections-grid">
-            
-        </div>
+        <?php if (!$user): ?>
+          <p style="color:#b22222;">User not found.</p>
+        <?php elseif (empty($collections)): ?>
+          <p style="color:#777;">This user has not created any collections yet.</p>
+        <?php else: ?>
+          <div class="collections-grid">
+            <?php foreach ($collections as $collection): ?>
+              <?php
+                $cover = !empty($collection["cover_img"]) ? $collection["cover_img"] : "img/collection-placeholder.jpg";
+                $catName = $collection["category_name"] ?? "General";
+                $items = (int) ($collection["item_count"] ?? 0);
+                $rate = $collection["rate"] ?? 0;
+                $creationDate = !empty($collection["creation_date"]) ? substr($collection["creation_date"], 0, 10) : "";
+                $collectionLink = $isPublic
+                  ? "collection_withoutlogin.html"
+                  : "collection.php?id=" . $collection["id_collection"];
+              ?>
+              <div class="collection-card">
+                <div style="position:relative;">
+                  <img src="<?= htmlspecialchars($cover) ?>" alt="<?= htmlspecialchars($collection["name"]) ?>">
+                  <span class="rate-badge">⭐ <?= htmlspecialchars($rate) ?></span>
+                </div>
+
+                <h3><?= htmlspecialchars($collection["name"]) ?></h3>
+                <span class="category-badge"><?= htmlspecialchars($catName) ?></span>
+
+                <?php if (!empty($collection["description"])): ?>
+                  <p><?= htmlspecialchars(substr($collection["description"], 0, 80)) ?><?= strlen($collection["description"]) > 80 ? "..." : "" ?></p>
+                <?php endif; ?>
+
+                <p class="user-extra-line" style="margin-top:auto;">Created: <?= htmlspecialchars($creationDate) ?></p>
+                <p class="user-extra-line">Items: <?= $items ?></p>
+
+                <a href="<?= htmlspecialchars($collectionLink) ?>" class="btn-view">View Collection</a>
+              </div>
+            <?php endforeach; ?>
+          </div>
+        <?php endif; ?>
       </section>
     </main>
   </div>
-
-  <script>
-     window.SKIP_USER_JS = true;
-  </script>
-  <script src="js/data.js"></script>
-  <script>
-    const params   = new URLSearchParams(window.location.search);
-    const userId   = parseInt(params.get("id")) || 1;
-    const isPublic = params.get("public") === "1";
-
-    const collectionPage = isPublic
-      ? "collection_withoutlogin.html"
-      : "collection.php";
-
-    if (typeof users !== "undefined") {
-      const user = users.find(u => u.id === userId) || users[0];
-      document.getElementById("userName").textContent  = user ? user.name : "User Name";
-      document.getElementById("userEmail").textContent = user
-        ? `${user.name.toLowerCase().replace(" ", ".")}@gmail.com`
-        : "user@email.com";
-    }
-
-    if (typeof collections !== "undefined") {
-      const grid = document.querySelector(".collections-grid");
-      const userCollections = collections.filter(c => c.userId === userId) || [];
-
-      if (grid && userCollections.length) {
-        grid.innerHTML = userCollections.map(c => `
-          <div class="collection-card">
-            <img src="img/${c.name.toLowerCase().replace(/ /g, '')}.jpg" alt="${c.name}">
-            <h3>${c.name}</h3>
-            <p>${c.items ? c.items.length + ' items' : ''}</p>
-
-            <div class="mini-carousel">
-              <div class="mini-track">
-                ${(c.items || []).slice(0, 5).map(item => `
-                  <div class="mini-item">
-                    <img src="${item.image || 'img/placeholder.jpg'}" alt="${item.name || ''}">
-                  </div>
-                `).join("")}
-              </div>
-            </div>
-
-            <a href="${collectionPage}?id=${c.id}" class="btn-view">View Collection</a>
-          </div>
-        `).join("");
-      }
-    }
-
-    document.addEventListener("DOMContentLoaded", () => {
-      document.querySelectorAll(".mini-carousel .mini-track").forEach(track => {
-        track.innerHTML += track.innerHTML;
-      });
-    });
-    
-    
-document.addEventListener("DOMContentLoaded", () => {
-  const profileBtn = document.getElementById("profileBtn");
-  const dropdown = document.getElementById("profileDropdown");
-
-  if (!profileBtn || !dropdown) return;
-
-  profileBtn.addEventListener("click", () => {
-    dropdown.style.display = dropdown.style.display === "block" ? "none" : "block";
-  });
-
   
-  document.addEventListener("click", (e) => {
-    if (!dropdown.contains(e.target) && !profileBtn.contains(e.target)) {
-      dropdown.style.display = "none";
-    }
-  });
-});
-
-    
-  </script>
-
   <footer class="footer">
     <p>© 2025 MyCollections | All rights reserved.</p>
   </footer>
-  
+
   <script>
-document.getElementById("themeToggle").addEventListener("click", () => {
-    document.body.classList.toggle("dark-mode");
-    // guarda a preferência
-    if (document.body.classList.contains("dark-mode")) {
-        localStorage.setItem("theme", "dark");
-    } else {
-        localStorage.removeItem("theme");
-    }
-});
+   
+  const profileBtn = document.getElementById("profileBtn");
+  const dropdown = document.getElementById("profileDropdown");
+
+  if (profileBtn && dropdown) {
+    profileBtn.addEventListener("click", () => {
+      dropdown.style.display = dropdown.style.display === "block" ? "none" : "block";
+    });
+
+    document.addEventListener("click", (e) => {
+      if (!dropdown.contains(e.target) && !profileBtn.contains(e.target)) {
+        dropdown.style.display = "none";
+      }
+    });
+  }
+
+  document.getElementById("themeToggle").addEventListener("click", () => {
+      document.body.classList.toggle("dark-mode");
+      // guarda a preferência
+      if (document.body.classList.contains("dark-mode")) {
+          localStorage.setItem("theme", "dark");
+      } else {
+          localStorage.removeItem("theme");
+      }
+  });
+  
+  if (localStorage.getItem("theme") === "dark") {
+      document.body.classList.add("dark-mode");
+  }
+  </script>
 
 
-if (localStorage.getItem("theme") === "dark") {
-    document.body.classList.add("dark-mode");
-}
-</script>
+  
 
 </body>
 </html>

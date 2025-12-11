@@ -83,6 +83,33 @@ class CollectionDAL {
         return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
     }
     
+    // 2b. Buscar todas as coleções de um utilizador (sem limite) com contagem de items
+    public static function getByUserFull($id_user) {
+        $db = DB::conn();
+
+        $sql = "SELECT c.*, u.username as owner_name, u.name as owner_fullname, cat.name as category_name,
+                       COUNT(ci.id_item) as item_count
+                FROM collections c
+                JOIN users u ON c.id_user = u.id_user
+                LEFT JOIN collection_categories cat ON c.id_collection_category = cat.id_collection_category
+                LEFT JOIN collection_items ci ON ci.id_collection = c.id_collection
+                WHERE c.id_user = ?
+                GROUP BY c.id_collection
+                ORDER BY c.creation_date DESC";
+
+        $stmt = $db->prepare($sql);
+
+        if (!$stmt) {
+            return [];
+        }
+
+        $stmt->bind_param("i", $id_user);
+        $stmt->execute();
+
+        $result = $stmt->get_result();
+        return $result ? $result->fetch_all(MYSQLI_ASSOC) : [];
+    }
+    
     // 3. Buscar UMA coleção pelo ID (Para verificar o dono)
     public static function getById($id_collection) {
         $db = DB::conn();
