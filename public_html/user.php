@@ -65,7 +65,7 @@ $user = UserDAL::getById($userId);
         </div>
       </div>
 
-      <section class="collections-section" id="minhas-colecoes">
+      <section class="collections-section" id="myCollectionsSection">
         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
             <h2>My Collections</h2>
             <button class="btn-add" id="openModal">+ Create New</button>

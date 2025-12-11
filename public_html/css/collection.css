@@ -137,6 +137,32 @@ body {
   text-transform: uppercase;
 }
 
+.collection-meta {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  align-items: center;
+  font-size: 16px;
+  color: #444;
+  margin-bottom: 10px;
+}
+
+.collection-meta .meta-label {
+  font-weight: 600;
+  color: #B22222;
+}
+
+.collection-meta .meta-owner-link {
+  color: #0c4b7a;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.collection-meta .meta-owner-link:hover,
+.collection-meta .meta-owner-link:focus-visible {
+  text-decoration: underline;
+}
+
 
 .collection-items.grid-view {
   display: grid;
@@ -160,6 +186,7 @@ body {
 
 
 .item-card {
+  position: relative;
   background: #fff;
   border-radius: 20px;
   box-shadow: 0 6px 15px rgba(0,0,0,0.15);

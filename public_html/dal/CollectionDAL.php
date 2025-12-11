@@ -86,7 +86,10 @@ class CollectionDAL {
     // 3. Buscar UMA coleção pelo ID (Para verificar o dono)
     public static function getById($id_collection) {
         $db = DB::conn();
-        $sql = "SELECT * FROM collections WHERE id_collection = ?";
+        $sql = "SELECT c.*, u.id_user AS owner_id, u.username AS owner_username, u.name AS owner_name
+                FROM collections c
+                JOIN users u ON c.id_user = u.id_user
+                WHERE c.id_collection = ?";
         
         $stmt = $db->prepare($sql);
         $stmt->bind_param("i", $id_collection);

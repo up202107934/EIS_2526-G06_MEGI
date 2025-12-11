@@ -64,7 +64,7 @@ $isLoggedIn = isLoggedIn();
   <div id="topCollectionsGrid" class="collections-container"></div>
 
   <?php if ($isLoggedIn): ?>
-    <a href="user.php#minhas-colecoes" class="btn my-collections-btn">My Collections</a>
+    <a href="user.php#myCollectionsSection" class="btn my-collections-btn">My Collections</a>
     <button class="btn-add" id="openModal">+ Create New Collection</button>
   <?php else: ?>
     <p style="margin-top:12px;">

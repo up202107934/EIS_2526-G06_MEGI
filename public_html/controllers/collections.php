@@ -6,6 +6,20 @@ header("Content-Type: application/json; charset=utf-8");
 
 // -------- GET (Ler coleções) --------
 if ($_SERVER["REQUEST_METHOD"] === "GET") {
+    // 1) Buscar uma coleção específica (detalhe)
+    if (isset($_GET["id"])) {
+        $collectionId = (int) $_GET["id"];
+        $collection = CollectionDAL::getById($collectionId);
+
+        if (!$collection) {
+            http_response_code(404);
+            echo json_encode(["ok" => false, "error" => "collection not found"]);
+            exit;
+        }
+
+        echo json_encode($collection);
+        exit;
+    }
 
     // Receber categoria e termo de pesquisa (ex: collections.php?cat=2&q=batman)
     $catFilter = $_GET["cat"] ?? null;

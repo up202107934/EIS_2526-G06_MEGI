@@ -84,13 +84,14 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         filteredItems.forEach(it => {
+            
             cont.innerHTML += `
             <div class="item-card"
                 data-id="${it.id_item}"
                 data-rating="${it.importance}"
                 data-price="${it.price}"
                 data-weight="${it.weight}">
-
+                
                 <img src="${it.img ? it.img : 'img/item-placeholder.jpg'}" alt="${it.name}">
 
                 <div class="item-details">
@@ -113,8 +114,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 </div>
             </div>
         `;
-
-
         });
 
     }
@@ -272,7 +271,5 @@ document.addEventListener("click", async (e) => {
         alert("Erro ao eliminar: " + (data.error || ""));
     }
 });
-
-
 
 });

@@ -40,6 +40,7 @@ if (isset($_GET['id'])) {
 </header>
 
 <h1 class="collection-title" id="collectionName">Collection</h1>
+<div class="collection-meta" id="collectionMeta" aria-live="polite"></div>
 
 <div class="collection-toolbar pro">
   <div class="toolbar-left">
@@ -166,6 +167,7 @@ if (isset($_GET['id'])) {
 <script>
     const IS_OWNER = <?= $isOwner ? "true" : "false" ?>;
     const ID_COLLECTION = <?= $collectionId ?>;
+    
 </script>
 
 <script src="js/collection.js"></script>
@@ -180,6 +182,24 @@ if(idCollection) {
       .then(c => {
         const title = document.getElementById("collectionName");
         if(title && c.name) title.textContent = c.name;
+        
+        const meta = document.getElementById("collectionMeta");
+        const ownerName = c.owner_name || c.owner_username;
+        const ownerId = c.owner_id || c.id_user;
+
+        if(meta && ownerName && ownerId) {
+          meta.innerHTML = "";
+          const label = document.createElement("span");
+          label.className = "meta-label";
+          label.textContent = "Created by:";
+
+          const link = document.createElement("a");
+          link.className = "meta-owner-link";
+          link.href = `user_view.php?id=${ownerId}&public=1`;
+          link.textContent = ownerName;
+
+          meta.append(label, link);
+        }
       })
       .catch(e => console.error("Erro loading title", e));
 
