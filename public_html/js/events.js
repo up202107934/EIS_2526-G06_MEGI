@@ -139,19 +139,35 @@ document.addEventListener("DOMContentLoaded", () => {
     let events = Array.isArray(allEvents) ? [...allEvents] : [];
 
     const now    = new Date();
-    const status = statusSelect?.value || "";
+const status = statusSelect?.value || "";
 
-    if (status === "upcoming") {
-      events = events.filter((e) => {
-        const d = new Date(e.event_date || e.date || e.datetime || "");
-        return !isNaN(d) && d >= now;
-      });
-    } else if (status === "past") {
-      events = events.filter((e) => {
-        const d = new Date(e.event_date || e.date || e.datetime || "");
-        return !isNaN(d) && d < now;
-      });
-    }
+        // ==========================
+        // STATUS FILTER
+        // ==========================
+        if (status === "upcoming") {
+          events = events.filter((e) => {
+            const d = new Date(e.event_date ?? e.date ?? e.datetime ?? "");
+            return !isNaN(d) && d >= now;
+          });
+
+        } else if (status === "past") {
+          events = events.filter((e) => {
+            const d = new Date(e.event_date ?? e.date ?? e.datetime ?? "");
+            return !isNaN(d) && d < now;
+          });
+
+        } else if (status === "mine") {
+          // 👤 Created by me (apenas se estiver logado)
+          if (CURRENT_USER_ID !== null) {
+            events = events.filter((e) =>
+              e.created_by !== undefined &&
+              Number(e.created_by) === Number(CURRENT_USER_ID)
+            );
+          } else {
+            events = []; // segurança extra
+          }
+        }
+
 
     const qRaw = (searchInput?.value || "").trim();
     const q    = qRaw.toLowerCase();
@@ -204,6 +220,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
       const idEv = e.id_event ?? e.id ?? e.eventId ?? "";
 
+      // ➜ É dono do evento?
+      const isOwner =
+        e.created_by !== undefined &&
+        CURRENT_USER_ID !== null &&
+        Number(e.created_by) === Number(CURRENT_USER_ID);
+
+
+
+        const ownerBadge = isOwner ? `<div class="ev-owner-badge">Created by you</div>` : "";
+
       eventsContainer.innerHTML += `
         <article class="collection-card event-card ${
           isUpcoming ? "upcoming" : "past"
@@ -217,13 +243,16 @@ document.addEventListener("DOMContentLoaded", () => {
             </div>
           </div>
           <div class="ev-meta">
+             ${ownerBadge}
             <h2 class="ev-title">${titleHtml}</h2>
             <p class="ev-date">📅 ${e.event_date ?? e.date ?? ""}</p>
             <p class="muted">📍 ${e.location ?? ""}</p>
           </div>
           <div class="ev-actions">
             <a href="event.php?id=${idEv}" class="btn outline">View event</a>
+            
           </div>
+
         </article>
       `;
     });
@@ -440,7 +469,6 @@ document.addEventListener("DOMContentLoaded", () => {
 // -------------------------
 // PARTICIPATE – várias coleções + itens
 // -------------------------
-let selectedParticipateCollections = new Set();
 
 participateBtn?.addEventListener("click", () => {
   // reset ao abrir
@@ -946,16 +974,82 @@ pConfirm?.addEventListener("click", async () => {
     block?.remove();
   }
 
-  btnNew?.addEventListener("click", () => {
-    eventForm.classList.add("show");
-    eventForm.setAttribute("aria-hidden", "false");
-    loadCollectionsForForm();
-  });
+    const loginRequiredModal = document.getElementById("loginRequiredModal");
+    const lrClose  = document.getElementById("lr-close");
+    const lrCancel = document.getElementById("lr-cancel");
+
+    function openLoginRequired() {
+      loginRequiredModal?.classList.add("show");
+      loginRequiredModal?.setAttribute("aria-hidden", "false");
+    }
+
+    function closeLoginRequired() {
+      loginRequiredModal?.classList.remove("show");
+      loginRequiredModal?.setAttribute("aria-hidden", "true");
+    }
+
+    lrClose?.addEventListener("click", closeLoginRequired);
+    lrCancel?.addEventListener("click", closeLoginRequired);
+    loginRequiredModal?.addEventListener("click", (e) => {
+      if (e.target === loginRequiredModal) closeLoginRequired();
+    });
+
+    btnNew?.addEventListener("click", () => {
+      // 🔒 sem login -> não abre modal, mostra aviso
+      if (typeof CURRENT_USER_ID === "undefined" || CURRENT_USER_ID === null) {
+        openLoginRequired();
+        return;
+      }
+
+      // ✅ com login -> abre modal normal
+      editingEventId = null;
+
+      const fTitle = document.getElementById("f-title");
+      const fName  = document.getElementById("f-name");
+      const fDate  = document.getElementById("f-date");
+      const fDesc  = document.getElementById("f-desc");
+      const fLoc   = document.getElementById("f-loc");
+
+      if (fTitle) fTitle.textContent = "New Event";
+      if (fName)  fName.value = "";
+      if (fDate)  fDate.value = "";
+      if (fDesc)  fDesc.value = "";
+      if (fLoc)   fLoc.value  = "";
+
+      eventForm.classList.add("show");
+      eventForm.setAttribute("aria-hidden", "false");
+      loadCollectionsForForm();
+    });
+
+
 
   document.getElementById("f-cancel")?.addEventListener("click", () => {
     eventForm.classList.remove("show");
     eventForm.setAttribute("aria-hidden", "true");
   });
+  
+        const formClose = document.getElementById("form-close");
+
+      function closeEventForm() {
+        eventForm?.classList.remove("show");
+        eventForm?.setAttribute("aria-hidden", "true");
+      }
+
+      formClose?.addEventListener("click", closeEventForm);
+      document.getElementById("f-cancel")?.addEventListener("click", closeEventForm);
+
+      // opcional: clicar fora do modal fecha
+      eventForm?.addEventListener("click", (e) => {
+        if (e.target === eventForm) closeEventForm();
+      });
+
+      // opcional: ESC fecha
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape" && eventForm?.classList.contains("show")) {
+          closeEventForm();
+        }
+      });
+
 
   async function loadCollectionsForForm() {
     if (!fColList) return;
@@ -1028,18 +1122,33 @@ pConfirm?.addEventListener("click", async () => {
       return;
     }
 
-    const payload = {
+    // dados base (servem para create e update)
+    const basePayload = {
       name,
       event_date: date,
       description: desc || null,
-      location: loc || null,
-      collections: Array.from(selectedCollections),
-      items: Array.from(selectedItems).map((k) => k.split(":")[1]),
+      location: loc || null
     };
+
+    let method  = "POST";
+    let payload = {};
+
+    if (editingEventId) {
+      // ➜ UPDATE
+      method  = "PUT";
+      payload = { ...basePayload, id_event: editingEventId };
+    } else {
+      // ➜ CREATE (como tinhas)
+      payload = {
+        ...basePayload,
+        collections: Array.from(selectedCollections),
+        items: Array.from(selectedItems).map((k) => k.split(":")[1])
+      };
+    }
 
     try {
       const r = await fetch("controllers/events.php", {
-        method: "POST",
+        method,
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
       });
@@ -1052,26 +1161,31 @@ pConfirm?.addEventListener("click", async () => {
         resp = JSON.parse(text);
       } catch (e) {
         console.error("JSON PARSE ERROR:", e);
+        alert("Erro ao processar resposta do servidor.");
         return;
       }
 
       if (resp.ok) {
-        alert("Evento criado com sucesso!");
+        alert(editingEventId ? "Evento atualizado com sucesso!" : "Evento criado com sucesso!");
         eventForm.classList.remove("show");
+        eventForm.setAttribute("aria-hidden", "true");
+        editingEventId = null;
 
-        const events = await fetch("controllers/events.php").then((x) =>
-          x.json()
-        );
+        // voltar a buscar a lista de eventos
+        const events = await fetch("controllers/events.php").then((x) => x.json());
         allEvents = events || [];
         renderEvents();
       } else {
-        alert("Erro ao criar evento.");
+        alert("Erro ao guardar evento.");
       }
     } catch (err) {
       console.error(err);
-      alert("Erro de rede ao criar evento.");
+      alert("Erro de rede ao guardar evento.");
     }
   });
+
+
+  
 
   // ==========================
   //   ALERTAS (campainha)

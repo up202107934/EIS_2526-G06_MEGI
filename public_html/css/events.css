@@ -1429,3 +1429,24 @@ body.no-auth #d-review {
 }
 
 
+.ev-owner-badge{
+  display:inline-block;
+  font-size:12px;
+  font-weight:700;
+  letter-spacing:.3px;
+  text-transform:uppercase;
+  padding:6px 10px;
+  border-radius:999px;
+  background: rgba(220, 53, 69, .10);
+  color:#b02a37;
+  margin-bottom:8px;
+}
+
+.event-topbar{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+}
+.ev-owner-actions{display:flex; gap:10px;}
+.ev-owner-actions .trash{margin-right:6px; font-size:14px; vertical-align:middle;}

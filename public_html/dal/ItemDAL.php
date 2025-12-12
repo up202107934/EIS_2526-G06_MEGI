@@ -4,18 +4,33 @@ require_once __DIR__ . "/../config/db.php";
 class ItemDAL {
 
     // 1. Buscar itens de uma coleção
-    public static function getByCollection($id_collection) {
-        $db = DB::conn();
-        $stmt = $db->prepare("
-            SELECT i.*, i.id_item_category 
-            FROM items i 
-            JOIN collection_items ci ON ci.id_item = i.id_item 
-            WHERE ci.id_collection = ?
-        ");
-        $stmt->bind_param("i", $id_collection);
-        $stmt->execute();
-        return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
-    }
+  public static function getByCollection($id_collection) {
+  $db = DB::conn();
+
+  $stmt = $db->prepare("
+    SELECT
+      i.id_item,
+      i.name,
+      i.img,
+      i.importance,
+      i.price,
+      i.weight,
+      i.acquisition_date,
+      i.franchise,
+      i.id_item_category,
+      ic.name AS category_name
+    FROM collection_items ci
+    JOIN items i ON i.id_item = ci.id_item
+    LEFT JOIN item_categories ic ON ic.id_item_category = i.id_item_category
+    WHERE ci.id_collection = ?
+    ORDER BY i.id_item DESC
+  ");
+
+  $stmt->bind_param("i", $id_collection);
+  $stmt->execute();
+  return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+}
+
 
     // 2. Buscar 1 item (COM DONO, ID DA COLEÇÃO E NOME DA COLEÇÃO)
     public static function getById($id_item) {

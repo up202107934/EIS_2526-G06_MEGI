@@ -144,7 +144,8 @@ document.addEventListener("DOMContentLoaded", () => {
           </div>
         </div>
 
-        <a href="collection.php?id=${c.id_collection}" class="btn">View Collection</a>
+        <a href="collection.php?id=${c.id_collection}" class="btn primary btn-full">View Collection</a>
+
       </div>
     `;
   }

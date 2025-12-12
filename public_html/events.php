@@ -12,8 +12,20 @@ require_once __DIR__ . "/partials/bootstrap.php";
   <link rel="stylesheet" href="css/style.css" />
   <link rel="stylesheet" href="css/events.css" />
   
-  <script src="js/navbar.js"></script>
-  <script defer src="js/events.js"></script>
+ <script src="js/navbar.js"></script>
+
+<?php if (isLoggedIn()): ?>
+<script>
+  const CURRENT_USER_ID = <?= (int)$_SESSION["id_user"] ?>;
+</script>
+<?php else: ?>
+<script>
+  const CURRENT_USER_ID = null;
+</script>
+<?php endif; ?>
+
+<script defer src="js/events.js"></script>
+
 </head>
 <body>
 
@@ -62,10 +74,15 @@ require_once __DIR__ . "/partials/bootstrap.php";
        <label class="field">
          <span>Status</span>
          <select id="status">
-           <option value="">All</option>
-           <option value="upcoming">Upcoming</option>
-           <option value="past">Past</option>
-         </select>
+        <option value="">All</option>
+        <option value="upcoming">Upcoming</option>
+        <option value="past">Past</option>
+
+        <?php if (isLoggedIn()): ?>
+          <option value="mine">Created by me</option>
+        <?php endif; ?>
+        </select>
+
        </label>
      </div>
 
@@ -160,6 +177,8 @@ require_once __DIR__ . "/partials/bootstrap.php";
   <div class="modal-content">
     <span class="close" id="form-close" aria-label="Close">×</span>
     <h2 id="f-title">New Event</h2>
+    
+    <input type="hidden" id="f-id" /> 
 
     <label>Name <input id="f-name" required /></label>
     <label>Date <input id="f-date" type="datetime-local" required /></label>
@@ -191,6 +210,20 @@ require_once __DIR__ . "/partials/bootstrap.php";
 <footer class="footer">
   <p>© 2025 MyCollections | All rights reserved.</p>
 </footer>
+
+ <!-- LOGIN REQUIRED MODAL -->
+<div id="loginRequiredModal" class="modal" aria-hidden="true">
+  <div class="modal-content">
+    <span class="close" id="lr-close" aria-label="Close">×</span>
+    <h2>Login required</h2>
+    <p class="muted">You need to be logged in to create a new event.</p>
+
+    <div class="modal-buttons">
+      <button id="lr-cancel" class="btn outline">Cancel</button>
+      <a id="lr-login" class="btn primary" href="login.php">Go to login</a>
+    </div>
+  </div>
+</div>
 
 </body>
 </html>

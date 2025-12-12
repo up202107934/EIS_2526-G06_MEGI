@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 10-Dez-2025 às 22:35
+-- Tempo de geração: 12-Dez-2025 às 13:59
 -- Versão do servidor: 10.4.32-MariaDB
 -- versão do PHP: 8.0.30
 
@@ -166,6 +166,7 @@ CREATE TABLE `events` (
   `id_event` int(11) NOT NULL,
   `name` varchar(120) NOT NULL,
   `location` varchar(120) DEFAULT NULL,
+  `created_by` int(11) NOT NULL,
   `event_date` date NOT NULL,
   `description` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -174,16 +175,17 @@ CREATE TABLE `events` (
 -- Extraindo dados da tabela `events`
 --
 
-INSERT INTO `events` (`id_event`, `name`, `location`, `event_date`, `description`) VALUES
-(16, 'Retro Collectors Expo', 'Lisboa', '2024-03-12', 'Evento anual dedicado a colecionadores de miniaturas retro.'),
-(17, 'Miniature Cars Fair', 'Porto', '2024-05-28', 'Feira com exposição e troca de carros em miniatura.'),
-(18, 'Comic Classics Meetup', 'Coimbra', '2024-07-19', 'Encontro de fãs e colecionadores de comics clássicos.'),
-(19, 'Numismatic Summer Show', 'Braga', '2024-08-02', 'Exposição de moedas raras e antiguidades numismáticas.'),
-(20, 'Vintage Toys Exhibition', 'Faro', '2024-09-21', 'Mostra de brinquedos vintage e peças de coleção.'),
-(21, 'Autumn Collections Gala', 'Lisboa', '2026-02-10', 'Gala especial com apresentação de novas coleções.'),
-(22, 'International Collectors Meeting', 'Porto', '2026-01-01', 'Reunião internacional de colecionadores de várias áreas.'),
-(23, 'Star Wars Miniatures Fest', 'Aveiro', '2026-02-03', 'Festival dedicado exclusivamente à temática Star Wars e miniaturas.'),
-(24, 'event test', 'porto', '2025-11-08', 'testeeee');
+INSERT INTO `events` (`id_event`, `name`, `location`, `created_by`, `event_date`, `description`) VALUES
+(16, 'Retro Collectors Expo', 'Lisboa', 1, '2024-03-12', 'Evento anual dedicado a colecionadores de miniaturas retro.'),
+(17, 'Miniature Cars Fair', 'Porto', 0, '2024-05-28', 'Feira com exposição e troca de carros em miniatura.'),
+(18, 'Comic Classics Meetup', 'Coimbra', 0, '2024-07-19', 'Encontro de fãs e colecionadores de comics clássicos.'),
+(19, 'Numismatic Summer Show', 'Braga', 0, '2024-08-02', 'Exposição de moedas raras e antiguidades numismáticas.'),
+(20, 'Vintage Toys Exhibition', 'Faro', 0, '2024-09-21', 'Mostra de brinquedos vintage e peças de coleção.'),
+(21, 'Autumn Collections Gala', 'Lisboa', 0, '2026-02-10', 'Gala especial com apresentação de novas coleções.'),
+(22, 'International Collectors Meeting', 'Porto', 0, '2026-01-01', 'Reunião internacional de colecionadores de várias áreas.'),
+(23, 'Star Wars Miniatures Fest', 'Aveiro', 0, '2026-02-03', 'Festival dedicado exclusivamente à temática Star Wars e miniaturas.'),
+(24, 'event test', 'porto', 0, '2025-11-08', 'testeeee'),
+(25, 'jhnsoixdh', 'ashcoi', 1, '2025-12-20', 'iajspiajs');
 
 -- --------------------------------------------------------
 
@@ -213,6 +215,7 @@ INSERT INTO `event_collections` (`id_event`, `id_collection`) VALUES
 (20, 28),
 (20, 29),
 (21, 27),
+(21, 29),
 (21, 30),
 (21, 31),
 (21, 33),
@@ -221,7 +224,9 @@ INSERT INTO `event_collections` (`id_event`, `id_collection`) VALUES
 (22, 31),
 (22, 35),
 (23, 35),
-(24, 32);
+(24, 32),
+(25, 28),
+(25, 29);
 
 -- --------------------------------------------------------
 
@@ -256,7 +261,9 @@ INSERT INTO `event_items` (`id_event`, `id_item`) VALUES
 (22, 14),
 (23, 12),
 (23, 13),
-(23, 15);
+(23, 15),
+(25, 6),
+(25, 8);
 
 -- --------------------------------------------------------
 
@@ -300,7 +307,8 @@ INSERT INTO `items` (`id_item`, `id_item_category`, `name`, `img`, `importance`,
 (12, 3, 'Batman: The Killing Joke', '/EIS_2526-G06_MEGI/public_html/uploads/items/item_batman_killing_joke.jpg', 9, 0.30, 22.00, '2022-11-15', 'Classic', '26x17 cm', 1988, 'Deluxe Edition', 'Near Mint', 'DC', 'Paper', 'Standard', 'DC-KJ-DELUXE-1988', 'owned', NULL),
 (13, 3, 'Amazing Spider-Man #300', '/EIS_2526-G06_MEGI/public_html/uploads/items/item_spiderman_300.jpg', 10, 1.00, 85.00, '2021-07-09', 'Key Issue', '26x17 cm', 1988, '#300', 'Good', 'Marvel', 'Paper', 'Standard', 'MV-ASM-300-1988', 'owned', 'item do spider man'),
 (14, 5, 'One Piece Vol. 1', '/EIS_2526-G06_MEGI/public_html/uploads/items/item_one_piece_vol1.jpg', 8, 0.22, 9.99, '2023-02-01', 'Common', '19x13 cm', 2001, '1ª edição PT', 'Good', 'One Piece', 'Paper', 'Standard', 'OP-PT-VOL1-2001', 'owned', NULL),
-(15, 8, 'Watchmen', '/EIS_2526-G06_MEGI/public_html/uploads/items/item_watchmen.jpg', 10, 0.90, 25.00, '2020-12-28', 'Collector', '28x18 cm', 1987, 'Graphic Novel', 'Like New', 'DC', 'Paper', 'Hardcover', 'DC-WM-HC-1987', 'owned', NULL);
+(15, 8, 'Watchmen', '/EIS_2526-G06_MEGI/public_html/uploads/items/item_watchmen.jpg', 10, 0.90, 25.00, '2020-12-28', 'Collector', '28x18 cm', 1987, 'Graphic Novel', 'Like New', 'DC', 'Paper', 'Hardcover', 'DC-WM-HC-1987', 'owned', NULL),
+(20, 3, 'ljhn', '/EIS_2526-G06_MEGI/public_html/uploads/items/item_693bfc6232b26.png', 5, 0.00, 0.00, '2025-12-11', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -417,7 +425,7 @@ INSERT INTO `user_events_went` (`id_user`, `id_event`) VALUES
 --
 
 CREATE TABLE `user_event_items` (
-  `id` int(11) NOT NULL,
+  `id` int(10) UNSIGNED NOT NULL,
   `id_participation` int(11) NOT NULL,
   `id_item` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -427,7 +435,8 @@ CREATE TABLE `user_event_items` (
 --
 
 INSERT INTO `user_event_items` (`id`, `id_participation`, `id_item`) VALUES
-(0, 0, 14);
+(1, 1, 8),
+(2, 2, 10);
 
 -- --------------------------------------------------------
 
@@ -436,7 +445,7 @@ INSERT INTO `user_event_items` (`id`, `id_participation`, `id_item`) VALUES
 --
 
 CREATE TABLE `user_event_participation` (
-  `id_participation` int(11) NOT NULL,
+  `id_participation` int(10) UNSIGNED NOT NULL,
   `id_user` int(11) NOT NULL,
   `id_event` int(11) NOT NULL,
   `id_collection` int(11) NOT NULL
@@ -447,8 +456,8 @@ CREATE TABLE `user_event_participation` (
 --
 
 INSERT INTO `user_event_participation` (`id_participation`, `id_user`, `id_event`, `id_collection`) VALUES
-(0, 2, 21, 31),
-(1, 1, 21, 30);
+(1, 1, 21, 29),
+(2, 1, 21, 27);
 
 -- --------------------------------------------------------
 
@@ -645,13 +654,13 @@ ALTER TABLE `collection_event_reviews`
 -- AUTO_INCREMENT de tabela `events`
 --
 ALTER TABLE `events`
-  MODIFY `id_event` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `id_event` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 
 --
 -- AUTO_INCREMENT de tabela `items`
 --
 ALTER TABLE `items`
-  MODIFY `id_item` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `id_item` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT de tabela `item_categories`
@@ -664,6 +673,18 @@ ALTER TABLE `item_categories`
 --
 ALTER TABLE `users`
   MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT de tabela `user_event_items`
+--
+ALTER TABLE `user_event_items`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT de tabela `user_event_participation`
+--
+ALTER TABLE `user_event_participation`
+  MODIFY `id_participation` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de tabela `wishlists`

@@ -9,7 +9,7 @@ if ($eventId > 0) {
     $db = DB::conn();
 
     // Evento
-    $stmt = $db->prepare("SELECT id_event, name, location, event_date, description 
+    $stmt = $db->prepare("SELECT id_event, name, location, event_date, description, created_by
                           FROM events WHERE id_event = ?");
     $stmt->bind_param("i", $eventId);
     $stmt->execute();
@@ -38,6 +38,9 @@ if ($eventId > 0) {
 if (!$event) {
     http_response_code(404);
 }
+
+$isOwner = $event && isLoggedIn() && (int)$event["created_by"] === (int)($_SESSION["id_user"] ?? 0);
+
 ?>
 <!DOCTYPE html>
 <html lang="pt">
@@ -52,7 +55,8 @@ if (!$event) {
     <script defer src="js/event_page.js"></script>
   <?php endif; ?>
 </head>
-<body>
+<body data-event-id="<?= $event ? (int)$event['id_event'] : 0 ?>">
+
 
 <?php require_once __DIR__ . "/partials/navbar.php"; ?>
 
@@ -66,14 +70,26 @@ if (!$event) {
 <?php else: ?>
 
   <?php
-    $dt     = new DateTime($event['event_date']);
-    $now    = new DateTime();
-    $isPast = $dt < $now;
+    $dt      = new DateTime($event['event_date']);
+    $now     = new DateTime();
+    $isPast  = $dt < $now;
     $dateStr = $dt->format("Y-m-d");
   ?>
 
-  <section class="event-page-card">
-    <a href="events.php" class="back-link">← Back to events</a>
+ <div class="event-topbar">
+  <a href="events.php" class="back-link">← Back to events</a>
+
+  <?php if ($isOwner): ?>
+    <div class="ev-owner-actions">
+      <button id="ev-owner-edit" class="btn outline">Edit</button>
+      <button id="ev-owner-delete" class="btn btn-danger">
+        <span class="trash" aria-hidden="true">🗑</span> Delete
+      </button>
+    </div>
+  <?php endif; ?>
+</div>
+
+
 
     <h1 class="events-title" style="margin-top:18px;">
       <?= htmlspecialchars($event['name']) ?>
@@ -100,11 +116,11 @@ if (!$event) {
       <div class="ev-col-list">
         <?php if (!count($cols)): ?>
           <p class="muted">No collections in this event.</p>
-        <?php else: ?>
-          <?php foreach ($cols as $c): ?>
+        <?php else: ?>         
+         <?php foreach ($cols as $c): ?>
             <div class="ev-col-item">
               <span class="ev-col-name"><?= htmlspecialchars($c['name']) ?></span>
-              <a href="collection.php?id=<?= $c['id_collection'] ?>" class="btn outline">View</a>
+              <a href="collection.php?id=<?= (int)$c['id_collection'] ?>" class="btn outline">View</a>
             </div>
           <?php endforeach; ?>
         <?php endif; ?>
@@ -112,11 +128,10 @@ if (!$event) {
     </div>
 
     <div class="ev-actions" style="margin-top:20px;">
-      <!-- Rate só depois do evento -->
       <button
         id="d-review"
         class="btn outline"
-        data-id="<?= $event['id_event'] ?>"
+        data-id="<?= (int)$event['id_event'] ?>"
         <?= $isPast ? "" : "disabled" ?>
       >
         <?= $isPast ? "Rate" : "Rate (after the event)" ?>
@@ -125,7 +140,7 @@ if (!$event) {
       <button
         id="d-join"
         class="btn"
-        data-id="<?= $event['id_event'] ?>"
+        data-id="<?= (int)$event['id_event'] ?>"
       >
         Interested
       </button>
@@ -133,13 +148,33 @@ if (!$event) {
       <button
         id="d-participate"
         class="btn outline"
-        data-id="<?= $event['id_event'] ?>"
+        data-id="<?= (int)$event['id_event'] ?>"
         <?= $isPast ? "disabled" : "" ?>
       >
         Participate
       </button>
     </div>
   </section>
+
+    </section>
+
+<!-- ==== EDIT MODAL ==== -->
+<div id="editEventModal" class="modal" aria-hidden="true">
+  <div class="modal-content">
+    <span class="close" id="edit-close" aria-label="Close">×</span>
+    <h2>Edit Event</h2>
+
+    <label>Name <input id="edit-name" required /></label>
+    <label>Date <input id="edit-date" type="datetime-local" required /></label>
+    <label>Description <textarea id="edit-desc" rows="4"></textarea></label>
+    <label>Location <input id="edit-loc" /></label>
+
+    <div class="modal-buttons">
+      <button id="edit-cancel" class="btn outline">Cancel</button>
+      <button id="edit-save" class="btn">Save</button>
+    </div>
+  </div>
+</div>
 
   <!-- ==== RATE MODAL ==== -->
   <div id="reviewForm" class="modal" aria-hidden="true">

@@ -45,16 +45,25 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  joinBtn?.addEventListener("click", async () => {
-    if (!eventId) return;
-    const r = await fetch("controllers/event_Interested.php", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ id_event: eventId })
-    });
-    const resp = await r.json();
-    if (resp.success) refreshInterest();
+ joinBtn?.addEventListener("click", async () => {
+  if (!eventId) return;
+
+  // 🔒 se não estiver logado
+  if (typeof CURRENT_USER_ID === "undefined" || CURRENT_USER_ID === null) {
+    alert("Login required.");
+    return;
+  }
+
+  const r = await fetch("controllers/event_Interested.php", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ id_event: eventId })
   });
+
+  const resp = await r.json();
+  if (resp.success) refreshInterest();
+});
+
 
   refreshInterest();
 
@@ -93,9 +102,12 @@ document.addEventListener("DOMContentLoaded", () => {
       const res = await fetch("controllers/collections.php?mine=1");
       if (res.status === 401) {
         pCollections.innerHTML = "<p class='muted'>Login required.</p>";
+        pItems.innerHTML = "";
+        if (pConfirm) pConfirm.style.display = "none";
         return;
       }
-
+      
+      if (pConfirm) pConfirm.style.display = "";
       const cols = await res.json();
       if (!cols.length) {
         pCollections.innerHTML = "<p class='muted'>No collections.</p>";
@@ -345,4 +357,105 @@ document.addEventListener("DOMContentLoaded", () => {
       alert("Erro de rede ao enviar avaliação.");
     }
   });
+  
+// ==========================
+//   OWNER: EDIT / DELETE
+// ==========================
+const editBtn   = document.getElementById("ev-owner-edit");
+const delBtn    = document.getElementById("ev-owner-delete");
+const EVENT_ID  = Number(document.body.dataset.eventId);
+
+// modal edit
+const editModal  = document.getElementById("editEventModal");
+const editClose  = document.getElementById("edit-close");
+const editCancel = document.getElementById("edit-cancel");
+const editSave   = document.getElementById("edit-save");
+
+const editName = document.getElementById("edit-name");
+const editDate = document.getElementById("edit-date");
+const editDesc = document.getElementById("edit-desc");
+const editLoc  = document.getElementById("edit-loc");
+
+function openEditModal() {
+  if (!editModal) return;
+
+  // preencher com valores atuais do DOM (sem precisar de novo fetch)
+  const title = document.querySelector(".events-title")?.textContent?.trim() || "";
+  const desc  = document.querySelector(".ev-desc-full")?.textContent?.trim() || "";
+  const sub   = document.querySelector(".ev-subtitle")?.textContent || "";
+
+  // tenta extrair data YYYY-MM-DD do subtitle
+  const dateMatch = sub.match(/\d{4}-\d{2}-\d{2}/);
+  const dateOnly  = dateMatch ? dateMatch[0] : "";
+
+  editName.value = title;
+  editDesc.value = desc;
+
+  // para datetime-local: se só tens data, metemos 12:00 (não quebra)
+  if (dateOnly) editDate.value = `${dateOnly}T12:00`;
+
+  // location: tenta apanhar depois do 📍
+  const locMatch = sub.split("📍")[1];
+  editLoc.value = locMatch ? locMatch.trim() : "";
+
+  editModal.classList.add("show");
+  editModal.setAttribute("aria-hidden", "false");
+}
+
+function closeEditModal() {
+  editModal?.classList.remove("show");
+  editModal?.setAttribute("aria-hidden", "true");
+}
+
+editBtn?.addEventListener("click", openEditModal);
+editClose?.addEventListener("click", closeEditModal);
+editCancel?.addEventListener("click", closeEditModal);
+
+editModal?.addEventListener("click", (e) => {
+  if (e.target === editModal) closeEditModal();
+});
+
+editSave?.addEventListener("click", async () => {
+  const name = editName.value.trim();
+  const date = editDate.value;
+  const desc = editDesc.value.trim();
+  const loc  = editLoc.value.trim();
+
+  if (!name || !date) {
+    alert("Preenche nome e data!");
+    return;
+  }
+
+  const payload = {
+    id_event: EVENT_ID,
+    name,
+    event_date: date,
+    description: desc || null,
+    location: loc || null
+  };
+
+  try {
+    const r = await fetch("controllers/events.php", {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload)
+    });
+
+    const text = await r.text();
+    let resp;
+    try { resp = JSON.parse(text); } catch { resp = null; }
+
+    if (resp && resp.ok) {
+      alert("Evento atualizado!");
+      window.location.reload();
+    } else {
+      console.error("PUT resp:", text);
+      alert("Erro ao atualizar evento.");
+    }
+  } catch (err) {
+    console.error(err);
+    alert("Erro de rede ao atualizar evento.");
+  }
+});
+
 });

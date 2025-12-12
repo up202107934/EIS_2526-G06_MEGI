@@ -96,6 +96,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 <div class="item-details">
                     <h3>${it.name}</h3>
+                      <div class="item-category-badge">
+                        ${it.category_name ? it.category_name : "—"}
+                      </div>
                     <p>${it.description ?? ''}</p>
 
                     <div class="item-info">
