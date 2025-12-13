@@ -57,6 +57,13 @@ if ($method === "POST") {
         echo json_encode(["ok" => false, "error" => "missing name/event_date"]);
         exit;
     }
+    
+     if (empty($collections) || empty($items)) {
+        http_response_code(400);
+        echo json_encode(["ok" => false, "error" => "missing collections/items"]);
+        exit;
+    }
+
 
     // cria já com created_by
     $resp = EventDAL::create($name, $event_date, $description, $location, $id_user);

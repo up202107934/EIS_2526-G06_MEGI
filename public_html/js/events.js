@@ -1003,6 +1003,11 @@ pConfirm?.addEventListener("click", async () => {
 
       // ✅ com login -> abre modal normal
       editingEventId = null;
+      
+      // limpar seleções anteriores
+      selectedCollections.clear();
+      selectedItems.clear();
+      if (fItemsWrap) fItemsWrap.innerHTML = "";
 
       const fTitle = document.getElementById("f-title");
       const fName  = document.getElementById("f-name");
@@ -1121,6 +1126,12 @@ pConfirm?.addEventListener("click", async () => {
       alert("Preenche nome e data!");
       return;
     }
+    
+    if (!editingEventId && !selectedItems.size) {
+      alert("Seleciona pelo menos um item de uma coleção.");
+      return;
+    }
+
 
     // dados base (servem para create e update)
     const basePayload = {

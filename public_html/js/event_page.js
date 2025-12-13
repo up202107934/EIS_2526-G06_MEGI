@@ -458,4 +458,35 @@ editSave?.addEventListener("click", async () => {
   }
 });
 
+// DELETE EVENT (OWNER ONLY)
+delBtn?.addEventListener("click", async () => {
+  if (!EVENT_ID) return;
+
+  const sure = confirm("Tens a certeza que queres apagar este evento? Esta ação é irreversível.");
+  if (!sure) return;
+
+  try {
+    const r = await fetch("controllers/event_delete.php", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ id_event: EVENT_ID })
+    });
+
+    const text = await r.text();
+    let resp;
+    try { resp = JSON.parse(text); } catch { resp = null; }
+
+    if (resp && resp.ok) {
+      alert("Evento apagado com sucesso.");
+      window.location.href = "events.php";
+    } else {
+      const errorMsg = resp?.error || text || "Erro ao apagar evento.";
+      console.error("DELETE resp:", text);
+      alert(errorMsg);
+    }
+  } catch (err) {
+    console.error(err);
+    alert("Erro de rede ao apagar evento.");
+  }
 });
+

@@ -151,7 +151,7 @@ $isOwner = $event && isLoggedIn() && (int)$event["created_by"] === (int)($_SESSI
         data-id="<?= (int)$event['id_event'] ?>"
         <?= $isPast ? "disabled" : "" ?>
       >
-        Participate
+        Add Ittems
       </button>
     </div>
   </section>
