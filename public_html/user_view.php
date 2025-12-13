@@ -75,7 +75,20 @@ $memberSince = (!empty($user["date_of_joining"]))
 
       <!-- My Collections -->
       <section class="collections-section">
-        <h2>My Collections</h2>
+        <div class="collections-header">
+          <h2>My Collections</h2>
+
+          <form id="collectionsSearchForm" class="collections-search" action="#" method="get">
+            <input
+              type="search"
+              id="collectionsSearchInput"
+              name="q"
+              placeholder="Search collections..."
+              aria-label="Search collections"
+            />
+            <button type="submit" aria-label="Run collection search">🔎</button>
+          </form>
+        </div>
         <?php if (!$user): ?>
           <p style="color:#b22222;">User not found.</p>
         <?php elseif (empty($collections)): ?>
@@ -114,6 +127,7 @@ $memberSince = (!empty($user["date_of_joining"]))
               </div>
             <?php endforeach; ?>
           </div>
+        <p id="collectionsEmptyState" class="empty-state" style="display:none;">No collections match your search.</p>  
         <?php endif; ?>
       </section>
     </main>
