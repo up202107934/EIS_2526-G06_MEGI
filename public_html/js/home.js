@@ -118,7 +118,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function collectionCardHTML(c) {
     const img = c.cover_img ? c.cover_img : "img/collection-placeholder.jpg";
-    const rate = c.rate !== null ? c.rate : 0; 
+    const rateNumber = Number(c.rate ?? 0);
+    const rate = Number.isFinite(rateNumber)
+      ? (rateNumber % 1 === 0 ? rateNumber.toFixed(0) : rateNumber.toFixed(1))
+      : "0";
 
     return `
       <div class="collection-card">

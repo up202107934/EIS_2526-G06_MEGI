@@ -7,7 +7,21 @@ class CollectionDAL {
     public static function getAll($categoryId = null, $searchTerm = null, $limit = 5) {
         $db = DB::conn();
         
-        $sql = "SELECT c.*, u.username as owner_name, cat.name as category_name 
+        $sql = "SELECT
+                    c.id_collection,
+                    c.id_user,
+                    c.id_collection_category,
+                    c.name,
+                    c.description,
+                    c.cover_img,
+                    c.creation_date,
+                    COALESCE((
+                        SELECT ROUND(AVG(r.rate), 1)
+                        FROM collection_event_reviews r
+                        WHERE r.id_collection = c.id_collection
+                    ), 0) AS rate,
+                    u.username as owner_name,
+                    cat.name as category_name
                 FROM collections c
                 JOIN users u ON c.id_user = u.id_user
                 LEFT JOIN collection_categories cat ON c.id_collection_category = cat.id_collection_category
@@ -30,7 +44,7 @@ class CollectionDAL {
             $params[] = "%" . $searchTerm . "%";
         }
 
-        $sql .= " ORDER BY c.rate DESC, c.creation_date DESC";
+        $sql .= " ORDER BY rate DESC, c.creation_date DESC";
 
         // Limite opcional (null = sem limite)
         if ($limit !== null) {
@@ -56,7 +70,21 @@ class CollectionDAL {
     // 2. Buscar por Utilizador (My Recent)
     public static function getByUser($id_user, $searchTerm = null) {
         $db = DB::conn();
-        $sql = "SELECT c.*, u.username as owner_name, cat.name as category_name
+        $sql = "SELECT
+                    c.id_collection,
+                    c.id_user,
+                    c.id_collection_category,
+                    c.name,
+                    c.description,
+                    c.cover_img,
+                    c.creation_date,
+                    COALESCE((
+                        SELECT ROUND(AVG(r.rate), 1)
+                        FROM collection_event_reviews r
+                        WHERE r.id_collection = c.id_collection
+                    ), 0) AS rate,
+                    u.username as owner_name,
+                    cat.name as category_name
                 FROM collections c
                 JOIN users u ON c.id_user = u.id_user
                 LEFT JOIN collection_categories cat ON c.id_collection_category = cat.id_collection_category
@@ -87,8 +115,23 @@ class CollectionDAL {
     public static function getByUserFull($id_user) {
         $db = DB::conn();
 
-        $sql = "SELECT c.*, u.username as owner_name, u.name as owner_fullname, cat.name as category_name,
-                       COUNT(ci.id_item) as item_count
+        $sql = "SELECT
+                    c.id_collection,
+                    c.id_user,
+                    c.id_collection_category,
+                    c.name,
+                    c.description,
+                    c.cover_img,
+                    c.creation_date,
+                    COALESCE((
+                        SELECT ROUND(AVG(r.rate), 1)
+                        FROM collection_event_reviews r
+                        WHERE r.id_collection = c.id_collection
+                    ), 0) AS rate,
+                    u.username as owner_name,
+                    u.name as owner_fullname,
+                    cat.name as category_name,
+                    COUNT(ci.id_item) as item_count
                 FROM collections c
                 JOIN users u ON c.id_user = u.id_user
                 LEFT JOIN collection_categories cat ON c.id_collection_category = cat.id_collection_category
@@ -113,7 +156,22 @@ class CollectionDAL {
     // 3. Buscar UMA coleção pelo ID (Para verificar o dono)
     public static function getById($id_collection) {
         $db = DB::conn();
-        $sql = "SELECT c.*, u.id_user AS owner_id, u.username AS owner_username, u.name AS owner_name
+        $sql = "SELECT
+                    c.id_collection,
+                    c.id_user,
+                    c.id_collection_category,
+                    c.name,
+                    c.description,
+                    c.cover_img,
+                    c.creation_date,
+                    COALESCE((
+                        SELECT ROUND(AVG(r.rate), 1)
+                        FROM collection_event_reviews r
+                        WHERE r.id_collection = c.id_collection
+                    ), 0) AS rate,
+                    u.id_user AS owner_id,
+                    u.username AS owner_username,
+                    u.name AS owner_name
                 FROM collections c
                 JOIN users u ON c.id_user = u.id_user
                 WHERE c.id_collection = ?";

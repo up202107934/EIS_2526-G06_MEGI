@@ -79,7 +79,8 @@ $user = UserDAL::getById($userId);
                 <?php foreach ($collections as $c): ?>
                     <?php 
                         $img = !empty($c['cover_img']) ? $c['cover_img'] : "img/collection-placeholder.jpg";
-                        $rate = $c['rate'] ?? 0;
+                        $rateValue = (float) ($c['rate'] ?? 0);
+                        $rate = rtrim(rtrim(number_format($rateValue, 1, '.', ''), '0'), '.');
                         $catName = $c['category_name'] ?? 'General';
                     ?>
                     

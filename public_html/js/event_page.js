@@ -350,7 +350,7 @@ document.addEventListener("DOMContentLoaded", () => {
         reviewBtn.disabled = true;
         closeReview();
       } else {
-        alert("Erro ao guardar avaliação.");
+        alert("Não participou neste Evento");
       }
     } catch (err) {
       console.error(err);

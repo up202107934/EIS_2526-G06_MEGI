@@ -100,7 +100,8 @@ $memberSince = (!empty($user["date_of_joining"]))
                 $cover = !empty($collection["cover_img"]) ? $collection["cover_img"] : "img/collection-placeholder.jpg";
                 $catName = $collection["category_name"] ?? "General";
                 $items = (int) ($collection["item_count"] ?? 0);
-                $rate = $collection["rate"] ?? 0;
+                $rateValue = (float) ($collection["rate"] ?? 0);
+                $rate = rtrim(rtrim(number_format($rateValue, 1, '.', ''), '0'), '.');
                 $creationDate = !empty($collection["creation_date"]) ? substr($collection["creation_date"], 0, 10) : "";
                 $collectionLink = $isPublic
                   ? "collection_withoutlogin.html"
