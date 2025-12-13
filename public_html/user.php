@@ -58,6 +58,10 @@ $user = UserDAL::getById($userId);
             <button id="openEditProfile" class="btn" style="margin-top:10px; padding:5px 10px; font-size:14px; background:#555; color:white;">
                 ✏️ Edit Profile
             </button>
+            <button id="openPasswordModal" class="btn" style="margin-top:5px;">
+                🔐 Change Password
+              </button>
+
 
             <div style="margin-top:10px; color: #555;">
                 <strong><?= count($collections) ?></strong> Collections Created
@@ -320,7 +324,37 @@ $participatingEvents = EventDAL::getParticipationByUser($userId);
         </div>
       </form>
     </div>
-  </div>  
+      </div>
+    
+ <div id="passwordModal" class="modal">
+  <div class="modal-content">
+    <h2>Change Password</h2>
+
+    <form id="changePasswordForm">
+      <div class="password-field">
+        <input type="password" id="currentPassword" required>
+        <button type="button" class="toggle-password" data-target="currentPassword">👁️</button>
+    </div>
+
+    <div class="password-field">
+        <input type="password" id="newPassword" required>
+        <button type="button" class="toggle-password" data-target="newPassword">👁️</button>
+    </div>
+
+    <div class="password-field">
+        <input type="password" id="confirmPassword" required>
+        <button type="button" class="toggle-password" data-target="confirmPassword">👁️</button>
+    </div>
+
+
+      <div class="modal-buttons">
+        <button type="submit">💾 Change</button>
+        <button type="button" id="cancelPasswordBtn">❌ Cancel</button>
+      </div>
+    </form>
+  </div>
+</div>
+
     
   <script src="js/user.js"></script>
 

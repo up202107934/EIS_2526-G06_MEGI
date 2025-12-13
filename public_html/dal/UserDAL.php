@@ -106,5 +106,12 @@ class UserDAL {
         $stmt = $db->prepare("UPDATE users SET profile_img = ? WHERE id_user = ?");
         $stmt->bind_param("si", $path, $id_user);
         return $stmt->execute();
-    }    
+    }  
+    public static function updatePassword($id_user, $hash) {
+    $db = DB::conn();
+    $stmt = $db->prepare("UPDATE users SET password_hash = ? WHERE id_user = ?");
+    $stmt->bind_param("si", $hash, $id_user);
+    return $stmt->execute();
+    }
+
 }

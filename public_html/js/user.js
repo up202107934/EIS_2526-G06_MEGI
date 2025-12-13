@@ -93,6 +93,59 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 
+    // CHANGE PASSWORD
+    const passwordModal = document.getElementById("passwordModal");
+    const openPasswordBtn = document.getElementById("openPasswordModal");
+    const cancelPasswordBtn = document.getElementById("cancelPasswordBtn");
+    const passwordForm = document.getElementById("changePasswordForm");
+
+    openPasswordBtn?.addEventListener("click", () => {
+    console.log("Abrir modal password");
+    passwordModal.classList.add("show");
+    passwordModal.style.display = "flex";
+    });
+
+
+    const closePasswordModal = () => {
+    if (passwordModal) {
+        passwordModal.classList.remove("show");
+        passwordModal.style.display = "none";
+    }
+};
+
+    cancelPasswordBtn?.addEventListener("click", closePasswordModal);
+
+    // fechar ao clicar fora
+    window.addEventListener("click", (e) => {
+        if (e.target === passwordModal) closePasswordModal();
+    });
+
+        passwordForm?.addEventListener("submit", async (e) => {
+        e.preventDefault();
+
+        const current = document.getElementById("currentPassword").value;
+        const newPass = document.getElementById("newPassword").value;
+        const confirm = document.getElementById("confirmPassword").value;
+
+        const res = await fetch("controllers/user_update_password.php", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ current, newPass, confirm })
+        });
+
+        const data = await res.json();
+
+        if (data.ok) {
+            alert("Password changed successfully 🔐");
+            passwordModal.style.display = "none";
+            passwordForm.reset();
+        } else {
+            alert(data.error);
+        }
+    }); 
+
+
+
     // ==========================================
     // 2. FOTO DE PERFIL (Upload)
     // ==========================================
@@ -519,6 +572,22 @@ document.addEventListener("click", async (e) => {
     }
     });
 
+//dentro do modal de editar password- toggle para ver as passes
+document.querySelectorAll(".toggle-password").forEach(btn => {
+    btn.addEventListener("click", () => {
+        const input = document.getElementById(btn.dataset.target);
+
+        if (!input) return;
+
+        if (input.type === "password") {
+            input.type = "text";
+            btn.textContent = "🙈";
+        } else {
+            input.type = "password";
+            btn.textContent = "👁️";
+        }
+    });
+});
 
 
 });
