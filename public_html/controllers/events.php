@@ -6,14 +6,21 @@ require_once __DIR__ . "/../dal/EventDAL.php";
 
 $method = $_SERVER["REQUEST_METHOD"];
 
-/**
- * GET → lista todos os eventos (sem login, só leitura)
- */
 if ($method === "GET") {
-    $events = EventDAL::getAll();
+
+    // Se vier coleção, filtra pelos relacionamentos
+    if (isset($_GET["collection"])) {
+        $idCollection = (int) $_GET["collection"];
+        $events = EventDAL::getByCollection($idCollection);
+    } else {
+        //Caso geral (ex: página de eventos)
+        $events = EventDAL::getAll();
+    }
+
     echo json_encode($events);
     exit;
 }
+
 
 /**
  * A partir daqui (POST/PUT/DELETE) é preciso login
@@ -44,7 +51,8 @@ if ($method === "POST") {
 
     $collections = $data["collections"] ?? [];
     $items       = $data["items"]       ?? [];
-
+  
+    
     if (!$name || !$event_date) {
         echo json_encode(["ok" => false, "error" => "missing name/event_date"]);
         exit;
