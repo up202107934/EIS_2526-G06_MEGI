@@ -84,8 +84,18 @@ $user = UserDAL::getById($userId);
                     ?>
                     
                     <div class="collection-card">
-                        <div style="position:relative;">
-                            <img src="<?= htmlspecialchars($img) ?>" alt="Cover">
+                        <div class="collection-cover <?= empty($c['cover_img']) ? 'no-image' : 'has-image' ?>">
+                            <?php if (!empty($c['cover_img'])): ?>
+                                <img src="<?= htmlspecialchars($img) ?>" alt="Cover" class="collection-cover-img">
+                            <?php else: ?>
+                                <div class="cover-placeholder">
+                                    <span class="cover-placeholder-icon">🖼️</span>
+                                    <span>Add image</span>
+                                </div>
+                            <?php endif; ?>
+                            <button class="cover-edit-trigger" data-collection-id="<?= $c['id_collection'] ?>">
+                                <?= empty($c['cover_img']) ? 'Add image' : 'Edit' ?>
+                            </button>
                             <span class="rate-badge">⭐ <?= $rate ?></span>
                         </div>
 
@@ -153,8 +163,13 @@ $user = UserDAL::getById($userId);
             </div>
         <?php endif; ?>
       </section>
+        
+      
+      <input type="file" id="updateCoverInput" accept="image/*" hidden>
 
-<?php       
+<?php
+
+      
 require_once __DIR__ . "/dal/EventDAL.php";
 $interestedEvents = EventDAL::getInterestedByUser($userId);
 $participatingEvents = EventDAL::getParticipationByUser($userId);

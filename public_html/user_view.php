@@ -1,8 +1,8 @@
 <?php
 require_once __DIR__ . "/partials/bootstrap.php";
 $userId   = isset($_GET["id"]) ? (int) $_GET["id"] : null;
-$isPublic = isset($_GET["public"]) && $_GET["public"] === "1";
 
+$isPublic = !isLoggedIn() && isset($_GET["public"]) && $_GET["public"] === "1";
 $user = $userId ? UserDAL::getById($userId) : null;
 $collections = $user ? CollectionDAL::getByUserFull($userId) : [];
 
@@ -92,8 +92,9 @@ $memberSince = (!empty($user["date_of_joining"]))
                 $collectionLink = $isPublic
                   ? "collection_withoutlogin.html"
                   : "collection.php?id=" . $collection["id_collection"];
+                $searchData = trim((string) ($collection["name"] ?? "") . " " . $catName . " " . ($collection["description"] ?? ""));
               ?>
-              <div class="collection-card">
+              <div class="collection-card" data-searchable="<?= htmlspecialchars($searchData) ?>">
                 <div class="collection-cover">
                   <img src="<?= htmlspecialchars($cover) ?>" alt="<?= htmlspecialchars($collection["name"]) ?>">
                   <span class="rate-badge">⭐ <?= htmlspecialchars($rate) ?></span>
@@ -123,6 +124,7 @@ $memberSince = (!empty($user["date_of_joining"]))
   </footer>
 
   <script src="js/navbar.js"></script>
+  <script src="js/user_view.js"></script>
 
 
   

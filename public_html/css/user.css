@@ -511,6 +511,77 @@ input:focus {
   margin-bottom: 10px;
 }
 
+.collection-cover {
+  position: relative;
+  height: 160px;
+  border-radius: 10px;
+  overflow: hidden;
+  background: #f3f4f6;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #ececec;
+}
+
+.collection-cover.has-image .collection-cover-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.collection-cover.no-image {
+  background: linear-gradient(135deg, #fff5f5, #ffe5e5);
+  border: 2px dashed #b22222;
+}
+
+.cover-placeholder {
+  text-align: center;
+  color: #b22222;
+  font-weight: 700;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  align-items: center;
+}
+
+.cover-placeholder-icon {
+  font-size: 1.6rem;
+}
+
+.cover-edit-trigger {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  color: #fff;
+  border: none;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.collection-cover.has-image:hover .cover-edit-trigger {
+  opacity: 1;
+}
+
+.collection-cover.no-image .cover-edit-trigger {
+  opacity: 1;
+  background: rgba(178, 34, 34, 0.08);
+  color: #b22222;
+  border: 1px dashed #b22222;
+}
+
+.cover-edit-trigger:hover {
+  transform: scale(1.01);
+}
+
 .collection-card h3 {
   color: #B22222;
   margin-top: 5px;

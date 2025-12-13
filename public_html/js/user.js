@@ -252,7 +252,54 @@ document.addEventListener("DOMContentLoaded", () => {
     });
     
     // ==========================================
-    // 4. APAGAR COLEÇÃO
+    // 4. ATUALIZAR CAPA DE COLEÇÃO
+    // ==========================================
+    const updateCoverInput = document.getElementById("updateCoverInput");
+    let selectedCollectionId = null;
+
+    document.querySelector('.collections-grid')?.addEventListener('click', (e) => {
+        const trigger = e.target.closest('.cover-edit-trigger');
+
+        if (trigger) {
+            e.preventDefault();
+            selectedCollectionId = trigger.dataset.collectionId;
+            updateCoverInput?.click();
+        }
+    });
+
+    updateCoverInput?.addEventListener('change', () => {
+        const file = updateCoverInput.files?.[0];
+        if (!file || !selectedCollectionId) return;
+
+        const formData = new FormData();
+        formData.append("id_collection", selectedCollectionId);
+        formData.append("cover_img", file);
+
+        fetch("controllers/collection_cover_update.php", {
+            method: "POST",
+            body: formData
+        })
+        .then(r => r.json())
+        .then(resp => {
+            if (resp.ok) {
+                alert("Cover image updated!");
+                window.location.reload();
+            } else {
+                alert("Error: " + (resp.error || "Failed to update cover"));
+            }
+        })
+        .catch(err => {
+            console.error(err);
+            alert("Server error");
+        })
+        .finally(() => {
+            updateCoverInput.value = "";
+            selectedCollectionId = null;
+        });
+    });
+
+    // ==========================================
+    // 5. APAGAR COLEÇÃO
     // ==========================================
     document.querySelector('.collections-grid')?.addEventListener('click', (e) => {
         const btn = e.target.closest('.delete-collection-btn');

@@ -171,4 +171,25 @@ class CollectionDAL {
         
         return false;
     }
+
+    // 6. Atualizar a imagem de capa de uma coleção (apenas do dono)
+    public static function updateCover($id_collection, $id_user, $cover_img) {
+        $db = DB::conn();
+
+        $sql = "UPDATE collections SET cover_img = ? WHERE id_collection = ? AND id_user = ?";
+        $stmt = $db->prepare($sql);
+
+        if (!$stmt) {
+            return false;
+        }
+
+        $stmt->bind_param("sii", $cover_img, $id_collection, $id_user);
+
+        if ($stmt->execute()) {
+            return $stmt->affected_rows > 0;
+        }
+
+        
+        return false;
+    }
 }
