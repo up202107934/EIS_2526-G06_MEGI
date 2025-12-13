@@ -63,7 +63,7 @@ $memberSince = (!empty($user["date_of_joining"]))
           <div class="user-stats">
             <div class="user-stat">
               <span id="statCollections" class="user-stat-number"><?= $collectionsCount ?></span>
-              <span class="user-stat-label">Items</span>
+              <span class="user-stat-label">Collections</span>
             </div>
             <div class="user-stat">
               <span id="statItems" class="user-stat-number"><?= $itemsCount ?></span>
