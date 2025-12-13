@@ -10,6 +10,7 @@ if ($_SERVER["REQUEST_METHOD"] !== "POST") {
     exit;
 }
 
+
 if (!isLoggedIn()) {
     http_response_code(401);
     echo json_encode(["error" => "Not logged in"]);
