@@ -73,6 +73,15 @@ if ($method === 'POST') {
         echo json_encode(['ok' => false, 'error' => 'wishlist_not_found']);
         exit;
     }
+    $wishlistId = fetchWishlistId($db, $userId);
+
+    if (!$wishlistId) {
+        // Se não encontrar, criamos uma wishlist para o utilizador automaticamente
+        $createStmt = $db->prepare('INSERT INTO wishlists (id_user, name) VALUES (?, "My Wishlist")');
+        $createStmt->bind_param('i', $userId);
+        $createStmt->execute();
+        $wishlistId = $db->insert_id;
+    }
 
     if ($action === 'add') {
         $checkStmt = $db->prepare('SELECT 1 FROM wishlist_items WHERE id_wishlist = ? AND id_item = ? LIMIT 1');

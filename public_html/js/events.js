@@ -206,56 +206,65 @@ const status = statusSelect?.value || "";
       eventsContainer.innerHTML = "<p>Sem eventos para mostrar.</p>";
       return;
     }
-
     events.forEach((e) => {
-      const titleRaw  = e.name ?? e.event_name ?? e.title ?? "Sem nome";
-      const titleHtml = q ? highlight(titleRaw, qRaw) : titleRaw;
-      const d         = new Date(e.event_date ?? e.date ?? "");
-      const isUpcoming = !isNaN(d) ? d >= new Date() : true;
+        const titleRaw  = e.name ?? e.event_name ?? e.title ?? "Sem nome";
+        const titleHtml = q ? highlight(titleRaw, qRaw) : titleRaw;
+        const d         = new Date(e.event_date ?? e.date ?? "");
+        const isUpcoming = !isNaN(d) ? d >= new Date() : true;
 
-      const imgMain = "img/event-placeholder.jpg";
-      const thumb1  = "img/event-thumb1.jpg";
-      const thumb2  = "img/event-thumb2.jpg";
-      const thumb3  = "img/event-thumb3.jpg";
+        // 1. Limpeza e conversão dos dados da DB
+        // Criamos um array real e removemos espaços ou entradas vazias
+        const allCovers = e.collection_covers 
+          ? e.collection_covers.split(',').map(s => s.trim()).filter(s => s !== "") 
+          : [];
 
-      const idEv = e.id_event ?? e.id ?? e.eventId ?? "";
+        const placeholder = "img/event-placeholder.jpg";
 
-      // ➜ É dono do evento?
-      const isOwner =
-        e.created_by !== undefined &&
-        CURRENT_USER_ID !== null &&
-        Number(e.created_by) === Number(CURRENT_USER_ID);
+        // 2. Definir a imagem principal (index 0)
+        const imgMain = allCovers[0] || placeholder;
 
+        // 3. Pegar as miniaturas restantes (do index 1 ao 3)
+        const thumbnails = allCovers.slice(1, 4);
 
+        // 4. Gerar o HTML das miniaturas dinamicamente
+        // Se o array 'thumbnails' estiver vazio, o join('') resultará em nada (sem ícones quebrados)
+        const thumbnailsHtml = thumbnails.map(src => `
+          <img class="ev-thumb" src="${src}" alt="Thumbnail" onerror="this.src='${placeholder}'">
+        `).join('');
+
+        const idEv = e.id_event ?? e.id ?? e.eventId ?? "";
+
+        // Verificação de dono do evento
+        const isOwner =
+          e.created_by !== undefined &&
+          CURRENT_USER_ID !== null &&
+          Number(e.created_by) === Number(CURRENT_USER_ID);
 
         const ownerBadge = isOwner ? `<div class="ev-owner-badge">Created by you</div>` : "";
 
-      eventsContainer.innerHTML += `
-        <article class="collection-card event-card ${
-          isUpcoming ? "upcoming" : "past"
-        }" data-id="${idEv}">
-          <div class="ev-gallery">
-            <img class="ev-main" src="${imgMain}" alt="${titleRaw}">
-            <div class="ev-strip">
-              <img class="ev-thumb" src="${thumb1}" alt="">
-              <img class="ev-thumb" src="${thumb2}" alt="">
-              <img class="ev-thumb" src="${thumb3}" alt="">
+        // 5. Renderizar o Card
+        eventsContainer.innerHTML += `
+          <article class="collection-card event-card ${isUpcoming ? "upcoming" : "past"}" data-id="${idEv}">
+            <div class="ev-gallery">
+              <img class="ev-main" src="${imgMain}" alt="${titleRaw}" onerror="this.src='${placeholder}'">
+              <div class="ev-strip">
+                ${thumbnailsHtml}
+              </div>
             </div>
-          </div>
-          <div class="ev-meta">
-             ${ownerBadge}
-            <h2 class="ev-title">${titleHtml}</h2>
-            <p class="ev-date">📅 ${e.event_date ?? e.date ?? ""}</p>
-            <p class="muted">📍 ${e.location ?? ""}</p>
-          </div>
-          <div class="ev-actions">
-            <a href="event.php?id=${idEv}" class="btn outline">View event</a>
-            
-          </div>
-
-        </article>
-      `;
-    });
+            <div class="ev-meta">
+              ${ownerBadge}
+              <h2 class="ev-title">${titleHtml}</h2>
+              <p class="ev-date">📅 ${e.event_date ?? e.date ?? ""}</p>
+              <p class="muted">📍 ${e.location ?? ""}</p>
+            </div>
+            <div class="ev-actions">
+              <a href="event.php?id=${idEv}" class="btn outline">View event</a>
+            </div>
+          </article>
+  `;
+});
+    
+    
   }
 
   const debouncedRender = debounce(renderEvents, 160);

@@ -4,23 +4,28 @@ require_once __DIR__ . "/../config/db.php";
 class EventDAL {
 
     // LISTAR TODOS OS EVENTOS
-   public static function getAll() {
-    $db = DB::conn();
-    $res = $db->query("
-        SELECT
-            id_event,
-            name,
-            event_date,
-            description,
-            location,
-            created_by
-        FROM events
-        ORDER BY event_date ASC
-    ");
+    public static function getAll() {
+        $db = DB::conn();
+        // We added the Subquery for collection_covers here
+        $res = $db->query("
+            SELECT
+                e.id_event,
+                e.name,
+                e.event_date,
+                e.description,
+                e.location,
+                e.created_by,
+                (SELECT GROUP_CONCAT(c.cover_img) 
+                 FROM event_collections ec 
+                 JOIN collections c ON ec.id_collection = c.id_collection 
+                 WHERE ec.id_event = e.id_event) AS collection_covers
+            FROM events e
+            ORDER BY e.event_date ASC
+        ");
 
-    if (!$res) return [];
-    return $res->fetch_all(MYSQLI_ASSOC);
-}
+        if (!$res) return [];
+        return $res->fetch_all(MYSQLI_ASSOC);
+    }
 
 
     // IR BUSCAR EVENTO POR ID

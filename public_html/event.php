@@ -50,6 +50,11 @@ $isOwner = $event && isLoggedIn() && (int)$event["created_by"] === (int)($_SESSI
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link rel="stylesheet" href="css/style.css" />
   <link rel="stylesheet" href="css/events.css" />
+  
+  <script>
+    // This creates the variable your JS is looking for
+    const CURRENT_USER_ID = <?= isset($_SESSION['id_user']) ? (int)$_SESSION['id_user'] : 'null' ?>;
+  </script>
   <script src="js/navbar.js"></script>
   <?php if ($event): ?>
     <script defer src="js/event_page.js"></script>

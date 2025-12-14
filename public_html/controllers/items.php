@@ -3,17 +3,25 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
+session_start();
+
+require_once __DIR__ . "/../dal/ItemDAL.php";
+
+// 1. PRIMEIRO: Incluir as dependências
 require_once __DIR__ . "/../dal/ItemDAL.php";
 require_once __DIR__ . "/../dal/CollectionItemDAL.php";
 
 header("Content-Type: application/json; charset=utf-8");
+
+// 2. Definir o utilizador atual (usar 0 se não houver sessão para não dar erro no SQL)
+$currentUserId = $_SESSION['id_user'] ?? 0; 
 
 // =========================
 // GET ITEMS BY COLLECTION
 // =========================
 if (isset($_GET["collection"])) {
     $id = (int)$_GET["collection"];
-    echo json_encode(ItemDAL::getByCollection($id));
+    echo json_encode(ItemDAL::getByCollection($id, $currentUserId));
     exit;
 }
 
@@ -22,7 +30,7 @@ if (isset($_GET["collection"])) {
 // =========================
 if (isset($_GET["id"])) {
     $id = (int)$_GET["id"];
-    echo json_encode(ItemDAL::getById($id));
+    echo json_encode(ItemDAL::getById($id, $currentUserId));
     exit;
 }
 
@@ -30,7 +38,6 @@ if (isset($_GET["id"])) {
 // CREATE NEW ITEM (POST)
 // =========================
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
-
     // Check mandatory fields
     $required = ["name", "importance", "price", "weight", "acquisition_date", "id_collection"];
     foreach ($required as $field) {
@@ -59,13 +66,14 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     // ---- INSERT INTO ITEMS ----
     $idItem = ItemDAL::create([
         "id_item_category" => !empty($_POST["category"]) ? $_POST["category"] : null,
-        "name" => $_POST["name"],
-        "img" => $imagePath,
-        "importance" => $_POST["importance"],
-        "weight" => $_POST["weight"],
-        "price" => $_POST["price"],
+        "name"             => $_POST["name"],
+        "description"      => $_POST["description"] ?? "", // ADICIONA ESTA LINHA
+        "img"              => $imagePath,
+        "importance"       => $_POST["importance"],
+        "weight"           => $_POST["weight"],
+        "price"            => $_POST["price"],
         "acquisition_date" => $_POST["acquisition_date"],
-        "franchise" => $_POST["franchise"] ?? null
+        "franchise"        => $_POST["franchise"] ?? null
     ]);
 
     if (!$idItem) {

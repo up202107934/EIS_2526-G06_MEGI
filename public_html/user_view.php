@@ -1,10 +1,19 @@
 <?php
 require_once __DIR__ . "/partials/bootstrap.php";
-$userId   = isset($_GET["id"]) ? (int) $_GET["id"] : null;
+
+$userId = isset($_GET["id"]) ? (int) $_GET["id"] : null;
+$isLoggedIn = isLoggedIn();
+
+// --- DEFINIR SE É O DONO DO PERFIL ---
+$currentUserId = $_SESSION['id_user'] ?? 0;
+$isOwner = ($isLoggedIn && $userId !== null && $userId === (int)$currentUserId);
+
 $showNavbarSearch = false;
-$isPublic = !isLoggedIn() && isset($_GET["public"]) && $_GET["public"] === "1";
+$isPublic = !$isLoggedIn && isset($_GET["public"]) && $_GET["public"] === "1";
+
 $user = $userId ? UserDAL::getById($userId) : null;
 $collections = $user ? CollectionDAL::getByUserFull($userId) : [];
+// ... resto do seu código
 
 if (!$user) {
     http_response_code(404);
@@ -76,7 +85,7 @@ $memberSince = (!empty($user["date_of_joining"]))
       <!-- My Collections -->
       <section class="collections-section">
         <div class="collections-header">
-          <h2>My Collections</h2>
+          <h2><?= $isOwner ? "My Collections" : htmlspecialchars($user["name"] ?? $user["username"]) . "'s Collections" ?></h2>
 
           <form id="collectionsSearchForm" class="collections-search" action="#" method="get">
             <input
@@ -103,9 +112,7 @@ $memberSince = (!empty($user["date_of_joining"]))
                 $rateValue = (float) ($collection["rate"] ?? 0);
                 $rate = rtrim(rtrim(number_format($rateValue, 1, '.', ''), '0'), '.');
                 $creationDate = !empty($collection["creation_date"]) ? substr($collection["creation_date"], 0, 10) : "";
-                $collectionLink = $isPublic
-                  ? "collection_withoutlogin.html"
-                  : "collection.php?id=" . $collection["id_collection"];
+                $collectionLink = "collection.php?id=" . $collection["id_collection"];
                 $searchData = trim((string) ($collection["name"] ?? "") . " " . $catName . " " . ($collection["description"] ?? ""));
               ?>
               <div class="collection-card" data-searchable="<?= htmlspecialchars($searchData) ?>">

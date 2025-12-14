@@ -96,37 +96,37 @@ if (isset($_GET['id'])) {
   <div class="modal-content">
     <h2>Add New Item</h2>
 
-    <form id="addItemForm">
+       <form id="addItemForm">
       <label>Name:</label>
-      <input type="text" id="itemName" placeholder="Item Name" required>
+      <input type="text" id="itemName" name="name" placeholder="name" required>
 
       <label>Description:</label>
-      <input type="text" id="itemDesc" placeholder="Short description" required>
+      <input type="text" id="itemDesc" name="description" placeholder="Short description" required>
 
       <div style="display:flex; gap:10px;">
           <div style="flex:1;">
               <label>Importance (1–10):</label>
-              <input type="number" id="itemRating" min="1" max="10" value="5" required>
+              <input type="number" id="itemRating" name="importance" min="1" max="10" value="5" required>
           </div>
           <div style="flex:1;">
               <label>Price (€):</label>
-              <input type="number" id="itemPrice" min="0" step="0.01" value="0" required>
+              <input type="number" id="itemPrice" name="price" min="0" step="0.01" value="0" required>
           </div>
       </div>
 
       <div style="display:flex; gap:10px;">
           <div style="flex:1;">
               <label>Weight (g):</label>
-              <input type="number" id="itemWeight" min="0" step="1" value="0" required>
+              <input type="number" id="itemWeight" name="weight" min="0" step="1" value="0" required>
           </div>
           <div style="flex:1;">
               <label>Date of acquisition:</label>
-              <input type="date" id="itemDate" required>
+              <input type="date" id="itemDate" name="acquisition_date" required>
           </div>
       </div>
-      
+
       <label>Category:</label>
-        <select id="itemCategory" style="width:100%; padding:10px; border-radius:8px; border:1px solid #ccc; margin-bottom:10px;">
+        <select id="itemCategory" name="category" style="width:100%; padding:10px; border-radius:8px; border:1px solid #ccc; margin-bottom:10px;">
             <option value="">-- Select category --</option>
             <?php foreach ($categories as $cat): ?>
                 <option value="<?= $cat['id_item_category'] ?>">
@@ -138,7 +138,7 @@ if (isset($_GET['id'])) {
       <label for="itemImage">Image:</label>
       <div id="dropZone" class="drop-zone">
         <p>Drag & drop an image here, or click to select</p>
-        <input type="file" id="itemImage" accept="image/*" hidden>
+        <input type="file" id="itemImage" name="image" accept="image/*" hidden>
       </div>
 
       <div class="modal-buttons">
