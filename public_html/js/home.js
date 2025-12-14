@@ -154,6 +154,10 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // Função principal de Renderização
+  // Cache dos resultados "featured" sem pesquisa para garantir que a pesquisa
+  // apenas atua sobre o conjunto atualmente apresentado (Top 5 / por categoria).
+  const featuredCache = new Map(); // chave: categoria selecionada
+
   async function renderTopCollections() {
     if (!topGrid) return;
 
@@ -166,10 +170,52 @@ document.addEventListener("DOMContentLoaded", () => {
     
     // 3. Termo de pesquisa
     const query = searchInput ? searchInput.value.trim() : "";
+    const isFeaturedMode = mode === "featured";
 
     try {
-      // 3. Pedir dados ao servidor
-      const cols = await fetchCollections(mode, catId, query, mode === "all" ? 0 : 5);
+      // 3. Pedir dados ao servidor (ou usar cache quando em modo featured + pesquisa)
+      let baseCollections;
+
+      // Se estivermos em featured com pesquisa, usamos o conjunto base já apresentado
+      // para evitar que a pesquisa introduza coleções fora do Top 5.
+      if (isFeaturedMode && query) {
+        const cacheKey = catId || "all";
+        if (featuredCache.has(cacheKey)) {
+          baseCollections = featuredCache.get(cacheKey);
+        } else {
+          // Cache vazia (primeira pesquisa imediatamente após mudar filtro):
+          // buscar o conjunto base primeiro e armazenar.
+          baseCollections = await fetchCollections(
+            mode,
+            catId,
+            "",
+            5
+          );
+          featuredCache.set(cacheKey, baseCollections);
+        }
+      } else {
+        baseCollections = await fetchCollections(
+          mode,
+          catId,
+          isFeaturedMode ? "" : query,
+          mode === "all" ? 0 : 5
+        );
+
+        // Atualizar cache do featured sempre que carregamos o conjunto base
+        if (isFeaturedMode && !query) {
+          const cacheKey = catId || "all";
+          featuredCache.set(cacheKey, baseCollections);
+        }
+      }
+
+      const visibleCollections =
+        isFeaturedMode && query
+          ? baseCollections.filter((c) =>
+              (c.name || "")
+                .toLowerCase()
+                .includes(query.toLowerCase())
+            )
+          : baseCollections;
 
       // Atualizar subtítulo
       if (topSubtitle) {
@@ -184,13 +230,13 @@ document.addEventListener("DOMContentLoaded", () => {
         }
       }
 
-      if (!cols || !cols.length) {
+      if (!visibleCollections || !visibleCollections.length) {
         topGrid.innerHTML = `<p style="text-align:center; color:#777; padding:20px; width:100%;">No collections found for this filter.</p>`;
         return;
       }
 
       // 4. Desenhar HTML (sem limite quando o modo é "all")
-      topGrid.innerHTML = cols.map(collectionCardHTML).join("");
+      topGrid.innerHTML = visibleCollections.map(collectionCardHTML).join("");
       initMiniCarousels(topGrid);
 
     } catch (err) {
