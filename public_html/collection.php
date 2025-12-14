@@ -169,6 +169,8 @@ if (isset($_GET['id'])) {
     const IS_OWNER = <?= $isOwner ? "true" : "false" ?>;
     const ID_COLLECTION = <?= $collectionId ?>;
     const IS_LOGGED_IN = <?= $isLoggedIn ? "true" : "false" ?>;
+    //para sabermos QUEM é o utilizador atual
+    const CURRENT_USER_ID = <?= $_SESSION['id_user'] ?? 0 ?>;
 </script>
 
 <script src="js/collection.js"></script>
@@ -189,27 +191,30 @@ if(idCollection) {
         const ownerId = c.owner_id || c.id_user;
 
         if(meta && ownerName && ownerId) {
-          meta.innerHTML = "";
-          const label = document.createElement("span");
-          label.className = "meta-label";
-          label.textContent = "Created by:";
+            meta.innerHTML = "";
+            const label = document.createElement("span");
+            label.className = "meta-label";
+            label.textContent = "Created by: ";
 
-          const link = document.createElement("a");
-          link.className = "meta-owner-link";
-          
-          link.textContent = ownerName;
-          
-          if (IS_LOGGED_IN) {
-            link.href = `user_view.php?id=${ownerId}&public=1`;
-          } else {
-            link.href = "#";
-            link.addEventListener("click", (ev) => {
-              ev.preventDefault();
-              alert("Please sign in to access this profile.");
-            });
-          }
+            const link = document.createElement("a");
+            link.className = "meta-owner-link";
+            link.textContent = ownerName;
 
-          meta.append(label, link);
+            // --- LÓGICA DE REDIRECIONAMENTO INTELIGENTE ---
+            if (IS_LOGGED_IN) {
+                // Se o ID do dono for igual ao ID de quem está logado, vai para user.php
+                if (parseInt(ownerId) === parseInt(CURRENT_USER_ID)) {
+                    link.href = "user.php"; 
+                } else {
+                    // Se for outra pessoa, vai para a vista pública
+                    link.href = `user_view.php?id=${ownerId}&public=1`;
+                }
+            } else {
+                // Se não estiver logado, podes manter o link para o perfil público
+                link.href = `user_view.php?id=${ownerId}&public=1`;
+            }
+
+            meta.append(label, link);
         }
       })
       .catch(e => console.error("Erro loading title", e));
