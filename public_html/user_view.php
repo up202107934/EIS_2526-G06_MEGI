@@ -1,7 +1,7 @@
 <?php
 require_once __DIR__ . "/partials/bootstrap.php";
 $userId   = isset($_GET["id"]) ? (int) $_GET["id"] : null;
-
+$showNavbarSearch = false;
 $isPublic = !isLoggedIn() && isset($_GET["public"]) && $_GET["public"] === "1";
 $user = $userId ? UserDAL::getById($userId) : null;
 $collections = $user ? CollectionDAL::getByUserFull($userId) : [];

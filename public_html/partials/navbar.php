@@ -8,6 +8,7 @@ require_once __DIR__ . "/../dal/UserDAL.php";
 
 $isLoggedIn = isset($_SESSION['id_user']);
 $navbarUser = null;
+$showNavbarSearch = $showNavbarSearch ?? true;
 
 if ($isLoggedIn) {
     $navbarUser = UserDAL::getById($_SESSION['id_user']);
@@ -28,10 +29,12 @@ if ($isLoggedIn) {
   </nav>
 
   <div class="navbar-right">
-    <form class="navbar-search" id="searchForm" action="#" method="GET">
-      <input type="text" id="searchInput" name="q" placeholder="Search..." required />
-      <button type="submit" class="search-btn">🔎</button>
-    </form>
+    <?php if ($showNavbarSearch): ?>
+      <form class="navbar-search" id="searchForm" action="#" method="GET">
+        <input type="text" id="searchInput" name="q" placeholder="Search..." required />
+        <button type="submit" class="search-btn">🔎</button>
+      </form>
+    <?php endif; ?>
 
     <?php if ($isLoggedIn && $navbarUser): ?>
       <div class="navbar-user">

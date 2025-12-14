@@ -15,6 +15,7 @@ if (!isset($_SESSION["id_user"])) {
 $userId = $_SESSION["id_user"];
 $collections = CollectionDAL::getByUser($userId);
 $user = UserDAL::getById($userId);
+$showNavbarSearch = false;
 ?>
 
 <!DOCTYPE html>
