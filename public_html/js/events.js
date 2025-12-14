@@ -356,7 +356,7 @@ const status = statusSelect?.value || "";
               ${daysHtml}
             </div>
             <div class="notif-card-footer">
-              <a href="events.php?id=${idEv}">View event</a>
+              <a href="event.php?id=${idEv}">View event</a>
             </div>
           </article>
         `;

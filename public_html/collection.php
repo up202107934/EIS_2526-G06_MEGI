@@ -234,7 +234,7 @@ if(idCollection) {
                     <span>📅 ${e.event_date}</span>
                     <span>📍 ${e.location ?? ""}</span>
                   </p>
-                  <a href="events.php?id=${e.id_event}" class="event-link">View event</a>
+                  <a href="event.php?id=${e.id_event}" class="event-link">View event</a>
                 </article>
               `;
             });

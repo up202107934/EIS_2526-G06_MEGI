@@ -196,7 +196,7 @@ $participatingEvents = EventDAL::getParticipationByUser($userId);
                     <h3><?= htmlspecialchars($ev["name"]) ?></h3>
                     <p><strong>Date:</strong> <?= htmlspecialchars($ev["event_date"]) ?></p>
                     <p><strong>Location:</strong> <?= htmlspecialchars($ev["location"]) ?></p>
-                    <a href="events.php?id=<?= $ev['id_event'] ?>" class="btn">View Event</a>
+                    <a href="event.php?id=<?= $ev['id_event'] ?>" class="btn">View Event</a>
                     
                      <button class="remove-interest-btn" data-id="<?= $ev['id_event'] ?>">✖</button>
                 </div>
@@ -231,7 +231,7 @@ $participatingEvents = EventDAL::getParticipationByUser($userId);
                         </ul>
                     <?php endif; ?>
 
-                    <a href="events.php?id=<?= $ev['id_event'] ?>" class="btn">View Event</a>
+                    <a href="event.php?id=<?= $ev['id_event'] ?>" class="btn">View Event</a>
                     
                     <button class="remove-participation-btn" data-id="<?= $ev['id_event'] ?>">✖</button>
 
